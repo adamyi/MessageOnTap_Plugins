@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/api/api.iml" filepath="$PROJECT_DIR$/api/api.iml" />
       <module fileurl="file://$PROJECT_DIR$/googledocsplugin/googledocsplugin.iml" filepath="$PROJECT_DIR$/googledocsplugin/googledocsplugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/iamhome/iamhome.iml" filepath="$PROJECT_DIR$/iamhome/iamhome.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/privacystreams-core/privacystreams-core.iml" filepath="$PROJECT_DIR$/privacystreams-core/privacystreams-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/smart-calendar/smart-calendar.iml" filepath="$PROJECT_DIR$/smart-calendar/smart-calendar.iml" />
     </modules>
   </component>

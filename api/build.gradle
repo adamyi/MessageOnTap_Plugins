@@ -28,5 +28,6 @@ dependencies {
     })
     compile 'com.github.chentc:PrivacyStreams:v0.1.4.5'
     compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.github.privacystreams:privacystreams-core:0.1.4'
     testCompile 'junit:junit:4.12'
 }
