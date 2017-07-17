@@ -26,7 +26,7 @@ public class HeadsupNotification {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mContext)
-                        .setSmallIcon(R.drawable.ic_arrow)
+                        .setSmallIcon(R.drawable.ic_home)
                         .setContentTitle("My notification")
                         .setContentText("Are you currently at home?").setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX)
