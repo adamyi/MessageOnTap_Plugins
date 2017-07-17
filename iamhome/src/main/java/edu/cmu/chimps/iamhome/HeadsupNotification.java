@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
  */
 
 public class HeadsupNotification {
+
     public static void notification(Context mContext){
         //setting yes action
         Intent iAction1 = new Intent(mContext, SaveHomeWifiService.class);
