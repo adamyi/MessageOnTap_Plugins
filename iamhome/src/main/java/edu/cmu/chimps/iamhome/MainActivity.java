@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button extensionButton;
     private Button messageButton;
 
-    private IExtensionManager iIextensionManager;
+    private IExtensionManager mIExtensionManager;
 
     private IExtensionManagerListener mExtentionManagerListener = new IExtensionManagerListener.Stub() {
         @Override
@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //绑定服务，回调onBind()方法
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            iIextensionManager = IExtensionManager.Stub.asInterface(service);
+            mIExtensionManager = IExtensionManager.Stub.asInterface(service);
             try {
-                iIextensionManager.registerListener(mExtentionManagerListener);
+                mIExtensionManager.registerListener(mExtentionManagerListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onServiceDisconnected(ComponentName name) {
             try {
-                iIextensionManager.unregisterListener(mExtentionManagerListener);
+                mIExtensionManager.unregisterListener(mExtentionManagerListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            iIextensionManager = null;
+            mIExtensionManager = null;
         }
     };
 
@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.messageButton:
                 try {
-                    iIextensionManager.sendResponse(new MessageData().messageID(1000).request("test request").response("test response"));
+                    mIExtensionManager.sendResponse(new MessageData().messageID(1000).request("test request").response("test response"));
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.extensionButton:
                 try {
-                    iIextensionManager.updateInfo(new ExtensionData().trigger("test trigger"));
+                    mIExtensionManager.updateInfo(new ExtensionData().trigger("test trigger"));
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
