@@ -15,10 +15,6 @@ import com.github.privacystreams.device.WifiAp;
 import java.util.List;
 
 
-/**
- * Created by wangyusen on 7/16/17.
- */
-
 public class WifiMain {
     private UQI uqi;
     private Purpose purpose;
@@ -26,8 +22,9 @@ public class WifiMain {
         this.purpose = Purpose.TEST("test");
         this.uqi = new UQI(context);
     }
+
     //get connected wifi BSSID
-    public String getWIFI_BSSID() throws PSException {
+    public String getWifiBSSID() throws PSException {
         List<Item> wifi_list =uqi.getData(WifiAp.getScanResults(),purpose)
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
                 .asList();
@@ -39,7 +36,7 @@ public class WifiMain {
         }
     }
     //check whether user has connected to a wifi
-    public static Boolean isConnectedtoWifi(Context context) throws PSException {
+    public static Boolean isConnectedToWifi(Context context) throws PSException {
         UQI uqi = new UQI(context);
         Purpose purpose = Purpose.TEST("test");
         List<Item> wifi_list =uqi.getData(WifiAp.getScanResults(),purpose)
@@ -49,13 +46,20 @@ public class WifiMain {
     }
 
     //check whether the user is at home;
+
+    /**
+     *
+     * @param context
+     * @return
+     * @throws PSException
+     */
     public Boolean isAtHome(Context context) throws PSException {
         WifiStatus wifistatus = new WifiStatus(context);
-        return wifistatus.isAthome();
+        return wifistatus.isAtHome();
     }
 
     //get user connected wifi's all BSSIDs;
-    public List<String> getBSSID_List(Context context) throws PSException {
+    public List<String> getBSSIDList(Context context) throws PSException {
 
         String name = uqi.getData(WifiAp.getScanResults(), purpose)
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
