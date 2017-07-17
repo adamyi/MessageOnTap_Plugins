@@ -4,14 +4,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import edu.cmu.chimps.messageontap_api.ExtensionData;
 import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.IExtensionManager;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button extensionButton;
     private Button messageButton;
 
-    private IExtensionManager iIextensionManager;
+    private IExtensionManager mIExtensionManager;
 
     private IExtensionManagerListener mExtentionManagerListener = new IExtensionManagerListener.Stub() {
         @Override
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //绑定服务，回调onBind()方法
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            iIextensionManager = IExtensionManager.Stub.asInterface(service);
+            mIExtensionManager = IExtensionManager.Stub.asInterface(service);
             try {
-                iIextensionManager.registerListener(mExtentionManagerListener);
+                mIExtensionManager.registerListener(mExtentionManagerListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -47,14 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onServiceDisconnected(ComponentName name) {
             try {
-                iIextensionManager.unregisterListener(mExtentionManagerListener);
+                mIExtensionManager.unregisterListener(mExtentionManagerListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            iIextensionManager = null;
+            mIExtensionManager = null;
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bindService();
         initView();
+        //set the alarm
+        AlarmSetting.fireAlarm(this);
+        //listen if the wifi status has changed
+        new WifiStatus(this).ifWifiStatusChange();
 
     }
 
@@ -79,14 +85,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.messageButton:
                 try {
-                    iIextensionManager.sendResponse(new MessageData().messageID(1000).request("test request").response("test response"));
+                    mIExtensionManager.sendResponse(new MessageData().messageID(1000).request("test request").response("test response"));
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.extensionButton:
                 try {
-                    iIextensionManager.updateInfo(new ExtensionData().trigger("test trigger"));
+                    mIExtensionManager.updateInfo(new ExtensionData().trigger("test trigger"));
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

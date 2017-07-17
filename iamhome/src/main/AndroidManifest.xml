@@ -15,6 +15,9 @@
             <meta-data android:name="description"
                 android:value="@string/extension_description" />
         </activity>
+        <service android:name=".SaveHomeWifiService"
+            android:exported="false"/>
+        <receiver android:name=".AlarmReceiver"></receiver>
     </application>
 
 </manifest>
