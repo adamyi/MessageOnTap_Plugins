@@ -37,7 +37,6 @@ public class WifiStatus {
                         && isAthome()){
                     StatusToasts.leaveHomeToast(context);
                 }
-
             }
         });
     }
