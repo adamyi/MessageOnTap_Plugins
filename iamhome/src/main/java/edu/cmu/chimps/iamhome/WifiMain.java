@@ -1,7 +1,7 @@
 package edu.cmu.chimps.iamhome;
 
 import android.content.Context;
-import android.content.Context;
+
 
 
 
@@ -13,7 +13,7 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
 
 import java.util.List;
-import java.util.List;
+
 
 /**
  * Created by wangyusen on 7/16/17.
@@ -22,13 +22,11 @@ import java.util.List;
 public class WifiMain {
     private UQI uqi;
     private Purpose purpose;
-
     WifiMain(Context context){
         this.purpose = Purpose.TEST("test");
         this.uqi = new UQI(context);
     }
-
-
+    //get connected wifi BSSID
     public String getWIFI_BSSID() throws PSException {
         List<Item> wifi_list =uqi.getData(WifiAp.getScanResults(),purpose)
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
@@ -40,7 +38,7 @@ public class WifiMain {
             return wifi_list.get(0).getValueByField(WifiAp.BSSID).toString();
         }
     }
-
+    //check whether user has connected to a wifi
     public static Boolean isConnectedtoWifi(Context context) throws PSException {
         UQI uqi = new UQI(context);
         Purpose purpose = Purpose.TEST("test");
@@ -50,18 +48,18 @@ public class WifiMain {
         return !wifi_list.isEmpty();
     }
 
+    //check whether the user is at home;
     public Boolean isAtHome(Context context) throws PSException {
-
-        String current_bssid = getWIFI_BSSID();
-        String home_wifi = WifiStorage.getUsersHomewifi(context);
-        return current_bssid != null && current_bssid.equals(home_wifi);
+        WifiStatus wifistatus = new WifiStatus(context);
+        return wifistatus.isAthome();
     }
-    public List<String> getB_List(Context context) throws PSException {
-        String name = uqi.getData(WifiAp.getScanResults(), purpose)
-                .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED).getFirst().getField(WifiAp.SSID).toString();
 
-//        Log.i("name1", String.valueOf(uqi.getData(WifiAp.getScanResults(), purpose)
-//                .filter(WifiAp.SSID, name).asList(WifiAp.BSSID)));
+    //get user connected wifi's all BSSIDs;
+    public List<String> getBSSID_List(Context context) throws PSException {
+
+        String name = uqi.getData(WifiAp.getScanResults(), purpose)
+                .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
+                .getFirst().getField(WifiAp.SSID).toString();
 
         return uqi.getData(WifiAp.getScanResults(), purpose)
                 .filter(WifiAp.SSID, name).asList(WifiAp.BSSID);
