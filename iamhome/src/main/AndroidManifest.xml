@@ -17,7 +17,7 @@
         </activity>
         <service android:name=".SaveHomeWifiService"
             android:exported="false"/>
-        <receiver android:name=".AlarmReceiver"></receiver>
+        <receiver android:name=".AlarmReceiver" />
     </application>
 
 </manifest>
