@@ -8,20 +8,19 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
 import java.util.Set;
 
-/**
- * Created by wangyusen on 7/16/17.
- */
 
 public class WifiStatus {
     private UQI uqi;
     private Purpose purpose;
     private Context context;
-    public boolean athome;
+    private boolean atHome;
+
     WifiStatus(Context context){
         this.purpose = Purpose.TEST("test");
         this.uqi = new UQI(context);
         this.context = context;
     }
+
     public void ifWifiStatusChange() {
         uqi.getData(WifiAp.getUpdateStatus(), purpose).forEach(new Callback<Item>() {
             @Override
@@ -29,31 +28,31 @@ public class WifiStatus {
 
                 //toast "you are at home" if user is connecting to home wifi
                 if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED))
-                        && isAthome()){
+                        && isAtHome()){
                     StatusToasts.atHomeToast(context);
                 }
                 //toast "you have left home" if user is disconnecting from home wifi
                 if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_DISCONNECTED))
-                        && isAthome()){
+                        && isAtHome()){
                     StatusToasts.leaveHomeToast(context);
                 }
             }
         });
     }
+
     //check whether user is at home;
-    public boolean isAthome(){
+    public boolean isAtHome(){
         uqi.getData(WifiAp.getUpdateStatus(), purpose).forEach(new Callback<Item>() {
             @Override
             protected void onInput(Item input) {
-                athome = false;
-                athome = false;
-                Set<String> temp = WifiStorage.getUsersHomewifiList(context);
+                atHome = false;
+                Set<String> temp = WifiStorage.getUsersHomeWifiList(context);
                 if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
-                    athome = true;
+                    atHome = true;
                 }
             }
         });
-        return athome;
+        return atHome;
     }
 
 

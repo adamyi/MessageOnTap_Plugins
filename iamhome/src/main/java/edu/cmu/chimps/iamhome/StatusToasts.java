@@ -3,10 +3,6 @@ package edu.cmu.chimps.iamhome;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * Created by wangyusen on 7/16/17.
- */
-
 public class StatusToasts {
 
     public static void wifiConnectedToast(Context context){
