@@ -14,13 +14,13 @@ import android.util.Log;
  * Created by adamyi on 17/07/2017.
  */
 
-public abstract class MessageOnTapExtension extends Service {
+public abstract class MessageOnTapPlugin extends Service {
     /**
      * The {@link Intent} action representing a MessageOnTap extension. This service should
      * declare an <code>&lt;intent-filter&gt;</code> for this action in order to register with
      * DashClock.
      */
-    public static final String ACTION_EXTENSION = "edu.cmu.chimps.messageontap_prototype.Extension";
+    public static final String ACTION_EXTENSION = "edu.cmu.chimps.messageontap_prototype.Plugin";
 
     protected IExtensionManager mManager;
 

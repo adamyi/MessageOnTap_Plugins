@@ -5,16 +5,25 @@
     <application android:allowBackup="true" android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true" android:theme="@style/AppTheme">
-        <!-- TODO: move the extension along with title&description to a service and use activity only for settings -->
-        <activity android:name=".MainActivity" android:label="@string/extension_title">
+        <activity android:name=".SmartCalendarSettingsActivity"
+            android:label="@string/title_settings"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="edu.cmu.chimps.messageontap_prototype.Extension" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".SmartCalendarPlugin"
+            android:label="@string/extension_title">
+            <intent-filter>
+                <action android:name="edu.cmu.chimps.messageontap_prototype.Plugin" />
             </intent-filter>
             <meta-data android:name="description"
                 android:value="@string/extension_description" />
-        </activity>
+            <meta-data android:name="settingsActivity"
+                android:value=".SamplePluginSettingsActivity" />
+        </service>
     </application>
 
 </manifest>
