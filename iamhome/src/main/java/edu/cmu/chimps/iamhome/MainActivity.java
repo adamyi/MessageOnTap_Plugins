@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bindService();
         initView();
+        //set the alarm
         AlarmSetting.fireAlarm(this);
+        //listen if the wifi status has changed
         new WifiStatus(this).ifWifiStatusChange();
 
     }

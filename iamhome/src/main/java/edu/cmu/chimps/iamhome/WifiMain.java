@@ -18,8 +18,9 @@ import java.util.List;
 public class WifiMain {
     private UQI uqi;
     private Purpose purpose;
+    private static final String PURPOSE = "test";
     WifiMain(Context context){
-        this.purpose = Purpose.TEST("test");
+        this.purpose = Purpose.TEST(PURPOSE);
         this.uqi = new UQI(context);
     }
 
@@ -38,7 +39,7 @@ public class WifiMain {
     //check whether user has connected to a wifi
     public static Boolean isConnectedToWifi(Context context) throws PSException {
         UQI uqi = new UQI(context);
-        Purpose purpose = Purpose.TEST("test");
+        Purpose purpose = Purpose.TEST(PURPOSE);
         List<Item> wifi_list =uqi.getData(WifiAp.getScanResults(),purpose)
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
                 .asList();

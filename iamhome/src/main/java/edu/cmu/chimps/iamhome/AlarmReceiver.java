@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationCompat;
 
 public class AlarmReceiver extends BroadcastReceiver{
     private static final int NOTIFICATION_ID = 1;
+    private static final String YES_TITLE = "Yes";
+    private static final String NO_TITLE = "No";
     @Override
     public void onReceive(Context context, Intent intent) {
         //triger notification
@@ -40,8 +42,8 @@ public class AlarmReceiver extends BroadcastReceiver{
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(true)
-                        .addAction(R.drawable.ic_whiteicon, "Yes", yesPendingIntent)
-                        .addAction(R.drawable.ic_whiteicon, "No", noPendingItent);
+                        .addAction(R.drawable.ic_whiteicon, YES_TITLE, yesPendingIntent)
+                        .addAction(R.drawable.ic_whiteicon, NO_TITLE, noPendingItent);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
