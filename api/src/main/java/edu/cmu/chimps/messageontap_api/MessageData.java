@@ -10,18 +10,16 @@ import org.json.JSONObject;
 
 
 public class MessageData implements Parcelable {
-    /**
-     * We'll see what will be included in this class. Currently, it only contains a string
-     * which contains serialized data for criteria to trigger this extension.
-     */
-
     private static final String KEY_QUERYID = "queryid";
     private static final String KEY_REQUEST = "request";
     private static final String KEY_RESPONSE = "response";
+    private static final String KEY_METHOD = "method";
+
 
     private long mQueryid = 0;
     private String mRequest = null;
     private String mResponse = null;
+    private String mMethod = null;
 
     public MessageData() {
 
@@ -40,6 +38,21 @@ public class MessageData implements Parcelable {
      */
     public MessageData queryid(long queryid) {
         mQueryid = queryid;
+        return this;
+    }
+    /**
+     * Returns the method
+     * Default null.
+     */
+    public String method(){
+        return mMethod;
+    }
+
+    /**
+     * Sets the method. Default null.
+     */
+    public MessageData method(String method) {
+        mMethod = method;
         return this;
     }
 
@@ -83,6 +96,7 @@ public class MessageData implements Parcelable {
         data.put(KEY_QUERYID, mQueryid);
         data.put(KEY_REQUEST, mRequest);
         data.put(KEY_RESPONSE, mResponse);
+        data.put(KEY_METHOD, mMethod);
         return data;
     }
 
@@ -94,6 +108,7 @@ public class MessageData implements Parcelable {
         this.mQueryid = data.optLong(KEY_QUERYID);
         this.mRequest = data.optString(KEY_REQUEST);
         this.mResponse = data.optString(KEY_RESPONSE);
+        this.mMethod = data.optString(KEY_METHOD);
     }
 
     /**
@@ -104,6 +119,7 @@ public class MessageData implements Parcelable {
         data.putLong(KEY_QUERYID, mQueryid);
         data.putString(KEY_REQUEST, mRequest);
         data.putString(KEY_RESPONSE, mResponse);
+        data.putString(KEY_METHOD,mMethod);
         return data;
     }
 
@@ -115,6 +131,7 @@ public class MessageData implements Parcelable {
         this.mQueryid = src.getLong(KEY_QUERYID);
         this.mRequest = src.getString(KEY_REQUEST);
         this.mResponse = src.getString(KEY_RESPONSE);
+        this.mMethod = src.getString(KEY_METHOD);
     }
 
     /**
@@ -137,11 +154,15 @@ public class MessageData implements Parcelable {
         this.mQueryid = in.readLong();
         this.mRequest = in.readString();
         this.mResponse = in.readString();
+        this.mMethod = in.readString();
         if (TextUtils.isEmpty(this.mRequest)) {
             this.mRequest = null;
         }
         if (TextUtils.isEmpty(this.mResponse)) {
             this.mResponse = null;
+        }
+        if (TextUtils.isEmpty(this.mMethod)) {
+            this.mMethod = null;
         }
     }
 
@@ -155,6 +176,7 @@ public class MessageData implements Parcelable {
         parcel.writeLong(mQueryid);
         parcel.writeString(TextUtils.isEmpty(mRequest) ? "" : mRequest);
         parcel.writeString(TextUtils.isEmpty(mResponse) ? "" : mResponse);
+        parcel.writeString(TextUtils.isEmpty(mMethod) ? "" : mMethod);
         // Go back and write the size
         int parcelableSize = parcel.dataPosition() - startPosition;
         parcel.setDataPosition(sizePosition);
@@ -178,7 +200,8 @@ public class MessageData implements Parcelable {
             MessageData other = (MessageData) o;
             return other.mQueryid == mQueryid
                     && TextUtils.equals(other.mRequest, mRequest)
-                    && TextUtils.equals(other.mResponse, mResponse);
+                    && TextUtils.equals(other.mResponse, mResponse)
+                    &&TextUtils.equals(other.mMethod, mMethod);
 
         } catch (ClassCastException e) {
             return false;
