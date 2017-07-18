@@ -24,14 +24,13 @@ public class SaveHomeWifiService extends IntentService{
         final String action = intent.getAction();
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(001);
+        notificationManager.cancel(AlarmReceiver.getNotificationId());
 
         if (action.equals(ACTION_SAVE)) {
             //the user press yes and confirm he is at home. We store the current wifi BSSIDs;
 
             try {
                 WifiStorage.storeUsersHomeWifi(this);
-
             } catch (PSException e) {
                 e.printStackTrace();
             }

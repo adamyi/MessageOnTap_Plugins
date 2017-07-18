@@ -23,7 +23,7 @@ public class WifiMain {
         this.uqi = new UQI(context);
     }
 
-    //get connected wifi BSSID
+    //get connected wifi BSSIDs
     public String getWifiBSSID() throws PSException {
         List<Item> wifi_list =uqi.getData(WifiAp.getScanResults(),purpose)
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
@@ -46,6 +46,13 @@ public class WifiMain {
     }
 
     //check whether the user is at home;
+
+    /**
+     *
+     * @param context
+     * @return
+     * @throws PSException
+     */
     public Boolean isAtHome(Context context) throws PSException {
         WifiStatus wifistatus = new WifiStatus(context);
         return wifistatus.isAtHome();

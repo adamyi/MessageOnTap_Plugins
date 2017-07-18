@@ -10,19 +10,17 @@ import android.content.pm.ApplicationInfo;
 import android.support.v4.app.NotificationCompat;
 
 public class AlarmReceiver extends BroadcastReceiver{
+    private static final int NOTIFICATION_ID = 1;
     @Override
     public void onReceive(Context context, Intent intent) {
+        //triger notification
         createNotification(context);
     }
 
-    public static String getApplicationName(Context context) {
-        ApplicationInfo applicationInfo = context.getApplicationInfo();
-        int stringId = applicationInfo.labelRes;
-        return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
+    public static int getNotificationId(){
+        return NOTIFICATION_ID;
     }
-
-
-    public static void createNotification(Context context){
+    public void createNotification(Context context){
         //setting yes action
         Intent saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);
         saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
@@ -37,8 +35,9 @@ public class AlarmReceiver extends BroadcastReceiver{
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_home)
-                        .setContentTitle(getApplicationName(context))
-                        .setContentText("Are you currently at home?").setDefaults(Notification.DEFAULT_ALL)
+                        .setContentTitle(context.getResources().getString(R.string.app_name))
+                        .setContentText(context.getResources().getString(R.string.Are_you_at_home))
+                        .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(true)
                         .addAction(R.drawable.ic_whiteicon, "Yes", yesPendingIntent)
@@ -46,7 +45,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(001, mBuilder.build());
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
 
     }
