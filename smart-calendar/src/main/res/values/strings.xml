@@ -2,4 +2,5 @@
     <string name="app_name">Smart Calendar Plug-In for MessageOnTap</string>
     <string name="extension_title">Smart Calendar</string>
     <string name="extension_description">Respond to messages like "Are you free tomorrow?"</string>
+    <string name="title_settings">Smart Calendar Settings</string>
 </resources>

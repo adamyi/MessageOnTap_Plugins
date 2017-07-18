@@ -15,11 +15,11 @@ public class MessageData implements Parcelable {
      * which contains serialized data for criteria to trigger this extension.
      */
 
-    private static final String KEY_MESSAGEID = "messageID";
+    private static final String KEY_QUERYID = "queryid";
     private static final String KEY_REQUEST = "request";
     private static final String KEY_RESPONSE = "response";
 
-    private long mMessageID = 0;
+    private long mQueryid = 0;
     private String mRequest = null;
     private String mResponse = null;
 
@@ -28,18 +28,18 @@ public class MessageData implements Parcelable {
     }
 
     /**
-     * Returns the message ID
+     * Returns the query ID
      * Default 0.
      */
-    public long messageID() {
-        return mMessageID;
+    public long queryid() {
+        return mQueryid;
     }
 
     /**
-     * Sets the message ID. Default 0.
+     * Sets the query ID. Default 0.
      */
-    public MessageData messageID(long messageID) {
-        mMessageID = messageID;
+    public MessageData queryid(long queryid) {
+        mQueryid = queryid;
         return this;
     }
 
@@ -80,7 +80,7 @@ public class MessageData implements Parcelable {
      */
     public JSONObject serialize() throws JSONException {
         JSONObject data = new JSONObject();
-        data.put(KEY_MESSAGEID, mMessageID);
+        data.put(KEY_QUERYID, mQueryid);
         data.put(KEY_REQUEST, mRequest);
         data.put(KEY_RESPONSE, mResponse);
         return data;
@@ -91,7 +91,7 @@ public class MessageData implements Parcelable {
      * object.
      */
     public void deserialize(JSONObject data) throws JSONException {
-        this.mMessageID = data.optLong(KEY_MESSAGEID);
+        this.mQueryid = data.optLong(KEY_QUERYID);
         this.mRequest = data.optString(KEY_REQUEST);
         this.mResponse = data.optString(KEY_RESPONSE);
     }
@@ -101,7 +101,7 @@ public class MessageData implements Parcelable {
      */
     public Bundle toBundle() {
         Bundle data = new Bundle();
-        data.putLong(KEY_MESSAGEID, mMessageID);
+        data.putLong(KEY_QUERYID, mQueryid);
         data.putString(KEY_REQUEST, mRequest);
         data.putString(KEY_RESPONSE, mResponse);
         return data;
@@ -112,7 +112,7 @@ public class MessageData implements Parcelable {
      * object.
      */
     public void fromBundle(Bundle src) {
-        this.mMessageID = src.getLong(KEY_MESSAGEID);
+        this.mQueryid = src.getLong(KEY_QUERYID);
         this.mRequest = src.getString(KEY_REQUEST);
         this.mResponse = src.getString(KEY_RESPONSE);
     }
@@ -134,7 +134,7 @@ public class MessageData implements Parcelable {
     private MessageData(Parcel in) {
         int parcelableSize = in.readInt();
         int startPosition = in.dataPosition();
-        this.mMessageID = in.readLong();
+        this.mQueryid = in.readLong();
         this.mRequest = in.readString();
         this.mResponse = in.readString();
         if (TextUtils.isEmpty(this.mRequest)) {
@@ -152,7 +152,7 @@ public class MessageData implements Parcelable {
         int sizePosition = parcel.dataPosition();
         parcel.writeInt(0);
         int startPosition = parcel.dataPosition();
-        parcel.writeLong(mMessageID);
+        parcel.writeLong(mQueryid);
         parcel.writeString(TextUtils.isEmpty(mRequest) ? "" : mRequest);
         parcel.writeString(TextUtils.isEmpty(mResponse) ? "" : mResponse);
         // Go back and write the size
@@ -176,7 +176,7 @@ public class MessageData implements Parcelable {
 
         try {
             MessageData other = (MessageData) o;
-            return other.mMessageID == mMessageID
+            return other.mQueryid == mQueryid
                     && TextUtils.equals(other.mRequest, mRequest)
                     && TextUtils.equals(other.mResponse, mResponse);
 

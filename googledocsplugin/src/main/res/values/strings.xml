@@ -2,4 +2,5 @@
     <string name="app_name">Google Docs Plug-In for MessageOnTap</string>
     <string name="extension_title">Google Docs</string>
     <string name="extension_description">Show Google Docs documents when a Google Doc link is received.</string>
+    <string name="title_settings">Google Docs Plugin Settings</string>
 </resources>

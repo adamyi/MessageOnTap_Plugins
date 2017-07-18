@@ -12,7 +12,7 @@ import android.support.annotation.RequiresApi;
 public class AlarmSetting {
     private final static int ALARM_HOUR = 22;
     private final static int ALARM_MINUTE = 0;
-
+    private final static int ALARM_SECOND = 0;
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void fireAlarm(Context context) {
         Calendar calendar = Calendar.getInstance();
@@ -22,7 +22,7 @@ public class AlarmSetting {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR, ALARM_HOUR - time_Offset);
         calendar.set(Calendar.MINUTE, ALARM_MINUTE);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.SECOND, ALARM_SECOND);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);

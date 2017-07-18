@@ -14,9 +14,9 @@ public class WifiStatus {
     private Purpose purpose;
     private Context context;
     private boolean atHome;
-
+    private static final String PURPOSE = "test";
     WifiStatus(Context context){
-        this.purpose = Purpose.TEST("test");
+        this.purpose = Purpose.TEST(PURPOSE);
         this.uqi = new UQI(context);
         this.context = context;
     }
