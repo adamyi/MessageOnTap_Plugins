@@ -1,2 +1,2 @@
-# MessageOnTap_Extensions
-This is a repo for official extensions of MessageOnTap.
+# MessageOnTap_Plugins
+This is a repo for official plugins of MessageOnTap.

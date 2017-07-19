@@ -15,12 +15,12 @@
         </activity>
 
         <service android:name=".SmartCalendarPlugin"
-            android:label="@string/extension_title">
+            android:label="@string/plugin_title">
             <intent-filter>
                 <action android:name="edu.cmu.chimps.messageontap_prototype.Plugin" />
             </intent-filter>
             <meta-data android:name="description"
-                android:value="@string/extension_description" />
+                android:value="@string/plugin_description" />
             <meta-data android:name="settingsActivity"
                 android:value=".SamplePluginSettingsActivity" />
         </service>

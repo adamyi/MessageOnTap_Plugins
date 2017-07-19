@@ -9,17 +9,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class ExtensionData implements Parcelable {
+public class PluginData implements Parcelable {
     /**
      * We'll see what will be included in this class. Currently, it only contains a string
-     * which contains serialized data for criteria to trigger this extension.
+     * which contains serialized data for criteria to trigger this plugin.
      */
 
     private static final String KEY_TRIGGER = "trigger";
 
     private String mTrigger = null;
 
-    public ExtensionData() {
+    public PluginData() {
     }
 
     /**
@@ -33,7 +33,7 @@ public class ExtensionData implements Parcelable {
     /**
      * Sets the trigger criteria string. Default null.
      */
-    public ExtensionData trigger(String trigger) {
+    public PluginData trigger(String trigger) {
         mTrigger = trigger;
         return this;
     }
@@ -48,7 +48,7 @@ public class ExtensionData implements Parcelable {
     }
 
     /**
-     * Deserializes the given JSON representation of extension data, populating this
+     * Deserializes the given JSON representation of plugin data, populating this
      * object.
      */
     public void deserialize(JSONObject data) throws JSONException {
@@ -65,7 +65,7 @@ public class ExtensionData implements Parcelable {
     }
 
     /**
-     * Deserializes the given {@link Bundle} representation of extension data, populating this
+     * Deserializes the given {@link Bundle} representation of plugin data, populating this
      * object.
      */
     public void fromBundle(Bundle src) {
@@ -75,18 +75,18 @@ public class ExtensionData implements Parcelable {
     /**
      * @see Parcelable
      */
-    public static final Creator<ExtensionData> CREATOR
-            = new Creator<ExtensionData>() {
-        public ExtensionData createFromParcel(Parcel in) {
-            return new ExtensionData(in);
+    public static final Creator<PluginData> CREATOR
+            = new Creator<PluginData>() {
+        public PluginData createFromParcel(Parcel in) {
+            return new PluginData(in);
         }
 
-        public ExtensionData[] newArray(int size) {
-            return new ExtensionData[size];
+        public PluginData[] newArray(int size) {
+            return new PluginData[size];
         }
     };
 
-    private ExtensionData(Parcel in) {
+    private PluginData(Parcel in) {
         int parcelableSize = in.readInt();
         int startPosition = in.dataPosition();
         this.mTrigger = in.readString();
@@ -124,7 +124,7 @@ public class ExtensionData implements Parcelable {
         }
 
         try {
-            ExtensionData other = (ExtensionData) o;
+            PluginData other = (PluginData) o;
             return TextUtils.equals(other.mTrigger, mTrigger);
 
         } catch (ClassCastException e) {
@@ -143,7 +143,7 @@ public class ExtensionData implements Parcelable {
     /**
      * Returns true if the two provided data objects are equal (or both null).
      */
-    public static boolean equals(ExtensionData x, ExtensionData y) {
+    public static boolean equals(PluginData x, PluginData y) {
         if (x == null || y == null) {
             return x == y;
         } else {

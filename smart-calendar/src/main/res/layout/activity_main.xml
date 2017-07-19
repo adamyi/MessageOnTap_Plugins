@@ -6,10 +6,10 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/extensionButton"
+        android:id="@+id/pluginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test send ExtensionData"/>
+        android:text="Test send PluginData"/>
 
     <Button
         android:id="@+id/messageButton"

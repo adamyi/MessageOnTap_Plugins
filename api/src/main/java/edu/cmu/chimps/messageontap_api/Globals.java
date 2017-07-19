@@ -22,6 +22,7 @@ public class Globals {
     public final static String KEY_ACTION_UPDATE_CONTACT = "action_update_contact";
     public final static String KEY_ACTION_CREATE_GRAPH_NODE = "action_create_graph_node";
     public final static String KEY_ACTION_UPDATE_GRAPH_NODE = "action_update_graph_node";
+    public final static String KEY_ACTION_MESSAGE_PERCEPTION	= "action_message_perception";
     public final static String KEY_ACTION_UI					= "action_ui";
 
     public final static String KEY_ACTION = "action";
@@ -36,4 +37,5 @@ public class Globals {
     public final static String ACTION_ADD_EXACT = "add_exact";
     public final static String ACTION_END= "end";
     public final static String ACTION_CREATE					= "create";
+
 }

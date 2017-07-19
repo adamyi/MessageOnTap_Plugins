@@ -102,7 +102,7 @@ public class MessageData implements Parcelable {
     }
 
     /**
-     * Deserializes the given JSON representation of extension data, populating this
+     * Deserializes the given JSON representation of plugin data, populating this
      * object.
      */
     public void deserialize(JSONObject data) throws JSONException {
@@ -125,7 +125,7 @@ public class MessageData implements Parcelable {
     }
 
     /**
-     * Deserializes the given {@link Bundle} representation of extension data, populating this
+     * Deserializes the given {@link Bundle} representation of plugin data, populating this
      * object.
      */
     public void fromBundle(Bundle src) {

@@ -15,7 +15,7 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
-import edu.cmu.chimps.messageontap_api.ExtensionData;
+import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 
@@ -84,7 +84,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     }
 
     @Override
-    protected ExtensionData iExtensionData() {
+    protected PluginData iPluginData() {
         return null;
     }
 

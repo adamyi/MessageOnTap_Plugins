@@ -11,53 +11,55 @@ import android.util.Log;
 
 public abstract class MessageOnTapPlugin extends Service {
     /**
-     * The {@link Intent} action representing a MessageOnTap extension. This service should
+     * The {@link Intent} action representing a MessageOnTap plugin. This service should
      * declare an <code>&lt;intent-filter&gt;</code> for this action in order to register with
      * DashClock.
      */
     public static final String ACTION_EXTENSION = "edu.cmu.chimps.messageontap_prototype.Plugin";
 
-    protected IExtensionManager mManager;
+    protected IPluginManager mManager;
 
-    private IBinder mBinder = new IExtension.Stub(){
+    private IBinder mBinder = new IPlugin.Stub(){
 
         @Override
         public void onMessageReceived(MessageData data) throws RemoteException {
+//            Log.e("extension","Receive message");
             analyzeMessage(data);
         }
 
         @Override
-        public ExtensionData getExtensionData() throws RemoteException {
-            return iExtensionData();
+        public PluginData getPluginData() throws RemoteException {
+            return iPluginData();
         }
 
         @Override
-        public void registerManager(IExtensionManager manager) throws RemoteException {
+        public void registerManager(IPluginManager manager) throws RemoteException {
             String packageName = null;
             String[] packages = getPackageManager().getPackagesForUid(Binder.getCallingUid());
             if(packages!=null && packages.length>0){
                 packageName = packages[0];
             }
-            Log.e("extension", "registering manager " + packageName);
+            Log.e("plugin", "registering manager " + packageName);
+
             mManager = manager;
-            //extensions.put(packageName, listener);
+            //plugins.put(packageName, listener);
             //mListenerList.register(listener);
         }
 
         @Override
-        public void unregisterManager(IExtensionManager manager) throws RemoteException {
+        public void unregisterManager(IPluginManager manager) throws RemoteException {
             String packageName = null;
             String[] packages = getPackageManager().getPackagesForUid(Binder.getCallingUid());
             if(packages!=null && packages.length>0){
                 packageName = packages[0];
             }
             mManager = null;
-            //extensions.remove(packageName);
+            //plugins.remove(packageName);
             /*boolean success = mListenerList.unregister(listener);
             if (success) {
-                Log.d("extension", "Unregistration succeed.");
+                Log.d("plugin", "Unregistration succeed.");
             } else {
-                Log.d("extension", "Not found, cannot unregister.");
+                Log.d("plugin", "Not found, cannot unregister.");
             }*/
         }
 
@@ -83,6 +85,6 @@ public abstract class MessageOnTapPlugin extends Service {
         return mBinder;
     }
 
-    protected abstract ExtensionData iExtensionData();
+    protected abstract PluginData iPluginData();
     protected abstract void analyzeMessage(MessageData data);
 }

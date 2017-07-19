@@ -3,19 +3,18 @@
     package="edu.cmu.chimps.iamhome">
 
     <application android:allowBackup="true"
-        android:name=".MyApplication"
         android:icon="@drawable/ic_home"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true" android:theme="@style/AppTheme">
-        <!-- TODO: move the extension along with title&description to a service and use activity only for settings -->
+        <!-- TODO: move the plugin along with title&description to a service and use activity only for settings -->
 
         <service android:name=".SaveHomeWifiService"
             android:exported="false"/>
         <receiver android:name=".AlarmReceiver" />
 
         <activity android:name=".IAmHomeSettingsActivity"
-            android:label="@string/extension_title"
+            android:label="@string/plugin_title"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +23,12 @@
         </activity>
 
         <service android:name=".IAmHomePlugin"
-            android:label="@string/extension_title">
+            android:label="@string/plugin_title">
             <intent-filter>
                 <action android:name="edu.cmu.chimps.messageontap_prototype.Plugin" />
             </intent-filter>
             <meta-data android:name="description"
-                android:value="@string/extension_description" />
+                android:value="@string/plugin_description" />
             <meta-data android:name="settingsActivity"
                 android:value=".IAmHomeSettingsActivity" />
         </service>
