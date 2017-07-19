@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
+import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 
@@ -35,6 +36,7 @@ public class SaveHomeWifiService extends IntentService{
                 // We store the current wifi BSSIDs;
                 try {
                     WifiUtils.storeUsersHomeWifi();
+                    AlarmUtils.cancelAlarm();
                 }
                 catch (PSException e) {
                     e.printStackTrace();
