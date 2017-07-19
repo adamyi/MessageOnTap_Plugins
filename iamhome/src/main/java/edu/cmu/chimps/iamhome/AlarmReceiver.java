@@ -6,22 +6,23 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.support.v4.app.NotificationCompat;
 
 public class AlarmReceiver extends BroadcastReceiver{
     private static final int NOTIFICATION_ID = 1;
     private static final String YES_TITLE = "Yes";
     private static final String NO_TITLE = "No";
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        //triger notification
+        //trigger notification
         createNotification(context);
     }
 
     public static int getNotificationId(){
         return NOTIFICATION_ID;
     }
+
     public void createNotification(Context context){
         //setting yes action
         Intent saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);
@@ -31,19 +32,19 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         //setting no action
         saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);
-        PendingIntent noPendingItent = PendingIntent
+        PendingIntent noPendingIntent = PendingIntent
                 .getService(context.getApplicationContext(), 0, saveHomeWifiServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_home)
                         .setContentTitle(context.getResources().getString(R.string.app_name))
-                        .setContentText(context.getResources().getString(R.string.Are_you_at_home))
+                        .setContentText(context.getResources().getString(R.string.are_you_at_home))
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(true)
                         .addAction(R.drawable.ic_whiteicon, YES_TITLE, yesPendingIntent)
-                        .addAction(R.drawable.ic_whiteicon, NO_TITLE, noPendingItent);
+                        .addAction(R.drawable.ic_whiteicon, NO_TITLE, noPendingIntent);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

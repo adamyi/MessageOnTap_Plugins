@@ -7,9 +7,6 @@ import edu.cmu.chimps.messageontap_api.ExtensionData;
 import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 
-/**
- * Created by adamyi on 17/07/2017.
- */
 
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
