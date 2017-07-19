@@ -27,7 +27,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     private final static int ALARM_SECOND = 0;
 
 
-
     private OnHomeEventListener homeEventListener;
 
     public void setHomeEventListener(OnHomeEventListener homeEventListener) {
@@ -35,6 +34,18 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     }
 
     public void homeSensing() {
+
+        setHomeEventListener(new OnHomeEventListener(){
+            public void onEvent(boolean arrivesHome){
+                if(arrivesHome){
+                    Log.e("TAG", "ARRIVES HOME");
+                }
+                else{
+                    Log.e("TAG", "LEFT HOME");
+                }
+            }
+        });
+
         mUQI.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("Listen for wifi changes"))
                 .forEach(new Callback<Item>() {
                     @Override
@@ -62,18 +73,8 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
         mUQI = new UQI(this);
 
         //set the alarm
-        AlarmUtils.setAlarm(this, ALARM_HOUR, ALARM_MINUTE, ALARM_SECOND);
+        AlarmUtils.setAlarm(ALARM_HOUR, ALARM_MINUTE, ALARM_SECOND);
 
-        setHomeEventListener(new OnHomeEventListener(){
-            public void onEvent(boolean arrivesHome){
-                if(arrivesHome){
-                    Log.e("TAG", "ARRIVES HOME");
-                }
-                else{
-                    Log.e("TAG", "LEFT HOME");
-                }
-            }
-        });
         homeSensing();
         return START_STICKY;
     }
