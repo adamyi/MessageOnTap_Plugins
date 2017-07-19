@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
+import edu.cmu.chimps.iamhome.utils.WifiUtils;
+
 
 public class SaveHomeWifiService extends IntentService{
     public static final String ACTION_SAVE = "ACTION_SAVE";
@@ -21,19 +23,24 @@ public class SaveHomeWifiService extends IntentService{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        final String action = intent.getAction();
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(AlarmReceiver.getNotificationId());
 
-        if (action.equals(ACTION_SAVE)) {
-            //the user press yes and confirm he is at home. We store the current wifi BSSIDs;
+        if (intent != null) {
+            String action = intent.getAction();
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(AlarmReceiver.getNotificationId());
 
-            try {
-                WifiStorage.storeUsersHomeWifi(this);
-            } catch (PSException e) {
-                e.printStackTrace();
+            if (action.equals(ACTION_SAVE)) {
+                //the user press yes and confirm he is at home.
+                // We store the current wifi BSSIDs;
+                try {
+                    WifiUtils.storeUsersHomeWifi();
+                }
+                catch (PSException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
 }
