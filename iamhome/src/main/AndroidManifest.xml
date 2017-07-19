@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.cmu.chimps.iamhome"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="edu.cmu.chimps.iamhome">
 
     <application
-        tools:replace="android:name"
         android:allowBackup="true"
         android:icon="@drawable/ic_home"
         android:label="@string/app_name"
-        android:supportsRtl="true" android:theme="@style/AppTheme">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <!-- TODO: move the plugin along with title&description to a service and use activity only for settings -->
 
         <service android:name=".SaveHomeWifiService"
