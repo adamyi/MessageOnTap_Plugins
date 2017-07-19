@@ -40,21 +40,6 @@ public class MessageData implements Parcelable {
         mQueryid = queryid;
         return this;
     }
-    /**
-     * Returns the method
-     * Default null.
-     */
-    public String method(){
-        return mMethod;
-    }
-
-    /**
-     * Sets the method. Default null.
-     */
-    public MessageData method(String method) {
-        mMethod = method;
-        return this;
-    }
 
     /**
      * Returns the request info
@@ -85,6 +70,22 @@ public class MessageData implements Parcelable {
      */
     public MessageData response(String response) {
         mResponse = response;
+        return this;
+    }
+
+    /**
+     * Returns the method
+     * Default null.
+     */
+    public String method(){
+        return mMethod;
+    }
+
+    /**
+     * Sets the method. Default null.
+     */
+    public MessageData method(String method) {
+        mMethod = method;
         return this;
     }
 
@@ -201,7 +202,7 @@ public class MessageData implements Parcelable {
             return other.mQueryid == mQueryid
                     && TextUtils.equals(other.mRequest, mRequest)
                     && TextUtils.equals(other.mResponse, mResponse)
-                    &&TextUtils.equals(other.mMethod, mMethod);
+                    && TextUtils.equals(other.mMethod, mMethod);
 
         } catch (ClassCastException e) {
             return false;
