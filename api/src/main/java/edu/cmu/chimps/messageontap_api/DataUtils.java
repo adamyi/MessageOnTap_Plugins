@@ -12,10 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mikel on 7/17/2017.
- */
-
 public class DataUtils {
     public static String hashMapToString(HashMap<String,Object> map){
         Gson gson = new Gson();
