@@ -6,6 +6,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
 
 public abstract class MessageOnTapPlugin extends Service {
     /**
@@ -36,6 +38,7 @@ public abstract class MessageOnTapPlugin extends Service {
             if(packages!=null && packages.length>0){
                 packageName = packages[0];
             }
+            Log.e("extension", "registering manager " + packageName);
             mManager = manager;
             //extensions.put(packageName, listener);
             //mListenerList.register(listener);

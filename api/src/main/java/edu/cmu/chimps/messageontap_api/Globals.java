@@ -32,6 +32,7 @@ public class Globals {
     //An action Type for representing doing nothing
     public final static String ACTION_UPDATE= "update";
     public final static String ACTION_SHOW= "show";
+    public final static String ACTION_RETRIEVE= "retrieve";
     public final static String ACTION_ADD_EXACT = "add_exact";
     public final static String ACTION_END= "end";
     public final static String ACTION_CREATE					= "create";
