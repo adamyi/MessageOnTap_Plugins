@@ -20,7 +20,7 @@ import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
-    UQI uqi;
+    UQI mUQI;
 
     private final static int ALARM_HOUR = 22;
     private final static int ALARM_MINUTE = 0;
@@ -35,18 +35,18 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     }
 
     public void homeSensing() {
-        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("Listen for wifi changes"))
+        mUQI.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("Listen for wifi changes"))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onInput(Item input) {
                         if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED))){
-                            Set<String> temp = WifiUtils.getUsersHomeWifiList(uqi.getContext());
+                            Set<String> temp = WifiUtils.getUsersHomeWifiList();
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(true);
                             }
                         }
                         else if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_DISCONNECTED))){
-                            Set<String> temp = WifiUtils.getUsersHomeWifiList(uqi.getContext());
+                            Set<String> temp = WifiUtils.getUsersHomeWifiList();
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
                             }
@@ -59,7 +59,8 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        uqi = new UQI(this);
+        mUQI = new UQI(this);
+
         //set the alarm
         AlarmUtils.setAlarm(this, ALARM_HOUR, ALARM_MINUTE, ALARM_SECOND);
 
@@ -79,7 +80,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     @Override
     public void onDestroy() {
-        uqi.stopAll();
+        mUQI.stopAll();
         super.onDestroy();
     }
 
