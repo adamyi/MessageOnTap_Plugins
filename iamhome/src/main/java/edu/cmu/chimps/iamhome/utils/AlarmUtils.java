@@ -12,7 +12,8 @@ import android.support.annotation.RequiresApi;
 import edu.cmu.chimps.iamhome.AlarmReceiver;
 
 public class AlarmUtils {
-
+    public static AlarmManager alarmManager;
+    public static PendingIntent pendingIntent;
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setAlarm(Context context, int hour, int minute, int second) {
         Calendar calendar = Calendar.getInstance();
@@ -25,16 +26,12 @@ public class AlarmUtils {
         calendar.set(Calendar.SECOND, second);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //set the alarm repeat one day
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        //cancel the wifi if the user get the home wifi address
-        if(WifiUtils.getUsersHomeWifiList()!=null){
-            alarmManager.cancel(pendingIntent);
-        }
     }
 }
