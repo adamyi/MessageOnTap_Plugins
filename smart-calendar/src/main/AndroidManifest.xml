@@ -24,7 +24,7 @@
             <meta-data android:name="description"
                 android:value="@string/extension_description" />
             <meta-data android:name="settingsActivity"
-                android:value=".SamplePluginSettingsActivity" />
+                android:value=".SmartCalendarSettingsActivity" />
         </service>
     </application>
 
