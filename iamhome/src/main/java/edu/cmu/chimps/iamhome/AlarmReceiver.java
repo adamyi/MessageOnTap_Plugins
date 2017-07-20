@@ -43,8 +43,8 @@ public class AlarmReceiver extends BroadcastReceiver{
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(true)
-                        .addAction(R.drawable.ic_home, YES_TITLE, yesPendingIntent)
-                        .addAction(R.drawable.ic_home, NO_TITLE, noPendingIntent);
+                        .addAction(0, YES_TITLE, yesPendingIntent)
+                        .addAction(0, NO_TITLE, noPendingIntent);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

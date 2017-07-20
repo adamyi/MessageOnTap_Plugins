@@ -35,7 +35,7 @@ public class SaveHomeWifiService extends IntentService{
                 //the user press yes and confirm he is at home.
                 // We store the current wifi BSSIDs;
                 try {
-                    WifiUtils.storeUsersHomeWifi();
+                    WifiUtils.storeUsersHomeWifi(this);
                     AlarmUtils.cancelAlarm();
                 }
                 catch (PSException e) {

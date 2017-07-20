@@ -1,5 +1,6 @@
 package edu.cmu.chimps.iamhome;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -51,13 +52,14 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                     @Override
                     protected void onInput(Item input) {
                         if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED))){
-                            Set<String> temp = WifiUtils.getUsersHomeWifiList();
+                            Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(true);
                             }
+                            StatusToasts.wifiConnectedToast(MyApplication.getContext());
                         }
                         else if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_DISCONNECTED))){
-                            Set<String> temp = WifiUtils.getUsersHomeWifiList();
+                            Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
                             }
@@ -71,9 +73,9 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mUQI = new UQI(this);
-
+        Log.e("service","stshbuob" );
         //set the alarm
-        AlarmUtils.setAlarm(ALARM_HOUR, ALARM_MINUTE, ALARM_SECOND);
+        AlarmUtils.setAlarm(this,ALARM_HOUR, ALARM_MINUTE, ALARM_SECOND);
 
         homeSensing();
         return START_STICKY;
