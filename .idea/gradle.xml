@@ -8,7 +8,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/googledocsplugin" />
             <option value="$PROJECT_DIR$/iamhome" />
             <option value="$PROJECT_DIR$/smart-calendar" />
