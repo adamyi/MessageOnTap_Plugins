@@ -11,19 +11,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.support.v7.app.NotificationCompat;
+import android.widget.Button;
+import static android.app.PendingIntent.getService;
 
-public class IAmHomeSettingsActivity extends AppCompatActivity {
+public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
+
     TextView textView;
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 //        startService(new Intent(this, IAmHomePlugin.class));
         AlarmReceiver alarmReceiver = new AlarmReceiver();
         alarmReceiver.createNotification(this);
+        Button sendNotice = (Button) findViewById(R.id.button_notice);
+        Button whatsApp = (Button) findViewById(R.id.button_WhatsApp);
+        sendNotice.setOnClickListener(this);
+        whatsApp.setOnClickListener(this);
+
 
     }
 
@@ -68,4 +79,37 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         textView.setText(builder);
         return true;
     }
+
+
+    public void onClick(View v) {
+
+        String[] contactNames = {"Edwin"};
+        Intent launchService = new Intent(this, ShareMessageService.class);
+        launchService.putExtra("contactNames", contactNames);
+
+        switch (v.getId()) {
+
+            case R.id.button_notice:
+                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                Notification notification = new NotificationCompat.Builder(this)
+                        .setContentTitle("You just arrived home!")
+                        .setContentText("Notify your contacts now!")
+                        .setWhen(System.currentTimeMillis())
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                        .setPriority(Notification.PRIORITY_MAX) //为什么不work????
+                        .setContentIntent(getService(this, 0, launchService, 0))
+                        .setAutoCancel(true)
+                        .build();
+                manager.notify(1, notification);
+                break;
+            case R.id.button_WhatsApp:
+                startService(launchService);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
+
