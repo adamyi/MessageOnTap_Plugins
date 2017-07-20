@@ -7,7 +7,6 @@ import android.support.annotation.RequiresApi;
 
 public class IAmHomeSettingsActivity extends Activity {
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
