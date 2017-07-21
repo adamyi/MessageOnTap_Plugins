@@ -1,30 +1,28 @@
 package edu.cmu.chimps.iamhome;
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
-import edu.cmu.chimps.iamhome.utils.AlarmUtils;
-import edu.cmu.chimps.iamhome.utils.WifiUtils;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.support.v7.app.NotificationCompat;
-import android.widget.Button;
+
 import static android.app.PendingIntent.getService;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -53,7 +51,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         Button whatsApp = (Button) findViewById(R.id.button_WhatsApp);
         sendNotice.setOnClickListener(this);
         whatsApp.setOnClickListener(this);
-
 
     }
 
