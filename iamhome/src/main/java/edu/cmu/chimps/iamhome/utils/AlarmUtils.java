@@ -11,15 +11,13 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import edu.cmu.chimps.iamhome.AlarmReceiver;
-import edu.cmu.chimps.iamhome.IAmHomeSettingsActivity;
-import edu.cmu.chimps.iamhome.MyApplication;
 
 public class AlarmUtils {
     public static AlarmManager alarmManager;
     public static PendingIntent pendingIntent;
 
     public static void cancelAlarm(){
-        AlarmManager alarmManager = (AlarmManager) MyApplication.getContext().getSystemService(Context.ALARM_SERVICE);
+
         alarmManager.cancel(pendingIntent);
     }
 

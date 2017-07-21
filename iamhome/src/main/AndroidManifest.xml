@@ -75,6 +75,10 @@
                 android:value=".IAmHomeSettingsActivity" />
         </service>
 
+        <service
+            android:name=".ShareMessageService"
+            android:enabled="true"> </service>
+
     </application>
 
 </manifest>
