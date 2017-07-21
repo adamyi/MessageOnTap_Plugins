@@ -37,6 +37,8 @@ public class SaveHomeWifiService extends IntentService{
                 try {
                     WifiUtils.storeUsersHomeWifi(this);
                     AlarmUtils.cancelAlarm();
+                    //user has selected contacts, create a noti to let user send message
+                    StatusToasts.createAthomeNoti(this);
                 }
                 catch (PSException e) {
                     e.printStackTrace();

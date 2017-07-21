@@ -1,6 +1,5 @@
 package edu.cmu.chimps.iamhome;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -16,15 +15,15 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
-import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
+import edu.cmu.chimps.messageontap_api.PluginData;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
 
-    private final static int ALARM_HOUR = 22;
-    private final static int ALARM_MINUTE = 0;
+    private final static int ALARM_HOUR = 15;
+    private final static int ALARM_MINUTE = 57;
     private final static int ALARM_SECOND = 0;
 
 
@@ -40,9 +39,11 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
             public void onEvent(boolean arrivesHome){
                 if(arrivesHome){
                     Log.e("TAG", "ARRIVES HOME");
+                    StatusToasts.atHomeToast(MyApplication.getContext());
                 }
                 else{
                     Log.e("TAG", "LEFT HOME");
+                    StatusToasts.leaveHomeToast(MyApplication.getContext());
                 }
             }
         });
@@ -63,6 +64,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
                             }
+                            StatusToasts.wifiDisconnectedToast(MyApplication.getContext());
                         }
             }
         });

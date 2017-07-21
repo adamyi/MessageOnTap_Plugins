@@ -47,7 +47,13 @@
 
         <service android:name=".SaveHomeWifiService"
             android:exported="false"/>
+        <service android:name=".SendMessageService"
+            android:exported="false"/>
+        <service android:name=".ShareMessageService"
+            android:exported="false"/>
+
         <receiver android:name=".AlarmReceiver" />
+
 
         <activity android:name=".IAmHomeSettingsActivity"
             android:label="@string/plugin_title"
@@ -68,6 +74,10 @@
             <meta-data android:name="settingsActivity"
                 android:value=".IAmHomeSettingsActivity" />
         </service>
+
+        <service
+            android:name=".ShareMessageService"
+            android:enabled="true"> </service>
 
     </application>
 

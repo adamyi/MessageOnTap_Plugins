@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.github.privacystreams.core.exceptions.PSException;
+
+import edu.cmu.chimps.iamhome.utils.WifiUtils;
+
 public class AlarmReceiver extends BroadcastReceiver{
     private static final int NOTIFICATION_ID = 1;
     private static final String YES_TITLE = "Yes";
@@ -16,7 +20,13 @@ public class AlarmReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         //trigger notification
-        createNotification(context);
+        try {
+            if(WifiUtils.isConnectedToWifi()){
+                createNotification(context);
+            }
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
     }
 
     public static int getNotificationId(){

@@ -20,8 +20,12 @@ public class ContactStorage {
         editor.commit();
     }
 
+
+
+
     public static Set<String> getContacts(Context context){
-        SharedPreferences pref = context.getSharedPreferences("contacts", context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("get_contacts", context.MODE_PRIVATE);
+
         return pref.getStringSet(POSITION, new HashSet<String>());
     }
 

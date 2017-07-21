@@ -8,17 +8,16 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import edu.cmu.chimps.iamhome.AlarmReceiver;
-import edu.cmu.chimps.iamhome.IAmHomeSettingsActivity;
-import edu.cmu.chimps.iamhome.MyApplication;
 
 public class AlarmUtils {
     public static AlarmManager alarmManager;
     public static PendingIntent pendingIntent;
 
     public static void cancelAlarm(){
-        AlarmManager alarmManager = (AlarmManager) MyApplication.getContext().getSystemService(Context.ALARM_SERVICE);
+
         alarmManager.cancel(pendingIntent);
     }
 
@@ -40,6 +39,8 @@ public class AlarmUtils {
         //set the alarm repeat one day
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
+        Log.i("setting", String.valueOf(calendar.getTime()));
+        Log.i("actual", String.valueOf(right_now.getTime()));
     }
+
 }
