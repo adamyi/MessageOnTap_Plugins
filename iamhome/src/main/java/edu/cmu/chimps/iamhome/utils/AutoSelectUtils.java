@@ -25,6 +25,7 @@ public class AutoSelectUtils {
     public static boolean autoSelect(String[] inputNameList, AccessibilityNodeInfo selectingView) {
 
         boolean clicked = false;
+        Log.i("hi", String.valueOf(inputNameList));
         for (String name : inputNameList) {
             List<AccessibilityNodeInfo> matchedList = selectingView.findAccessibilityNodeInfosByText(name);
 

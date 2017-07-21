@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
+import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 import android.app.Notification;
@@ -46,14 +47,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         textView = (TextView)findViewById(R.id.textview);
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
-//        startService(new Intent(this, IAmHomePlugin.class));
-        AlarmReceiver alarmReceiver = new AlarmReceiver();
-        alarmReceiver.createNotification(this);
+        startService(new Intent(this, IAmHomePlugin.class));
+
         Button sendNotice = (Button) findViewById(R.id.button_notice);
         Button whatsApp = (Button) findViewById(R.id.button_WhatsApp);
         sendNotice.setOnClickListener(this);
         whatsApp.setOnClickListener(this);
-
 
     }
 
@@ -83,7 +82,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
     public void onClick(View v) {
 
-        String[] contactNames = {"Edwin"};
+        String[] contactNames = ContactStorage.getContacts(MyApplication.getContext()).toArray(new String[2]);
         Intent launchService = new Intent(this, ShareMessageService.class);
         launchService.putExtra("contactNames", contactNames);
 
