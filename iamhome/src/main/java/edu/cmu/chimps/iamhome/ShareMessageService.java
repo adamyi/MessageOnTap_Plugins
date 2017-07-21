@@ -23,6 +23,10 @@ import java.util.Set;
 import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 
+import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK;
+import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_HOME;
+import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_RECENTS;
+
 public class ShareMessageService extends Service {
 
     UQI uqi;
@@ -45,13 +49,14 @@ public class ShareMessageService extends Service {
 
     public void onCreate() {
         super.onCreate();
+        Log.e("Service", "service started");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         uqi = new UQI(this);
         clicked = false;
+
         if(ContactStorage.getContacts(MyApplication.getContext()) == null){
             Toast noListInStoreToast = Toast.makeText(this, "Set default select list first", Toast.LENGTH_SHORT);
             noListInStoreToast.show();
@@ -79,10 +84,17 @@ public class ShareMessageService extends Service {
 
                     protected void onInput(Item item) {
                         AccessibilityNodeInfo root = item.getValueByField(AccEvent.ROOT_NODE);
-                        if (root != null && root.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)
-                                && ((int) item.getValueByField(AccEvent.EVENT_TYPE) == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)) {
-                            nodeInfoListener.nodeInfoReceived(root);
-                            Log.e("UQI Thread", "Transferred");
+                        if (root != null && root.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)) {
+                            if ((int) item.getValueByField(AccEvent.EVENT_TYPE) == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                                nodeInfoListener.nodeInfoReceived(root);
+                                Log.e("UQI Thread", "Transferred");
+                                stopSelf();
+                            } else if ((int)item.getValueByField(AccEvent.EVENT_TYPE) == GLOBAL_ACTION_BACK ||
+                                (int)item.getValueByField(AccEvent.EVENT_TYPE) == GLOBAL_ACTION_HOME ||
+                                (int)item.getValueByField(AccEvent.EVENT_TYPE) == GLOBAL_ACTION_RECENTS) {
+                                Log.e("Opps", "Opps");
+                                stopSelf();
+                            }
                         }
                     }
                 });
