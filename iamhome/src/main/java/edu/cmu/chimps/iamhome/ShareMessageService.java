@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.Toast;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.core.Callback;
@@ -17,6 +18,9 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AppUtils;
 
+import java.util.Set;
+
+import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 
 public class ShareMessageService extends Service {
@@ -48,7 +52,13 @@ public class ShareMessageService extends Service {
 
         uqi = new UQI(this);
         clicked = false;
-        contactNames = intent.getStringArrayExtra("contactNames");
+        if(ContactStorage.getContacts(MyApplication.getContext()) == null){
+            Toast noListInStoreToast = Toast.makeText(this, "Set default select list first", Toast.LENGTH_SHORT);
+            noListInStoreToast.show();
+            stopSelf();
+        }
+        Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext());
+        contactNames = inputSet.toArray(new String[inputSet.size()]);
         AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
 
         setNodeInfoListener(new NodeInfoListener() {

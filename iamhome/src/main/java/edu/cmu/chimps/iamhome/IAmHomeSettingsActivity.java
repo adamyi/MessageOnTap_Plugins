@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
+
+import edu.cmu.chimps.iamhome.RecyView.Contact;
+import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
+=======
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +40,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.NotificationCompat;
 import android.widget.Button;
+>>>>>>> 0d4d453832d272b49d2c63ca63d23349c3334233
 
 
 import static android.app.PendingIntent.getService;
@@ -94,9 +99,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
     public void onClick(View v) {
 
-        String[] contactNames = ContactStorage.getContacts(MyApplication.getContext()).toArray(new String[2]);
         Intent launchService = new Intent(this, ShareMessageService.class);
-        launchService.putExtra("contactNames", contactNames);
 
         switch (v.getId()) {
 

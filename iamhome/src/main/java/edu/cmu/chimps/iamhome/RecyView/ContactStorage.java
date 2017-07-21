@@ -6,10 +6,6 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by knight006 on 7/20/2017.
- */
-
 public class ContactStorage {
     public static final String KEY_FOR_USER_WIFI = "send_contacts ";
     public static final String POSITION = "send_contacts_position";

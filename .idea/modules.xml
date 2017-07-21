@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MessageOnTap_Extensions.iml" filepath="$PROJECT_DIR$/MessageOnTap_Extensions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MessageOnTap_Plugins.iml" filepath="$PROJECT_DIR$/MessageOnTap_Plugins.iml" />
       <module fileurl="file://$PROJECT_DIR$/googledocsplugin/googledocsplugin.iml" filepath="$PROJECT_DIR$/googledocsplugin/googledocsplugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/iamhome/iamhome.iml" filepath="$PROJECT_DIR$/iamhome/iamhome.iml" />
       <module fileurl="file://$PROJECT_DIR$/smart-calendar/smart-calendar.iml" filepath="$PROJECT_DIR$/smart-calendar/smart-calendar.iml" />
