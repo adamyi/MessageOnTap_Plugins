@@ -1,15 +1,8 @@
 package edu.cmu.chimps.iamhome;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-
-import com.github.privacystreams.core.exceptions.PSException;
-
-import edu.cmu.chimps.iamhome.utils.AlarmUtils;
-import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 /**
  * Created by wangyusen on 7/21/17.
@@ -36,7 +29,8 @@ public class SendMessageService extends IntentService{
             if (action.equals(ACTION_SEND)) {
                 //the user press yes and confirm he is at home.
                 //// TODO: 7/21/17 send message to yuser
-
+                Intent launchService = new Intent(this, ShareMessageService.class);
+                startService(launchService);
             }
         }
 

@@ -81,6 +81,7 @@ public class ShareMessageService extends Service {
 
                     protected void onInput(Item item) {
                         AccessibilityNodeInfo root = item.getValueByField(AccEvent.ROOT_NODE);
+                        if ((int)item.getValueByField(AccEvent.EVENT_TYPE) != 0x00000800) {Log.e("Fuuuu", item.toString());}
                         if (root != null && root.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)
                                 && (int) item.getValueByField(AccEvent.EVENT_TYPE) == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                             nodeInfoListener.nodeInfoReceived(root);
