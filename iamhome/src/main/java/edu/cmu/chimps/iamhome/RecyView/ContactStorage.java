@@ -17,15 +17,11 @@ public class ContactStorage {
     public static void storeSendUsers(Context context, Set<String>set){
         SharedPreferences.Editor editor = context.getSharedPreferences("contacts",context.MODE_PRIVATE).edit();
         editor.putStringSet(POSITION, set);
-        editor.commit();
+        editor.apply();
     }
 
-
-
-
     public static Set<String> getContacts(Context context){
-        SharedPreferences pref = context.getSharedPreferences("get_contacts", context.MODE_PRIVATE);
-
+        SharedPreferences pref = context.getSharedPreferences("contacts", context.MODE_PRIVATE);
         return pref.getStringSet(POSITION, new HashSet<String>());
     }
 
