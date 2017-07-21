@@ -29,9 +29,9 @@ public class SendMessageService extends IntentService{
 
         if (intent != null) {
             String action = intent.getAction();
-//            NotificationManager notificationManager =
-//                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManager.cancel(AlarmReceiver.getNotificationId());
+            NotificationManager notificationManager =
+                   (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(2);
         if(action != null){
             if (action.equals(ACTION_SEND)) {
                 //the user press yes and confirm he is at home.
