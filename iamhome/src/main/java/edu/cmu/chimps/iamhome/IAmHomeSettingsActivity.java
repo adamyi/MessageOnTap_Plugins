@@ -15,19 +15,38 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
+=======
+import java.util.HashSet;
+import java.util.Set;
+
+import edu.cmu.chimps.iamhome.RecyView.Contact;
+import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
+import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
+
+import edu.cmu.chimps.iamhome.utils.AlarmUtils;
+import edu.cmu.chimps.iamhome.utils.WifiUtils;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.support.v7.app.NotificationCompat;
+import android.widget.Button;
+>>>>>>> 0d4d453832d272b49d2c63ca63d23349c3334233
+
 
 import static android.app.PendingIntent.getService;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView textView;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +55,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         setTitle("Select Contacts");
         //initialize contactlist from whatsapp
         Contact.contactList = Contact.getWhatsAppContacts(this);
+        ContactStorage.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, IAmHomeSettingsActivity.this);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        textView = (TextView)findViewById(R.id.textview);
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
@@ -67,14 +86,15 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                 savedContactList.add(Contact.contactList.get(i).getName());
             }
         }
-        Toast.makeText(this, "Contacts saved" , Toast.LENGTH_SHORT).show();
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < savedContactList.size(); i++){
-            builder.append(savedContactList.get(i));
-        }
-        textView.setText(builder);
+        //Toast.makeText(this, "Contacts saved" , Toast.LENGTH_SHORT).show();
+
+
+        Set<String> set = new HashSet<>(savedContactList);
+        ContactStorage.storeSendUsers(this, set);
+
         return true;
     }
+
 
 
     public void onClick(View v) {
