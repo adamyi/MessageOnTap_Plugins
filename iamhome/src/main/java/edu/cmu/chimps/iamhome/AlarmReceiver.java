@@ -20,13 +20,9 @@ public class AlarmReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         //trigger notification
-        try {
-            if(WifiUtils.isConnectedToWifi()){
-                createNotification(context);
-            }
-        } catch (PSException e) {
-            e.printStackTrace();
-        }
+        createNotification(context);
+
+
     }
 
     public static int getNotificationId(){

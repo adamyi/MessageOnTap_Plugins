@@ -22,8 +22,10 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
 
-    private final static int ALARM_HOUR = 14;
-    private final static int ALARM_MINUTE = 10;
+
+    private final static int ALARM_HOUR = 18;
+    private final static int ALARM_MINUTE = 30;
+
     private final static int ALARM_SECOND = 0;
 
 
@@ -39,11 +41,11 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
             public void onEvent(boolean arrivesHome){
                 if(arrivesHome){
                     Log.e("TAG", "ARRIVES HOME");
-                    StatusToasts.atHomeToast(MyApplication.getContext());
+
                 }
                 else{
                     Log.e("TAG", "LEFT HOME");
-                    StatusToasts.leaveHomeToast(MyApplication.getContext());
+
                 }
             }
         });
@@ -55,7 +57,9 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                         if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED))){
                             Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
+
                                 homeEventListener.onEvent(true);
+                                StatusToasts.atHomeToast(MyApplication.getContext());
                             }
                             StatusToasts.wifiConnectedToast(MyApplication.getContext());
                         }
@@ -63,6 +67,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                             Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
+                                StatusToasts.leaveHomeToast(MyApplication.getContext());
                             }
                             StatusToasts.wifiDisconnectedToast(MyApplication.getContext());
                         }

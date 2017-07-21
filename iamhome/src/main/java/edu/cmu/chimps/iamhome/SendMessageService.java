@@ -32,7 +32,7 @@ public class SendMessageService extends IntentService{
 //            NotificationManager notificationManager =
 //                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //            notificationManager.cancel(AlarmReceiver.getNotificationId());
-
+        if(action != null){
             if (action.equals(ACTION_SEND)) {
                 //the user press yes and confirm he is at home.
                 //// TODO: 7/21/17 send message to yuser
@@ -41,4 +41,5 @@ public class SendMessageService extends IntentService{
         }
 
     }
+}
 }

@@ -46,15 +46,15 @@ public class StatusToasts {
     }
     public static void createAthomeNoti(Context context){
         //setting yes action
-        Intent saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);
-        saveHomeWifiServiceIntent.setAction(SendMessageService.ACTION_SEND);
+        Intent sendMessageServiceIntent= new Intent(context, SendMessageService.class);
+        sendMessageServiceIntent.setAction(SendMessageService.ACTION_SEND);
         PendingIntent yesPendingIntent = PendingIntent
-                .getService(context.getApplicationContext(), 0, saveHomeWifiServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //setting no action
-        saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);
+        sendMessageServiceIntent = new Intent(context, SendMessageService.class);
         PendingIntent noPendingIntent = PendingIntent
-                .getService(context.getApplicationContext(), 0, saveHomeWifiServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
@@ -70,7 +70,5 @@ public class StatusToasts {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(2, mBuilder.build());
-
-
     }
 }
