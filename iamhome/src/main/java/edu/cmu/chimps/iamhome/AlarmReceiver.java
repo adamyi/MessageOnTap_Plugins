@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.github.privacystreams.core.exceptions.PSException;
+
+import edu.cmu.chimps.iamhome.utils.WifiUtils;
+
 public class AlarmReceiver extends BroadcastReceiver{
     private static final int NOTIFICATION_ID = 1;
     private static final String YES_TITLE = "Yes";
@@ -16,7 +20,13 @@ public class AlarmReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         //trigger notification
-        createNotification(context);
+        try {
+            if(WifiUtils.isConnectedToWifi()){
+                createNotification(context);
+            }
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
     }
 
     public static int getNotificationId(){
@@ -43,8 +53,8 @@ public class AlarmReceiver extends BroadcastReceiver{
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(true)
-                        .addAction(R.drawable.ic_home, YES_TITLE, yesPendingIntent)
-                        .addAction(R.drawable.ic_home, NO_TITLE, noPendingIntent);
+                        .addAction(0, YES_TITLE, yesPendingIntent)
+                        .addAction(0, NO_TITLE, noPendingIntent);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

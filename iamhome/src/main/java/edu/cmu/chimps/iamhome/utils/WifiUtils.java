@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.cmu.chimps.iamhome.IAmHomeSettingsActivity;
 import edu.cmu.chimps.iamhome.MyApplication;
 
 public class WifiUtils {
@@ -25,17 +26,17 @@ public class WifiUtils {
      * Store all user's wifi BSSIDs.
      */
 
-    public static void storeUsersHomeWifi() throws PSException {
-        SharedPreferences preferences = MyApplication.getContext().getSharedPreferences(KEY_WIFI_SENSING, Context.MODE_PRIVATE);
-        preferences.edit().putStringSet(KEY_USER_HOME_BSSID_LIST, new HashSet<>(getBSSIDList())).apply();
+    public static void storeUsersHomeWifi(Context context) throws PSException {
+        SharedPreferences preferences = context.getSharedPreferences(KEY_WIFI_SENSING, Context.MODE_PRIVATE);
+        preferences.edit().putStringSet(KEY_USER_HOME_BSSID_LIST, new HashSet<>(getBSSIDList(context))).apply();
     }
 
     /**
      * Get all BSSIDs that are associated with user home wifi.
      * @return
      */
-    public static Set<String> getUsersHomeWifiList(){
-        SharedPreferences preferences = MyApplication.getContext().getSharedPreferences(KEY_WIFI_SENSING, Context.MODE_PRIVATE);
+    public static Set<String> getUsersHomeWifiList(Context context){
+        SharedPreferences preferences = context.getSharedPreferences(KEY_WIFI_SENSING, Context.MODE_PRIVATE);
         return preferences.getStringSet(KEY_USER_HOME_BSSID_LIST, new HashSet<String>());
     }
 
@@ -46,8 +47,8 @@ public class WifiUtils {
      * @return the BSSID
      * @throws PSException
      */
-    public String getConnectedWifiBSSID() throws PSException {
-        UQI uqi = new UQI(MyApplication.getContext());
+    public String getConnectedWifiBSSID(Context context) throws PSException {
+        UQI uqi = new UQI(context);
         Item wifiItem = uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("Get Connected Wifi BSSID"))
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
                 .limit(1).getFirst().asItem();
@@ -74,9 +75,10 @@ public class WifiUtils {
      * Get all related BSSIDs of the user connected wifi;
      * @throws PSException
      */
-    public static List<String> getBSSIDList() throws PSException {
 
-        UQI uqi = new UQI(MyApplication.getContext());
+    public static List<String> getBSSIDList(Context context) throws PSException {
+
+        UQI uqi = new UQI(context);
         String ssid = uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("Get access to the SSID of connected Wifi"))
                 .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
                 .getFirst().getField(WifiAp.SSID).toString();
