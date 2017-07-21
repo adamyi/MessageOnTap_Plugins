@@ -1,6 +1,8 @@
 package edu.cmu.chimps.iamhome;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
@@ -22,6 +24,9 @@ public class SendMessageService extends IntentService{
 
         if (intent != null) {
             String action = intent.getAction();
+            /**
+             * cancel send message notification
+             */
             NotificationManager notificationManager =
                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.cancel(2);
