@@ -87,7 +87,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     @Override
     protected PluginData iPluginData() {
-        return null;
+        return new PluginData();
     }
 
     @Override
