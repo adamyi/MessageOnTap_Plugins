@@ -126,7 +126,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                         .setWhen(System.currentTimeMillis())
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                        .setPriority(Notification.PRIORITY_MAX) //为什么不work????
                         .setContentIntent(getService(this, 0, launchService, 0))
                         .setAutoCancel(true)
                         .build();
