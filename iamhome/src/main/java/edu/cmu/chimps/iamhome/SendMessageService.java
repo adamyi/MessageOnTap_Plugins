@@ -6,11 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import com.github.privacystreams.core.exceptions.PSException;
-
-import edu.cmu.chimps.iamhome.utils.AlarmUtils;
-import edu.cmu.chimps.iamhome.utils.WifiUtils;
-
 /**
  * Created by wangyusen on 7/21/17.
  */
@@ -29,16 +24,23 @@ public class SendMessageService extends IntentService{
 
         if (intent != null) {
             String action = intent.getAction();
-//            NotificationManager notificationManager =
-//                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManager.cancel(AlarmReceiver.getNotificationId());
-
+            /**
+             * cancel send message notification
+             */
+            NotificationManager notificationManager =
+                   (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(2);
+        if(action != null){
             if (action.equals(ACTION_SEND)) {
                 //the user press yes and confirm he is at home.
                 //// TODO: 7/21/17 send message to yuser
-
+                Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                this.sendBroadcast(closeNotificationDrawer);
+                Intent launchService = new Intent(this, ShareMessageService.class);
+                startService(launchService);
             }
         }
 
     }
+}
 }

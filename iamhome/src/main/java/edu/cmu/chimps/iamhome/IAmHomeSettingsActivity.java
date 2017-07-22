@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,17 +29,55 @@ import static android.app.PendingIntent.getService;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    Toolbar toolbar;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Select Contacts");
+        //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setTitle("Select Contacts");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
+        toolbar.setSubtitle("0 selected");
+
+        toolbar.inflateMenu(R.menu.main);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int menuItemId = item.getItemId();
+                switch (menuItemId){
+                    case R.id.checkMark:
+                        ArrayList<String> savedContactList = new ArrayList<>();
+                        for (int i = 0; i < Contact.contactList.size(); i++){
+                            if (Contact.contactList.get(i).isFlag()){
+                                savedContactList.add(Contact.contactList.get(i).getName());
+                            }
+                        }
+                        Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
+
+                        Set<String> set = new HashSet<>(savedContactList);
+                        ContactStorage.storeSendUsers(getBaseContext(), set);
+                }
+
+                return true;
+            }
+        });
+
+
         //initialize contactlist from whatsapp
         Contact.contactList = Contact.getWhatsAppContacts(this);
         ContactStorage.InitSelection(this);
-        ContactAdapter adapter = new ContactAdapter(Contact.contactList, IAmHomeSettingsActivity.this);
+        ContactAdapter adapter = new ContactAdapter(Contact.contactList, IAmHomeSettingsActivity.this, toolbar);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -55,11 +93,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -69,14 +102,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                 savedContactList.add(Contact.contactList.get(i).getName());
             }
         }
-        //Toast.makeText(this, "Contacts saved" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
 
         Set<String> set = new HashSet<>(savedContactList);
         ContactStorage.storeSendUsers(this, set);
 
         return true;
     }
-
 
 
     public void onClick(View v) {
@@ -93,7 +125,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                         .setWhen(System.currentTimeMillis())
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                        .setPriority(Notification.PRIORITY_MAX) //为什么不work????
                         .setContentIntent(getService(this, 0, launchService, 0))
                         .setAutoCancel(true)
                         .build();
@@ -101,13 +132,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.button_WhatsApp:
-                Log.e("hi", "hi");
                 startService(launchService);
                 break;
 
             default:
                 break;
         }
+
     }
-}
+ }
 

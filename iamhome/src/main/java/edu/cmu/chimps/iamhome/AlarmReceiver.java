@@ -20,7 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         //trigger notification
-        createNotification(context);
+         createNotification(context);
 
 
     }

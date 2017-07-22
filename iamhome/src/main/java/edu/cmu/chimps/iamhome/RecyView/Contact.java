@@ -34,6 +34,7 @@ public class Contact {
     public void setFlag(boolean flag){
         isFlag = flag;
     }
+
     public static ArrayList<Contact> getWhatsAppContacts(Context context){
         Cursor c = context.getContentResolver().query(
                 ContactsContract.RawContacts.CONTENT_URI,
@@ -61,7 +62,7 @@ public class Contact {
     }
     public TextDrawable getContactPicture(){
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound(String.valueOf(getFirstC()), Color.BLUE);
+                .buildRound(String.valueOf(getFirstC()), Color.GRAY);
         return drawable;
 
 

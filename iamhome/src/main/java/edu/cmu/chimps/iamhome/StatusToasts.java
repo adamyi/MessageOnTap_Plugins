@@ -52,7 +52,7 @@ public class StatusToasts {
                 .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //setting no action
-        sendMessageServiceIntent = new Intent(context, SaveHomeWifiService.class);
+        sendMessageServiceIntent = new Intent(context, SendMessageService.class);
         PendingIntent noPendingIntent = PendingIntent
                 .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

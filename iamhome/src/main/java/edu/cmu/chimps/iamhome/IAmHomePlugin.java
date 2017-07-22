@@ -22,8 +22,10 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
 
+
     private final static int ALARM_HOUR = 18;
     private final static int ALARM_MINUTE = 30;
+
     private final static int ALARM_SECOND = 0;
 
 
@@ -58,6 +60,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
                                 homeEventListener.onEvent(true);
                                 StatusToasts.atHomeToast(MyApplication.getContext());
+                                StatusToasts.createAthomeNoti(MyApplication.getContext());
                             }
                             StatusToasts.wifiConnectedToast(MyApplication.getContext());
                         }

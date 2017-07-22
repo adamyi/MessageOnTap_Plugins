@@ -25,7 +25,9 @@ public class AutoSelectUtils {
     public static boolean autoSelect(String[] inputNameList, AccessibilityNodeInfo selectingView) {
 
         boolean clicked = false;
+
         Log.e("hi", Integer.toString(inputNameList.length));
+
         for (String name : inputNameList) {
             List<AccessibilityNodeInfo> matchedList = selectingView.findAccessibilityNodeInfosByText(name);
 
@@ -43,6 +45,13 @@ public class AutoSelectUtils {
             else {
                 Log.e("Warning", "No matched");
             }
+        }
+        if (inputNameList.length == 1) {
+            Log.e("try", "finding button");
+            List<AccessibilityNodeInfo> sendButtons = selectingView.findAccessibilityNodeInfosByViewId("com.whatsapp:id/send");
+            Log.e("founded", "founded button");
+            AccessibilityNodeInfo bu = sendButtons.get(0);
+            bu.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
         return clicked;
     }
