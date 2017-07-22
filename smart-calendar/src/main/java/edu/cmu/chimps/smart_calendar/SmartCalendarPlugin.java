@@ -12,7 +12,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     @Override
     protected PluginData iPluginData() {
         Log.e("plugin", "getting plugin data");
-        return new PluginData().trigger("test trigger");
+        return new PluginData();
     }
 
     @Override
