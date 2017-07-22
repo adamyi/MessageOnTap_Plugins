@@ -11,10 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,10 +37,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_main);
         //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_action_back);//设置导航栏图标
-        toolbar.setTitle("Select Contacts");//设置主标题
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setTitle("Select Contacts");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.setSubtitle("0 selected");//设置子标题
+        toolbar.setSubtitle("0 selected");
 
         toolbar.inflateMenu(R.menu.main);
 
@@ -145,9 +142,5 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         }
 
     }
-    public static void SetTitle(){
-
-    }
-
-}
+ }
 
