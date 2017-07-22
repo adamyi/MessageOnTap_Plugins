@@ -34,6 +34,8 @@ public class SendMessageService extends IntentService{
             if (action.equals(ACTION_SEND)) {
                 //the user press yes and confirm he is at home.
                 //// TODO: 7/21/17 send message to yuser
+                Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                this.sendBroadcast(closeNotificationDrawer);
                 Intent launchService = new Intent(this, ShareMessageService.class);
                 startService(launchService);
             }
