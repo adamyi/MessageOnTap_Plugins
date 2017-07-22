@@ -50,11 +50,15 @@
 
         <activity android:name=".IAmHomeSettingsActivity"
             android:label="@string/plugin_title"
-            android:exported="true">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".SelectContactActivity"
+            android:label="@string/plugin_title"
+            android:theme="@style/HideToolBar">
         </activity>
 
         <service android:name=".IAmHomePlugin"

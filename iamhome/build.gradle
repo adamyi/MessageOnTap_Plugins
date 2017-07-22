@@ -43,6 +43,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.adamyi:MessageOnTap_API:v0.1.2'
     compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support:design:26.+'
 
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
