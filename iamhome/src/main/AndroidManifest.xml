@@ -23,7 +23,7 @@
 
         <service android:name=".services.SaveHomeWifiService"
             android:exported="false"/>
-        <service android:name=".services.NotificationTriggerService"
+        <service android:name=".services.notificationTriggerService"
             android:exported="false"/>
         <service android:name=".services.ShareMessageService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />
@@ -39,15 +39,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ListActivity"
-            android:parentActivityName=".IAmHomeSettingsActivity"
-            android:screenOrientation="portrait">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".IAmHomeSettingsActivity" />
 
-        </activity>
         <activity android:name=".SelectContactActivity"
             android:theme="@style/MyNoActionBarTheme"
             android:parentActivityName=".IAmHomeSettingsActivity" >

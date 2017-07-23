@@ -72,6 +72,6 @@ public class StatusToastsUtils {
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(2, mBuilder.build());
+        mNotificationManager.notify(3, mBuilder.build());
     }
 }
