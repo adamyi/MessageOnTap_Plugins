@@ -19,7 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.github.privacystreams.communication.Contact;
+import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
+import com.github.privacystreams.core.purposes.Purpose;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 
@@ -44,6 +47,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UQI uqi = new UQI(this);
+        uqi.getData(Contact.getAll(), Purpose.UTILITY("test")).debug();
 
         setContentView(R.layout.welcome_page);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
