@@ -14,6 +14,9 @@ public class ContactStorage {
         SharedPreferences.Editor editor = context.getSharedPreferences("contacts",context.MODE_PRIVATE).edit();
         editor.putStringSet(POSITION, set);
         editor.apply();
+        if (FirstTimeStorage.getFirst(context)) {
+            FirstTimeStorage.setFirst(context, false);
+        }
     }
 
     public static Set<String> getContacts(Context context){
