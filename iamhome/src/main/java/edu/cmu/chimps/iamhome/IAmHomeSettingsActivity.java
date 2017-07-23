@@ -59,14 +59,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                  */
 
                 if (menuButton == menuButton.findViewById(R.id.alert)) {
-                    circleIntent = new Intent(MyApplication.getContext(), SelectContactActivity.class);
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            startActivity(circleIntent);
-                        }
-                    }, 1170);
+
 
                 }
                 if (menuButton == menuButton.findViewById(R.id.search)) {
@@ -90,7 +83,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     dialog.show();
                 }
                 if (menuButton == menuButton.findViewById(R.id.favorite)) {
-                    circleIntent = new Intent(MyApplication.getContext(), ListActivity.class);
+                    circleIntent = new Intent(MyApplication.getContext(), SelectContactActivity.class);
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
