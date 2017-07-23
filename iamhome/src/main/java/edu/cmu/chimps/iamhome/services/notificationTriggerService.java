@@ -10,12 +10,12 @@ import android.support.annotation.Nullable;
  * Created by wangyusen on 7/21/17.
  */
 
-public class notificationTriggerService extends IntentService{
+public class NotificationTriggerService extends IntentService{
     public static final String ACTION_SEND = "ACTION_SEND";
-    public notificationTriggerService(String name) {
+    public NotificationTriggerService(String name) {
         super(name);
     }
-    public notificationTriggerService(){
+    public NotificationTriggerService(){
         super("");
     }
 

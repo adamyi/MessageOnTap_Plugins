@@ -22,6 +22,7 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.NodeInfoListener;
+import edu.cmu.chimps.iamhome.SelectContactActivity;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
@@ -55,12 +56,6 @@ public class ShareMessageService extends Service {
         uqi = new UQI(this);
         clicked = false;
 
-        if (ContactStorage.getContacts(MyApplication.getContext()) == null) {
-            Toast noListInStoreToast = Toast.makeText(this, "Set default select list first", Toast.LENGTH_SHORT);
-            noListInStoreToast.show();
-            stopSelf();
-        }
-
         Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext());
         contactNames = inputSet.toArray(new String[inputSet.size()]);
         AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
@@ -93,7 +88,14 @@ public class ShareMessageService extends Service {
                     }
                 });
 
-        autoSelectUtils.autoLaunch(this, StringStorage.getMessage(getBaseContext()), AppUtils.APP_PACKAGE_WHATSAPP);
+        if (ContactStorage.getContacts(MyApplication.getContext()).size() == 0) {
+            Toast.makeText(this, "Set default select list first", Toast.LENGTH_SHORT).show();
+            Intent launchActivity = new Intent(MyApplication.getContext(), SelectContactActivity.class);
+            MyApplication.getContext().startActivity(launchActivity);
+            stopSelf();
+        } else {
+            autoSelectUtils.autoLaunch(this, StringStorage.getMessage(getBaseContext()), AppUtils.APP_PACKAGE_WHATSAPP);
+        }
 
         return START_NOT_STICKY;
 
