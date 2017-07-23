@@ -28,7 +28,7 @@ public class AlarmUtils {
 
         int timeOffset = hour - right_now.get(Calendar.HOUR);
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR, hour - timeOffset);
+        calendar.set(Calendar.HOUR, hour-timeOffset);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
 

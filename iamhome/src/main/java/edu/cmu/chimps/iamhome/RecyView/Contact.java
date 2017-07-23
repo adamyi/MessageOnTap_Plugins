@@ -1,10 +1,18 @@
 package edu.cmu.chimps.iamhome.RecyView;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.ArrayList;
 
@@ -36,6 +44,7 @@ public class Contact {
     }
 
     public static ArrayList<Contact> getWhatsAppContacts(Context context){
+
         Cursor c = context.getContentResolver().query(
                 ContactsContract.RawContacts.CONTENT_URI,
                 new String[] { ContactsContract.RawContacts.CONTACT_ID, ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY },
@@ -57,6 +66,7 @@ public class Contact {
         }
         return whatsAppContacts;
     }
+
     public char getFirstC(){
         return this.Name.charAt(0);
     }

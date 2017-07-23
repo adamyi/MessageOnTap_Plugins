@@ -4,6 +4,7 @@ package edu.cmu.chimps.iamhome.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
@@ -14,14 +15,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.cmu.chimps.iamhome.AlarmReceiver;
 import edu.cmu.chimps.iamhome.IAmHomeSettingsActivity;
 import edu.cmu.chimps.iamhome.MyApplication;
+import edu.cmu.chimps.iamhome.StatusToasts;
 
 public class WifiUtils {
 
     public static final String KEY_WIFI_SENSING = "key_wifi_sensing";
     public static final String KEY_USER_HOME_BSSID_LIST  = "key_wifi_bssid_list";
-
+    boolean atHome;
     /**
      * Store all user's wifi BSSIDs.
      */
@@ -85,6 +88,34 @@ public class WifiUtils {
 
         return uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("Get access to all related BSSIDs of the connected Wifi"))
                 .filter(WifiAp.SSID, ssid).asList(WifiAp.BSSID);
+    }
+
+
+    public static String getWifiName(Context context) throws PSException {
+        UQI uqi = new UQI(context);
+        String name  = uqi.getData(WifiAp.getScanResults(),Purpose.UTILITY("get wifi name")
+                ).filter(WifiAp.BSSID, getBSSIDList(context)).getFirst().getField(WifiAp.BSSID);
+        return name;
+    }
+    public void isAtHome(Context context){
+        UQI uqi = new UQI(context);
+
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.UTILITY("listen for wifi changes ")).forEach(new Callback<Item>() {
+            @Override
+            protected void onInput(Item input) {
+                Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
+                if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
+                        isAthome(true);
+                }
+                isAthome(false);
+            }
+        });
+
+
+
+    }
+    public static boolean isAthome(boolean result){
+        return result;
     }
 
 }

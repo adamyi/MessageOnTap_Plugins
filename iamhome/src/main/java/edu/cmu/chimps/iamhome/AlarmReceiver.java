@@ -21,8 +21,6 @@ public class AlarmReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         //trigger notification
          createNotification(context);
-
-
     }
 
     public static int getNotificationId(){
