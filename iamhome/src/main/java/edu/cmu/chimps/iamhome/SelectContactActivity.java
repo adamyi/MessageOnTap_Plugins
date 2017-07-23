@@ -96,7 +96,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         } catch (PSException e) {
             e.printStackTrace();
         }
-        ContactStorage.InitSelection(this);
+        Contact.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
