@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.privacystreams.core.exceptions.PSException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -89,7 +91,11 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         */
 
         //initialize contactlist from whatsapp
-        Contact.contactList = Contact.getWhatsAppContacts(this);
+        try {
+            Contact.contactList = Contact.getWhatsAppContacts(this);
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
         ContactStorage.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);

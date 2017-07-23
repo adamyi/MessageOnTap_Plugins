@@ -1,6 +1,8 @@
 package edu.cmu.chimps.iamhome;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
@@ -41,6 +44,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 //                new String[]{Manifest.permission.READ_CONTACTS},
 //               0);
         setContentView(R.layout.welcome_page);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+
 
 //        setTitle("Select Contacts");
 
@@ -48,8 +54,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
          * Test whether the user is at home
          */
         if (userstatus.isAtHome()) {
-
+            Drawable drawable = getDrawable(R.drawable.ic_work_black_24dp);
+            imageView.setImageDrawable(drawable);
         } else {
+            Drawable drawable = getDrawable(R.drawable.ic_home_black_24dp);
+            imageView.setImageDrawable(drawable);
 
         }
 

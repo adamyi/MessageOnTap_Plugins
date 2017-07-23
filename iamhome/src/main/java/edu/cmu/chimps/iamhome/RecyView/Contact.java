@@ -6,8 +6,13 @@ import android.graphics.Color;
 import android.provider.ContactsContract;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.exceptions.PSException;
+import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by knight006 on 7/18/2017.
@@ -36,28 +41,19 @@ public class Contact {
         isFlag = flag;
     }
 
-    public static ArrayList<Contact> getWhatsAppContacts(Context context){
+    public static ArrayList<Contact> getWhatsAppContacts(Context context) throws PSException {
 
-        Cursor c = context.getContentResolver().query(
-                ContactsContract.RawContacts.CONTENT_URI,
-                new String[] { ContactsContract.RawContacts.CONTACT_ID, ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY },
-                ContactsContract.RawContacts.ACCOUNT_TYPE + "= ?",
-                new String[] { "com.whatsapp" },
-                null);
+        UQI uqi = new UQI(context);
+        ArrayList<Contact> result = new ArrayList<>();
+       List<Item> whatsAppC= uqi.getData(com.github.privacystreams.communication.Contact.getWhatAppAll(), Purpose.UTILITY("get whatsapp contacts"))
+                .asList();
+        for(int i = 0; i < whatsAppC.size();i++){
+            Contact contact = new Contact(whatsAppC.get(i).getValueByField(com.github.privacystreams.communication.Contact.NAME)
+                    .toString());
+            result.add(i, contact);
 
-        ArrayList<Contact> whatsAppContacts = new ArrayList<>();
-        int contactNameColumn;
-        if (c != null) {
-            contactNameColumn = c.getColumnIndex(ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY);
-            while (c.moveToNext())
-            {
-                // You can also read RawContacts.CONTACT_ID to read the
-                // ContactsContract.Contacts table or any of the other related ones.
-                whatsAppContacts.add(new Contact(c.getString(contactNameColumn)));
-            }
-            c.close();
         }
-        return whatsAppContacts;
+        return result;
     }
 
     public char getFirstC(){
