@@ -1,18 +1,11 @@
 package edu.cmu.chimps.iamhome.RecyView;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.provider.ContactsContract;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.ArrayList;
 
@@ -74,7 +67,35 @@ public class Contact {
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound(String.valueOf(getFirstC()), Color.GRAY);
         return drawable;
-
-
     }
+
+
+    public static int SelectedItemCount(){
+        int count = 0;
+        for (int i=0; i<contactList.size(); i++){
+            if (contactList.get(i).isFlag()){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void toggleFlag(Contact contact){
+        if (contact.isFlag()){
+            contact.setFlag(false);
+        } else {
+            contact.setFlag(true);
+        }
+    }
+
+    public static ArrayList<String> getSavedContactList(){
+        ArrayList<String> savedContactList = new ArrayList<>();
+        for (int i = 0; i < Contact.contactList.size(); i++){
+            if (Contact.contactList.get(i).isFlag()){
+                savedContactList.add(Contact.contactList.get(i).getName());
+            }
+        }
+        return savedContactList;
+    }
+
 }

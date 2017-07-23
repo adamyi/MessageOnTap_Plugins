@@ -30,6 +30,14 @@ import static android.app.PendingIntent.getService;
 public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
+
+    @Override
+    public void onBackPressed() {
+        Set<String> set = new HashSet<>(Contact.getSavedContactList());
+        ContactStorage.storeSendUsers(getBaseContext(), set);
+        super.onBackPressed();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +48,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setTitle("Select contacts to share");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.setSubtitle("0 selected");
+        toolbar.setSubtitle(Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
 
         //toolbar.inflateMenu(R.menu.select);
@@ -48,15 +56,10 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> savedContactList = new ArrayList<>();
-                for (int i = 0; i < Contact.contactList.size(); i++){
-                    if (Contact.contactList.get(i).isFlag()){
-                        savedContactList.add(Contact.contactList.get(i).getName());
-                    }
-                }
+
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
 
-                Set<String> set = new HashSet<>(savedContactList);
+                Set<String> set = new HashSet<String>(Contact.getSavedContactList());
                 ContactStorage.storeSendUsers(getBaseContext(), set);
                 onBackPressed();
             }
@@ -88,7 +91,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         //initialize contactlist from whatsapp
         Contact.contactList = Contact.getWhatsAppContacts(this);
         ContactStorage.InitSelection(this);
-        ContactAdapter adapter = new ContactAdapter(Contact.contactList, SelectContactActivity.this, toolbar);
+        ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
