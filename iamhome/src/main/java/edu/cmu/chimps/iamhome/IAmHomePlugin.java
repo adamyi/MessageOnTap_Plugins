@@ -14,6 +14,7 @@ import com.github.privacystreams.device.WifiAp;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
+import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
@@ -59,18 +60,18 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
 
                                 homeEventListener.onEvent(true);
-                                StatusToasts.atHomeToast(MyApplication.getContext());
-                                StatusToasts.createAthomeNoti(MyApplication.getContext());
+                                StatusToastsUtils.atHomeToast(MyApplication.getContext());
+                                StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
                             }
-                            StatusToasts.wifiConnectedToast(MyApplication.getContext());
+                            StatusToastsUtils.wifiConnectedToast(MyApplication.getContext());
                         }
                         else if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_DISCONNECTED))){
                             Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
-                                StatusToasts.leaveHomeToast(MyApplication.getContext());
+                                StatusToastsUtils.leaveHomeToast(MyApplication.getContext());
                             }
-                            StatusToasts.wifiDisconnectedToast(MyApplication.getContext());
+                            StatusToastsUtils.wifiDisconnectedToast(MyApplication.getContext());
                         }
             }
         });

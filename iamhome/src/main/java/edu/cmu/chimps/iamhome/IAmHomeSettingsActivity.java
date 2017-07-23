@@ -8,17 +8,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
 
-    private String mText = "";
+    private String sentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (StringStorage.getMessage(getBaseContext()) == null) {
+            StringStorage.storeMessage(getBaseContext(), "");
+        } else { sentText = StringStorage.getMessage(getBaseContext()); }
     }
 
     @Override
@@ -33,11 +36,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
             case R.id.set_contact:
                 Intent setContactIntent = new Intent(this, SelectContactActivity.class);
                 startActivity(setContactIntent);
-                Toast.makeText(this, "set contact", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "set contact", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rest_wifi:
-                Toast.makeText(this, "reset wifi", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(this, "reset wifi", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 dialog.setTitle("Reset Home Wifi");
                 dialog.setMessage("Saved wifi will be replaced by the connected wifi");
@@ -58,20 +60,27 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 dialog.show();
                 break;
             case R.id.ser_default_message:
-                Toast.makeText(this, "set message", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(this, "set message", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Set message to send");
                 final EditText input = new EditText(this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);
-                builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                input.setHint(StringStorage.getMessage(getBaseContext()));
+                input.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mText = input.getText().toString();
+                    public void onClick(View view) {
+                        input.setHint(null);
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setView(input);
+                builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sentText = input.getText().toString();
+                        StringStorage.storeMessage(getBaseContext(), sentText);
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -83,5 +92,5 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         }
         return true;
     }
- }
+}
 

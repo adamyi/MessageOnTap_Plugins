@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome;
+package edu.cmu.chimps.iamhome.services;
 
 import android.app.IntentService;
 import android.app.NotificationManager;

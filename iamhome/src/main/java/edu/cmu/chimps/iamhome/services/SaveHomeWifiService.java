@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome;
+package edu.cmu.chimps.iamhome.services;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
+import edu.cmu.chimps.iamhome.AlarmReceiver;
+import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
@@ -38,7 +40,7 @@ public class SaveHomeWifiService extends IntentService{
                     WifiUtils.storeUsersHomeWifi(this);
                     AlarmUtils.cancelAlarm();
                     //user has selected contacts, create a noti to let user send message
-                    StatusToasts.createAthomeNoti(this);
+                    StatusToastsUtils.createAthomeNoti(this);
                 }
                 catch (PSException e) {
                     e.printStackTrace();

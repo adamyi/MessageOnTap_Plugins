@@ -38,11 +38,11 @@
         android:theme="@style/AppTheme">
         <!-- TODO: move the plugin along with title&description to a service and use activity only for settings -->
 
-        <service android:name=".SaveHomeWifiService"
+        <service android:name=".services.SaveHomeWifiService"
             android:exported="false"/>
-        <service android:name=".SendMessageService"
+        <service android:name=".services.SendMessageService"
             android:exported="false"/>
-        <service android:name=".ShareMessageService"
+        <service android:name=".services.ShareMessageService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
         <receiver android:name=".AlarmReceiver" />

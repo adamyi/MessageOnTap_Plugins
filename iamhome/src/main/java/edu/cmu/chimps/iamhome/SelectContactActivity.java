@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +23,7 @@ import java.util.Set;
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
+import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
 import static android.app.PendingIntent.getService;
 
@@ -38,19 +38,30 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setTitle("Select Contacts");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
+        toolbar.setTitle("Select contacts to share");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         toolbar.setSubtitle("0 selected");
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorWhite));
 
-        toolbar.inflateMenu(R.menu.select);
+        //toolbar.inflateMenu(R.menu.select);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<String> savedContactList = new ArrayList<>();
+                for (int i = 0; i < Contact.contactList.size(); i++){
+                    if (Contact.contactList.get(i).isFlag()){
+                        savedContactList.add(Contact.contactList.get(i).getName());
+                    }
+                }
+                //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
+
+                Set<String> set = new HashSet<>(savedContactList);
+                ContactStorage.storeSendUsers(getBaseContext(), set);
                 onBackPressed();
             }
         });
-
+        /*
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -72,7 +83,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                 return true;
             }
         });
-
+        */
 
         //initialize contactlist from whatsapp
         Contact.contactList = Contact.getWhatsAppContacts(this);
@@ -102,7 +113,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                 savedContactList.add(Contact.contactList.get(i).getName());
             }
         }
-        Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
 
         Set<String> set = new HashSet<>(savedContactList);
         ContactStorage.storeSendUsers(this, set);

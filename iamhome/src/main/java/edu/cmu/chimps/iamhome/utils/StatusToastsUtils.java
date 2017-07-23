@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome;
+package edu.cmu.chimps.iamhome.utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-public class StatusToasts {
+import edu.cmu.chimps.iamhome.R;
+import edu.cmu.chimps.iamhome.services.SendMessageService;
+
+public class StatusToastsUtils {
 
     public static void atHomeToast(Context context){
         CharSequence text = "You are at home";
