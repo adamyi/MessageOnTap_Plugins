@@ -1,10 +1,12 @@
-package edu.cmu.chimps.iamhome.RecyView;
+package edu.cmu.chimps.iamhome.SharedPrefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import edu.cmu.chimps.iamhome.RecyView.Contact;
 
 public class ContactStorage {
     public static final String KEY_FOR_USER_WIFI = "send_contacts ";

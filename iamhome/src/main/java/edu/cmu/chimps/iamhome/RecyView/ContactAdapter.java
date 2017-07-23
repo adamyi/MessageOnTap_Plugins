@@ -2,9 +2,11 @@ package edu.cmu.chimps.iamhome.RecyView;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,12 +22,14 @@ import edu.cmu.chimps.iamhome.R;
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     private List<Contact> mContactList;
     private Activity mActivity;
+    private Toolbar mToolbar;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View contactView;
         ImageView contactImage;
         TextView contactName;
         LinearLayout contactLayout;
+        CheckBox contactCheckBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -33,13 +37,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             contactLayout = itemView.findViewById(R.id.linearLayout);
             contactImage = itemView.findViewById(R.id.contact_image);
             contactName = itemView.findViewById(R.id.contact_name);
+            contactCheckBox = itemView.findViewById(R.id.contact_checkbox);
         }
     }
 
 
-    public ContactAdapter(List<Contact> mContactList, Activity activity) {
+    public ContactAdapter(List<Contact> mContactList, Activity activity, Toolbar toolbar) {
         this.mContactList = mContactList;
         this.mActivity = activity;
+        this.mToolbar = toolbar;
     }
 
     @Override
@@ -54,14 +60,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 Contact contact = mContactList.get(position);
                 if (SelectedItemCount()==0){
                     toggleFlag(contact);
-                    String title = " " + SelectedItemCount() + "selected";
-                    mActivity.setTitle(title);
+                    String title = " " + SelectedItemCount() + " selected";
+                    mToolbar.setSubtitle(title);
                 } else {
                     toggleFlag(contact);
                     String title = " " + SelectedItemCount() + " selected";
-                    mActivity.setTitle(title);
+                    mToolbar.setSubtitle(title);
                 }
                 SetSelection(holder, contact);
+
+
+
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();
             }
         });
@@ -102,8 +111,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public  void SetSelection(ViewHolder holder, Contact contact){
         if (contact.isFlag()){
             holder.contactLayout.setSelected(true);
+            holder.contactCheckBox.setChecked(true);
         }else {
             holder.contactLayout.setSelected(false);
+            holder.contactCheckBox.setChecked(false);
         }
     }
 

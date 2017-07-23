@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome;
+package edu.cmu.chimps.iamhome.utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-public class StatusToasts {
+import edu.cmu.chimps.iamhome.R;
+import edu.cmu.chimps.iamhome.services.notificationTriggerService;
+
+public class StatusToastsUtils {
 
     public static void atHomeToast(Context context){
         CharSequence text = "You are at home";
@@ -46,13 +49,13 @@ public class StatusToasts {
     }
     public static void createAthomeNoti(Context context){
         //setting yes action
-        Intent sendMessageServiceIntent= new Intent(context, SendMessageService.class);
-        sendMessageServiceIntent.setAction(SendMessageService.ACTION_SEND);
+        Intent sendMessageServiceIntent= new Intent(context, notificationTriggerService.class);
+        sendMessageServiceIntent.setAction(notificationTriggerService.ACTION_SEND);
         PendingIntent yesPendingIntent = PendingIntent
                 .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //setting no action
-        sendMessageServiceIntent = new Intent(context, SendMessageService.class);
+        sendMessageServiceIntent = new Intent(context, notificationTriggerService.class);
         PendingIntent noPendingIntent = PendingIntent
                 .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -72,7 +72,7 @@ public class Contact {
     }
     public TextDrawable getContactPicture(){
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound(String.valueOf(getFirstC()), Color.BLUE);
+                .buildRound(String.valueOf(getFirstC()), Color.GRAY);
         return drawable;
 
 

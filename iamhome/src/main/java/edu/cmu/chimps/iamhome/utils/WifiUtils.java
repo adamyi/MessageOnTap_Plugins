@@ -18,7 +18,7 @@ import java.util.Set;
 import edu.cmu.chimps.iamhome.AlarmReceiver;
 import edu.cmu.chimps.iamhome.IAmHomeSettingsActivity;
 import edu.cmu.chimps.iamhome.MyApplication;
-import edu.cmu.chimps.iamhome.StatusToasts;
+
 
 public class WifiUtils {
 

@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome;
+package edu.cmu.chimps.iamhome.services;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -10,15 +10,15 @@ import android.support.annotation.Nullable;
  * Created by wangyusen on 7/21/17.
  */
 
-public class SendMessageService extends IntentService{
+public class notificationTriggerService extends IntentService{
     public static final String ACTION_SEND = "ACTION_SEND";
-    public SendMessageService(String name) {
+    public notificationTriggerService(String name) {
         super(name);
     }
-    public SendMessageService(){
+    public notificationTriggerService(){
         super("");
-
     }
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
@@ -34,6 +34,8 @@ public class SendMessageService extends IntentService{
             if (action.equals(ACTION_SEND)) {
                 //the user press yes and confirm he is at home.
                 //// TODO: 7/21/17 send message to yuser
+                Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                this.sendBroadcast(closeNotificationDrawer);
                 Intent launchService = new Intent(this, ShareMessageService.class);
                 startService(launchService);
             }

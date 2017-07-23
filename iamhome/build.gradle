@@ -32,6 +32,9 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+    lintOptions{
+        disable 'RestricedApi'
+    }
 }
 
 dependencies {
@@ -44,7 +47,9 @@ dependencies {
     compile 'com.github.adamyi:MessageOnTap_API:v0.1.2'
     compile 'com.github.chentc:PrivacyStreams:v0.1.4.7'
     compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
+    compile 'com.android.support:design:26.+'
+   compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.imangazalievm:circlemenu:1.0.3'
     testCompile 'junit:junit:4.12'

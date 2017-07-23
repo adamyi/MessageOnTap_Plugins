@@ -1,51 +1,32 @@
 package edu.cmu.chimps.iamhome;
 
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.github.privacystreams.core.UQI;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 
-import edu.cmu.chimps.iamhome.RecyView.Contact;
-import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
-import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
-import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
-import static android.app.PendingIntent.getService;
+
+
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
+    private String sentText;
     IAmHomePlugin userstatus = new IAmHomePlugin();
-
-
 
     Intent circleIntent = new Intent();
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -62,10 +43,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         /**
          * Test whether the user is at home
          */
-        if(userstatus.isAtHome()){
+        if (userstatus.isAtHome()) {
             textView.setText("Welcome Home");
-        }
-        else{
+        } else {
             textView.setText("Not At Home");
         }
 
@@ -78,8 +58,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                  * Four buttons for actions;
                  */
 
-                if (menuButton == menuButton.findViewById(R.id.alert)  ) {
-                   circleIntent = new Intent(MyApplication.getContext(), ListActivity.class);
+                if (menuButton == menuButton.findViewById(R.id.alert)) {
+                    circleIntent = new Intent(MyApplication.getContext(), SelectContactActivity.class);
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
@@ -89,7 +69,27 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     }, 1170);
 
                 }
-                if(menuButton == menuButton.findViewById(R.id.edit)){
+                if (menuButton == menuButton.findViewById(R.id.search)) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
+                    dialog.setTitle("Reset Home Wifi");
+                    dialog.setMessage("Saved wifi will be replaced by the connected wifi");
+                    dialog.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Reset Wifi code here
+
+                        }
+                    });
+                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                            sendBroadcast(closeNotificationDrawer);
+                        }
+                    });
+                    dialog.show();
+                }
+                if (menuButton == menuButton.findViewById(R.id.favorite)) {
                     circleIntent = new Intent(MyApplication.getContext(), ListActivity.class);
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -99,25 +99,37 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                         }
                     }, 1170);
                 }
-                if(menuButton == menuButton.findViewById(R.id.favorite)){
-                    circleIntent = new Intent(MyApplication.getContext(), ListActivity.class);
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            startActivity(circleIntent);
-                        }
-                    }, 1170);
-                }
-                if(menuButton == menuButton.findViewById(R.id.search)){
-                    circleIntent = new Intent(MyApplication.getContext(), ListActivity.class);
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            startActivity(circleIntent);
-                        }
-                    }, 1170);
+                if (menuButton == menuButton.findViewById(R.id.edit)) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(MyApplication.getContext());
+                            builder.setTitle("Set message to send");
+                            final EditText input = new EditText(MyApplication.getContext());
+                            input.setInputType(InputType.TYPE_CLASS_TEXT);
+                            input.setHint(StringStorage.getMessage(getBaseContext()));
+
+                            input.setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View view) {
+                                    input.setHint(null);
+                                }
+                            });
+                            builder.setView(input);
+                            builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sentText = input.getText().toString();
+                                    StringStorage.storeMessage(IAmHomeSettingsActivity.this, sentText);
+                                }
+                            });
+                            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            builder.show();
+                            Log.i("diaglog", "ok");
                 }
 
 
@@ -127,7 +139,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
             @Override
             public void onMenuExpanded() {
-            Log.i("expaned","circle menu expanded");
+                Log.i("expaned", "circle menu expanded");
             }
 
             @Override
@@ -139,9 +151,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         });
 
 
-
-
-            //initialize contactlist from whatsapp
+        //initialize contactlist from whatsapp
 //        if (ContextCompat.checkSelfPermission(this,
 //                Manifest.permission.READ_CONTACTS)
 //                == PackageManager.PERMISSION_GRANTED) {
@@ -163,66 +173,81 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 //        sendNotice.setOnClickListener(this);
 //        whatsApp.setOnClickListener(this);
 
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return true;
+//    }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        ArrayList<String> savedContactList = new ArrayList<>();
-        for (int i = 0; i < Contact.contactList.size(); i++){
-            if (Contact.contactList.get(i).isFlag()){
-                savedContactList.add(Contact.contactList.get(i).getName());
-            }
+        switch (item.getItemId()) {
+            case R.id.set_contact:
+                Intent setContactIntent = new Intent(this, SelectContactActivity.class);
+                startActivity(setContactIntent);
+                //Toast.makeText(this, "set contact", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rest_wifi:
+                //Toast.makeText(this, "reset wifi", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Reset Home Wifi");
+                dialog.setMessage("Saved wifi will be replaced by the connected wifi");
+                dialog.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Reset Wifi code here
+
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                        sendBroadcast(closeNotificationDrawer);
+                    }
+                });
+                dialog.show();
+                break;
+            case R.id.ser_default_message:
+                //Toast.makeText(this, "set message", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Set message to send");
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setHint(StringStorage.getMessage(getBaseContext()));
+                input.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        input.setHint(null);
+                    }
+                });
+                builder.setView(input);
+                builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sentText = input.getText().toString();
+                        StringStorage.storeMessage(getBaseContext(), sentText);
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+                break;
+            default:
         }
-        //Toast.makeText(this, "Contacts saved" , Toast.LENGTH_SHORT).show();
-
-        Set<String> set = new HashSet<>(savedContactList);
-        ContactStorage.storeSendUsers(this, set);
-
         return true;
     }
 
+    @Override
+    public void onClick(View view) {
 
-
-    public void onClick(View v) {
-
-        Intent launchService = new Intent(this, ShareMessageService.class);
-
-        switch (v.getId()) {
-
-            case R.id.button_notice:
-                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                Notification notification = new NotificationCompat.Builder(this)
-                        .setContentTitle("You just arrived home!")
-                        .setContentText("Notify your contacts now!")
-                        .setWhen(System.currentTimeMillis())
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                        .setPriority(Notification.PRIORITY_MAX) //为什么不work????
-                        .setContentIntent(getService(this, 0, launchService, 0))
-                        .setAutoCancel(true)
-                        .build();
-                manager.notify(1, notification);
-                break;
-
-            case R.id.button_WhatsApp:
-                startService(launchService);
-                break;
-
-            default:
-                break;
-        }
     }
-
-
-
-
 }
 

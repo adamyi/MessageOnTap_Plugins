@@ -8,9 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.github.privacystreams.core.exceptions.PSException;
-
-import edu.cmu.chimps.iamhome.utils.WifiUtils;
+import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
 
 public class AlarmReceiver extends BroadcastReceiver{
     private static final int NOTIFICATION_ID = 1;

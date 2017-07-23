@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome;
+package edu.cmu.chimps.iamhome.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -20,7 +20,10 @@ import com.github.privacystreams.utils.AppUtils;
 
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
+import edu.cmu.chimps.iamhome.MyApplication;
+import edu.cmu.chimps.iamhome.NodeInfoListener;
+import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 
 public class ShareMessageService extends Service {
@@ -28,7 +31,6 @@ public class ShareMessageService extends Service {
     UQI uqi;
     String[] contactNames;
     Boolean clicked;
-    private static final String TERM_ARRIVED_HOME = "Hey, I just arrived my house!";
     private static final String CONTACT_RESOURCE_ID = "contactpicker_row_name";
 
     private NodeInfoListener nodeInfoListener;
@@ -91,7 +93,7 @@ public class ShareMessageService extends Service {
                     }
                 });
 
-        autoSelectUtils.autoLaunch(this, TERM_ARRIVED_HOME, AppUtils.APP_PACKAGE_WHATSAPP);
+        autoSelectUtils.autoLaunch(this, StringStorage.getMessage(getBaseContext()), AppUtils.APP_PACKAGE_WHATSAPP);
 
         return START_NOT_STICKY;
 

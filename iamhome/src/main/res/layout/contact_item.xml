@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:id="@+id/linearLayout"
-    android:background="@drawable/listitem_selector"
+    android:background="?attr/selectableItemBackground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/contact_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:padding="5dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/contact_name"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"/>
+        <CheckBox
+            android:id="@+id/contact_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:checked="false" />
+
+        <ImageView
+            android:id="@+id/contact_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:elevation="5dp"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/contact_name"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -21,31 +21,39 @@
         android:theme="@style/MyNoActionBarTheme">
         <!-- TODO: move the plugin along with title&description to a service and use activity only for settings -->
 
-        <service android:name=".SaveHomeWifiService"
+        <service android:name=".services.SaveHomeWifiService"
             android:exported="false"/>
-        <service android:name=".SendMessageService"
+        <service android:name=".services.notificationTriggerService"
             android:exported="false"/>
-        <service android:name=".ShareMessageService"
+        <service android:name=".services.ShareMessageService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
         <receiver android:name=".AlarmReceiver" />
-
-
         <activity android:name=".IAmHomeSettingsActivity"
             android:label="@string/plugin_title"
-            android:exported="true">
+            android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ListActivity"
             android:parentActivityName=".IAmHomeSettingsActivity" >
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IAmHomeSettingsActivity" />
+
         </activity>
+        <activity android:name=".SelectContactActivity"
+            android:parentActivityName=".IAmHomeSettingsActivity" >
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".IAmHomeSettingsActivity" />
+        </activity>
+
 
         <service android:name=".IAmHomePlugin"
             android:label="@string/plugin_title"
