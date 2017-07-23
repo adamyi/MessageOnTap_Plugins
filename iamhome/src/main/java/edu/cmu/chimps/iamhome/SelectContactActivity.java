@@ -52,7 +52,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setTitle("Select contacts to share");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.setSubtitle(Contact.SelectedItemCount() + " selected");
+        toolbar.setSubtitle(" "+Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.inflateMenu(R.menu.select);
 
@@ -79,7 +79,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                         } else {
                             ContactAdapter.SetAllSelction(true, recyclerView);
                         }
-                        toolbar.setSubtitle(Contact.SelectedItemCount() + " selected");
+                        toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                         Toast.makeText(getBaseContext(), "Select" , Toast.LENGTH_SHORT).show();
 
                 }
