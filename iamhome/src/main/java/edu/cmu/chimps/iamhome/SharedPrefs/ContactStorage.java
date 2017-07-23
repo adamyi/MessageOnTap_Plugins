@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.RecyView.Contact;
-
 public class ContactStorage {
     public static final String KEY_FOR_USER_WIFI = "send_contacts ";
     public static final String POSITION = "send_contacts_position";
@@ -23,15 +21,5 @@ public class ContactStorage {
         return pref.getStringSet(POSITION, new HashSet<String>());
     }
 
-    public static void InitSelection(Context context){
-        Set<String> set = ContactStorage.getContacts(context);
-        for (String str: set){
-            for (Contact contact: Contact.contactList){
-                if (str.equals(contact.getName())){
-                    contact.setFlag(true);
-                    //Toast.makeText(context, "selected completed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
+
 }

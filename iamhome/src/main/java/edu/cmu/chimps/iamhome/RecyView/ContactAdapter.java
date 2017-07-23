@@ -15,6 +15,9 @@ import java.util.List;
 
 import edu.cmu.chimps.iamhome.R;
 
+import static edu.cmu.chimps.iamhome.RecyView.Contact.SelectedItemCount;
+import static edu.cmu.chimps.iamhome.RecyView.Contact.toggleFlag;
+
 /**
  * Created by knight006 on 7/18/2017.
  */
@@ -42,9 +45,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
 
-    public ContactAdapter(List<Contact> mContactList, Activity activity, Toolbar toolbar) {
+    public ContactAdapter(List<Contact> mContactList, Toolbar toolbar) {
         this.mContactList = mContactList;
-        this.mActivity = activity;
         this.mToolbar = toolbar;
     }
 
@@ -90,23 +92,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return mContactList.size();
     }
 
-    public int SelectedItemCount(){
-        int count = 0;
-        for (int i=0; i<mContactList.size(); i++){
-            if (mContactList.get(i).isFlag()){
-                count++;
-            }
-        }
-        return count;
-    }
 
-    public void toggleFlag(Contact contact){
-        if (contact.isFlag()){
-            contact.setFlag(false);
-        } else {
-            contact.setFlag(true);
-        }
-    }
 
     public  void SetSelection(ViewHolder holder, Contact contact){
         if (contact.isFlag()){
