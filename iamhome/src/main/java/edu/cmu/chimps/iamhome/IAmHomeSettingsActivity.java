@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
+
 public class IAmHomeSettingsActivity extends AppCompatActivity {
 
     private String sentText;

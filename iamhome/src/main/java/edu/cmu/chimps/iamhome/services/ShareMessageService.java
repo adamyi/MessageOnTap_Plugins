@@ -22,8 +22,8 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.NodeInfoListener;
-import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
-import edu.cmu.chimps.iamhome.StringStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 
 public class ShareMessageService extends Service {

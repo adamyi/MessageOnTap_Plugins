@@ -40,7 +40,7 @@
 
         <service android:name=".services.SaveHomeWifiService"
             android:exported="false"/>
-        <service android:name=".services.SendMessageService"
+        <service android:name=".services.notificationTriggerService"
             android:exported="false"/>
         <service android:name=".services.ShareMessageService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />

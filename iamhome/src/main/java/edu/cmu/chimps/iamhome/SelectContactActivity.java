@@ -22,7 +22,7 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
-import edu.cmu.chimps.iamhome.RecyView.ContactStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
 import static android.app.PendingIntent.getService;
