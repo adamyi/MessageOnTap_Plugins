@@ -12,23 +12,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
-import static com.mashape.unirest.http.HttpMethod.HEAD;
-
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private String sentText;
@@ -43,6 +47,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
         setContentView(R.layout.welcome_page);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 
 
         if (userstatus.isAtHome()) {
@@ -51,10 +58,15 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         } else {
             Drawable drawable = getDrawable(R.drawable.ic_home_black_24dp);
             imageView.setImageDrawable(drawable);
-
         }
 
         final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
+
+        if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
+            Toast.makeText(MyApplication.getContext(), "Welcome to use I AM HOME Plugin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyApplication.getContext(), "Please set up the sharing list before using the service", Toast.LENGTH_SHORT).show();
+            StringStorage.storeMessage(MyApplication.getContext(), "");
+        } else { Toast.makeText(MyApplication.getContext(), "Welcome back", Toast.LENGTH_SHORT).show(); }
 
         circleMenu.setOnItemClickListener(new CircleMenu.OnItemClickListener() {
             @Override
@@ -130,8 +142,14 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
+                                Toast.makeText(MyApplication.getContext(), "Since it's your first time, please set up the sending list", Toast.LENGTH_LONG).show();
+                                Intent launchActivity = new Intent(MyApplication.getContext(), SelectContactActivity.class);
+                                MyApplication.getContext().startActivity(launchActivity);
+                            } else {
                                 Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                                 startService(launchService);
+                            }
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
