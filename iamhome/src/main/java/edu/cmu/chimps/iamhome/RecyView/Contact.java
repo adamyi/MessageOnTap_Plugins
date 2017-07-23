@@ -1,9 +1,7 @@
 package edu.cmu.chimps.iamhome.RecyView;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.provider.ContactsContract;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.github.privacystreams.core.Item;
@@ -13,6 +11,9 @@ import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 
 /**
  * Created by knight006 on 7/18/2017.
@@ -92,6 +93,18 @@ public class Contact {
             }
         }
         return savedContactList;
+    }
+
+    public static void InitSelection(Context context){
+        Set<String> set = ContactStorage.getContacts(context);
+        for (String str: set){
+            for (Contact contact: Contact.contactList){
+                if (str.equals(contact.getName())){
+                    contact.setFlag(true);
+                    //Toast.makeText(context, "selected completed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
 }
