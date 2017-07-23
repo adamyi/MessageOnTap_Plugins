@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,8 +59,6 @@ public class SelectContactActivity extends AppCompatActivity {
 
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
 
-                Set<String> set = new HashSet<String>(Contact.getSavedContactList());
-                ContactStorage.storeSendUsers(getBaseContext(), set);
                 onBackPressed();
             }
         });
@@ -102,27 +99,7 @@ public class SelectContactActivity extends AppCompatActivity {
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
-
-
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ArrayList<String> savedContactList = new ArrayList<>();
-        for (int i = 0; i < Contact.contactList.size(); i++){
-            if (Contact.contactList.get(i).isFlag()){
-                savedContactList.add(Contact.contactList.get(i).getName());
-            }
-        }
-        //Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
-
-        Set<String> set = new HashSet<>(savedContactList);
-        ContactStorage.storeSendUsers(this, set);
-
-        return true;
-    }
-
 
 
  }
