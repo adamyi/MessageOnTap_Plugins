@@ -8,27 +8,20 @@
     android:theme="@android:style/Theme.Black.NoTitleBar"
     android:weightSum="1">
 
-    <TextView
-        android:id="@+id/athomeView"
-        android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"
-        android:textStyle="bold" />
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         app:srcCompat="@drawable/ic_home" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="82dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Connected WIFI:"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/colorwhite"
         android:textStyle="bold|italic" />
@@ -36,7 +29,7 @@
     <com.imangazaliev.circlemenu.CircleMenu
         android:id="@+id/circleMenu"
         android:layout_width="match_parent"
-        android:layout_height="303dp"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true">
 
         <com.imangazaliev.circlemenu.CircleMenuButton
@@ -61,8 +54,10 @@
             android:layout_height="wrap_content"
             app:colorNormal="#F44336"
             app:colorPressed="#E53935"
+
             app:icon="@drawable/ic_favorite"
             />
+
 
         <com.imangazaliev.circlemenu.CircleMenuButton
             android:id="@+id/search"

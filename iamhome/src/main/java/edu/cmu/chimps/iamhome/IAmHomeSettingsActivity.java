@@ -43,14 +43,14 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.welcome_page);
 
 //        setTitle("Select Contacts");
-        TextView textView = (TextView) findViewById(R.id.athomeView);
+
         /**
          * Test whether the user is at home
          */
         if (userstatus.isAtHome()) {
-            textView.setText("Welcome Home");
+
         } else {
-            textView.setText("Not At Home");
+
         }
 
         final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
