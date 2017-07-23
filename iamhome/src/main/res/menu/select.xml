@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/checkMark"
-        android:title="check"
+        android:id="@+id/selectAll"
+        android:title="selectAll"
         android:icon="@drawable/ic_action_check"
 
         app:showAsAction="always" />

@@ -77,6 +77,12 @@ public class Contact {
         return count;
     }
 
+    public  static void SetAllFlag(Boolean flag){
+        for (int i = 0; i < contactList.size(); i++) {
+            contactList.get(i).setFlag(flag);
+        }
+    }
+
     public static void toggleFlag(Contact contact){
         if (contact.isFlag()){
             contact.setFlag(false);

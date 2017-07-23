@@ -3,6 +3,7 @@ package edu.cmu.chimps.iamhome.RecyView;
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-
         holder.contactView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +101,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }else {
             holder.contactLayout.setSelected(false);
             holder.contactCheckBox.setChecked(false);
+        }
+    }
+
+    public static void SetAllSelction(Boolean selection, RecyclerView recyclerView){
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            Contact.SetAllFlag(selection);
+            holder.contactLayout.setSelected(selection);
+            holder.contactCheckBox.setChecked(selection);
+            Log.i("iiii", "SetAllSelction: ");
         }
     }
 
