@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
@@ -32,6 +33,7 @@ import static android.app.PendingIntent.getService;
 public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
+    RecyclerView recyclerView;
 
     @Override
     public void onBackPressed() {
@@ -52,8 +54,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.setSubtitle(Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
-
-        //toolbar.inflateMenu(R.menu.select);
+        toolbar.inflateMenu(R.menu.select);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,29 +67,27 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
             }
         });
-        /*
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
                 switch (menuItemId){
-                    case R.id.checkMark:
-                        ArrayList<String> savedContactList = new ArrayList<>();
-                        for (int i = 0; i < Contact.contactList.size(); i++){
-                            if (Contact.contactList.get(i).isFlag()){
-                                savedContactList.add(Contact.contactList.get(i).getName());
-                            }
+                    case R.id.selectAll:
+                        if (Contact.SelectedItemCount() == Contact.contactList.size()){
+                            ContactAdapter.SetAllSelction(false, recyclerView);
+                        } else {
+                            ContactAdapter.SetAllSelction(true, recyclerView);
                         }
-                        Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
+                        toolbar.setSubtitle(Contact.SelectedItemCount() + " selected");
+                        Toast.makeText(getBaseContext(), "Select" , Toast.LENGTH_SHORT).show();
 
-                        Set<String> set = new HashSet<>(savedContactList);
-                        ContactStorage.storeSendUsers(getBaseContext(), set);
                 }
 
                 return true;
             }
         });
-        */
+
 
         //initialize contactlist from whatsapp
         try {
@@ -98,7 +97,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         }
         Contact.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -160,5 +159,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         }
 
     }
+
+
  }
 
