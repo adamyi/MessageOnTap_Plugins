@@ -3,6 +3,7 @@ package edu.cmu.chimps.iamhome;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -16,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.privacystreams.core.exceptions.PSException;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import java.util.Timer;
@@ -24,9 +27,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
-
-
-
+import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -79,10 +80,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Reset Home Wifi");
                     dialog.setMessage("Saved wifi will be replaced by the connected wifi");
-                    dialog.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                    dialog.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Reset Wifi code here
+                             new LongOperation().execute("");
 
                         }
                     });
@@ -156,28 +158,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
         });
 
-
-        //initialize contactlist from whatsapp
-//        if (ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.READ_CONTACTS)
-//                == PackageManager.PERMISSION_GRANTED) {
-//
-//        Contact.contactList = Contact.getWhatsAppContacts(this);
-//        ContactStorage.InitSelection(this);
-//        ContactAdapter adapter = new ContactAdapter(Contact.contactList, IAmHomeSettingsActivity.this);
-//        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);}
-//
-//        //set the alarm
-////        AlarmUtils.setAlarm(this, 14,20,00);
-//        startService(new Intent(this, IAmHomePlugin.class));
-//
-//        Button sendNotice = (Button) findViewById(R.id.button_notice);
-//        Button whatsApp = (Button) findViewById(R.id.button_WhatsApp);
-//        sendNotice.setOnClickListener(this);
-//        whatsApp.setOnClickListener(this);
+        startService(new Intent(this, IAmHomePlugin.class));
 
     }
 
@@ -187,7 +168,18 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 //        return true;
 //    }
 
+    private class LongOperation extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                WifiUtils.storeUsersHomeWifi(MyApplication.getContext());
+            } catch (PSException e) {
+                e.printStackTrace();
+            }
+            return "Executed";
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
