@@ -1,8 +1,11 @@
 package edu.cmu.chimps.iamhome.utils;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -12,13 +15,20 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class AutoSelectUtils {
 
+    public static boolean hasAccPermission(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
     public void autoLaunch(Context context, String message, String packageName) {
         Intent autoLaunchIntent = new Intent();
         autoLaunchIntent.setAction(Intent.ACTION_SEND);
         autoLaunchIntent.setType("text/plain");
         autoLaunchIntent.putExtra(Intent.EXTRA_TEXT, message);
         autoLaunchIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-        if (packageName != null) { autoLaunchIntent.setPackage(packageName); }
+        if (packageName != null) {
+            autoLaunchIntent.setPackage(packageName);
+        }
         context.startActivity(autoLaunchIntent);
     }
 
@@ -27,7 +37,6 @@ public class AutoSelectUtils {
         boolean clicked = false;
 
         Log.e("hi", Integer.toString(inputNameList.length));
-
         for (String name : inputNameList) {
             List<AccessibilityNodeInfo> matchedList = selectingView.findAccessibilityNodeInfosByText(name);
 
@@ -41,8 +50,7 @@ public class AutoSelectUtils {
                         clicked = true;
                     }
                 } while (!ro.isClickable());
-            }
-            else {
+            } else {
                 Log.e("Warning", "No matched");
             }
         }
@@ -55,5 +63,4 @@ public class AutoSelectUtils {
         }
         return clicked;
     }
-
 }

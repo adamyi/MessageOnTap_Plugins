@@ -31,7 +31,8 @@
         <receiver android:name=".AlarmReceiver" />
         <activity android:name=".IAmHomeSettingsActivity"
             android:label="@string/plugin_title"
-            android:theme="@style/MyNoActionBarTheme">
+            android:theme="@style/MyNoActionBarTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,7 +40,8 @@
         </activity>
 
         <activity android:name=".ListActivity"
-            android:parentActivityName=".IAmHomeSettingsActivity" >
+            android:parentActivityName=".IAmHomeSettingsActivity"
+            android:screenOrientation="portrait">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
