@@ -84,7 +84,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Reset Wifi code here
-                             new LongOperation().execute("");
+                             new LongOperation().execute(" ");
 
                         }
                     });
@@ -160,6 +160,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
         startService(new Intent(this, IAmHomePlugin.class));
 
+
     }
 
 //    @Override
@@ -174,6 +175,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         protected String doInBackground(String... params) {
             try {
                 WifiUtils.storeUsersHomeWifi(MyApplication.getContext());
+                Log.i("test", "stored");
+                Log.i("get", String.valueOf(WifiUtils.getUsersHomeWifiList(MyApplication.getContext())));
             } catch (PSException e) {
                 e.printStackTrace();
             }
