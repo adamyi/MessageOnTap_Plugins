@@ -49,7 +49,9 @@
 
         </activity>
         <activity android:name=".SelectContactActivity"
+            android:theme="@style/MyNoActionBarTheme"
             android:parentActivityName=".IAmHomeSettingsActivity" >
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
