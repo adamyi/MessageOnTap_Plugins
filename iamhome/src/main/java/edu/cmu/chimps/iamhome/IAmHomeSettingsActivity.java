@@ -13,6 +13,8 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,9 +34,6 @@ import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
-import static edu.cmu.chimps.iamhome.R.id.circleMenu;
-
-
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private String sentText;
     IAmHomePlugin userstatus = new IAmHomePlugin();
@@ -48,6 +47,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
         setContentView(R.layout.welcome_page);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 
 
         if (userstatus.isAtHome()) {
