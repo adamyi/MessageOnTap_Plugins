@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import edu.cmu.chimps.iamhome.R;
-import edu.cmu.chimps.iamhome.services.NotificationTriggerService;
+import edu.cmu.chimps.iamhome.services.notificationTriggerService;
 
 public class StatusToastsUtils {
 
@@ -49,13 +49,13 @@ public class StatusToastsUtils {
     }
     public static void createAthomeNoti(Context context){
         //setting yes action
-        Intent sendMessageServiceIntent= new Intent(context, NotificationTriggerService.class);
-        sendMessageServiceIntent.setAction(NotificationTriggerService.ACTION_SEND);
+        Intent sendMessageServiceIntent= new Intent(context, notificationTriggerService.class);
+        sendMessageServiceIntent.setAction(notificationTriggerService.ACTION_SEND);
         PendingIntent yesPendingIntent = PendingIntent
                 .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //setting no action
-        sendMessageServiceIntent = new Intent(context, NotificationTriggerService.class);
+        sendMessageServiceIntent = new Intent(context, notificationTriggerService.class);
         PendingIntent noPendingIntent = PendingIntent
                 .getService(context.getApplicationContext(), 0, sendMessageServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
