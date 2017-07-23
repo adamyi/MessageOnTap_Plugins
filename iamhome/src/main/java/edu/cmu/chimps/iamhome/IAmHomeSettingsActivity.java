@@ -9,6 +9,8 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.imangazaliev.circlemenu.CircleMenu;
@@ -33,6 +35,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Remove title bar
+
 //        ActivityCompat.requestPermissions(this,
 //                new String[]{Manifest.permission.READ_CONTACTS},
 //               0);
@@ -58,7 +62,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                  * Four buttons for actions;
                  */
 
-                if (menuButton == menuButton.findViewById(R.id.alert)) {
+                if (menuButton == menuButton.findViewById(R.id.explorer)) {
 
 
                 }

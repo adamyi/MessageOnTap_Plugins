@@ -31,7 +31,7 @@
         <receiver android:name=".AlarmReceiver" />
         <activity android:name=".IAmHomeSettingsActivity"
             android:label="@string/plugin_title"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/MyNoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
