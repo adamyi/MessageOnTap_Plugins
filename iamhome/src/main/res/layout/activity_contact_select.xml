@@ -33,22 +33,7 @@
             android:text="Test send MessageData"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="120dp"
-            android:layout_marginRight="30dp"
-            android:src="@drawable/ic_action_send"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabCheck"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="30dp"
-            android:src="@drawable/ic_action_check"/>
+        <include layout="@layout/item_fab" />
 
 
     </android.support.design.widget.CoordinatorLayout>
