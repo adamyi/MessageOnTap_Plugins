@@ -21,11 +21,11 @@ import com.github.privacystreams.utils.AppUtils;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
-import edu.cmu.chimps.iamhome.NodeInfoListener;
+import edu.cmu.chimps.iamhome.listeners.NodeInfoListener;
 import edu.cmu.chimps.iamhome.SelectContactActivity;
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 
 public class ShareMessageService extends Service {

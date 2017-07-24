@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome.RecyView;
+package edu.cmu.chimps.iamhome.views;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 
 /**
  * Created by knight006 on 7/18/2017.

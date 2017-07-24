@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome.RecyView;
+package edu.cmu.chimps.iamhome.views;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +17,10 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.R;
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 
-import static edu.cmu.chimps.iamhome.RecyView.Contact.SelectedItemCount;
-import static edu.cmu.chimps.iamhome.RecyView.Contact.toggleFlag;
+import static edu.cmu.chimps.iamhome.views.Contact.SelectedItemCount;
+import static edu.cmu.chimps.iamhome.views.Contact.toggleFlag;
 
 /**
  * Created by knight006 on 7/18/2017.

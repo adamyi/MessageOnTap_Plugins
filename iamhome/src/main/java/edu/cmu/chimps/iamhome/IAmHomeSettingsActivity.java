@@ -1,10 +1,8 @@
 package edu.cmu.chimps.iamhome;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,8 +41,8 @@ import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
 import java.util.Timer;
 import java.util.TimerTask;
-import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 

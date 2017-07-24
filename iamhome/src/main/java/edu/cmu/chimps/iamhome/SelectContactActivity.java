@@ -21,10 +21,10 @@ import com.github.privacystreams.core.exceptions.PSException;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.RecyView.Contact;
-import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.views.Contact;
+import edu.cmu.chimps.iamhome.views.ContactAdapter;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
 
@@ -171,20 +171,6 @@ public class SelectContactActivity extends AppCompatActivity {
 //        FloatingActionButton fabSend  = (FloatingActionButton) findViewById(R.id.fabSend);
 //        fabCheck.setOnClickListener(this);
 //        fabSend.setOnClickListener(this);
-        /*
-        Fab fab = (Fab) findViewById(R.id.fab);
-        View sheetView = findViewById(R.id.fab_sheet);
-        View overlay = findViewById(R.id.overlay);
-        int sheetColor = getResources().getColor(R.color.colorAccent);
-        int fabColor = getResources().getColor(R.color.colorPrimary);
-
-        // Initialize material sheet FAB
-        MaterialSheetFab materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay,
-                sheetColor, fabColor);
-
-        this.findViewById(R.id.fab_sheet_item_01).setOnClickListener(this);
-        this.findViewById(R.id.fab_sheet_item_02).setOnClickListener(this);
-        */
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
