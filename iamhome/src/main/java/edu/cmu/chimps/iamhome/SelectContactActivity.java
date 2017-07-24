@@ -1,14 +1,10 @@
 package edu.cmu.chimps.iamhome;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,23 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
-import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
-import static android.app.PendingIntent.getService;
-
-public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
+public class SelectContactActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     RecyclerView recyclerView;
@@ -41,6 +32,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     public void onBackPressed() {
         Set<String> set = new HashSet<>(Contact.getSavedContactList());
         ContactStorage.storeSendUsers(getBaseContext(), set);
+        Toast.makeText(this, "Contacts Saved", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
     }
 
@@ -59,7 +51,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.setSubtitle(" "+Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.inflateMenu(R.menu.select);
+        toolbar.inflateMenu(R.menu.selectall);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +59,6 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
 
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
 
-                Set<String> set = new HashSet<String>(Contact.getSavedContactList());
-                ContactStorage.storeSendUsers(getBaseContext(), set);
                 onBackPressed();
             }
         });
@@ -109,60 +99,6 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
-
-        Button sendNotice = (Button) findViewById(R.id.button_notice);
-        Button whatsApp = (Button) findViewById(R.id.button_WhatsApp);
-        sendNotice.setOnClickListener(this);
-        whatsApp.setOnClickListener(this);
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ArrayList<String> savedContactList = new ArrayList<>();
-        for (int i = 0; i < Contact.contactList.size(); i++){
-            if (Contact.contactList.get(i).isFlag()){
-                savedContactList.add(Contact.contactList.get(i).getName());
-            }
-        }
-        //Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
-
-        Set<String> set = new HashSet<>(savedContactList);
-        ContactStorage.storeSendUsers(this, set);
-
-        return true;
-    }
-
-
-    public void onClick(View v) {
-
-        Intent launchService = new Intent(this, ShareMessageService.class);
-
-        switch (v.getId()) {
-
-            case R.id.button_notice:
-                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                Notification notification = new NotificationCompat.Builder(this)
-                        .setContentTitle("You just arrived home!")
-                        .setContentText("Notify your contacts now!")
-                        .setWhen(System.currentTimeMillis())
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                        .setContentIntent(getService(this, 0, launchService, 0))
-                        .setAutoCancel(true)
-                        .build();
-                manager.notify(1, notification);
-                break;
-
-            case R.id.button_WhatsApp:
-                startService(launchService);
-                break;
-
-            default:
-                break;
-        }
-
     }
 
 

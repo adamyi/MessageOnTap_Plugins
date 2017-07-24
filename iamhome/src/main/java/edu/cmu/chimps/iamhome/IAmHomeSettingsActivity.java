@@ -28,12 +28,9 @@ import com.github.privacystreams.device.WifiAp;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
@@ -77,8 +74,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
             Toast.makeText(MyApplication.getContext(), "Welcome to use I AM HOME Plugin", Toast.LENGTH_SHORT).show();
-            Toast.makeText(MyApplication.getContext(), "Please set up the sharing list before using the service", Toast.LENGTH_SHORT).show();
-            StringStorage.storeMessage(MyApplication.getContext(), "");
+            StringStorage.storeMessage(MyApplication.getContext(), "", true);
         } else { Toast.makeText(MyApplication.getContext(), "Welcome back", Toast.LENGTH_SHORT).show(); }
 
         circleMenu.setOnItemClickListener(new CircleMenu.OnItemClickListener() {
@@ -136,7 +132,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             sentText = input.getText().toString();
-                            StringStorage.storeMessage(IAmHomeSettingsActivity.this, sentText);
+                            StringStorage.storeMessage(IAmHomeSettingsActivity.this, sentText, false);
                         }
                     });
                     builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
