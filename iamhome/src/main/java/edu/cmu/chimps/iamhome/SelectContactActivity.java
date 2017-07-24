@@ -1,15 +1,12 @@
 package edu.cmu.chimps.iamhome;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,13 +25,11 @@ import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
 
-public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
+public class SelectContactActivity extends AppCompatActivity {
 
-    Set<String> permanentSet;
     private int BackPressedCount;
     Toast updatableToast;
 
@@ -42,12 +37,16 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     public void onBackPressed() {
 
         if (BackPressedCount == 0) {
-            if (updatableToast != null) { updatableToast.cancel(); }
+            if (updatableToast != null) {
+                updatableToast.cancel();
+            }
             updatableToast = Toast.makeText(SelectContactActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT);
             updatableToast.show();
             BackPressedCount++;
         } else if (BackPressedCount == 1) {
-            if (updatableToast != null) { updatableToast.cancel(); }
+            if (updatableToast != null) {
+                updatableToast.cancel();
+            }
             updatableToast = Toast.makeText(SelectContactActivity.this, "Change canceled", Toast.LENGTH_SHORT);
             updatableToast.show();
             super.onBackPressed();
@@ -81,7 +80,6 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
@@ -108,6 +106,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                                         @Override
                                         public void onClick(View view) {
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
+                                            toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
                                     });
 
@@ -129,6 +128,8 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         }
         Contact.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
+
+        //Initialize UI
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -179,39 +180,6 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
     }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab_sheet_item_02:
-                super.onBackPressed();
-                break;
-            case R.id.fab_sheet_item_01:
-                AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(SelectContactActivity.this, R.style.myDialog));
-                dialog.setTitle("Send message now!");
-                dialog.setMessage("Send your message: \n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n to your friends!");
-                dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                        ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.STORAGE);
-                        Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
-                        startService(launchService);
-                    }
-                });
-                dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-                        MyApplication.getContext().sendBroadcast(closeNotificationDrawer);
-                    }
-                });
-                dialog.show();
-                break;
-        }
-    }
-
 
 }
 
