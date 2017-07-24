@@ -112,6 +112,7 @@ public class SelectContactActivity extends AppCompatActivity {
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            Contact.InitSelection(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
                                             toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
@@ -133,7 +134,7 @@ public class SelectContactActivity extends AppCompatActivity {
         } catch (PSException e) {
             e.printStackTrace();
         }
-        Contact.InitSelection(this);
+        Contact.InitSelection(this, ContactStorage.STORAGE);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
 
         //Initialize UI

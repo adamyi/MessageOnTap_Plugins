@@ -118,6 +118,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     
     public static void SetAllSavedSelection(RecyclerView recyclerView){
         Set<String> set = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.ALLSELECTSTORAGE);
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            holder.contactLayout.setSelected(false);
+            holder.contactCheckBox.setChecked(false);
+        }
         Log.i("iiii", "SetAllSavedSelection: enter");
         if (set.size() == 0){
             SetAllSelection(false,recyclerView);
@@ -127,11 +132,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                     Log.i("iiii", "SetAllSavedSelection: "+holder.contactName.getText());
-                    Contact.SetAllFlag(false);
-                    holder.contactLayout.setSelected(false);
-                    holder.contactCheckBox.setChecked(false);
                     if (str == holder.contactName.getText()){
-                        Contact.SetAllFlag(true);
                         holder.contactLayout.setSelected(true);
                         holder.contactCheckBox.setChecked(true);
                     }
