@@ -66,16 +66,16 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
             Drawable drawable = getDrawable(R.drawable.ic_work_black_24dp);
             imageView.setImageDrawable(drawable);
         } else {
-            Drawable drawable = getDrawable(R.drawable.ic_home_black_24dp);
+            Drawable drawable = getDrawable(R.drawable.ic_home_white_24px);
             imageView.setImageDrawable(drawable);
         }
 
         final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
 
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
-            Toast.makeText(MyApplication.getContext(), "Welcome to use I AM HOME Plugin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
-        } else { Toast.makeText(MyApplication.getContext(), "Welcome back", Toast.LENGTH_SHORT).show(); }
+        }
 
         circleMenu.setOnItemClickListener(new CircleMenu.OnItemClickListener() {
             @Override
@@ -88,14 +88,14 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Reset Home Wifi");
                     dialog.setMessage("Saved wifi will be replaced by the connected wifi");
-                    dialog.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                    dialog.setPositiveButton("RESET TO CURRENT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Reset Wifi code here
                             new LongOperation().execute(" ");
                         }
                     });
-                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
@@ -146,8 +146,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                 }
                 if (menuButton == menuButton.findViewById(R.id.explorer)) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
-                    dialog.setTitle("Send message now!");
-                    dialog.setMessage("Send your message: \n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n to your friends!");
+                    dialog.setTitle("Send message");
+                    dialog.setMessage("Send your message to your friends!" + "\n\nCurrent message:\n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n");
                     dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

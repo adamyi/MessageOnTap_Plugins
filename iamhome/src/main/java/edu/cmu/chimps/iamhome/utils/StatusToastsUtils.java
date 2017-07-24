@@ -61,7 +61,7 @@ public class StatusToastsUtils {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_home)
+                        .setSmallIcon(R.drawable.ic_home_white_24px)
                         .setContentTitle(context.getResources().getString(R.string.app_name))
                         .setContentText("Do you want to send At Home Messgage to your selected friend")
                         .setDefaults(Notification.DEFAULT_ALL)

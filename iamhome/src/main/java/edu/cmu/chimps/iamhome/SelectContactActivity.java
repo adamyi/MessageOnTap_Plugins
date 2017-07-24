@@ -16,12 +16,17 @@ import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+
+<<<<<<<HEAD
+        =======
+        >>>>>>>3b3ce5abc95956b9c1a861c76a6d290e9011139a
 
 public class SelectContactActivity extends AppCompatActivity {
 
@@ -75,10 +80,8 @@ public class SelectContactActivity extends AppCompatActivity {
                             ContactAdapter.SetAllSelction(true, recyclerView);
                         }
                         toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
-                        Toast.makeText(getBaseContext(), "Select" , Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(getBaseContext(), "Select All" , Toast.LENGTH_SHORT).show();
                 }
-
                 return true;
             }
         });
@@ -102,5 +105,21 @@ public class SelectContactActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        ArrayList<String> savedContactList = new ArrayList<>();
+        for (int i = 0; i < Contact.contactList.size(); i++){
+            if (Contact.contactList.get(i).isFlag()){
+                savedContactList.add(Contact.contactList.get(i).getName());
+            }
+        }
+        //Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
+
+        Set<String> set = new HashSet<>(savedContactList);
+        ContactStorage.storeSendUsers(this, set);
+
+        return true;
+    }
+    }
  }
 
