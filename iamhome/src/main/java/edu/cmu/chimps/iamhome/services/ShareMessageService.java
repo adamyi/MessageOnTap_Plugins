@@ -90,7 +90,7 @@ public class ShareMessageService extends Service {
                 });
 
         if (ContactStorage.getContacts(MyApplication.getContext()).size() == 0) {
-            Toast.makeText(this, "Set default select list first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Set list to send", Toast.LENGTH_SHORT).show();
             FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), true);
 
             Intent launchActivity = new Intent(MyApplication.getContext(), SelectContactActivity.class);
