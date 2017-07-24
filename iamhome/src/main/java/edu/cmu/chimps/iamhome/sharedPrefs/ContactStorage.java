@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ContactStorage {
-    public static final String KEY_FOR_USER_WIFI = "send_contacts ";
     public static final String POSITION = "send_contacts_position";
     public static final String STORAGE = "save_contacts_file";
     public static final String ALLSELECTSTORAGE = "save_contacts_file";

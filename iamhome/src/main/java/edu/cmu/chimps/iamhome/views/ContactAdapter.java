@@ -1,6 +1,5 @@
 package edu.cmu.chimps.iamhome.views;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,7 +27,6 @@ import static edu.cmu.chimps.iamhome.views.Contact.toggleFlag;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     private List<Contact> mContactList;
-    private Activity mActivity;
     private Toolbar mToolbar;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -73,9 +71,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     mToolbar.setSubtitle(title);
                 }
                 SetSelection(holder, contact);
-
-
-
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();
             }
         });
@@ -96,7 +91,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
 
-    public  void SetSelection(ViewHolder holder, Contact contact){
+    public  static void SetSelection(ViewHolder holder, Contact contact){
         if (contact.isFlag()){
             holder.contactLayout.setSelected(true);
             holder.contactCheckBox.setChecked(true);
