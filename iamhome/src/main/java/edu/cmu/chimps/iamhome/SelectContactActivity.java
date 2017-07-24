@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +33,13 @@ import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
 public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
 
+    @Override
+    public void onBackPressed() {
+        Set<String> set = new HashSet<>(Contact.getSavedContactList());
+        ContactStorage.storeSendUsers(getBaseContext(), set);
+        Toast.makeText(SelectContactActivity.this, "Contacts Saved", Toast.LENGTH_SHORT).show();
+        super.onBackPressed();
+    }
 
     Toolbar toolbar;
     RecyclerView recyclerView;
@@ -122,10 +128,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.fab_sheet_item_02:
-                Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                ContactStorage.storeSendUsers(getBaseContext(), set);
-                Toast.makeText(SelectContactActivity.this, "Contacts Saved", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                super.onBackPressed();
                 break;
             case R.id.fab_sheet_item_01:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(SelectContactActivity.this, R.style.myDialog));
@@ -153,21 +156,6 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ArrayList<String> savedContactList = new ArrayList<>();
-        for (int i = 0; i < Contact.contactList.size(); i++) {
-            if (Contact.contactList.get(i).isFlag()) {
-                savedContactList.add(Contact.contactList.get(i).getName());
-            }
-        }
-        //Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
-
-        Set<String> set = new HashSet<>(savedContactList);
-        ContactStorage.storeSendUsers(this, set);
-
-        return true;
-    }
 
 
     }
