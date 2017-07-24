@@ -24,9 +24,7 @@ import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 
-<<<<<<<HEAD
-        =======
-        >>>>>>>3b3ce5abc95956b9c1a861c76a6d290e9011139a
+
 
 public class SelectContactActivity extends AppCompatActivity {
 
@@ -104,7 +102,6 @@ public class SelectContactActivity extends AppCompatActivity {
         startService(new Intent(this, IAmHomePlugin.class));
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         ArrayList<String> savedContactList = new ArrayList<>();
@@ -121,5 +118,5 @@ public class SelectContactActivity extends AppCompatActivity {
         return true;
     }
     }
- }
+
 

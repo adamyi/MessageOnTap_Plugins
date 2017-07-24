@@ -27,6 +27,7 @@ allprojects {
                 password = "${yiadam_jfrog_password}"
             }
         }
+        maven { url "https://jitpack.io" }
     }
 }
 
