@@ -51,6 +51,13 @@ public class SelectContactActivity extends AppCompatActivity {
             updatableToast.show();
             super.onBackPressed();
         } else {
+            Set<String> set = new HashSet<>(Contact.getSavedContactList());
+            ContactStorage.storeSendUsers(SelectContactActivity.this, set, ContactStorage.STORAGE);
+            if (updatableToast != null) {
+                updatableToast.cancel();
+            }
+            updatableToast = Toast.makeText(SelectContactActivity.this, "Contacts saved", Toast.LENGTH_SHORT);
+            updatableToast.show();
             super.onBackPressed();
         }
 
