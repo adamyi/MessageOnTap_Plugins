@@ -101,8 +101,15 @@ public class Contact {
         return savedContactList;
     }
 
-    public static void InitSelection(Context context){
-        Set<String> set = ContactStorage.getContacts(context, ContactStorage.STORAGE);
+    public static void InitSelection(Context context, String filename){
+        Set<String> set = ContactStorage.getContacts(context, filename);
+        if (set.size() == 0){
+            SetAllFlag(false);
+        }
+        for (Contact contact: Contact.contactList){
+                contact.setFlag(false);
+                //Toast.makeText(context, "selected completed", Toast.LENGTH_SHORT).show();
+        }
         for (String str: set){
             for (Contact contact: Contact.contactList){
                 if (str.equals(contact.getName())){
