@@ -131,6 +131,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                 }
                             })
                             .start();
+                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                 }
             }
         });
