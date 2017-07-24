@@ -20,9 +20,7 @@ import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import android.widget.LinearLayout;
-
 import android.widget.Toast;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.UQI;
@@ -265,9 +263,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
             @Override
             public void onMenuExpanded() {
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
+                if (FirstTimeStorage.getFirst(MyApplication.getContext())){
 
+                    Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
                                    @Override
                                    public void run() {
                                        runOnUiThread(new Runnable() {
@@ -348,6 +347,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                },600);
 
 
+            }
             }
 
             @Override
