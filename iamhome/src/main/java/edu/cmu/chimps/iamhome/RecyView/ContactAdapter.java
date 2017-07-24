@@ -71,9 +71,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     mToolbar.setSubtitle(title);
                 }
                 SetSelection(holder, contact);
-
-
-
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();
             }
         });

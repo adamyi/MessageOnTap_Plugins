@@ -78,8 +78,7 @@ public class SelectContactActivity extends AppCompatActivity {
         } catch (PSException e) {
             e.printStackTrace();
         }
-        Contact.InitSelection(this, ContactStorage.STORAGE);
-        ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
+        Contact.InitFlag(this, ContactStorage.STORAGE);
 
         //Initialize UI
         setContentView(R.layout.activity_contact_select);
@@ -121,7 +120,7 @@ public class SelectContactActivity extends AppCompatActivity {
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Contact.InitSelection(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
+                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
                                             toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
@@ -136,6 +135,7 @@ public class SelectContactActivity extends AppCompatActivity {
             }
         });
 
+        ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
