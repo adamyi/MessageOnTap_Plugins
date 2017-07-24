@@ -266,15 +266,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         }
                                                     })
                                                     .start();
-
                                         }
                                     });
-
-
                                 }
                             }, 600);
-
-
+                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                         }
 
                         @Override
@@ -284,7 +280,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                              */
                         }
                     });
-                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
 
                 }
 
