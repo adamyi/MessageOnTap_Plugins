@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setTitle("Select contacts to share");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.setSubtitle(" "+Contact.SelectedItemCount() + " selected");
+        toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.inflateMenu(R.menu.selectall);
 
@@ -65,18 +66,16 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
-                switch (menuItemId){
+                switch (menuItemId) {
                     case R.id.selectAll:
-                        if (Contact.SelectedItemCount() == Contact.contactList.size()){
+                        if (Contact.SelectedItemCount() == Contact.contactList.size()) {
                             ContactAdapter.SetAllSelction(false, recyclerView);
                         } else {
                             ContactAdapter.SetAllSelction(true, recyclerView);
                         }
                         toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
-                        Toast.makeText(getBaseContext(), "Select" , Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(getBaseContext(), "Select All" , Toast.LENGTH_SHORT).show();
                 }
-
                 return true;
             }
         });
@@ -90,7 +89,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         }
         Contact.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -137,7 +136,22 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         }
     }
 
- }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        ArrayList<String> savedContactList = new ArrayList<>();
+        for (int i = 0; i < Contact.contactList.size(); i++) {
+            if (Contact.contactList.get(i).isFlag()) {
+                savedContactList.add(Contact.contactList.get(i).getName());
+            }
+        }
+        //Toast.makeText(this, "Contacts Saved" , Toast.LENGTH_SHORT).show();
+
+        Set<String> set = new HashSet<>(savedContactList);
+        ContactStorage.storeSendUsers(this, set);
+
+        return true;
+    }
+}
 
 
 

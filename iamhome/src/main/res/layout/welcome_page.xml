@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/homeback"
+    android:orientation="vertical"
     android:theme="@android:style/Theme.Black.NoTitleBar"
     android:weightSum="1">
 
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        app:srcCompat="@drawable/ic_home" />
+        app:srcCompat="@drawable/ic_home_white_24px" />
 
     <TextView
         android:id="@+id/textView3"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             app:colorNormal="#2196F3"
             app:colorPressed="#1E88E5"
-            app:icon="@drawable/ic_message_black_24dp" />
+            app:icon="@drawable/ic_message_black_24px" />
 
         <com.imangazaliev.circlemenu.CircleMenuButton
             android:id="@+id/edit"
@@ -55,8 +56,7 @@
             app:colorNormal="#F44336"
             app:colorPressed="#E53935"
 
-            app:icon="@drawable/ic_favorite"
-            />
+            app:icon="@drawable/ic_contact_black_24dp" />
 
 
         <com.imangazaliev.circlemenu.CircleMenuButton
@@ -65,7 +65,7 @@
             android:layout_height="match_parent"
             app:colorNormal="#ffd700"
             app:colorPressed="#ffd700"
-            app:icon="@drawable/ic_search" />
+            app:icon="@drawable/ic_wifi_black_24dp" />
 
     </com.imangazaliev.circlemenu.CircleMenu>
 
