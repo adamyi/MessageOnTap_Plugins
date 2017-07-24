@@ -14,11 +14,15 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import android.widget.LinearLayout;
+
 import android.widget.Toast;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.UQI;
@@ -56,9 +60,81 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
          */
         setContentView(R.layout.welcome_page);
 
-        /**
-         * Tutorial
-         */
+
+
+        //Callback when the view is ready
+        final LinearLayout welcomePage = (LinearLayout) findViewById(R.id.welcome_page);
+        ViewTreeObserver vto = welcomePage.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                welcomePage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                /**
+                 * Tutorial
+                 */
+                View homeView = findViewById(R.id.imageView);
+                int[] imageLocation = new int[2];
+                homeView.getLocationOnScreen(imageLocation);
+                float imageX = imageLocation[0] + homeView.getWidth() / 2f;
+                float imageY = imageLocation[1] + homeView.getHeight() / 2f;
+                // make an target
+                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                        .setRadius(250f)
+                        .setTitle("Image")
+                        .setDescription("Show whether you are at home")
+                        .build();
+
+                View two = findViewById(R.id.circleMenu);
+                int[] twoLocation = new int[2];
+                two.getLocationInWindow(twoLocation);
+                PointF point =
+                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                // make an target
+                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                        .setRadius(160f)
+                        .setTitle("Menu")
+                        .setDescription("The Main Menu")
+                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                            @Override
+                            public void onStarted(SimpleTarget target) {
+
+                            }
+
+                            @Override
+                            public void onEnded(SimpleTarget target) {
+
+                            }
+                        })
+                        .build();
+
+                SimpleTarget thirdTarget =
+                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
+                                .setRadius(200f)
+                                .setTitle("Title")
+                                .setDescription("Showing your connected wifi")
+                                .build();
+
+                Spotlight.with(IAmHomeSettingsActivity.this)
+                        .setDuration(1000L)
+                        .setAnimation(new DecelerateInterpolator(2f))
+                        .setTargets(firstTarget, thirdTarget, secondTarget)
+                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                            @Override
+                            public void onStarted() {
+                                Toast.makeText(IAmHomeSettingsActivity.this, "Lets learn how to use this masterpiece", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                            @Override
+                            public void onEnded() {
+
+                            }
+                        })
+                        .start();
+            }
+        });
+
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
@@ -185,68 +261,89 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
             @Override
             public void onMenuExpanded() {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
 
-                View homeView = findViewById(R.id.imageView);
-                int[] imageLocation = new int[2];
-                homeView.getLocationOnScreen(imageLocation);
-                float imageX = imageLocation[0] + homeView.getWidth() / 2f;
-                float imageY = imageLocation[1] + homeView.getHeight() / 2f;
-                Log.i("x", "imagex");
-                // make an target
-                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
-                        .setRadius(250f)
-                        .setTitle("Image")
-                        .setDescription("Show whether you are at home")
-                        .build();
+                                   @Override
+                                   public void run() {
+                                       runOnUiThread(new Runnable() {
+                                           @Override
+                                           public void run() {
+                                               View reset= findViewById(R.id.search);
+                                               int[] imageLocation = new int[2];
+                                               reset.getLocationOnScreen(imageLocation);
+                                               float imageX = imageLocation[0] + reset.getWidth() / 2f;
+                                               float imageY = imageLocation[1] + reset.getHeight() / 2f;
 
-                View two = findViewById(R.id.circleMenu);
-                int[] twoLocation = new int[2];
-                two.getLocationInWindow(twoLocation);
-                PointF point =
-                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
-                // make an target
-                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
-                        .setRadius(80f)
-                        .setTitle("Menu")
-                        .setDescription("The Main Menu")
-                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-                            @Override
-                            public void onStarted(SimpleTarget target) {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
-                            }
+                                               // make an target
+                                               SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                                                       .setRadius(200f)
+                                                       .setTitle("Rest")
+                                                       .setDescription("Use this to reset your home WIFI")
+                                                       .build();
 
-                            @Override
-                            public void onEnded(SimpleTarget target) {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .build();
+                                               View two = findViewById(R.id.edit);
+                                               int[] twoLocation = new int[2];
+                                               two.getLocationInWindow(twoLocation);
+                                               PointF point =
+                                                       new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                                               // make an target
+                                               SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                                                       .setRadius(200f)
+                                                       .setTitle("Edit")
+                                                       .setDescription("Customize your at home message")
+                                                       .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                                                           @Override
+                                                           public void onStarted(SimpleTarget target) {
 
-                SimpleTarget thirdTarget =
-                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
-                                .setRadius(200f)
-                                .setTitle("Title")
-                                .setDescription("Showing your connected wifi")
-                                .build();
+                                                           }
 
-                Spotlight.with(IAmHomeSettingsActivity.this)
-                        .setDuration(1000L)
-                        .setAnimation(new DecelerateInterpolator(2f))
-                        .setTargets(firstTarget, secondTarget, thirdTarget)
-                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
-                            @Override
-                            public void onStarted() {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is started", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
-                            @Override
-                            public void onEnded() {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .start();
+                                                           @Override
+                                                           public void onEnded(SimpleTarget target) {
+
+                                                           }
+                                                       })
+                                                       .build();
+
+                                               SimpleTarget thirdTarget =
+                                                       new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.favorite))
+                                                               .setRadius(200f)
+                                                               .setTitle("Contacts")
+                                                               .setDescription("Check your sending contact list")
+                                                               .build();
+                                               SimpleTarget fourthTarget =
+                                                       new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
+                                                               .setRadius(200f)
+                                                               .setTitle("Launch!")
+                                                               .setDescription("One tap to tell your friends you are home")
+                                                               .build();
+
+                                               Spotlight.with(IAmHomeSettingsActivity.this)
+                                                       .setDuration(1000L)
+                                                       .setAnimation(new DecelerateInterpolator(2f))
+                                                       .setTargets(firstTarget, secondTarget, thirdTarget,fourthTarget)
+                                                       .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                                                           @Override
+                                                           public void onStarted() {
+                                                           }
+                                                       })
+                                                       .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                                                           @Override
+                                                           public void onEnded() {
+                                                               Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
+                                                                       .show();
+                                                           }
+                                                       })
+                                                       .start();
+
+                                           }
+                                       });
+
+
+                                   }
+                               },600);
+
+
             }
 
             @Override
