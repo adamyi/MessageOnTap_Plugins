@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
@@ -23,6 +24,10 @@ import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 
+<<<<<<<HEAD
+        =======
+        >>>>>>>3b3ce5abc95956b9c1a861c76a6d290e9011139a
+
 public class SelectContactActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -32,6 +37,7 @@ public class SelectContactActivity extends AppCompatActivity {
     public void onBackPressed() {
         Set<String> set = new HashSet<>(Contact.getSavedContactList());
         ContactStorage.storeSendUsers(getBaseContext(), set);
+        Toast.makeText(this, "Contacts Saved", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
     }
 
@@ -50,7 +56,7 @@ public class SelectContactActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.setSubtitle(" "+Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.inflateMenu(R.menu.select);
+        toolbar.inflateMenu(R.menu.selectall);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,8 +64,6 @@ public class SelectContactActivity extends AppCompatActivity {
 
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
 
-                Set<String> set = new HashSet<String>(Contact.getSavedContactList());
-                ContactStorage.storeSendUsers(getBaseContext(), set);
                 onBackPressed();
             }
         });
@@ -98,7 +102,6 @@ public class SelectContactActivity extends AppCompatActivity {
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
-
     }
 
 
@@ -117,6 +120,6 @@ public class SelectContactActivity extends AppCompatActivity {
 
         return true;
     }
-
+    }
  }
 

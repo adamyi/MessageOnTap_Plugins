@@ -17,16 +17,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Test send MessageData" />
-
-    <Button
-        android:id="@+id/button_notice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New Notification" />
-
-    <Button
-        android:id="@+id/button_WhatsApp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send Text" />
+    
 </LinearLayout>

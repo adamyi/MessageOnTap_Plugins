@@ -93,7 +93,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
 
-
     public  void SetSelection(ViewHolder holder, Contact contact){
         if (contact.isFlag()){
             holder.contactLayout.setSelected(true);
