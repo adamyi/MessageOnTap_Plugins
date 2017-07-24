@@ -74,29 +74,26 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.UTILITY("check wifi status")).forEach(new Callback<Item>() {
             @Override
             protected void onInput(Item input) {
-                if(WifiUtils.getUsersHomeWifiList(MyApplication.getContext()).contains(input.getValueByField(WifiAp.BSSID)) &&
-                        input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED) ){
+                if (WifiUtils.getUsersHomeWifiList(MyApplication.getContext()).contains(input.getValueByField(WifiAp.BSSID)) &&
+                        input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
-                    textView.setText( "Connected WIFI: " + "\n"+ input.getValueByField(WifiAp.SSID));
+                    textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
-                }
-                else if(input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)){
+                } else if (input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
-                    textView.setText( "Connected WIFI: " + "\n"+ input.getValueByField(WifiAp.SSID));
+                    textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
-                }
-                else{
+                } else {
                     TextView textView = (TextView) findViewById(R.id.textView3);
-                    textView.setText( "Connected WIFI: " );
+                    textView.setText("Connected WIFI: \n" + "No Connection");
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
 
                 }
             }
         });
-
 
 
         //Callback when the view is ready
@@ -115,7 +112,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     /**
                      * overview
                      */
-                    
+
                     //Tutorial
 
                     View homeView = findViewById(R.id.imageView);
@@ -198,7 +195,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            View reset= findViewById(R.id.search);
+                                            View reset = findViewById(R.id.search);
                                             int[] imageLocation = new int[2];
                                             reset.getLocationOnScreen(imageLocation);
                                             float imageX = imageLocation[0] + reset.getWidth() / 2f;
@@ -250,7 +247,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                             Spotlight.with(IAmHomeSettingsActivity.this)
                                                     .setDuration(1000L)
                                                     .setAnimation(new DecelerateInterpolator(2f))
-                                                    .setTargets(firstTarget, secondTarget, thirdTarget,fourthTarget)
+                                                    .setTargets(firstTarget, secondTarget, thirdTarget, fourthTarget)
                                                     .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                                                         @Override
                                                         public void onStarted() {
@@ -270,10 +267,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
 
                                 }
-                            },600);
+                            }, 600);
 
 
                         }
+
                         @Override
                         public void onMenuCollapsed() {
                             /**
@@ -294,7 +292,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 
-        
+
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
@@ -392,119 +390,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
 
         });
-        circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
-            @Override
-            public void onMenuExpanded() {
-                if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
-
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    View reset = findViewById(R.id.search);
-                                    int[] imageLocation = new int[2];
-                                    reset.getLocationOnScreen(imageLocation);
-                                    float imageX = imageLocation[0] + reset.getWidth() / 2f;
-                                    float imageY = imageLocation[1] + reset.getHeight() / 2f;
-
-                                    // make an target
-                                    SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
-                                            .setRadius(200f)
-                                            .setTitle("Rest Home Wi-Fi")
-                                            .setDescription("Clean current home Wi-Fi data and set it to the connected Wi-Fi.")
-                                            .build();
-
-                                    View two = findViewById(R.id.edit);
-                                    int[] twoLocation = new int[2];
-                                    two.getLocationInWindow(twoLocation);
-                                    PointF point =
-                                            new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
-                                    // make an target
-                                    SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
-                                            .setRadius(200f)
-                                            .setTitle("Edit Message to Send")
-                                            .setDescription("Customize your at sending message")
-                                            .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-                                                @Override
-                                                public void onStarted(SimpleTarget target) {
-
-                                                }
-
-                                                @Override
-                                                public void onEnded(SimpleTarget target) {
-
-                                                }
-                                            })
-                                            .build();
-
-                                    SimpleTarget thirdTarget =
-                                            new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.favorite))
-                                                    .setRadius(200f)
-                                                    .setTitle("Sending Contact List")
-                                                    .setDescription("View and change the contacts you'd like to send.")
-                                                    .build();
-                                    SimpleTarget fourthTarget =
-                                            new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
-                                                    .setRadius(200f)
-                                                    .setTitle("Instant Messaging")
-                                                    .setDescription("Start our auto-sending service immediately. \n\nThe sending message will be presented before you send.")
-                                                    .build();
-
-                                    Spotlight.with(IAmHomeSettingsActivity.this)
-                                            .setDuration(1000L)
-                                            .setAnimation(new DecelerateInterpolator(2f))
-                                            .setTargets(firstTarget, fourthTarget, secondTarget, thirdTarget)
-                                            .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
-                                                @Override
-                                                public void onStarted() {
-                                                }
-                                            })
-                                            .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
-                                                @Override
-                                                public void onEnded() {
-                                                    //Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT).show();
-                                                }
-                                            })
-                                            .start();
-                                }
-                            });
-
-
-                        }
-                    }, 600);
-                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
-                }
-
-            }
-
-            @Override
-            public void onMenuCollapsed() {
-//                LinearLayout thislin = (LinearLayout) findViewById(R.id.welcome_page);
-//                thislin.setBackground(getDrawable(R.drawable.homeback));
-
-            }
-        });
-
         startService(new Intent(this, IAmHomePlugin.class));
 
-    }
-    public void changeWork(){
 
     }
-    public void changeHome(){
-        final ImageView first = (ImageView) findViewById(R.id.imageView);
-        first.setBackgroundResource(R.drawable.ic_home_white_24px);
-    }
-
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-
     private class LongOperation extends AsyncTask<String, Void, String> {
 
         @Override
