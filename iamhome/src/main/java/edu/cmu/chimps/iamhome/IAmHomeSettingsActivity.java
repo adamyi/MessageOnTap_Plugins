@@ -14,19 +14,19 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.device.WifiAp;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
@@ -61,9 +61,16 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
          */
         setContentView(R.layout.welcome_page);
 
-        /**
-         * Tutorial
-         */
+        //Callback when the view is ready
+        final LinearLayout welcomePage = (LinearLayout) findViewById(R.id.welcome_page);
+        ViewTreeObserver vto = welcomePage.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                welcomePage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                /**
+                 * Tutorial
+                 */
                 View homeView = findViewById(R.id.imageView);
                 int[] imageLocation = new int[2];
                 homeView.getLocationOnScreen(imageLocation);
@@ -83,7 +90,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                         new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
                 // make an target
                 SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
-                        .setRadius(80f)
+                        .setRadius(160f)
                         .setTitle("Menu")
                         .setDescription("The Main Menu")
                         .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
@@ -124,6 +131,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                             }
                         })
                         .start();
+            }
+        });
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
