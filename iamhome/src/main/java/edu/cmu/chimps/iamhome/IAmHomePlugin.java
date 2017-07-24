@@ -1,16 +1,25 @@
 package edu.cmu.chimps.iamhome;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
+
+import org.w3c.dom.Text;
 
 import java.util.Set;
 
@@ -23,14 +32,14 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
+    public static boolean letset = false;
 
-
-    private final static int ALARM_HOUR = 18;
-    private final static int ALARM_MINUTE = 50;
+    private final static int ALARM_HOUR = 22;
+    private final static int ALARM_MINUTE = 00;
 
     private final static int ALARM_SECOND = 0;
 
-    private boolean result = false;
+    public static boolean result = false;
     private OnHomeEventListener homeEventListener;
 
     public void setHomeEventListener(OnHomeEventListener homeEventListener) {
@@ -64,7 +73,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                                 StatusToastsUtils.atHomeToast(MyApplication.getContext());
                                 StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
 
-
                             }
                             StatusToastsUtils.wifiConnectedToast(MyApplication.getContext());
                         }
@@ -75,7 +83,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
                                 StatusToastsUtils.leaveHomeToast(MyApplication.getContext());
                                 result = false;
-
                             }
                             StatusToastsUtils.wifiDisconnectedToast(MyApplication.getContext());
                         }
@@ -110,10 +117,8 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     @Override
     protected void analyzeMessage(MessageData data) {
-
     }
     public boolean isAtHome(){
-
         return result;
     }
 

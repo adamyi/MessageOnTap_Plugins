@@ -36,7 +36,7 @@ public class ShareMessageService extends Service {
 
     private NodeInfoListener nodeInfoListener;
 
-    public void setNodeInfoListener(NodeInfoListener nodeInfoListener) {
+    private void setNodeInfoListener(NodeInfoListener nodeInfoListener) {
         this.nodeInfoListener = nodeInfoListener;
     }
 

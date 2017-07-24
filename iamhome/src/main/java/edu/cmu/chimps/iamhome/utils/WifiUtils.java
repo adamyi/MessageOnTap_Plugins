@@ -3,6 +3,7 @@ package edu.cmu.chimps.iamhome.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
@@ -32,6 +33,7 @@ public class WifiUtils {
     public static void storeUsersHomeWifi(Context context) throws PSException {
         SharedPreferences preferences = context.getSharedPreferences(KEY_WIFI_SENSING, Context.MODE_PRIVATE);
         preferences.edit().putStringSet(KEY_USER_HOME_BSSID_LIST, new HashSet<>(getBSSIDList(context))).apply();
+        Log.i("BSSID", String.valueOf(getUsersHomeWifiList(context)));
     }
 
     /**
@@ -67,11 +69,29 @@ public class WifiUtils {
      * @return
      * @throws PSException
      */
-    public static Boolean isConnectedToWifi() throws PSException {
+    public  static void isConnectedToWifi() throws PSException {
         UQI uqi = new UQI(MyApplication.getContext());
-        return uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("Check Whether the Phone is Connected "))
-                .filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED)
-                .count() > 0;
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.UTILITY("listen")).filter(WifiAp.STATUS,WifiAp.STATUS_CONNECTED).forEach(new Callback<Item>() {
+            @Override
+            protected void onInput(Item input) {
+                if (input != null){
+                    try {
+                        isConnectedToWifi(true);
+                    } catch (PSException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    isConnectedToWifi(false);
+                } catch (PSException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    public static boolean isConnectedToWifi(Boolean result) throws PSException {
+        isConnectedToWifi();
+        return result;
     }
 
     /**
@@ -94,7 +114,7 @@ public class WifiUtils {
     public static String getWifiName(Context context) throws PSException {
         UQI uqi = new UQI(context);
         String name  = uqi.getData(WifiAp.getScanResults(),Purpose.UTILITY("get wifi name")
-                ).filter(WifiAp.BSSID, getBSSIDList(context)).getFirst().getField(WifiAp.SSID);
+                ).filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED).getFirst().getField(WifiAp.SSID).toString();
         return name;
     }
     public void isAtHome(Context context){
@@ -110,12 +130,13 @@ public class WifiUtils {
                 isAthome(false);
             }
         });
-
-
-
     }
     public static boolean isAthome(boolean result){
         return result;
+    }
+    public static boolean checkWifiStatus() throws PSException {
+        UQI uqi = new UQI(MyApplication.getContext());
+        return !uqi.getData(WifiAp.getScanResults(), Purpose.UTILITY("check wifi stauts")).filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED).asList().isEmpty();
     }
 
 }
