@@ -263,6 +263,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         public void onEnded() {
                                                             Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
                                                                     .show();
+                                                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                                                         }
                                                     })
                                                     .start();
@@ -270,7 +271,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                     });
                                 }
                             }, 600);
-                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                         }
 
                         @Override
