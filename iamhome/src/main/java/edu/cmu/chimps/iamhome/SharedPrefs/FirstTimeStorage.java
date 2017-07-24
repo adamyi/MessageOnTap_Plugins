@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class FirstTimeStorage {
 
     private static final String IDENTIFIER = "firt_time";
-    private static boolean isFirstTime;
+    private static final String IDENTIFIER_CONTACT_ACTIVITY_INDICATOR_SPECIAL = "send";
 
     public static void setFirst(Context context, Boolean input) {
         SharedPreferences.Editor editor = context.getSharedPreferences(IDENTIFIER, context.MODE_PRIVATE).edit();
@@ -20,4 +20,15 @@ public class FirstTimeStorage {
         return nowTime;
     }
 
+    public static void setContactActivityIndicatorSend(Context context, Boolean input) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(IDENTIFIER, context.MODE_PRIVATE).edit();
+        editor.putBoolean(IDENTIFIER_CONTACT_ACTIVITY_INDICATOR_SPECIAL, input);
+        editor.apply();
+    }
+
+    public static boolean getIndicator(Context context) {
+        SharedPreferences isSpecialActivity = context.getSharedPreferences(IDENTIFIER, context.MODE_PRIVATE);
+        Boolean specialIndicator = isSpecialActivity.getBoolean(IDENTIFIER_CONTACT_ACTIVITY_INDICATOR_SPECIAL, false);
+        return specialIndicator;
+    }
 }

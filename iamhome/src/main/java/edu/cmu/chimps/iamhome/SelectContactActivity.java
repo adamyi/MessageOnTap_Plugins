@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.RecyView.Fab;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
@@ -68,6 +70,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
@@ -118,10 +121,34 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        FloatingActionButton floatingUndefinedButton = (FloatingActionButton) findViewById(R.id.floatingUndefinedAction);
+        if (FirstTimeStorage.getIndicator(MyApplication.getContext())) {
+            //Toast.makeText(MyApplication.getContext(), "Send Botton", Toast.LENGTH_SHORT).show();
+            floatingUndefinedButton.setImageResource(R.drawable.ic_action_send);
+            floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                    Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
+                    startService(launchService);
+                }
+            });
+        } else {
+            //Toast.makeText(MyApplication.getContext(), "Save Botton", Toast.LENGTH_SHORT).show();
+            floatingUndefinedButton.setImageResource(R.drawable.ic_action_check);
+            floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
+        FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), false);
 //        FloatingActionButton fabCheck = (FloatingActionButton) findViewById(R.id.fabCheck);
 //        FloatingActionButton fabSend  = (FloatingActionButton) findViewById(R.id.fabSend);
 //        fabCheck.setOnClickListener(this);
 //        fabSend.setOnClickListener(this);
+        /*
         Fab fab = (Fab) findViewById(R.id.fab);
         View sheetView = findViewById(R.id.fab_sheet);
         View overlay = findViewById(R.id.overlay);
@@ -134,6 +161,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
 
         this.findViewById(R.id.fab_sheet_item_01).setOnClickListener(this);
         this.findViewById(R.id.fab_sheet_item_02).setOnClickListener(this);
+        */
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
