@@ -149,6 +149,7 @@ public class SelectContactActivity extends AppCompatActivity {
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    BackPressedCount = 2;
                     onBackPressed();
                     Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                     startService(launchService);
