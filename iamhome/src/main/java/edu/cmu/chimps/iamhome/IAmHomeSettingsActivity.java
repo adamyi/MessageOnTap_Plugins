@@ -72,32 +72,39 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     welcomePage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                     //Tutorial
+
                     View homeView = findViewById(R.id.imageView);
-                    int[] imageLocation = new int[2];
-                    homeView.getLocationOnScreen(imageLocation);
-                    float imageX = imageLocation[0] + homeView.getWidth() / 2f;
-                    float imageY = imageLocation[1] + homeView.getHeight() / 2f;
+                    int[] homeViewLocation = new int[2];
+                    homeView.getLocationOnScreen(homeViewLocation);
+                    float imageX = homeViewLocation[0] + homeView.getWidth() / 2f;
+                    float imageY = homeViewLocation[1] + homeView.getHeight() / 2f;
                     // make an target
-                    SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                    SimpleTarget homeViewTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
                             .setRadius(200f)
                             .setTitle("State Icon")
                             .setDescription("This icon indicates the connection status to your home Wi-Fi")
                             .build();
 
-                    SimpleTarget secondTarget =
+                    SimpleTarget mainIntroTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                            .setRadius(1f)
+                            .setTitle("Welcome to use \nI Am Home!")
+                            .setDescription(getString(R.string.tutorial_main_intro))
+                            .build();
+
+                    SimpleTarget wifiTextTarget =
                             new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
                                     .setRadius(200f)
                                     .setTitle("Current Wi-Fi")
                                     .setDescription("This filed shows your device's connected Wi-Fi")
                                     .build();
 
-                    View two = findViewById(R.id.circleMenu);
-                    int[] twoLocation = new int[2];
-                    two.getLocationInWindow(twoLocation);
+                    View circleMenuView = findViewById(R.id.circleMenu);
+                    int[] circleMenuLocation = new int[2];
+                    circleMenuView.getLocationInWindow(circleMenuLocation);
                     PointF point =
-                            new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                            new PointF(circleMenuLocation[0] + circleMenuView.getWidth() / 2f, circleMenuLocation[1] + circleMenuView.getHeight() / 2f);
                     // make an target
-                    SimpleTarget thirdTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                    SimpleTarget circleMenuViewTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                             .setRadius(160f)
                             .setTitle("Menu Button")
                             .setDescription("This is the menu button where you can operate different actions. \nTry it out yourself!")
@@ -115,13 +122,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                             .build();
 
                     Spotlight.with(IAmHomeSettingsActivity.this)
-                            .setDuration(1000L)
+                            .setDuration(800L)
                             .setAnimation(new DecelerateInterpolator(2f))
-                            .setTargets(firstTarget, secondTarget, thirdTarget)
+                            .setTargets(mainIntroTarget, homeViewTarget, wifiTextTarget, circleMenuViewTarget)
                             .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                                 @Override
                                 public void onStarted() {
-                                    Toast.makeText(IAmHomeSettingsActivity.this, "Welcome to I Am Home", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(IAmHomeSettingsActivity.this, "Welcome to I Am Home", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
@@ -131,7 +138,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                 }
                             })
                             .start();
-                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+                    //FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                 }
             }
         });
