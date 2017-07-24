@@ -19,14 +19,11 @@ import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.device.WifiAp;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
@@ -34,10 +31,8 @@ import com.takusemba.spotlight.OnSpotlightStartedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
 import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
@@ -64,66 +59,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         /**
          * Tutorial
          */
-                View homeView = findViewById(R.id.imageView);
-                int[] imageLocation = new int[2];
-                homeView.getLocationOnScreen(imageLocation);
-                float imageX = imageLocation[0] + homeView.getWidth() / 2f;
-                float imageY = imageLocation[1] + homeView.getHeight() / 2f;
-                // make an target
-                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
-                        .setRadius(250f)
-                        .setTitle("Image")
-                        .setDescription("Show whether you are at home")
-                        .build();
-
-                View two = findViewById(R.id.circleMenu);
-                int[] twoLocation = new int[2];
-                two.getLocationInWindow(twoLocation);
-                PointF point =
-                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
-                // make an target
-                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
-                        .setRadius(80f)
-                        .setTitle("Menu")
-                        .setDescription("The Main Menu")
-                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-                            @Override
-                            public void onStarted(SimpleTarget target) {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onEnded(SimpleTarget target) {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .build();
-
-                SimpleTarget thirdTarget =
-                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
-                                .setRadius(200f)
-                                .setTitle("Title")
-                                .setDescription("Showing your connected wifi")
-                                .build();
-
-                Spotlight.with(IAmHomeSettingsActivity.this)
-                        .setDuration(1000L)
-                        .setAnimation(new DecelerateInterpolator(2f))
-                        .setTargets(firstTarget, secondTarget, thirdTarget)
-                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
-                            @Override
-                            public void onStarted() {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is started", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
-                            @Override
-                            public void onEnded() {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .start();
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
@@ -243,29 +178,75 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                 }
             }
 
-            SimpleTarget simpleTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this)
-                    .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-                    .setRadius(80f) // radius of the Target
-                    .setTitle("the title") // title
-                    .setDescription("the description") // description
-                    .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-                        @Override
-                        public void onStarted(SimpleTarget target) {
-                            Toast.makeText(MyApplication.getContext(), "target is started", Toast.LENGTH_SHORT).show();
-                        }
-                        @Override
-                        public void onEnded(SimpleTarget target) {
-                            Toast.makeText(MyApplication.getContext(), "target is ended", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .build();
 
         });
+
 
         circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
             @Override
             public void onMenuExpanded() {
-                Log.i("expaned", "circle menu expanded");
+
+                View homeView = findViewById(R.id.imageView);
+                int[] imageLocation = new int[2];
+                homeView.getLocationOnScreen(imageLocation);
+                float imageX = imageLocation[0] + homeView.getWidth() / 2f;
+                float imageY = imageLocation[1] + homeView.getHeight() / 2f;
+                Log.i("x", "imagex");
+                // make an target
+                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                        .setRadius(250f)
+                        .setTitle("Image")
+                        .setDescription("Show whether you are at home")
+                        .build();
+
+                View two = findViewById(R.id.circleMenu);
+                int[] twoLocation = new int[2];
+                two.getLocationInWindow(twoLocation);
+                PointF point =
+                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                // make an target
+                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                        .setRadius(80f)
+                        .setTitle("Menu")
+                        .setDescription("The Main Menu")
+                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                            @Override
+                            public void onStarted(SimpleTarget target) {
+                                Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onEnded(SimpleTarget target) {
+                                Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .build();
+
+                SimpleTarget thirdTarget =
+                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
+                                .setRadius(200f)
+                                .setTitle("Title")
+                                .setDescription("Showing your connected wifi")
+                                .build();
+
+                Spotlight.with(IAmHomeSettingsActivity.this)
+                        .setDuration(1000L)
+                        .setAnimation(new DecelerateInterpolator(2f))
+                        .setTargets(firstTarget, secondTarget, thirdTarget)
+                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                            @Override
+                            public void onStarted() {
+                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is started", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                            @Override
+                            public void onEnded() {
+                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .start();
             }
 
             @Override
@@ -277,13 +258,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         });
         startService(new Intent(this, IAmHomePlugin.class));
     }
-
+    
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.menu, menu);
 //        return true;
 //    }
-
     private class LongOperation extends AsyncTask<String, Void, String> {
 
         @Override

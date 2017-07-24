@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,8 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        app:srcCompat="@drawable/ic_home_white_24px" />
+        android:layout_marginTop="65dp"
+        app:srcCompat="@drawable/ic_home_white_24px"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
 
 
     <TextView
@@ -64,11 +66,11 @@
         <com.imangazaliev.circlemenu.CircleMenuButton
             android:id="@+id/search"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:colorNormal="#ffd700"
             app:colorPressed="#ffd700"
             app:icon="@drawable/ic_wifi_black_24dp" />
 
     </com.imangazaliev.circlemenu.CircleMenu>
 
-</LinearLayout>
+</FrameLayout>

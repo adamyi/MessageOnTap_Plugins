@@ -170,6 +170,6 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     }
 
     }
-}
+
 
 
