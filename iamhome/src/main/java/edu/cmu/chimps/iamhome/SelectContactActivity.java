@@ -1,10 +1,14 @@
 package edu.cmu.chimps.iamhome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,19 +26,13 @@ import java.util.Set;
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
-public class SelectContactActivity extends AppCompatActivity {
+public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
     RecyclerView recyclerView;
-
-    @Override
-    public void onBackPressed() {
-        Set<String> set = new HashSet<>(Contact.getSavedContactList());
-        ContactStorage.storeSendUsers(getBaseContext(), set);
-        Toast.makeText(this, "Contacts Saved", Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -96,11 +94,50 @@ public class SelectContactActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        FloatingActionButton fabCheck = (FloatingActionButton) findViewById(R.id.fabCheck);
+        FloatingActionButton fabSend  = (FloatingActionButton) findViewById(R.id.fabSend);
+        fabCheck.setOnClickListener(this);
+        fabSend.setOnClickListener(this);
         //set the alarm
 //        AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fabCheck:
+                Set<String> set = new HashSet<>(Contact.getSavedContactList());
+                ContactStorage.storeSendUsers(getBaseContext(), set);
+                Toast.makeText(SelectContactActivity.this, "Contacts Saved", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+                break;
+            case R.id.fabSend:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(SelectContactActivity.this, R.style.myDialog));
+                dialog.setTitle("Send message now!");
+                dialog.setMessage("Send your message: \n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n to your friends!");
+                dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Set<String> set = new HashSet<>(Contact.getSavedContactList());
+                        ContactStorage.storeSendUsers(getBaseContext(), set);
+                        Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
+                        startService(launchService);
+                    }
+                });
+                dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+                        MyApplication.getContext().sendBroadcast(closeNotificationDrawer);
+                    }
+                });
+                dialog.show();
+                break;
+        }
+    }
 
  }
+
+
 
