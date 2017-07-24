@@ -24,10 +24,6 @@ import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 
-<<<<<<<HEAD
-        =======
-        >>>>>>>3b3ce5abc95956b9c1a861c76a6d290e9011139a
-
 public class SelectContactActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -54,7 +50,7 @@ public class SelectContactActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setTitle("Select contacts to share");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.setSubtitle(" "+Contact.SelectedItemCount() + " selected");
+        toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.inflateMenu(R.menu.selectall);
 
@@ -72,9 +68,9 @@ public class SelectContactActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int menuItemId = item.getItemId();
-                switch (menuItemId){
+                switch (menuItemId) {
                     case R.id.selectAll:
-                        if (Contact.SelectedItemCount() == Contact.contactList.size()){
+                        if (Contact.SelectedItemCount() == Contact.contactList.size()) {
                             ContactAdapter.SetAllSelction(false, recyclerView);
                         } else {
                             ContactAdapter.SetAllSelction(true, recyclerView);
@@ -95,7 +91,7 @@ public class SelectContactActivity extends AppCompatActivity {
         }
         Contact.InitSelection(this);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -108,8 +104,8 @@ public class SelectContactActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         ArrayList<String> savedContactList = new ArrayList<>();
-        for (int i = 0; i < Contact.contactList.size(); i++){
-            if (Contact.contactList.get(i).isFlag()){
+        for (int i = 0; i < Contact.contactList.size(); i++) {
+            if (Contact.contactList.get(i).isFlag()) {
                 savedContactList.add(Contact.contactList.get(i).getName());
             }
         }
@@ -120,6 +116,5 @@ public class SelectContactActivity extends AppCompatActivity {
 
         return true;
     }
-    }
- }
+}
 
