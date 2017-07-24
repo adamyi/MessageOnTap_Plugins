@@ -38,13 +38,22 @@ import edu.cmu.chimps.iamhome.services.ShareMessageService;
 public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
 
     Set<String> permanentSet;
+    private int BackPressedCount;
+    Toast updatableToast;
 
     @Override
     public void onBackPressed() {
-        Set<String> set = new HashSet<>(Contact.getSavedContactList());
-        ContactStorage.storeSendUsers(getBaseContext(), set);
-        Toast.makeText(SelectContactActivity.this, "Contacts Saved", Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
+        if (BackPressedCount == 0) {
+            if (updatableToast != null) { updatableToast.cancel(); }
+            updatableToast = Toast.makeText(SelectContactActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT);
+            updatableToast.show();
+            BackPressedCount++;
+        } else {
+            if (updatableToast != null) { updatableToast.cancel(); }
+            updatableToast = Toast.makeText(SelectContactActivity.this, "Change canceled", Toast.LENGTH_SHORT);
+            updatableToast.show();
+            super.onBackPressed();
+        }
     }
 
     Toolbar toolbar;
@@ -54,6 +63,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BackPressedCount = 0;
         setContentView(R.layout.activity_contact_select);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -95,7 +105,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Contact.SetSelection(MyApplication.getContext(),permanentSet);
+                                            Contact.SetSelection(MyApplication.getContext(), permanentSet);
                                         }
                                     });
 
@@ -170,7 +180,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fab_sheet_item_02:
                 super.onBackPressed();
                 break;
@@ -200,9 +210,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
-
-    }
+}
 
 
 
