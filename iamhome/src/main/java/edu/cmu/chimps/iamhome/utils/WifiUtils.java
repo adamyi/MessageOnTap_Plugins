@@ -94,7 +94,7 @@ public class WifiUtils {
     public static String getWifiName(Context context) throws PSException {
         UQI uqi = new UQI(context);
         String name  = uqi.getData(WifiAp.getScanResults(),Purpose.UTILITY("get wifi name")
-                ).filter(WifiAp.BSSID, getBSSIDList(context)).getFirst().getField(WifiAp.BSSID);
+                ).filter(WifiAp.BSSID, getBSSIDList(context)).getFirst().getField(WifiAp.SSID);
         return name;
     }
     public void isAtHome(Context context){

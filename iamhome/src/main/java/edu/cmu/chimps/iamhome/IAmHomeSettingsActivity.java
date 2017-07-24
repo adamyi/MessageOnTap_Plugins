@@ -17,12 +17,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.device.WifiAp;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 
@@ -39,6 +41,7 @@ import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private String sentText;
+    public String username;
     IAmHomePlugin userstatus = new IAmHomePlugin();
 
     Intent circleIntent = new Intent();
@@ -49,6 +52,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         UQI uqi = new UQI(this);
         uqi.getData(Contact.getAll(), Purpose.UTILITY("test")).debug();
+        /**
+         * set user wifi status
+         */
 
         setContentView(R.layout.welcome_page);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
@@ -56,7 +62,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 
-
+        /**
+         * Tood listen user wifi
+         */
         if (userstatus.isAtHome()) {
             Drawable drawable = getDrawable(R.drawable.ic_work_black_24dp);
             imageView.setImageDrawable(drawable);
@@ -202,6 +210,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
             } catch (PSException e) {
                 e.printStackTrace();
             }
+
             return "Executed";
         }
     }
