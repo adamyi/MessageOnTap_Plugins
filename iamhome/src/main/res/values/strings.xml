@@ -3,4 +3,8 @@
     <string name="plugin_title">I am Home</string>
     <string name="plugin_description">Automatically notify others upon arrival at home.</string>
     <string name="are_you_at_home">Are you at home?</string>
+    <string name="tutorial_main_intro">
+        After achieving home Wi-Fi information,
+        we automatically remind you every time you get home and provide an instant and convenient way
+        to notify your friends via WhatsApp as default. \n\nClick anywhere to start the tutorial.</string>
 </resources>

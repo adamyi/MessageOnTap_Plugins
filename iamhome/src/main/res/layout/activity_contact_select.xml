@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:elevation="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
             />
         </android.support.design.widget.AppBarLayout>
 
@@ -33,7 +35,14 @@
             android:text="Test send MessageData"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <include layout="@layout/item_fab" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingUndefinedAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"
+            app:elevation="22dp"
+            app:fabSize="normal" />
 
 
     </android.support.design.widget.CoordinatorLayout>

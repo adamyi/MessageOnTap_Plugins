@@ -102,7 +102,7 @@ public class Contact {
     }
 
     public static void InitSelection(Context context){
-        Set<String> set = ContactStorage.getContacts(context);
+        Set<String> set = ContactStorage.getContacts(context, ContactStorage.STORAGE);
         for (String str: set){
             for (Contact contact: Contact.contactList){
                 if (str.equals(contact.getName())){
@@ -112,5 +112,7 @@ public class Contact {
             }
         }
     }
+
+
 
 }
