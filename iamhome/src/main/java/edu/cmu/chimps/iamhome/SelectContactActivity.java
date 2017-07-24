@@ -12,7 +12,6 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -32,6 +31,8 @@ import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
+import static android.Manifest.permission_group.STORAGE;
+
 
 public class SelectContactActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,7 +41,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onBackPressed() {
         Set<String> set = new HashSet<>(Contact.getSavedContactList());
-        ContactStorage.storeSendUsers(getBaseContext(), set);
+        ContactStorage.storeSendUsers(getBaseContext(), set, STORAGE);
         Toast.makeText(SelectContactActivity.this, "Contacts Saved", Toast.LENGTH_SHORT).show();
         super.onBackPressed();
     }
@@ -59,7 +60,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setTitle("Select contacts to share");
+        toolbar.setTitle("Select Contacts");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
@@ -80,19 +81,20 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                 switch (menuItemId) {
                     case R.id.selectAll:
                         if (Contact.SelectedItemCount() == Contact.contactList.size()) {
-                            ContactAdapter.SetAllSelction(false, recyclerView);
+                            ContactAdapter.SetAllSelection(false, recyclerView);
                             Snackbar snackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Deselect All", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         } else {
-                            permanentSet = ContactStorage.getContacts(MyApplication.getContext());
-                            ContactAdapter.SetAllSelction(true, recyclerView);
+                            Set<String> set = new HashSet<>(Contact.getSavedContactList());
+                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.ALLSELECTSTORAGE);
+                            ContactAdapter.SetAllSelection(true, recyclerView);
                             Snackbar undoSnackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Select All", Snackbar.LENGTH_LONG)
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Contact.SetSelection(MyApplication.getContext(),permanentSet);
+                                            ContactAdapter.SetAllSavedSelection(recyclerView);
                                         }
                                     });
 
@@ -154,7 +156,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                        ContactStorage.storeSendUsers(getBaseContext(), set);
+                        ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.STORAGE);
                         Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                         startService(launchService);
                     }

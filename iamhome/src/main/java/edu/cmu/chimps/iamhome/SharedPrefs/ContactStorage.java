@@ -9,9 +9,11 @@ import java.util.Set;
 public class ContactStorage {
     public static final String KEY_FOR_USER_WIFI = "send_contacts ";
     public static final String POSITION = "send_contacts_position";
+    public static final String STORAGE = "save_contacts_file";
+    public static final String ALLSELECTSTORAGE = "save_contacts_file";
 
-    public static void storeSendUsers(Context context, Set<String>set){
-        SharedPreferences.Editor editor = context.getSharedPreferences("contacts",context.MODE_PRIVATE).edit();
+    public static void storeSendUsers(Context context, Set<String>set, String filename){
+        SharedPreferences.Editor editor = context.getSharedPreferences(filename, context.MODE_PRIVATE).edit();
         editor.putStringSet(POSITION, set);
         editor.apply();
         if (FirstTimeStorage.getFirst(context)) {
@@ -19,8 +21,8 @@ public class ContactStorage {
         }
     }
 
-    public static Set<String> getContacts(Context context){
-        SharedPreferences pref = context.getSharedPreferences("contacts", context.MODE_PRIVATE);
+    public static Set<String> getContacts(Context context, String filename){
+        SharedPreferences pref = context.getSharedPreferences(filename, context.MODE_PRIVATE);
         return pref.getStringSet(POSITION, new HashSet<String>());
     }
 

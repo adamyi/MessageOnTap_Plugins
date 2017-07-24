@@ -13,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Set;
 
+import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.R;
+import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 
 import static edu.cmu.chimps.iamhome.RecyView.Contact.SelectedItemCount;
 import static edu.cmu.chimps.iamhome.RecyView.Contact.toggleFlag;
@@ -103,14 +106,35 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
     }
 
-    public static void SetAllSelction(Boolean selection, RecyclerView recyclerView){
+    public static void SetAllSelection(Boolean selection, RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             Contact.SetAllFlag(selection);
             holder.contactLayout.setSelected(selection);
             holder.contactCheckBox.setChecked(selection);
-            Log.i("iiii", "SetAllSelction: ");
+            Log.i("iiii", "SetAllSelection: ");
         }
+    }
+    
+    public static void SetAllSavedSelection(RecyclerView recyclerView){
+        Set<String> set = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.ALLSELECTSTORAGE);
+        for (String str: set) {
+            Log.i("iiii", "SetAllSavedSelection:111 ");
+            for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                Log.i("iiii", "SetAllSavedSelection: "+holder.contactName.getText());
+                Contact.SetAllFlag(false);
+                holder.contactLayout.setSelected(false);
+                holder.contactCheckBox.setChecked(false);
+                if (str == holder.contactName.getText()){
+                    Contact.SetAllFlag(true);
+                    holder.contactLayout.setSelected(true);
+                    holder.contactCheckBox.setChecked(true);
+                }
+                Log.i("iiii", "SetAllSelection:  completed");
+            }
+        }
+
     }
 
 }
