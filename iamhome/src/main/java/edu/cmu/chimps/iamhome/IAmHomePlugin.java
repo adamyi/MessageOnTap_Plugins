@@ -92,6 +92,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     }
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
