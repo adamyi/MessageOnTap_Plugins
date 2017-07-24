@@ -57,7 +57,7 @@ public class ShareMessageService extends Service {
         uqi = new UQI(this);
         clicked = false;
 
-        Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext());
+        Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE);
         contactNames = inputSet.toArray(new String[inputSet.size()]);
         AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
 
@@ -89,7 +89,7 @@ public class ShareMessageService extends Service {
                     }
                 });
 
-        if (ContactStorage.getContacts(MyApplication.getContext()).size() == 0) {
+        if (ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE).size() == 0) {
             Toast.makeText(this, "Set list to send", Toast.LENGTH_SHORT).show();
             FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), true);
 

@@ -13,7 +13,6 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,14 +20,12 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
-import com.gordonwong.materialsheetfab.MaterialSheetFab;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.RecyView.Contact;
 import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
-import edu.cmu.chimps.iamhome.RecyView.Fab;
 import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
@@ -43,6 +40,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onBackPressed() {
+
         if (BackPressedCount == 0) {
             if (updatableToast != null) { updatableToast.cancel(); }
             updatableToast = Toast.makeText(SelectContactActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT);
@@ -54,6 +52,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
             updatableToast.show();
             super.onBackPressed();
         }
+
     }
 
     Toolbar toolbar;
@@ -71,7 +70,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
         //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setTitle("Select contacts to share");
+        toolbar.setTitle("Select Contacts");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
@@ -93,19 +92,20 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                 switch (menuItemId) {
                     case R.id.selectAll:
                         if (Contact.SelectedItemCount() == Contact.contactList.size()) {
-                            ContactAdapter.SetAllSelction(false, recyclerView);
+                            ContactAdapter.SetAllSelection(false, recyclerView);
                             Snackbar snackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Deselect All", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         } else {
-                            permanentSet = ContactStorage.getContacts(MyApplication.getContext());
-                            ContactAdapter.SetAllSelction(true, recyclerView);
+                            Set<String> set = new HashSet<>(Contact.getSavedContactList());
+                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.ALLSELECTSTORAGE);
+                            ContactAdapter.SetAllSelection(true, recyclerView);
                             Snackbar undoSnackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Select All", Snackbar.LENGTH_LONG)
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Contact.SetSelection(MyApplication.getContext(), permanentSet);
+                                            ContactAdapter.SetAllSavedSelection(recyclerView);
                                         }
                                     });
 
@@ -192,7 +192,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                        ContactStorage.storeSendUsers(getBaseContext(), set);
+                        ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.STORAGE);
                         Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                         startService(launchService);
                     }
