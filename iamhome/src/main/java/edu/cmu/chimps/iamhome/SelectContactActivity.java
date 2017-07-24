@@ -46,10 +46,12 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
             updatableToast = Toast.makeText(SelectContactActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT);
             updatableToast.show();
             BackPressedCount++;
-        } else {
+        } else if (BackPressedCount == 1) {
             if (updatableToast != null) { updatableToast.cancel(); }
             updatableToast = Toast.makeText(SelectContactActivity.this, "Change canceled", Toast.LENGTH_SHORT);
             updatableToast.show();
+            super.onBackPressed();
+        } else {
             super.onBackPressed();
         }
 
@@ -149,6 +151,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    BackPressedCount = 2;
                     onBackPressed();
                 }
             });

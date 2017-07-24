@@ -31,6 +31,7 @@ import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
+import com.takusemba.spotlight.CustomTarget;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
 import com.takusemba.spotlight.OnSpotlightStartedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
@@ -45,7 +46,9 @@ import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
-public class IAmHomeSettingsActivity extends AppCompatActivity implements View.OnClickListener {
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
+public class IAmHomeSettingsActivity extends AppCompatActivity {
     private String sentText;
     public String username;
     IAmHomePlugin userstatus = new IAmHomePlugin();
@@ -55,6 +58,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         UQI uqi = new UQI(this);
         uqi.getData(Contact.getAll(), Purpose.UTILITY("test")).debug();
@@ -142,7 +146,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                 }
                             })
                             .start();
-                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+                    //FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                 }
 
             }
@@ -323,13 +327,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                             new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
                                                     .setRadius(200f)
                                                     .setTitle("Instant Messaging")
-                                                    .setDescription("Start our auto-sending service immediately. \n The sending message will be presented before you send.")
+                                                    .setDescription("Start our auto-sending service immediately. \n\nThe sending message will be presented before you send.")
                                                     .build();
 
                                     Spotlight.with(IAmHomeSettingsActivity.this)
                                             .setDuration(1000L)
                                             .setAnimation(new DecelerateInterpolator(2f))
-                                            .setTargets(firstTarget, secondTarget, thirdTarget, fourthTarget)
+                                            .setTargets(firstTarget, fourthTarget, secondTarget, thirdTarget)
                                             .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                                                 @Override
                                                 public void onStarted() {
@@ -342,14 +346,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                                 }
                                             })
                                             .start();
-
                                 }
                             });
 
 
                         }
                     }, 600);
-                    //FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                 }
             }
 
@@ -382,11 +385,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
             return "Executed";
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-
     }
 }
 
