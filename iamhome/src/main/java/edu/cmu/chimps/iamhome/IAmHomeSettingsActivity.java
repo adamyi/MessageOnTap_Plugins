@@ -18,9 +18,11 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.UQI;
@@ -107,7 +109,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                     SimpleTarget circleMenuViewTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                             .setRadius(160f)
                             .setTitle("Menu Button")
-                            .setDescription("This is the menu button where you can operate different actions. \nTry it out yourself!")
+                            .setDescription("This is the menu button where you can operate different actions. \n\nTry it out yourself!")
                             .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                                 @Override
                                 public void onStarted(SimpleTarget target) {
@@ -164,7 +166,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
 
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
-            Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
         }
 
@@ -288,8 +290,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                                // make an target
                                                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
                                                        .setRadius(200f)
-                                                       .setTitle("Rest")
-                                                       .setDescription("Use this to reset your home WIFI")
+                                                       .setTitle("Rest Home Wi-Fi")
+                                                       .setDescription("Clean current home Wi-Fi data and set it to the connected Wi-Fi.")
                                                        .build();
 
                                                View two = findViewById(R.id.edit);
@@ -300,8 +302,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                                // make an target
                                                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                                                        .setRadius(200f)
-                                                       .setTitle("Edit")
-                                                       .setDescription("Customize your at home message")
+                                                       .setTitle("Edit Message to Send")
+                                                       .setDescription("Customize your at sending message")
                                                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                                                            @Override
                                                            public void onStarted(SimpleTarget target) {
@@ -318,14 +320,14 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                                SimpleTarget thirdTarget =
                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.favorite))
                                                                .setRadius(200f)
-                                                               .setTitle("Contacts")
-                                                               .setDescription("Check your sending contact list")
+                                                               .setTitle("Sending Contact List")
+                                                               .setDescription("View and change the contacts you'd like to send.")
                                                                .build();
                                                SimpleTarget fourthTarget =
                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
                                                                .setRadius(200f)
-                                                               .setTitle("Launch!")
-                                                               .setDescription("One tap to tell your friends you are home")
+                                                               .setTitle("Instant Messaging")
+                                                               .setDescription("Start our auto-sending service immediately. \n The sending message will be presented before you send.")
                                                                .build();
 
                                                Spotlight.with(IAmHomeSettingsActivity.this)
@@ -340,8 +342,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
                                                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
                                                            @Override
                                                            public void onEnded() {
-                                                               Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
-                                                                       .show();
+                                                               //Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT).show();
                                                            }
                                                        })
                                                        .start();
@@ -352,8 +353,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
 
                                    }
                                },600);
-
-
+                    //FirstTimeStorage.setFirst(MyApplication.getContext(), false);
             }
             }
 

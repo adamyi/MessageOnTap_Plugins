@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:elevation="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
             />
         </android.support.design.widget.AppBarLayout>
 

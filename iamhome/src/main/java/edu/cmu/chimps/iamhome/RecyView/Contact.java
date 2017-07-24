@@ -113,4 +113,15 @@ public class Contact {
         }
     }
 
+    public static void SetSelection(Context context, Set<String> inputSet){
+        for (String str: inputSet){
+            for (Contact contact: Contact.contactList){
+                if (str.equals(contact.getName())){
+                    toggleFlag(contact);
+                    //Toast.makeText(context, "selected completed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
 }
