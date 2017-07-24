@@ -106,6 +106,7 @@ public class SelectContactActivity extends AppCompatActivity implements View.OnC
                                         @Override
                                         public void onClick(View view) {
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
+                                            toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
                                     });
 
