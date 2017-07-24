@@ -67,70 +67,71 @@ public class IAmHomeSettingsActivity extends AppCompatActivity implements View.O
         vto.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                welcomePage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                /**
-                 * Tutorial
-                 */
-                View homeView = findViewById(R.id.imageView);
-                int[] imageLocation = new int[2];
-                homeView.getLocationOnScreen(imageLocation);
-                float imageX = imageLocation[0] + homeView.getWidth() / 2f;
-                float imageY = imageLocation[1] + homeView.getHeight() / 2f;
-                // make an target
-                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
-                        .setRadius(250f)
-                        .setTitle("Image")
-                        .setDescription("Show whether you are at home")
-                        .build();
+                //Detect whether it's first time
+                if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
+                    welcomePage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                View two = findViewById(R.id.circleMenu);
-                int[] twoLocation = new int[2];
-                two.getLocationInWindow(twoLocation);
-                PointF point =
-                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
-                // make an target
-                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
-                        .setRadius(160f)
-                        .setTitle("Menu")
-                        .setDescription("The Main Menu")
-                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-                            @Override
-                            public void onStarted(SimpleTarget target) {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
-                            }
+                    //Tutorial
+                    View homeView = findViewById(R.id.imageView);
+                    int[] imageLocation = new int[2];
+                    homeView.getLocationOnScreen(imageLocation);
+                    float imageX = imageLocation[0] + homeView.getWidth() / 2f;
+                    float imageY = imageLocation[1] + homeView.getHeight() / 2f;
+                    // make an target
+                    SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                            .setRadius(200f)
+                            .setTitle("State Icon")
+                            .setDescription("This icon indicates the connection status to your home Wi-Fi")
+                            .build();
 
-                            @Override
-                            public void onEnded(SimpleTarget target) {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .build();
+                    SimpleTarget secondTarget =
+                            new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
+                                    .setRadius(200f)
+                                    .setTitle("Current Wi-Fi")
+                                    .setDescription("This filed shows your device's connected Wi-Fi")
+                                    .build();
 
-                SimpleTarget thirdTarget =
-                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
-                                .setRadius(200f)
-                                .setTitle("Title")
-                                .setDescription("Showing your connected wifi")
-                                .build();
+                    View two = findViewById(R.id.circleMenu);
+                    int[] twoLocation = new int[2];
+                    two.getLocationInWindow(twoLocation);
+                    PointF point =
+                            new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                    // make an target
+                    SimpleTarget thirdTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                            .setRadius(160f)
+                            .setTitle("Menu Button")
+                            .setDescription("This is the menu button where you can operate different actions. \nTry it out yourself!")
+                            .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                                @Override
+                                public void onStarted(SimpleTarget target) {
+                                    //Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
+                                }
 
-                Spotlight.with(IAmHomeSettingsActivity.this)
-                        .setDuration(1000L)
-                        .setAnimation(new DecelerateInterpolator(2f))
-                        .setTargets(firstTarget, secondTarget, thirdTarget)
-                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
-                            @Override
-                            public void onStarted() {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is started", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
-                            @Override
-                            public void onEnded() {
-                                Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .start();
+                                @Override
+                                public void onEnded(SimpleTarget target) {
+                                    //Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .build();
+
+                    Spotlight.with(IAmHomeSettingsActivity.this)
+                            .setDuration(1000L)
+                            .setAnimation(new DecelerateInterpolator(2f))
+                            .setTargets(firstTarget, secondTarget, thirdTarget)
+                            .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                                @Override
+                                public void onStarted() {
+                                    Toast.makeText(IAmHomeSettingsActivity.this, "Welcome to I Am Home", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                                @Override
+                                public void onEnded() {
+                                    //Toast.makeText(IAmHomeSettingsActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .start();
+                }
             }
         });
 
