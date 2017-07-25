@@ -1,6 +1,6 @@
 package edu.cmu.chimps.iamhome;
 
-import android.app.PendingIntent;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
@@ -52,6 +51,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
     IAmHomePlugin userstatus = new IAmHomePlugin();
 
     Intent circleIntent = new Intent();
+    boolean connected = false;
 
 
 
@@ -61,7 +61,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         UQI uqi = new UQI(this);
-
+        uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
         setContentView(R.layout.welcome_page);
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
@@ -79,22 +79,28 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.UTILITY("check wifi status")).forEach(new Callback<Item>() {
             @Override
             protected void onInput(Item input) {
+
                 if (WifiUtils.getUsersHomeWifiList(MyApplication.getContext()).contains(input.getValueByField(WifiAp.BSSID)) &&
-                        input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
+                        input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED) ) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
+                    connected = true;
+
                 } else if (input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
+                    connected = true;
                 } else {
+
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: \n" + "No Connection");
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
+                    connected = false;
 
                 }
             }
@@ -268,7 +274,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                             }
                                         });
                                     }
-                                }, 600);
+                                }, 100);
 
 
                             }
@@ -314,6 +320,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             Intent saveHomeWifiServiceIntent = new Intent(MyApplication.getContext(), SaveHomeWifiService.class);
                             saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
                             MyApplication.getContext().startService(saveHomeWifiServiceIntent);
+                            if(connected){
+                            ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
+                            imageView1.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
+                    }
+
 
                         }
                     });
@@ -393,5 +404,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         });
         startService(new Intent(this, IAmHomePlugin.class));
     }
-}
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UQI uqi = new UQI(MyApplication.getContext());
+        uqi.stopAll();
+    }
+   }
 
