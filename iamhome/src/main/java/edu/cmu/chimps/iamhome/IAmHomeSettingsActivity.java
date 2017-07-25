@@ -1,5 +1,6 @@
 package edu.cmu.chimps.iamhome;
 
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
@@ -42,6 +43,7 @@ import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
@@ -50,6 +52,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
     IAmHomePlugin userstatus = new IAmHomePlugin();
 
     Intent circleIntent = new Intent();
+    boolean connected = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -57,7 +60,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         UQI uqi = new UQI(this);
-
+        uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
         setContentView(R.layout.welcome_page);
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
@@ -71,22 +74,29 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.UTILITY("check wifi status")).forEach(new Callback<Item>() {
             @Override
             protected void onInput(Item input) {
+
                 if (WifiUtils.getUsersHomeWifiList(MyApplication.getContext()).contains(input.getValueByField(WifiAp.BSSID)) &&
-                        input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
+                        input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED) ) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
+                    StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
+
+
                 } else if (input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
+
                 } else {
+
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: \n" + "No Connection");
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
+
 
                 }
             }
@@ -303,8 +313,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             Intent saveHomeWifiServiceIntent = new Intent(MyApplication.getContext(), SaveHomeWifiService.class);
                             saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
                             MyApplication.getContext().startService(saveHomeWifiServiceIntent);
+
                             ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
                             imageView1.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
+
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -380,5 +392,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         });
         startService(new Intent(this, IAmHomePlugin.class));
     }
-}
+
+   }
 

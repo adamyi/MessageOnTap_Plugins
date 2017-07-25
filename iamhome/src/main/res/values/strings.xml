@@ -4,8 +4,10 @@
     <string name="plugin_description">Automatically notify others upon arrival at home.</string>
     <string name="are_you_at_home">Are you at home?</string>
     <string name="tutorial_main_intro">
+
         This app can help you notify your friends automatically when you are at home.
         When your device connect to your home Wi-Fi, you can send default messages easily from NOTIFICATION center.
         We do the sending work for you!
         \n\nClick anywhere to start the tutorial.</string>
+
 </resources>
