@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,13 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.utils.AppUtils;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
@@ -46,7 +42,6 @@ import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
-import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
@@ -137,7 +132,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
                                     .setRadius(200f)
                                     .setTitle("Current Wi-Fi")
-                                    .setDescription("It shows your device's connected Wi-Fi")
+                                    .setDescription("It shows your device's connected Wi-Fi \n ")
                                     .build();
 
                     View circleMenuView = findViewById(R.id.circleMenu);

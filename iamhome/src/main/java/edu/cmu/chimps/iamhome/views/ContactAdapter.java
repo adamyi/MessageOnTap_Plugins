@@ -16,9 +16,11 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.R;
+import edu.cmu.chimps.iamhome.SelectContactActivity;
 import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 
 import static edu.cmu.chimps.iamhome.views.Contact.SelectedItemCount;
+import static edu.cmu.chimps.iamhome.views.Contact.contactList;
 import static edu.cmu.chimps.iamhome.views.Contact.toggleFlag;
 
 /**
@@ -60,16 +62,19 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
-                Contact contact = mContactList.get(position);
-                if (SelectedItemCount()==0){
-                    toggleFlag(contact);
-                    String title = " " + SelectedItemCount() + " selected";
-                    mToolbar.setSubtitle(title);
-                } else {
-                    toggleFlag(contact);
-                    String title = " " + SelectedItemCount() + " selected";
-                    mToolbar.setSubtitle(title);
+                if (SelectedItemCount()==contactList.size()){
+                    SelectContactActivity.iconChangeListener.onChange(false);
                 }
+                Contact contact = mContactList.get(position);
+                toggleFlag(contact);
+                String title = " " + SelectedItemCount() + " selected";
+                mToolbar.setSubtitle(title);
+                if (SelectedItemCount()== contactList.size()){
+                    Log.e("Test", "Listener sent");
+                    SelectContactActivity.iconChangeListener.onChange(true);
+                }
+
+
                 SetSelection(holder, contact);
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();
             }
