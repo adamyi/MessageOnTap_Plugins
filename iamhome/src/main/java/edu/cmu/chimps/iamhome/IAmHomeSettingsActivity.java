@@ -4,7 +4,6 @@ package edu.cmu.chimps.iamhome;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -17,18 +16,23 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.privacystreams.accessibility.AccEvent;
+
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.utils.AppUtils;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
@@ -36,6 +40,7 @@ import com.takusemba.spotlight.OnSpotlightStartedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,6 +48,7 @@ import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
@@ -52,8 +58,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
     Intent circleIntent = new Intent();
     boolean connected = false;
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -66,11 +70,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
-        } else {}
-
-        if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
-            //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
-            StringStorage.storeMessage(MyApplication.getContext(), "", true);
+        } else {
         }
 
         /**
@@ -86,25 +86,26 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
-                    connected = true;
+
 
                 } else if (input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
-                    connected = true;
+
                 } else {
 
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: \n" + "No Connection");
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
-                    connected = false;
+
 
                 }
             }
         });
+
         //Callback when the view is ready
         /**
          * tutorial steps, and the first time overview of using this application
@@ -204,7 +205,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                View reset = findViewById(R.id.search);
+                                                View reset = findViewById(R.id.circle_reset_wifi);
                                                 int[] imageLocation = new int[2];
                                                 reset.getLocationOnScreen(imageLocation);
                                                 float imageX = imageLocation[0] + reset.getWidth() / 2f;
@@ -217,13 +218,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         .setDescription("Use this to reset your home WIFI")
                                                         .build();
 
-                                                View two = findViewById(R.id.edit);
+                                                View two = findViewById(R.id.circle_edit_text);
                                                 int[] twoLocation = new int[2];
                                                 two.getLocationInWindow(twoLocation);
                                                 PointF point =
                                                         new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
                                                 // make an target
-                                                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                                                SimpleTarget thirdTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                                                         .setRadius(200f)
                                                         .setTitle("Edit")
                                                         .setDescription("Customize your at home message")
@@ -240,14 +241,15 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         })
                                                         .build();
 
-                                                SimpleTarget thirdTarget =
-                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.favorite))
+                                                SimpleTarget fourthTarget =
+                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.circle_contact_list))
                                                                 .setRadius(200f)
                                                                 .setTitle("Contacts")
                                                                 .setDescription("Check your sending contact list")
                                                                 .build();
-                                                SimpleTarget fourthTarget =
-                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
+
+                                                SimpleTarget secondTarget =
+                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.circle_send_message))
                                                                 .setRadius(200f)
                                                                 .setTitle("Launch!")
                                                                 .setDescription("One tap to tell your friends you are home")
@@ -265,9 +267,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
                                                             @Override
                                                             public void onEnded() {
-                                                                Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
-                                                                        .show();
-                                                                FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+                                                                Toast.makeText(IAmHomeSettingsActivity.this, "You've learned how to use this masterpiece", Toast.LENGTH_SHORT).show();
                                                             }
                                                         })
                                                         .start();
@@ -275,8 +275,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                         });
                                     }
                                 }, 100);
-
-
+                                FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                             }
                         }
 
@@ -288,15 +287,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                              */
                         }
                     });
-
                 }
-
-
             }
         });
+        uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
 
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
@@ -309,10 +306,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                  * Four buttons for actions;
                  */
 
-                if (menuButton == menuButton.findViewById(R.id.search)) {
+                if (menuButton == menuButton.findViewById(R.id.circle_reset_wifi)) {
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Reset Home Wifi");
-                    dialog.setMessage("Saved wifi will be replaced by the connected wifi");
+                    dialog.setMessage("Saved wifi will be replaced by the connected wifi.");
                     dialog.setPositiveButton("RESET TO CURRENT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -320,11 +317,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             Intent saveHomeWifiServiceIntent = new Intent(MyApplication.getContext(), SaveHomeWifiService.class);
                             saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
                             MyApplication.getContext().startService(saveHomeWifiServiceIntent);
-                            if(connected){
+
                             ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
                             imageView1.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
-                    }
-
 
                         }
                     });
@@ -337,7 +332,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     });
                     dialog.show();
                 }
-                if (menuButton == menuButton.findViewById(R.id.favorite)) {
+                if (menuButton == menuButton.findViewById(R.id.circle_contact_list)) {
                     circleIntent = new Intent(MyApplication.getContext(), SelectContactActivity.class);
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -347,7 +342,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                         }
                     }, 1170);
                 }
-                if (menuButton == menuButton.findViewById(R.id.edit)) {
+                if (menuButton == menuButton.findViewById(R.id.circle_edit_text)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     builder.setTitle("Set message to send");
                     final EditText input = new EditText(MyApplication.getContext());
@@ -377,7 +372,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     builder.show();
                     Log.i("diaglog", "ok");
                 }
-                if (menuButton == menuButton.findViewById(R.id.explorer)) {
+                if (menuButton == menuButton.findViewById(R.id.circle_send_message)) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Send Message");
                     dialog.setMessage("Current message:\n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n");
@@ -386,7 +381,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                                 startService(launchService);
-
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -399,17 +393,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     dialog.show();
                 }
             }
-
-
         });
         startService(new Intent(this, IAmHomePlugin.class));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        UQI uqi = new UQI(MyApplication.getContext());
-        uqi.stopAll();
-    }
    }
 

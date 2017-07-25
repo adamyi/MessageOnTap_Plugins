@@ -43,8 +43,6 @@ public class Contact {
     public static ArrayList<Contact> getWhatsAppContacts(Context context) throws PSException {
 
         UQI uqi = new UQI(context);
-
-
         ArrayList<Contact> result = new ArrayList<>();
        List<Item> whatsAppC= uqi.getData(com.github.privacystreams.communication.Contact.getWhatAppAll(), Purpose.UTILITY("get whatsapp contacts"))
                 .asList();
