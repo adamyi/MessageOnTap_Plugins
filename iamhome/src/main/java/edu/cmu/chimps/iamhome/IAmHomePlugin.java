@@ -34,8 +34,8 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
     public static boolean letset = false;
 
-    private final static int ALARM_HOUR = 22;
-    private final static int ALARM_MINUTE = 00;
+    private final static int ALARM_HOUR = 8;
+    private final static int ALARM_MINUTE = 29;
 
     private final static int ALARM_SECOND = 0;
 
@@ -45,7 +45,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     public void setHomeEventListener(OnHomeEventListener homeEventListener) {
         this.homeEventListener=homeEventListener;
     }
-
     public void homeSensing() {
 
         setHomeEventListener(new OnHomeEventListener(){
@@ -72,7 +71,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                                 homeEventListener.onEvent(true);
                                 StatusToastsUtils.atHomeToast(MyApplication.getContext());
                                 StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
-
                             }
                             StatusToastsUtils.wifiConnectedToast(MyApplication.getContext());
                         }

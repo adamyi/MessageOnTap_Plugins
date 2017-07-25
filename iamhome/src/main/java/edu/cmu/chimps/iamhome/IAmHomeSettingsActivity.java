@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,15 +18,11 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import android.widget.TextView;
-
 import android.widget.Toast;
-
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
@@ -66,7 +61,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         UQI uqi = new UQI(this);
         uqi.getData(Contact.getAll(), Purpose.UTILITY("test")).debug();
 
+
         setContentView(R.layout.welcome_page);
+        if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
+            //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
+            StringStorage.storeMessage(MyApplication.getContext(), "", true);
+        } else {}
 
         /**
          * set user wifi status
@@ -94,8 +94,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         //Callback when the view is ready
         /**
          * tutorial steps, and the first time overview of using this application
@@ -124,7 +122,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     SimpleTarget homeViewTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
                             .setRadius(200f)
                             .setTitle("Status Icon")
-                            .setDescription("This icon indicates the connection status to your home Wi-Fi")
+                            .setDescription("It indicates your \" HOME \" status")
                             .build();
 
                     SimpleTarget mainIntroTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
@@ -137,7 +135,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
                                     .setRadius(200f)
                                     .setTitle("Current Wi-Fi")
-                                    .setDescription("This filed shows your device's connected Wi-Fi")
+                                    .setDescription("It shows your device's connected Wi-Fi")
                                     .build();
 
                     View circleMenuView = findViewById(R.id.circleMenu);
@@ -148,8 +146,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     // make an target
                     SimpleTarget circleMenuViewTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                             .setRadius(160f)
-                            .setTitle("Menu Button")
-                            .setDescription("This is the menu button where you can operate different actions. \n\nTry it out yourself!")
+                            .setTitle("Menu")
+                            .setDescription("This is the menu button for settings! \n\nTry it out yourself!")
                             .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                                 @Override
                                 public void onStarted(SimpleTarget target) {
@@ -293,10 +291,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 
 
-        if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
-            //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
-            StringStorage.storeMessage(MyApplication.getContext(), "", true);
-        }
+
         final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
         circleMenu.setOnItemClickListener(new CircleMenu.OnItemClickListener() {
             @Override
@@ -373,8 +368,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
-                            startService(launchService);
+                                Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
+                                startService(launchService);
+
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -392,7 +388,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         });
         startService(new Intent(this, IAmHomePlugin.class));
 
-
     }
     private class LongOperation extends AsyncTask<String, Void, String> {
 
@@ -400,9 +395,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
                if( WifiUtils.checkWifiStatus()){
+                   Log.i("549668785", "ok");
                 WifiUtils.storeUsersHomeWifi(MyApplication.getContext());
                }
                else{
+
 
                }
             } catch (PSException e) {

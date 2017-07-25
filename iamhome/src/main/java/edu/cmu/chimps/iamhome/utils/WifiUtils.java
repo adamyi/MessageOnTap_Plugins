@@ -134,6 +134,12 @@ public class WifiUtils {
     public static boolean isAthome(boolean result){
         return result;
     }
+
+    /**
+     * check whter the user is connecting a wifi, true if the user is connecetd to a wifi
+     * @return
+     * @throws PSException
+     */
     public static boolean checkWifiStatus() throws PSException {
         UQI uqi = new UQI(MyApplication.getContext());
         return !uqi.getData(WifiAp.getScanResults(), Purpose.UTILITY("check wifi stauts")).filter(WifiAp.STATUS, WifiAp.STATUS_CONNECTED).asList().isEmpty();
