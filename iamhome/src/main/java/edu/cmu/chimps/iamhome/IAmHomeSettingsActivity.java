@@ -1,5 +1,6 @@
 package edu.cmu.chimps.iamhome;
 
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
@@ -39,6 +40,7 @@ import com.takusemba.spotlight.Spotlight;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
@@ -188,8 +190,9 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
                     circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
                         @Override
-                        public void onMenuExpanded() {
 
+                        public void onMenuExpanded() {
+                            if(FirstTimeStorage.getFirst(MyApplication.getContext())){
 
                             Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
@@ -261,7 +264,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         public void onEnded() {
                                                             Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
                                                                     .show();
-                                                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+
                                                         }
                                                     })
                                                     .start();
@@ -269,6 +272,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                     });
                                 }
                             }, 600);
+//                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+                        }
                         }
 
                         @Override
@@ -276,10 +281,13 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             /**
                              * the menu is collapsed
                              */
+                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+
                         }
                     });
 
                 }
+                FirstTimeStorage.setFirst(MyApplication.getContext(), false);
 
             }
         });
@@ -299,15 +307,17 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                  */
 
                 if (menuButton == menuButton.findViewById(R.id.search)) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Reset Home Wifi");
                     dialog.setMessage("Saved wifi will be replaced by the connected wifi");
                     dialog.setPositiveButton("RESET TO CURRENT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //Reset Wifi code here
-                            new LongOperation().execute(" ");
-                            Log.i("clicked", "okkkkkk");
+                            Intent saveHomeWifiServiceIntent = new Intent(MyApplication.getContext(), SaveHomeWifiService.class);
+                            saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
+                            MyApplication.getContext().startService(saveHomeWifiServiceIntent);
+
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -384,30 +394,24 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
 
         });
-        startService(new Intent(this, IAmHomePlugin.class));
+        final CircleMenu circleMenu1 = (CircleMenu) findViewById(R.id.circleMenu);
+        circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
+                                              @Override
+                                              public void onMenuExpanded() {
+
+                                              }
+
+                                              @Override
+                                              public void onMenuCollapsed() {
+
+                                              }
+                                          });
+                startService(new Intent(this, IAmHomePlugin.class));
+
 
     }
-    private class LongOperation extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-               if( WifiUtils.checkWifiStatus()){
-                   Log.i("549668785", "ok");
-                WifiUtils.storeUsersHomeWifi(MyApplication.getContext());
-               }
-               else{
 
 
-               }
-            } catch (PSException e) {
-                Log.i("exception", "exception");
-                e.printStackTrace();
-            }
-            return "Executed";
-        }
-
-    }
 
 }
 
