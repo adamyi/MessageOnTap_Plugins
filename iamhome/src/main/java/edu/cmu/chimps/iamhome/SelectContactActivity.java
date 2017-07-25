@@ -21,11 +21,11 @@ import com.github.privacystreams.core.exceptions.PSException;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.views.Contact;
-import edu.cmu.chimps.iamhome.views.ContactAdapter;
+import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.services.ShareMessageService;
+import edu.cmu.chimps.iamhome.views.Contact;
+import edu.cmu.chimps.iamhome.views.ContactAdapter;
 
 
 public class SelectContactActivity extends AppCompatActivity {
@@ -107,19 +107,23 @@ public class SelectContactActivity extends AppCompatActivity {
                 switch (menuItemId) {
                     case R.id.selectAll:
                         if (Contact.SelectedItemCount() == Contact.contactList.size()) {
+                            item.setIcon(getDrawable(R.drawable.ic_action_selectall));
                             ContactAdapter.SetAllSelection(false, recyclerView);
                             Snackbar snackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Deselect All", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         } else {
+                            item.setIcon(getDrawable(R.drawable.ic_delete_sweep_black_24dp));
                             Set<String> set = new HashSet<>(Contact.getSavedContactList());
                             ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.ALLSELECTSTORAGE);
                             ContactAdapter.SetAllSelection(true, recyclerView);
+                            final MenuItem itemP = item;
                             Snackbar undoSnackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Select All", Snackbar.LENGTH_LONG)
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            itemP.setIcon(getDrawable(R.drawable.ic_action_selectall));
                                             Contact.InitFlag(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
                                             toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
