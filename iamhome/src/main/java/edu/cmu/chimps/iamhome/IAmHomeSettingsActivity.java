@@ -409,9 +409,5 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
 }
 
