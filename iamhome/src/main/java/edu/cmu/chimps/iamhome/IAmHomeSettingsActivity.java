@@ -189,86 +189,86 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
                         @Override
                         public void onMenuExpanded() {
+                            if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
+                                Timer timer = new Timer();
+                                timer.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                View reset = findViewById(R.id.search);
+                                                int[] imageLocation = new int[2];
+                                                reset.getLocationOnScreen(imageLocation);
+                                                float imageX = imageLocation[0] + reset.getWidth() / 2f;
+                                                float imageY = imageLocation[1] + reset.getHeight() / 2f;
 
+                                                // make an target
+                                                SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
+                                                        .setRadius(200f)
+                                                        .setTitle("Reset")
+                                                        .setDescription("Use this to reset your home WIFI")
+                                                        .build();
 
-                            Timer timer = new Timer();
-                            timer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            View reset = findViewById(R.id.search);
-                                            int[] imageLocation = new int[2];
-                                            reset.getLocationOnScreen(imageLocation);
-                                            float imageX = imageLocation[0] + reset.getWidth() / 2f;
-                                            float imageY = imageLocation[1] + reset.getHeight() / 2f;
+                                                View two = findViewById(R.id.edit);
+                                                int[] twoLocation = new int[2];
+                                                two.getLocationInWindow(twoLocation);
+                                                PointF point =
+                                                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                                                // make an target
+                                                SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
+                                                        .setRadius(200f)
+                                                        .setTitle("Edit")
+                                                        .setDescription("Customize your at home message")
+                                                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                                                            @Override
+                                                            public void onStarted(SimpleTarget target) {
 
-                                            // make an target
-                                            SimpleTarget firstTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(imageX, imageY)
-                                                    .setRadius(200f)
-                                                    .setTitle("Reset")
-                                                    .setDescription("Use this to reset your home WIFI")
-                                                    .build();
+                                                            }
 
-                                            View two = findViewById(R.id.edit);
-                                            int[] twoLocation = new int[2];
-                                            two.getLocationInWindow(twoLocation);
-                                            PointF point =
-                                                    new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
-                                            // make an target
-                                            SimpleTarget secondTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
-                                                    .setRadius(200f)
-                                                    .setTitle("Edit")
-                                                    .setDescription("Customize your at home message")
-                                                    .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-                                                        @Override
-                                                        public void onStarted(SimpleTarget target) {
+                                                            @Override
+                                                            public void onEnded(SimpleTarget target) {
 
-                                                        }
+                                                            }
+                                                        })
+                                                        .build();
 
-                                                        @Override
-                                                        public void onEnded(SimpleTarget target) {
+                                                SimpleTarget thirdTarget =
+                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.favorite))
+                                                                .setRadius(200f)
+                                                                .setTitle("Contacts")
+                                                                .setDescription("Check your sending contact list")
+                                                                .build();
+                                                SimpleTarget fourthTarget =
+                                                        new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
+                                                                .setRadius(200f)
+                                                                .setTitle("Launch!")
+                                                                .setDescription("One tap to tell your friends you are home")
+                                                                .build();
 
-                                                        }
-                                                    })
-                                                    .build();
-
-                                            SimpleTarget thirdTarget =
-                                                    new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.favorite))
-                                                            .setRadius(200f)
-                                                            .setTitle("Contacts")
-                                                            .setDescription("Check your sending contact list")
-                                                            .build();
-                                            SimpleTarget fourthTarget =
-                                                    new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.explorer))
-                                                            .setRadius(200f)
-                                                            .setTitle("Launch!")
-                                                            .setDescription("One tap to tell your friends you are home")
-                                                            .build();
-
-                                            Spotlight.with(IAmHomeSettingsActivity.this)
-                                                    .setDuration(1000L)
-                                                    .setAnimation(new DecelerateInterpolator(2f))
-                                                    .setTargets(firstTarget, secondTarget, thirdTarget, fourthTarget)
-                                                    .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
-                                                        @Override
-                                                        public void onStarted() {
-                                                        }
-                                                    })
-                                                    .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
-                                                        @Override
-                                                        public void onEnded() {
-                                                            Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
-                                                                    .show();
-                                                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
-                                                        }
-                                                    })
-                                                    .start();
-                                        }
-                                    });
-                                }
-                            }, 600);
+                                                Spotlight.with(IAmHomeSettingsActivity.this)
+                                                        .setDuration(1000L)
+                                                        .setAnimation(new DecelerateInterpolator(2f))
+                                                        .setTargets(firstTarget, secondTarget, thirdTarget, fourthTarget)
+                                                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                                                            @Override
+                                                            public void onStarted() {
+                                                            }
+                                                        })
+                                                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                                                            @Override
+                                                            public void onEnded() {
+                                                                Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
+                                                                        .show();
+                                                                FirstTimeStorage.setFirst(MyApplication.getContext(), false);
+                                                            }
+                                                        })
+                                                        .start();
+                                            }
+                                        });
+                                    }
+                                }, 600);
+                            }
                         }
 
                         @Override
