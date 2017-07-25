@@ -61,8 +61,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         UQI uqi = new UQI(this);
-        uqi.getData(Contact.getAll(), Purpose.UTILITY("test")).debug();
-
 
         setContentView(R.layout.welcome_page);
         if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
@@ -119,7 +117,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                      */
 
                     //Tutorial
-
                     View homeView = findViewById(R.id.imageView);
                     int[] homeViewLocation = new int[2];
                     homeView.getLocationOnScreen(homeViewLocation);
@@ -186,6 +183,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                 }
                             })
                             .start();
+                    //
 
                     final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
                     circleMenu.setStateUpdateListener(new CircleMenu.OnStateUpdateListener() {
@@ -395,6 +393,5 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         });
         startService(new Intent(this, IAmHomePlugin.class));
     }
-
 }
 
