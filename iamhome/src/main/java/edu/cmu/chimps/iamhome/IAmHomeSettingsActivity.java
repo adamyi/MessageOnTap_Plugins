@@ -1,6 +1,6 @@
 package edu.cmu.chimps.iamhome;
 
-
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
@@ -47,6 +48,7 @@ import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
+    protected MyApplication mAPP;
     private String sentText;
     public String username;
     IAmHomePlugin userstatus = new IAmHomePlugin();
@@ -59,6 +61,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        mAPP = (MyApplication) this.getApplicationContext();
+
         UQI uqi = new UQI(this);
         uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
         setContentView(R.layout.welcome_page);
@@ -66,6 +70,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
         } else {
+            //Log.e("test", Boolean.toString(AutoSelectUtils.hasPermission(MyApplication.getContext())));
         }
 
         /**
@@ -139,7 +144,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.textView3))
                                     .setRadius(200f)
                                     .setTitle("Current Wi-Fi")
-                                    .setDescription("It shows your device's connected Wi-Fi")
+                                    .setDescription("It shows your device's connected Wi-Fi \n ")
                                     .build();
 
                     View circleMenuView = findViewById(R.id.circleMenu);
@@ -349,7 +354,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                         }
                     });
                     builder.setView(input);
-                    builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             sentText = input.getText().toString();
@@ -367,8 +372,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 }
                 if (menuButton == menuButton.findViewById(R.id.circle_send_message)) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
-                    dialog.setTitle("Send Message");
-                    dialog.setMessage("Current message:\n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n");
+                    //dialog.setTitle("Send Message");
+                    dialog.setMessage("Current message:\n\n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"");
                     dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -388,6 +393,24 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
             }
         });
         startService(new Intent(this, IAmHomePlugin.class));
+    }
+    protected void onResume() {
+        super.onResume();
+        mAPP.setCurrentActivity(this);
+    }
+    protected void onPause() {
+        clearReferences();
+        super.onPause();
+    }
+    protected void onDestroy() {
+        clearReferences();
+        super.onDestroy();
+    }
+
+    private void clearReferences(){
+        Activity currActivity = mAPP.getCurrentActivity();
+        if (this.equals(currActivity))
+            mAPP.setCurrentActivity(null);
     }
 
    }
