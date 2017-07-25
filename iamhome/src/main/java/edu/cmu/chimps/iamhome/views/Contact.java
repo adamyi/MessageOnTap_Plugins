@@ -44,7 +44,6 @@ public class Contact {
 
         UQI uqi = new UQI(context);
       
-        uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
         ArrayList<Contact> result = new ArrayList<>();
        List<Item> whatsAppC= uqi.getData(com.github.privacystreams.communication.Contact.getWhatAppAll(), Purpose.UTILITY("get whatsapp contacts"))
                 .asList();

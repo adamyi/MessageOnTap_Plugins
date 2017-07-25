@@ -21,8 +21,8 @@ import com.github.privacystreams.utils.AppUtils;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
-import edu.cmu.chimps.iamhome.listeners.NodeInfoListener;
 import edu.cmu.chimps.iamhome.SelectContactActivity;
+import edu.cmu.chimps.iamhome.listeners.NodeInfoListener;
 import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
@@ -56,10 +56,10 @@ public class ShareMessageService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         uqi = new UQI(this);
         clicked = false;
+        AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
 
         Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE);
         contactNames = inputSet.toArray(new String[inputSet.size()]);
-        AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
 
         setNodeInfoListener(new NodeInfoListener() {
             public void nodeInfoReceived(AccessibilityNodeInfo selectingView) {

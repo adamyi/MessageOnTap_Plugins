@@ -238,7 +238,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                                 .setTitle("Contacts")
                                                                 .setDescription("Check your sending contact list")
                                                                 .build();
-                                                
+
                                                 SimpleTarget secondTarget =
                                                         new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(findViewById(R.id.circle_send_message))
                                                                 .setRadius(200f)
@@ -281,6 +281,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 }
             }
         });
+        uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
+
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
@@ -318,7 +320,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     });
                     dialog.show();
                 }
-                if (menuButton == menuButton.findViewById(R.id.circle_send_message)) {
+                if (menuButton == menuButton.findViewById(R.id.circle_contact_list)) {
                     circleIntent = new Intent(MyApplication.getContext(), SelectContactActivity.class);
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
