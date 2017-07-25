@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome.RecyView;
+package edu.cmu.chimps.iamhome.views;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 
 /**
  * Created by knight006 on 7/18/2017.
@@ -21,18 +21,16 @@ import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
 
 public class Contact {
     private String Name;
-  //  private int imageId;
     private boolean isFlag;
     public static ArrayList<Contact> contactList =  new ArrayList<>();
+
     public Contact(String Name){
         this.Name = Name;
     }
 
-
     public String getName() {
         return Name;
     }
-
 
     public boolean isFlag(){
         return isFlag;
@@ -65,7 +63,6 @@ public class Contact {
                 .buildRound(String.valueOf(getFirstC()), Color.GRAY);
         return drawable;
     }
-
 
     public static int SelectedItemCount(){
         int count = 0;
@@ -101,20 +98,16 @@ public class Contact {
         return savedContactList;
     }
 
-    public static void InitSelection(Context context, String filename){
+    public static void InitFlag(Context context, String filename){
         Set<String> set = ContactStorage.getContacts(context, filename);
-        if (set.size() == 0){
-            SetAllFlag(false);
-        }
-        for (Contact contact: Contact.contactList){
-                contact.setFlag(false);
-                //Toast.makeText(context, "selected completed", Toast.LENGTH_SHORT).show();
-        }
-        for (String str: set){
-            for (Contact contact: Contact.contactList){
-                if (str.equals(contact.getName())){
-                    contact.setFlag(true);
-                    //Toast.makeText(context, "selected completed", Toast.LENGTH_SHORT).show();
+        SetAllFlag(false);
+        if (set.size() != 0){
+            for (String str: set){
+                for (Contact contact: Contact.contactList){
+                    if (str.equals(contact.getName())){
+                        contact.setFlag(true);
+                        //Toast.makeText(context, "selecte completed", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }

@@ -1,6 +1,5 @@
-package edu.cmu.chimps.iamhome.RecyView;
+package edu.cmu.chimps.iamhome.views;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,10 +16,10 @@ import java.util.Set;
 
 import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.R;
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 
-import static edu.cmu.chimps.iamhome.RecyView.Contact.SelectedItemCount;
-import static edu.cmu.chimps.iamhome.RecyView.Contact.toggleFlag;
+import static edu.cmu.chimps.iamhome.views.Contact.SelectedItemCount;
+import static edu.cmu.chimps.iamhome.views.Contact.toggleFlag;
 
 /**
  * Created by knight006 on 7/18/2017.
@@ -28,7 +27,6 @@ import static edu.cmu.chimps.iamhome.RecyView.Contact.toggleFlag;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     private List<Contact> mContactList;
-    private Activity mActivity;
     private Toolbar mToolbar;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -73,9 +71,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     mToolbar.setSubtitle(title);
                 }
                 SetSelection(holder, contact);
-
-
-
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();
             }
         });
@@ -96,7 +91,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
 
-    public  void SetSelection(ViewHolder holder, Contact contact){
+    public  static void SetSelection(ViewHolder holder, Contact contact){
         if (contact.isFlag()){
             holder.contactLayout.setSelected(true);
             holder.contactCheckBox.setChecked(true);
@@ -132,7 +127,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                     Log.i("iiii", "SetAllSavedSelection: "+holder.contactName.getText());
-                    if (str == holder.contactName.getText()){
+                    if (str.equals(holder.contactName.getText())){
                         holder.contactLayout.setSelected(true);
                         holder.contactCheckBox.setChecked(true);
                     }

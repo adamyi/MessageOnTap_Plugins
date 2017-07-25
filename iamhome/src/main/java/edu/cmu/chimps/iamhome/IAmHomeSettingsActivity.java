@@ -1,6 +1,5 @@
 package edu.cmu.chimps.iamhome;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
@@ -39,9 +38,10 @@ import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
 import java.util.Timer;
 import java.util.TimerTask;
-import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.StringStorage;
+
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
+import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
@@ -67,6 +67,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
         } else {}
+
+        if (FirstTimeStorage.getFirst(MyApplication.getContext())) {
+            //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
+            StringStorage.storeMessage(MyApplication.getContext(), "", true);
+        }
 
         /**
          * set user wifi status
@@ -256,18 +261,14 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         public void onEnded() {
                                                             Toast.makeText(IAmHomeSettingsActivity.this, "You have learned how to use this masterpiece", Toast.LENGTH_SHORT)
                                                                     .show();
+                                                            FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                                                         }
                                                     })
                                                     .start();
-
                                         }
                                     });
-
-
                                 }
                             }, 600);
-
-
                         }
 
                         @Override
@@ -277,7 +278,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                              */
                         }
                     });
-                    FirstTimeStorage.setFirst(MyApplication.getContext(), false);
 
                 }
 
@@ -289,8 +289,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
-
-
 
         final CircleMenu circleMenu = (CircleMenu) findViewById(R.id.circleMenu);
         circleMenu.setOnItemClickListener(new CircleMenu.OnItemClickListener() {

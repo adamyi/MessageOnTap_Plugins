@@ -47,8 +47,8 @@ dependencies {
     compile 'com.github.adamyi:MessageOnTap_API:v0.1.2'
     compile 'com.github.chentc:PrivacyStreams:v0.1.4.7'
     compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.gordonwong:material-sheet-fab:1.2.1'
-    compile 'com.android.support:cardview-v7:26.+'
+    //compile 'com.gordonwong:material-sheet-fab:1.2.1'
+    // 'com.android.support:cardview-v7:26.+'
 
     compile 'com.android.support:design:26.+'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'

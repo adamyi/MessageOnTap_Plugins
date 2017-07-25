@@ -21,10 +21,10 @@ import com.github.privacystreams.core.exceptions.PSException;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.RecyView.Contact;
-import edu.cmu.chimps.iamhome.RecyView.ContactAdapter;
-import edu.cmu.chimps.iamhome.SharedPrefs.ContactStorage;
-import edu.cmu.chimps.iamhome.SharedPrefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.views.Contact;
+import edu.cmu.chimps.iamhome.views.ContactAdapter;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 
 
@@ -71,6 +71,16 @@ public class SelectContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BackPressedCount = 0;
+
+        //initialize contactlist from whatsapp
+        try {
+            Contact.contactList = Contact.getWhatsAppContacts(this);
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+        Contact.InitFlag(this, ContactStorage.STORAGE);
+
+        //Initialize UI
         setContentView(R.layout.activity_contact_select);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -83,7 +93,6 @@ public class SelectContactActivity extends AppCompatActivity {
         toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.inflateMenu(R.menu.selectall);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +100,6 @@ public class SelectContactActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -112,7 +120,7 @@ public class SelectContactActivity extends AppCompatActivity {
                                     .setAction("UNDO", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Contact.InitSelection(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
+                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
                                             toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
@@ -127,21 +135,12 @@ public class SelectContactActivity extends AppCompatActivity {
             }
         });
 
-
-        //initialize contactlist from whatsapp
-        try {
-            Contact.contactList = Contact.getWhatsAppContacts(this);
-        } catch (PSException e) {
-            e.printStackTrace();
-        }
-        Contact.InitSelection(this, ContactStorage.STORAGE);
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, toolbar);
-
-        //Initialize UI
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
         FloatingActionButton floatingUndefinedButton = (FloatingActionButton) findViewById(R.id.floatingUndefinedAction);
         if (FirstTimeStorage.getIndicator(MyApplication.getContext())) {
             //Toast.makeText(MyApplication.getContext(), "Send Botton", Toast.LENGTH_SHORT).show();
@@ -149,6 +148,7 @@ public class SelectContactActivity extends AppCompatActivity {
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    BackPressedCount = 2;
                     onBackPressed();
                     Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                     startService(launchService);
@@ -165,27 +165,11 @@ public class SelectContactActivity extends AppCompatActivity {
                 }
             });
         }
+
         FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), false);
-//        FloatingActionButton fabCheck = (FloatingActionButton) findViewById(R.id.fabCheck);
-//        FloatingActionButton fabSend  = (FloatingActionButton) findViewById(R.id.fabSend);
-//        fabCheck.setOnClickListener(this);
-//        fabSend.setOnClickListener(this);
-        /*
-        Fab fab = (Fab) findViewById(R.id.fab);
-        View sheetView = findViewById(R.id.fab_sheet);
-        View overlay = findViewById(R.id.overlay);
-        int sheetColor = getResources().getColor(R.color.colorAccent);
-        int fabColor = getResources().getColor(R.color.colorPrimary);
 
-        // Initialize material sheet FAB
-        MaterialSheetFab materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay,
-                sheetColor, fabColor);
-
-        this.findViewById(R.id.fab_sheet_item_01).setOnClickListener(this);
-        this.findViewById(R.id.fab_sheet_item_02).setOnClickListener(this);
-        */
         //set the alarm
-//        AlarmUtils.setAlarm(this, 14,20,00);
+        // AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
     }
 
