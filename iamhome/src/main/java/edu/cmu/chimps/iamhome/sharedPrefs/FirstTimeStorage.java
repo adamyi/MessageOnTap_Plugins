@@ -14,6 +14,12 @@ public class FirstTimeStorage {
         editor.apply();
     }
 
+    public static void setFirst(Context context, Boolean input, String stage) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(IDENTIFIER, context.MODE_PRIVATE).edit();
+        editor.putBoolean(IDENTIFIER + stage.toString(), input);
+        editor.apply();
+    }
+
     public static boolean getFirst(Context context) {
         SharedPreferences isFirstTime = context.getSharedPreferences(IDENTIFIER, context.MODE_PRIVATE);
         Boolean nowTime = isFirstTime.getBoolean(IDENTIFIER, true);
