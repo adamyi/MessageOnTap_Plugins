@@ -26,6 +26,10 @@ public class AlarmReceiver extends BroadcastReceiver{
         return NOTIFICATION_ID;
     }
 
+    /**
+     * at home noti
+     * @param context
+     */
     public void createNotification(Context context){
         //setting yes action
         Intent saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);

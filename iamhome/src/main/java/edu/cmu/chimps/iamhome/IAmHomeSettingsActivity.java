@@ -16,23 +16,17 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.privacystreams.accessibility.AccEvent;
-
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.utils.AppUtils;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
@@ -97,13 +91,10 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
 
                 } else {
-
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: \n" + "No Connection");
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_work_white_24px));
-
-
                 }
             }
         });

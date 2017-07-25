@@ -47,6 +47,11 @@ public class StatusToastsUtils {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+
+    /**
+     * send message noti
+     * @param context
+     */
     public static void createAthomeNoti(Context context){
         //setting yes action
         Intent sendMessageServiceIntent= new Intent(context, notificationTriggerService.class);
