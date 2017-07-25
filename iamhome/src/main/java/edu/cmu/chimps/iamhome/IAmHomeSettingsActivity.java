@@ -357,7 +357,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                         }
                     });
                     builder.setView(input);
-                    builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             sentText = input.getText().toString();
@@ -375,8 +375,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 }
                 if (menuButton == menuButton.findViewById(R.id.circle_send_message)) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
-                    dialog.setTitle("Send Message");
-                    dialog.setMessage("Current message:\n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"\n");
+                    //dialog.setTitle("Send Message");
+                    dialog.setMessage("Current message:\n\n\"" + StringStorage.getMessage(MyApplication.getContext()) + "\"");
                     dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
