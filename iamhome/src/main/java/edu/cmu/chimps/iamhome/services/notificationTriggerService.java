@@ -45,5 +45,8 @@ public class notificationTriggerService extends IntentService{
         }
 
     }
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(3);
 }
 }

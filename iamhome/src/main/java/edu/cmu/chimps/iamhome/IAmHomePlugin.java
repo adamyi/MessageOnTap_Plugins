@@ -61,7 +61,8 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                                 result = true;
                                 homeEventListener.onEvent(true);
                                 StatusToastsUtils.atHomeToast(MyApplication.getContext());
-                                StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
+
+
                             }
                             StatusToastsUtils.wifiConnectedToast(MyApplication.getContext());
                         }
@@ -69,7 +70,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                             Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
-
                                 StatusToastsUtils.leaveHomeToast(MyApplication.getContext());
                                 result = false;
                             }

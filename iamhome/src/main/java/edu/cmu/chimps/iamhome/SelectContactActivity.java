@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +22,7 @@ import com.github.privacystreams.core.exceptions.PSException;
 import java.util.HashSet;
 import java.util.Set;
 
+import edu.cmu.chimps.iamhome.listeners.IconChangeListener;
 import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
@@ -32,6 +34,11 @@ public class SelectContactActivity extends AppCompatActivity {
 
     private int BackPressedCount;
     Toast updatableToast;
+    public static IconChangeListener iconChangeListener;
+
+    public static void setIconChangeListener(IconChangeListener icl) {
+        iconChangeListener = icl;
+    }
 
     @Override
     public void onBackPressed() {
@@ -72,6 +79,7 @@ public class SelectContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         BackPressedCount = 0;
 
+
         //initialize contactlist from whatsapp
         try {
             Contact.contactList = Contact.getWhatsAppContacts(this);
@@ -100,6 +108,20 @@ public class SelectContactActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        setIconChangeListener(new IconChangeListener() {
+            public void onChange(Boolean wantChange) {
+                Log.e("test", "Listener recieved");
+                MenuItem i = toolbar.getMenu().getItem(0);
+                if (wantChange) {
+                    i.setIcon(getDrawable(R.drawable.ic_delete_sweep_black_24dp));
+                } else {
+                    i.setIcon(getDrawable(R.drawable.ic_action_selectall));
+                }
+            }
+        });
+
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
