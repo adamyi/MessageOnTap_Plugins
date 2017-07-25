@@ -12,6 +12,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
 
 import com.github.privacystreams.accessibility.AccEvent;
+import com.github.privacystreams.accessibility.PSAccessibilityService;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
@@ -54,7 +55,7 @@ public class ShareMessageService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!AutoSelectUtils.isMyServiceRunning(MyApplication.getContext())) {
+        if (!AutoSelectUtils.isMyServiceRunning(MyApplication.getContext(), PSAccessibilityService.class)) {
             Toast.makeText(MyApplication.getContext(), "Failed to send the text. Open ACCESSIBILITY permission in settings", Toast.LENGTH_LONG).show();
             stopSelf();
         } else {

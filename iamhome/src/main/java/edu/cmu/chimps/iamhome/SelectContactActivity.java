@@ -1,5 +1,6 @@
 package edu.cmu.chimps.iamhome;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ import edu.cmu.chimps.iamhome.views.ContactAdapter;
 
 
 public class SelectContactActivity extends AppCompatActivity {
-
+    protected MyApplication mAPP;
     private int BackPressedCount;
     Toast updatableToast;
     public static IconChangeListener iconChangeListener;
@@ -77,6 +78,8 @@ public class SelectContactActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAPP = (MyApplication) this.getApplicationContext();
+
         BackPressedCount = 0;
 
 
@@ -198,7 +201,24 @@ public class SelectContactActivity extends AppCompatActivity {
         // AlarmUtils.setAlarm(this, 14,20,00);
         startService(new Intent(this, IAmHomePlugin.class));
     }
+    protected void onResume() {
+        super.onResume();
+        mAPP.setCurrentActivity(this);
+    }
+    protected void onPause() {
+        clearReferences();
+        super.onPause();
+    }
+    protected void onDestroy() {
+        clearReferences();
+        super.onDestroy();
+    }
 
+    private void clearReferences(){
+        Activity currActivity = mAPP.getCurrentActivity();
+        if (this.equals(currActivity))
+            mAPP.setCurrentActivity(null);
+    }
 }
 
 

@@ -1,15 +1,19 @@
 package edu.cmu.chimps.iamhome.utils;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.accessibility.PSAccessibilityService;
-
 import java.util.List;
+
+import edu.cmu.chimps.iamhome.MyApplication;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -59,15 +63,29 @@ public class AutoSelectUtils {
         return clicked;
     }
 
-    public static boolean isMyServiceRunning(Context context) {
+    public static boolean checkPermission(Context context) {
+        Activity currentActivity = ((MyApplication)context.getApplicationContext()).getCurrentActivity();
+        Integer permissionCode = ContextCompat.checkSelfPermission(currentActivity, Manifest.permission.BIND_ACCESSIBILITY_SERVICE);
+        Log.e("Code", Integer.toString(permissionCode));
+        return permissionCode == PackageManager.PERMISSION_GRANTED;
+    }
+    public static boolean isMyServiceRunning(Context context, Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (PSAccessibilityService.class.getName().equals(service.service.getClassName())) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
         return false;
     }
+    /*
+    public static boolean hasPermission(Context context) {
+        String pkgName = context.getPackageName();
+        int permissionCode = context.getPackageManager().checkPermission(Manifest.permission.BIND_ACCESSIBILITY_SERVICE, pkgName);
+        Log.e("Code", Integer.toString(permissionCode));
+        return permissionCode == PackageManager.PERMISSION_DENIED;
+    }
+    */
 /*
     public static boolean hasPermission(Context context) {
         return ContextCompat.checkSelfPermission(activity, Manifest.permission.BIND_ACCESSIBILITY_SERVICE)

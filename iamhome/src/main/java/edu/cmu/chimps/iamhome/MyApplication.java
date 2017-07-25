@@ -1,10 +1,10 @@
 package edu.cmu.chimps.iamhome;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
 
-public class MyApplication extends MultiDexApplication {
+public class MyApplication extends Application {
 
     private static Context mContext;
     private Activity mCurrentActivity = null;
