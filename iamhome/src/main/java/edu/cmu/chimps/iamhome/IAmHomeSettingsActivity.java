@@ -265,7 +265,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                             }
                                         });
                                     }
-                                }, 600);
+                                }, 100);
                                 FirstTimeStorage.setFirst(MyApplication.getContext(), false);
                             }
                         }
@@ -284,7 +284,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
 
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
@@ -300,7 +300,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 if (menuButton == menuButton.findViewById(R.id.circle_reset_wifi)) {
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Reset Home Wifi");
-                    dialog.setMessage("Saved wifi will be replaced by the connected wifi. The app will restart.");
+                    dialog.setMessage("Saved wifi will be replaced by the connected wifi.");
                     dialog.setPositiveButton("RESET TO CURRENT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -308,6 +308,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             Intent saveHomeWifiServiceIntent = new Intent(MyApplication.getContext(), SaveHomeWifiService.class);
                             saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
                             MyApplication.getContext().startService(saveHomeWifiServiceIntent);
+                            ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
+                            imageView1.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
