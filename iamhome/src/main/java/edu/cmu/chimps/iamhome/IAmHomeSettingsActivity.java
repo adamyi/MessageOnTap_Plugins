@@ -49,6 +49,7 @@ import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AutoSelectUtils;
+import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
@@ -86,6 +87,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
+                    StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
 
 
                 } else if (input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
