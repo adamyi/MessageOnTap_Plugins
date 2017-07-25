@@ -300,7 +300,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                 if (menuButton == menuButton.findViewById(R.id.circle_reset_wifi)) {
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(IAmHomeSettingsActivity.this, R.style.myDialog));
                     dialog.setTitle("Reset Home Wifi");
-                    dialog.setMessage("Saved wifi will be replaced by the connected wifi");
+                    dialog.setMessage("Saved wifi will be replaced by the connected wifi. The app will restart.");
                     dialog.setPositiveButton("RESET TO CURRENT", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -308,7 +308,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             Intent saveHomeWifiServiceIntent = new Intent(MyApplication.getContext(), SaveHomeWifiService.class);
                             saveHomeWifiServiceIntent.setAction(SaveHomeWifiService.ACTION_SAVE);
                             MyApplication.getContext().startService(saveHomeWifiServiceIntent);
-
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -369,7 +368,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
                                 startService(launchService);
-
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
