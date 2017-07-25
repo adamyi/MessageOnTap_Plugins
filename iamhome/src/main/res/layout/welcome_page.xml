@@ -39,7 +39,7 @@
         android:layout_centerInParent="true">
 
         <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/explorer"
+            android:id="@+id/circle_send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:colorNormal="#2196F3"
@@ -47,7 +47,7 @@
             app:icon="@drawable/ic_message_black_24px" />
 
         <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/edit"
+            android:id="@+id/circle_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:colorNormal="#4CAF50"
@@ -55,7 +55,7 @@
             app:icon="@drawable/ic_edit" />
 
         <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/favorite"
+            android:id="@+id/circle_contact_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:colorNormal="#F44336"
@@ -65,7 +65,7 @@
 
 
         <com.imangazaliev.circlemenu.CircleMenuButton
-            android:id="@+id/search"
+            android:id="@+id/circle_reset_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:colorNormal="#ffd700"
