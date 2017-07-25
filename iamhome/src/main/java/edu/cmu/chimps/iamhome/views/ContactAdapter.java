@@ -127,7 +127,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                     Log.i("iiii", "SetAllSavedSelection: "+holder.contactName.getText());
-                    if (str == holder.contactName.getText()){
+                    if (str.equals(holder.contactName.getText())){
                         holder.contactLayout.setSelected(true);
                         holder.contactCheckBox.setChecked(true);
                     }
