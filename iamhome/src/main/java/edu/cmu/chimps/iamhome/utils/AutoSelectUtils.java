@@ -1,10 +1,13 @@
 package edu.cmu.chimps.iamhome.utils;
 
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import com.github.privacystreams.accessibility.PSAccessibilityService;
 
 import java.util.List;
 
@@ -55,4 +58,20 @@ public class AutoSelectUtils {
         }
         return clicked;
     }
+
+    public static boolean isMyServiceRunning(Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (PSAccessibilityService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+/*
+    public static boolean hasPermission(Context context) {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
+                != PackageManager.PERMISSION_GRANTED;
+    }
+*/
 }

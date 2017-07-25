@@ -1,11 +1,13 @@
 package edu.cmu.chimps.iamhome;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -15,8 +17,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,13 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.utils.AppUtils;
 import com.imangazaliev.circlemenu.CircleMenu;
 import com.imangazaliev.circlemenu.CircleMenuButton;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
@@ -68,6 +66,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
             //Toast.makeText(MyApplication.getContext(), "This is I AM HOME Plugin", Toast.LENGTH_SHORT).show();
             StringStorage.storeMessage(MyApplication.getContext(), "", true);
         } else {
+            Log.e("test", Boolean.toString(AutoSelectUtils.isMyServiceRunning(MyApplication.getContext())));
         }
 
         /**

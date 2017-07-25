@@ -54,53 +54,57 @@ public class ShareMessageService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        uqi = new UQI(this);
-        clicked = false;
-        AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
-
-        Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE);
-        contactNames = inputSet.toArray(new String[inputSet.size()]);
-
-        setNodeInfoListener(new NodeInfoListener() {
-            public void nodeInfoReceived(AccessibilityNodeInfo selectingView) {
-                Log.e("HI", "NodeINfoReceived");
-                if (!clicked) {
-                    Log.e("List Size", Integer.toString(contactNames.length));
-                    clicked = AutoSelectUtils.autoSelect(contactNames, selectingView);
-                }
-                stopSelf();
-            }
-        });
-
-        uqi.getData(AccEvent.asUpdates(), Purpose.FEATURE("base event"))
-                .forEach(new Callback<Item>() {
-                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-                    @Override
-
-                    protected void onInput(Item item) {
-                        AccessibilityNodeInfo root = item.getValueByField(AccEvent.ROOT_NODE);
-                        if ((int) item.getValueByField(AccEvent.EVENT_TYPE) != 0x00000800) {
-                            Log.e("Fuuuu", item.toString());
-                        }
-                        if (root != null && root.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)
-                                && (int) item.getValueByField(AccEvent.EVENT_TYPE) == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-                            nodeInfoListener.nodeInfoReceived(root);
-                            Log.e("UQI Thread", "Transferred");
-                            stopSelf();
-                        }
-                    }
-                });
-
-        if (ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE).size() == 0) {
-            Toast.makeText(this, "Set list to send", Toast.LENGTH_SHORT).show();
-            FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), true);
-
-            Intent launchActivity = new Intent(MyApplication.getContext(), SelectContactActivity.class);
-            MyApplication.getContext().startActivity(launchActivity);
+        if (!AutoSelectUtils.isMyServiceRunning(MyApplication.getContext())) {
+            Toast.makeText(MyApplication.getContext(), "Failed to send the text. Open ACCESSIBILITY permission in settings", Toast.LENGTH_LONG).show();
             stopSelf();
         } else {
-            autoSelectUtils.autoLaunch(this, StringStorage.getMessage(getBaseContext()), AppUtils.APP_PACKAGE_WHATSAPP);
+            uqi = new UQI(this);
+            clicked = false;
+            AutoSelectUtils autoSelectUtils = new AutoSelectUtils();
+
+            Set<String> inputSet = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE);
+            contactNames = inputSet.toArray(new String[inputSet.size()]);
+
+            setNodeInfoListener(new NodeInfoListener() {
+                public void nodeInfoReceived(AccessibilityNodeInfo selectingView) {
+                    Log.e("HI", "NodeINfoReceived");
+                    if (!clicked) {
+                        Log.e("List Size", Integer.toString(contactNames.length));
+                        clicked = AutoSelectUtils.autoSelect(contactNames, selectingView);
+                    }
+                    stopSelf();
+                }
+            });
+
+            uqi.getData(AccEvent.asUpdates(), Purpose.FEATURE("base event"))
+                    .forEach(new Callback<Item>() {
+                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+                        @Override
+
+                        protected void onInput(Item item) {
+                            AccessibilityNodeInfo root = item.getValueByField(AccEvent.ROOT_NODE);
+                            if ((int) item.getValueByField(AccEvent.EVENT_TYPE) != 0x00000800) {
+                                Log.e("Fuuuu", item.toString());
+                            }
+                            if (root != null && root.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)
+                                    && (int) item.getValueByField(AccEvent.EVENT_TYPE) == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                                nodeInfoListener.nodeInfoReceived(root);
+                                Log.e("UQI Thread", "Transferred");
+                                stopSelf();
+                            }
+                        }
+                    });
+
+            if (ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE).size() == 0) {
+                Toast.makeText(this, "Set list to send", Toast.LENGTH_SHORT).show();
+                FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), true);
+
+                Intent launchActivity = new Intent(MyApplication.getContext(), SelectContactActivity.class);
+                MyApplication.getContext().startActivity(launchActivity);
+                stopSelf();
+            } else {
+                autoSelectUtils.autoLaunch(this, StringStorage.getMessage(getBaseContext()), AppUtils.APP_PACKAGE_WHATSAPP);
+            }
         }
         return START_NOT_STICKY;
     }
