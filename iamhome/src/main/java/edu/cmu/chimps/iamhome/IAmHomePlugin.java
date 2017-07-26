@@ -21,11 +21,8 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
-
-
     private final static int ALARM_HOUR = 18;
     private final static int ALARM_MINUTE = 30;
-
     private final static int ALARM_SECOND = 0;
 
 
@@ -36,12 +33,10 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
     }
 
     public void homeSensing() {
-
         setHomeEventListener(new OnHomeEventListener(){
             public void onEvent(boolean arrivesHome){
                 if(arrivesHome){
                     Log.e("TAG", "ARRIVES HOME");
-
                 }
                 else{
                     Log.e("TAG", "LEFT HOME");

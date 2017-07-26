@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         ImageView contactImage;
         TextView contactName;
         LinearLayout contactLayout;
+        CheckBox contactCheckBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -35,6 +37,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             contactLayout = itemView.findViewById(R.id.linearLayout);
             contactImage = itemView.findViewById(R.id.contact_image);
             contactName = itemView.findViewById(R.id.contact_name);
+            contactCheckBox = itemView.findViewById(R.id.contact_checkbox);
         }
     }
 
@@ -108,8 +111,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public  void SetSelection(ViewHolder holder, Contact contact){
         if (contact.isFlag()){
             holder.contactLayout.setSelected(true);
+            holder.contactCheckBox.setChecked(true);
         }else {
             holder.contactLayout.setSelected(false);
+            holder.contactCheckBox.setChecked(false);
         }
     }
 
