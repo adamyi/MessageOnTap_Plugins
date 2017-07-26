@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/welcome_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/homeback"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Black.NoTitleBar"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="65dp"
+        app:srcCompat="@drawable/ic_home_white_24px"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Connected WIFI:"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/colorwhite"
+        android:textStyle="bold|italic" />
+
+    <com.imangazaliev.circlemenu.CircleMenu
+        android:id="@+id/circleMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <com.imangazaliev.circlemenu.CircleMenuButton
+            android:id="@+id/circle_send_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:colorNormal="#2196F3"
+            app:colorPressed="#1E88E5"
+            app:icon="@drawable/ic_message_black_24px" />
+
+        <com.imangazaliev.circlemenu.CircleMenuButton
+            android:id="@+id/circle_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:colorNormal="#4CAF50"
+            app:colorPressed="#43A047"
+            app:icon="@drawable/ic_edit" />
+
+        <com.imangazaliev.circlemenu.CircleMenuButton
+            android:id="@+id/circle_contact_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:colorNormal="#F44336"
+            app:colorPressed="#E53935"
+
+            app:icon="@drawable/ic_contact_black_24dp" />
+
+
+        <com.imangazaliev.circlemenu.CircleMenuButton
+            android:id="@+id/circle_reset_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:colorNormal="#ffd700"
+            app:colorPressed="#ffd700"
+            app:icon="@drawable/ic_build_black_24dp" />
+
+    </com.imangazaliev.circlemenu.CircleMenu>
+
+</LinearLayout>

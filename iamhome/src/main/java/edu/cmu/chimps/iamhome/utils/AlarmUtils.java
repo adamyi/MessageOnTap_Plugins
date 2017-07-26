@@ -17,7 +17,6 @@ public class AlarmUtils {
     public static PendingIntent pendingIntent;
 
     public static void cancelAlarm(){
-
         alarmManager.cancel(pendingIntent);
     }
 
@@ -25,8 +24,8 @@ public class AlarmUtils {
     public static void setAlarm(Context context,int hour, int minute, int second) {
         Calendar calendar = Calendar.getInstance();
         Calendar right_now = Calendar.getInstance();
-
-        int timeOffset = hour - right_now.get(Calendar.HOUR);
+        calendar.set(Calendar.HOUR, hour);
+        int timeOffset = hour - calendar.get(Calendar.HOUR);
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR, hour - timeOffset);
         calendar.set(Calendar.MINUTE, minute);

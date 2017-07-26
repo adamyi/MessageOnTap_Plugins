@@ -13,7 +13,9 @@ import com.github.privacystreams.device.WifiAp;
 
 import java.util.Set;
 
+import edu.cmu.chimps.iamhome.listeners.OnHomeEventListener;
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
+import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
@@ -21,17 +23,18 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
-    private final static int ALARM_HOUR = 18;
-    private final static int ALARM_MINUTE = 30;
+
+    private final static int ALARM_HOUR = 8;
+    private final static int ALARM_MINUTE = 29;
+
     private final static int ALARM_SECOND = 0;
 
-
+    public static boolean result = false;
     private OnHomeEventListener homeEventListener;
 
     public void setHomeEventListener(OnHomeEventListener homeEventListener) {
         this.homeEventListener=homeEventListener;
     }
-
     public void homeSensing() {
         setHomeEventListener(new OnHomeEventListener(){
             public void onEvent(boolean arrivesHome){
@@ -52,24 +55,28 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                         if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED))){
                             Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
-
+                                result = true;
                                 homeEventListener.onEvent(true);
-                                StatusToasts.atHomeToast(MyApplication.getContext());
-                                StatusToasts.createAthomeNoti(MyApplication.getContext());
+                                StatusToastsUtils.atHomeToast(MyApplication.getContext());
+
+
                             }
-                            StatusToasts.wifiConnectedToast(MyApplication.getContext());
+                            StatusToastsUtils.wifiConnectedToast(MyApplication.getContext());
                         }
                         else if((input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_DISCONNECTED))){
                             Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                             if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
                                 homeEventListener.onEvent(false);
-                                StatusToasts.leaveHomeToast(MyApplication.getContext());
+                                StatusToastsUtils.leaveHomeToast(MyApplication.getContext());
+                                result = false;
                             }
-                            StatusToasts.wifiDisconnectedToast(MyApplication.getContext());
+                            StatusToastsUtils.wifiDisconnectedToast(MyApplication.getContext());
                         }
             }
         });
+
     }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -97,6 +104,9 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     @Override
     protected void analyzeMessage(MessageData data) {
-
     }
+    public boolean isAtHome(){
+        return result;
+    }
+
 }

@@ -8,9 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.github.privacystreams.core.exceptions.PSException;
-
-import edu.cmu.chimps.iamhome.utils.WifiUtils;
+import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
 
 public class AlarmReceiver extends BroadcastReceiver{
     private static final int NOTIFICATION_ID = 1;
@@ -20,15 +18,18 @@ public class AlarmReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         //trigger notification
+
          createNotification(context);
-
-
     }
 
     public static int getNotificationId(){
         return NOTIFICATION_ID;
     }
 
+    /**
+     * at home noti
+     * @param context
+     */
     public void createNotification(Context context){
         //setting yes action
         Intent saveHomeWifiServiceIntent = new Intent(context, SaveHomeWifiService.class);
@@ -43,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_home)
+                        .setSmallIcon(R.drawable.ic_home_white_24px)
                         .setContentTitle(context.getResources().getString(R.string.app_name))
                         .setContentText(context.getResources().getString(R.string.are_you_at_home))
                         .setDefaults(Notification.DEFAULT_ALL)
