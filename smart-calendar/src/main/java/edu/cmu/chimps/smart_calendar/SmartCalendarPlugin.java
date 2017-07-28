@@ -1,5 +1,6 @@
 package edu.cmu.chimps.smart_calendar;
 
+import android.text.Html;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "sample_plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
+    long tid1, tid2, tid3, tid4, tid5;
 
     /**
      * Return the trigger criteria of this plug-in. This will be called when
@@ -98,16 +100,52 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         reqParams.put("key2", "value2");
         reqParams.put("key3", "value3");
         // TID is something we might need to implement stateflow inside a plugin.
-        long tid = newTaskRequest(sid, MethodConstants.PMS_TYPE, "test", params);
-
+        Tree tree = params.get("tree");
+        if (tree.get("event") == ){
+            tid1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+        } else {
+            tid4 = newTaskRequest(sid, MethodConstants.UI_SHOW, MethodConstants.BUBBLE, params);
+        }
     }
 
     @Override
     protected void newTaskResponsed(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
-        Log.e(TAG, "Ending session " + sid);
-        endSession(sid);
-        Log.e(TAG, "Session ended");
+
+        if (triggerListShow.contains(params.get("trigger"))){
+            if (tid == tid1){
+                tid2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "params", params); //what are params
+            } else if (tid == tid2){
+                params.put("HTML", getHtml(params));
+                tid3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);  //how to pass html
+            } else if (tid == tid3){
+                Log.e(TAG, "Ending session (triggerList1)");                                //require tigger and message
+                endSession(sid);
+                Log.e(TAG, "Session ended");
+            }
+        }
+
+        if (triggerListAdd.contains(params.get("trigger"))){
+            if (tid == tid4){
+                params.put("action", "Add to calendar:"+tree.getEvent);
+                tid5 = newTaskRequest(sid, MethodConstants.ACTION, "params", params); //what are params
+            } else if (tid == tid5){
+                Log.e(TAG, "Ending session (triggerList2)");                                //require tigger and message
+                endSession(sid);
+                Log.e(TAG, "Session ended");
+            }
+        }
+
+
+    }
+
+    private Html getHtml(HashMap<String, Object> params){
+        Html html = null;
+
+
+
+        return html;
+    }
     }
 }
