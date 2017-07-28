@@ -101,6 +101,7 @@ public class ShareMessageService extends Service {
                 FirstTimeStorage.setContactActivityIndicatorSend(MyApplication.getContext(), true);
 
                 Intent launchActivity = new Intent(MyApplication.getContext(), SelectContactActivity.class);
+                launchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 MyApplication.getContext().startActivity(launchActivity);
                 stopSelf();
             } else {
