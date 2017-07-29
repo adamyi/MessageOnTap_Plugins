@@ -17,10 +17,10 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
-    public static final String TAG = "sample_plugin";
+    public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    long tid1, tid2, tid3, tid4, tid5;
+    long TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
 
     /**
      * Return the trigger criteria of this plug-in. This will be called when
@@ -95,16 +95,16 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
         Log.e(TAG, DataUtils.hashMapToString(params));
-        HashMap<String, Object> reqParams = new HashMap<>();
-        reqParams.put("key1", "value1");
-        reqParams.put("key2", "value2");
-        reqParams.put("key3", "value3");
+
         // TID is something we might need to implement stateflow inside a plugin.
-        Tree tree = params.get("tree");
-        if (tree.get("event") == ){
-            tid1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
-        } else {
-            tid4 = newTaskRequest(sid, MethodConstants.UI_SHOW, MethodConstants.BUBBLE, params);
+        if (triggerListShow.contains(params.get("trigger"))){
+            TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+        }
+        if (triggerListAdd.contains(params.get("trigger"))){
+            Tree tree = params.get("tree");
+            String event = tree.get("event");
+            params.put("BubbleShow", event);
+            TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
         }
     }
 
@@ -113,39 +113,31 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
 
-        if (triggerListShow.contains(params.get("trigger"))){
-            if (tid == tid1){
-                tid2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "params", params); //what are params
-            } else if (tid == tid2){
+            if (tid == TidShow1){
+                TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params); //what are params
+            } else if (tid == TidShow2){
                 params.put("HTML", getHtml(params));
-                tid3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);  //how to pass html
-            } else if (tid == tid3){
+                TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);  //how to pass html
+            } else if (tid == TidShow3){
                 Log.e(TAG, "Ending session (triggerList1)");                                //require tigger and message
                 endSession(sid);
                 Log.e(TAG, "Session ended");
             }
-        }
 
-        if (triggerListAdd.contains(params.get("trigger"))){
-            if (tid == tid4){
+            if (tid == TidAdd1){
                 params.put("action", "Add to calendar:"+tree.getEvent);
-                tid5 = newTaskRequest(sid, MethodConstants.ACTION, "params", params); //what are params
-            } else if (tid == tid5){
+                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params); //what are params
+            } else if (tid == TidAdd2){
                 Log.e(TAG, "Ending session (triggerList2)");                                //require tigger and message
                 endSession(sid);
                 Log.e(TAG, "Session ended");
             }
-        }
-
-
     }
 
-    private Html getHtml(HashMap<String, Object> params){
-        Html html = null;
-
-
+    private String getHtml(HashMap<String, Object> params){
+        String html = "";
 
         return html;
     }
-    }
 }
+
