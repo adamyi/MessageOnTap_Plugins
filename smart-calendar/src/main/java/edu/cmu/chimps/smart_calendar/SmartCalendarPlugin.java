@@ -18,6 +18,7 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static android.R.attr.tag;
 import static android.R.id.message;
+import static edu.cmu.chimps.messageontap_api.EntityAttributes.Event.EVENT_TIME;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -116,16 +117,20 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (triggerListShow.contains(params.get("trigger"))){               //有没有可能符合两个trigger？希望pms能每符合一个trigger就发一次init
             tree1 = (Tree)params.get("tree");
-            EventTime1 = AddRoot(tree1);                    //retrieval Events
+            EventTime1 = AddRootAndGetTime(tree1);                    //Retrieval events
             params.put("tree", tree1);
 
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
         if (triggerListAdd.contains(params.get("trigger"))){
             tree2 = (Tree)params.get("tree");
-            EventTime2 = tree2.FindNodeByTag(tag_time);
+            for (Node node : tree2){
+                if (node.getId() == EVENT_TIME_){
+                    EventTime2 = node.getContent();
+                }
+            }
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
-            params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
+            params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
         }
     }
@@ -185,7 +190,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
 
 
-    private String AddRoot(Tree tree1){
+    private String AddRootAndGetTime(Tree tree1){
         for (Node node: tree){
             if (node.getParent() == 0){
                 node.setParent(ROOT);
