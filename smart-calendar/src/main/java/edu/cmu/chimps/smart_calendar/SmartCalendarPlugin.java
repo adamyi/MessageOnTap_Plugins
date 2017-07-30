@@ -140,12 +140,57 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     }
 
-    private Html getHtml(HashMap<String, Object> params){
-        Html html = null;
+    protected String handleHtml(ArrayList<String> eventList,String EventTime){
 
 
 
-        return html;
+        int year;
+        ////////////////年月日份表///////////////////
+        String yeartablehtml = ".year{\n" +
+                "\t\tbackground: #39A90E;\n" +
+                "\t\theight:auto;\n" +
+                "\t\tborder-radius:5px;\n" +
+                "\t\ttext-align: center;\n" +
+                "\t}";
+        /////////////////style/////////////////////
+        String htmlString = "<html>\n" +
+                "<style>\n" +
+                ".datashower{\n" +
+                "background:#08AED8;\n" +
+                "border-radius:5px\n" +
+                "height:auto" +
+                "}\n" + ".text{\n" +
+                "\t\tmargin:10px;\n" +
+                "\t}"+
+                "</style>";
+        ////////////////循环Events//////////////
+        Iterator iterator = eventList.iterator();
+        while (iterator.hasNext()) {
+            String theEvent = (String) iterator.next();
+            htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
+                    "<div class=\"datashower\" >\n" +
+                    // 加上Time and Event
+                    "<p class = \"text\">"+ theEvent + "</p>\n" +            //time??  date = new Date(key)  date.getyear
+                    "<p class = \"text\">"+ EventTime +"</p>\n" +  //event??
+                    //////////////
+                    "</div>";
+
+        }
+/*
+        for (int i = 0;i < html.size();i++){
+            htmlString =
+                    "<div class=\"datashower\" >\n" +
+                    // 加上Time and Event
+                    "<p>time</p>\n" +
+                    "<p>Events</p>\n" +
+                            /////////
+                    "</div>";
+        }
+        */
+///////ending/////////
+        htmlString = htmlString + "</body> </html>";
+        return htmlString;
     }
-    }
+
+
 }
