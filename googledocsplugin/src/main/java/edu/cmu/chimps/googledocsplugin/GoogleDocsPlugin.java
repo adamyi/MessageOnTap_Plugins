@@ -13,10 +13,15 @@ import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
+import static android.R.attr.y;
+
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "GoogleDoc plugin";
-    private Long TidPKG, TidBubble, TidDocSend;
+    private Long TidFindDoc, TidBubble, TidDocSend;
+    ArrayList<String> DocList;
+
+    //Todo: 写trigger, 分两种：1.包含文件名的。2.不包含文件名的
 
     /**
      * Return the trigger criteria of this plug-in. This will be called when
@@ -40,7 +45,14 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Session created here!");
         Log.e(TAG, DataUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
-        TidPKG = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+
+        DocList = new ArrayList<>();
+        params.put("FindDoc", DocList);
+
+        //todo: if root is not googleDoc, add it
+        //能不能找GoogleDoc？
+        TidFindDoc = newTaskResponsed(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+
     }
 
     @Override
@@ -48,19 +60,29 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
 
-        if (tid == TidPKG){
-            params.put("UI message", );
-            TidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
+        if (tid == TidFindDoc){
+            try {
+                HashMap<String, Object> card = (HashMap<String, Object>) params.get("Card");
+                if (!card.isEmpty()) {
+                    DocList = (ArrayList<String>) card.get("FindDoc");
+                    params.put("Bubble Content", "Send Docs");
+                    TidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                endSession(sid);
+            }
         } else if (tid == TidBubble){
+            params.put("Message to send", DocList);
             params.put("Action message", );
             TidDocSend = newTaskRequest(sid, MethodConstants.ACTION, "Send GoogleDoc", params);
         } else if (tid == TidDocSend){
-            Log.e(TAG, "Ending session");                                //require tigger and message
+            Log.e(TAG, "Ending session");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
 
-
     }
+
 }
 
