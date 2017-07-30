@@ -27,7 +27,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public int DIRECTION = 0; // 0 incoming
     long TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
     private Tree tree1,tree2;
-    String EventTime;
+    String EventTime1, EventTime2;
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new ArrayList<String>(Collections.singletonList("I")));
@@ -106,16 +106,17 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, DataUtils.hashMapToString(params));
 
         // TID is something we might need to implement stateflow inside a plugin.
-        if (triggerListShow.contains(params.get("trigger"))){
-            //Todo:Add root
-            tree1 = params.get("tree");
-            EventTime = AddRoot(params);                    //Event
-            params.put("tree", tree);
+        if (triggerListShow.contains(params.get("trigger"))){               //有没有可能符合两个trigger？希望pms能每符合一个trigger就发一次init
+            tree1 = (Tree)params.get("tree");
+            EventTime1 = AddRoot(tree1);                    //retrieval Events
+            params.put("tree", tree1);
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
         if (triggerListAdd.contains(params.get("trigger"))){
-            tree = (Tree)params.get("tree");
-
+            tree2 = (Tree)params.get("tree");
+            EventTime2 = tree2.FindNodeByTag(tag_time);
+            params.put(BUBBLE_FIRST_LINE, "Add Calendar");
+            params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
         }
     }
@@ -127,7 +128,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         ArrayList<String> eventList;
             if (tid == TidShow1) {
-                //Todo:getCardMessage and put it into params
+                //getCardMessage and put it into params
                 eventList = new ArrayList<>();
                 try {
                     ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
@@ -135,7 +136,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                         eventList.add((String)card.get("GRAPH_EVENT_NAME"));
                     }
                     if (!cardList.isEmpty()) {
-                        params.put("Bubble Content", "Show Calendar");
+                        params.put(BUBBLE_FIRST_LINE, "Show Calendar");
+                        params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
                         TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
                     }
                 } catch (Exception e) {
@@ -145,51 +147,34 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
             } else if (tid == TidShow2){
                 try {
-                    params.put("HTML Details", getHtml(eventList, EventTime));
+                    params.put("HTML Details", getHtml(eventList, EventTime1));
                     TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
                 }catch (Exception e){
                     e.printStackTrace();
                     endSession(sid);
                 }
             } else if (tid == TidShow3){
-                Log.e(TAG, "Ending session (triggerList1)");
+                Log.e(TAG, "Ending session (triggerListShow)");
                 endSession(sid);
                 Log.e(TAG, "Session ended");
             }
 
             if (tid == TidAdd1){
-                String event = tree.FindNodeByTag(tag_event);     //！！如果要AddCalendar一定要有event
-                String time = tree.FindNodeByTag(tag_time);
-                params.put("action:Add to calendar event", event);
-                params.put("action:Add to calendar time", time);        //time 必须要精确到日期？
+                params.put("action:Add to calendar time", EventTime2);        //time 必须要精确到日期？
                 TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
             } else if (tid == TidAdd2){
-                Log.e(TAG, "Ending session (triggerList2)");
+                Log.e(TAG, "Ending session (triggerListAdd)");
                 endSession(sid);
                 Log.e(TAG, "Session ended");
             }
     }
 
-    private String getHtml(ArrayList<String> eventList, String EventTime){
+    private String getHtml(ArrayList<String> eventList, String EventTime1){
         String html = "";
 
         return html;
     }
 
-    private Boolean CardisEmpty(HashMap<String, Object> params){
-        try {
-            HashMap<String, Object> card = (HashMap<String, Object>) params.get("Card");
-            if (card.isEmpty()){
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            Log.e(TAG, "CardisEmpty: can not find card");
-        }
-        return true;
-    }
 
     private String AddRoot(Tree tree1){
         for (Node node: tree){
@@ -200,10 +185,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 newNode.setParent(0);
                 newNode.setChildren(node.getId());
                 node.addTag("GRAPH_EVENT_TIME");
-                EventTime = node.getContent();
+                EventTime1 = node.getContent();
             }
         }
-        return EventTime;
+        return EventTime1;
     }
 
 }
