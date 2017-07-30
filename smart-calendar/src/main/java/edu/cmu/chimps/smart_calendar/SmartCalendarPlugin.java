@@ -115,13 +115,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TID is something we might need to implement stateflow inside a plugin.
         if (triggerListShow.contains(params.get("trigger"))){
             //Todo:Add root
-<<<<<<< HEAD
 
-=======
             tree1 = params.get("tree");
             EventTime = AddRoot(params);                    //Event
             params.put("tree", tree);
->>>>>>> e56b4c96ef42ded5477ac77171828eeed816d11e
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
         if (triggerListAdd.contains(params.get("trigger"))){
