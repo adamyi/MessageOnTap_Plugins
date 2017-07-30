@@ -1,11 +1,13 @@
 package edu.cmu.chimps.smart_calendar;
 
 import android.text.Html;
+import android.util.EventLogTags;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
@@ -24,9 +26,13 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
     long TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
-    private Tree tree;
+
     public ArrayList<Trigger>  triggerListShow = new ArrayList<>();
     public ArrayList<Trigger>  triggerListAdd = new ArrayList<>();
+
+    private Tree tree1,tree2;
+    String EventTime;
+
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new ArrayList<String>(Collections.singletonList("I")));
@@ -109,7 +115,13 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TID is something we might need to implement stateflow inside a plugin.
         if (triggerListShow.contains(params.get("trigger"))){
             //Todo:Add root
+<<<<<<< HEAD
 
+=======
+            tree1 = params.get("tree");
+            EventTime = AddRoot(params);                    //Event
+            params.put("tree", tree);
+>>>>>>> e56b4c96ef42ded5477ac77171828eeed816d11e
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
         if (triggerListAdd.contains(params.get("trigger"))){
@@ -124,15 +136,32 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
 
-            if ((tid == TidShow1)&&(!CardisEmpty(params))) {
+        ArrayList<String> eventList;
+            if (tid == TidShow1) {
                 //Todo:getCardMessage and put it into params
+                eventList = new ArrayList<>();
+                try {
+                    ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+                    for (HashMap<String, Object> card:cardList){
+                        eventList.add((String)card.get("GRAPH_EVENT_NAME"));
+                    }
+                    if (!cardList.isEmpty()) {
+                        params.put("Bubble Content", "Show Calendar");
+                        TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    endSession(sid);
+                }
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
-            } else if (tid == TidShow1){
-                endSession(sid);
-                Log.e(TAG, "Card is empty: NO Result");
             } else if (tid == TidShow2){
-                params.put("HTML Details", getHtml(params));
-                TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                try {
+                    params.put("HTML Details", getHtml(eventList, EventTime));
+                    TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    endSession(sid);
+                }
             } else if (tid == TidShow3){
                 Log.e(TAG, "Ending session (triggerList1)");
                 endSession(sid);
@@ -152,7 +181,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
     }
 
-    private String getHtml(HashMap<String, Object> params){
+    private String getHtml(ArrayList<String> eventList, String EventTime){
         String html = "";
 
         return html;
@@ -172,5 +201,21 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
         return true;
     }
+
+    private String AddRoot(Tree tree1){
+        for (Node node: tree){
+            if (node.getParent() == 0){
+                node.setParent(ROOT);
+                Node newNode = new Node();
+                newNode.setId(Event Name);
+                newNode.setParent(0);
+                newNode.setChildren(node.getId());
+                node.addTag("GRAPH_EVENT_TIME");
+                EventTime = node.getContent();
+            }
+        }
+        return EventTime;
+    }
+
 }
 
