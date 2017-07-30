@@ -40,6 +40,11 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         return new PluginData().trigger(new Trigger(mKeyList));
     }
 
+    public void clearLists(ArrayList<Tag> mMandatory, ArrayList<Tag> mOptional){
+        mMandatory.clear();
+        mOptional.clear();
+    }
+
     @Override
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
@@ -74,14 +79,13 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
         } else if (tid == TidBubble){
             params.put("Message to send", DocList);
-            params.put("Action message", );
+            //params.put("Action message", );
             TidDocSend = newTaskRequest(sid, MethodConstants.ACTION, "Send GoogleDoc", params);
         } else if (tid == TidDocSend){
             Log.e(TAG, "Ending session");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
-
     }
 
 }
