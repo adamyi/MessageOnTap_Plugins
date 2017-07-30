@@ -25,6 +25,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public int DIRECTION = 0; // 0 incoming
     long TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
     private Tree tree;
+    public ArrayList<Trigger>  triggerListShow = new ArrayList<>();
+    public ArrayList<Trigger>  triggerListAdd = new ArrayList<>();
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new ArrayList<String>(Collections.singletonList("I")));
@@ -67,6 +69,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         DIRECTION = 0;
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
+        // TODO: triggerListShow add entry
 
         // Category two: update calendar
         // trigger2: I can pick it up at 9pm. outgoing
@@ -93,6 +96,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         DIRECTION = 0;
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
+        // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
         return new PluginData().trigger(new Trigger(holder));
     }
@@ -105,6 +109,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TID is something we might need to implement stateflow inside a plugin.
         if (triggerListShow.contains(params.get("trigger"))){
             //Todo:Add root
+
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
         if (triggerListAdd.contains(params.get("trigger"))){
