@@ -29,7 +29,7 @@ import static edu.cmu.chimps.iamhome.views.Contact.toggleFlag;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     private List<Contact> mContactList;
-    private Toolbar mToolbar;
+    protected Toolbar mToolbar;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View contactView;
@@ -41,10 +41,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             contactView = itemView;
-            contactLayout = itemView.findViewById(R.id.linearLayout);
-            contactImage = itemView.findViewById(R.id.contact_image);
-            contactName = itemView.findViewById(R.id.contact_name);
-            contactCheckBox = itemView.findViewById(R.id.contact_checkbox);
+            contactLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+            contactImage = (ImageView) itemView.findViewById(R.id.contact_image);
+            contactName = (TextView) itemView.findViewById(R.id.contact_name);
+            contactCheckBox = (CheckBox) itemView.findViewById(R.id.contact_checkbox);
         }
     }
 
