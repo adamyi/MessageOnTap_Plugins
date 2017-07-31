@@ -121,7 +121,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (triggerListShow.contains(params.get("trigger"))){
             tree1 = (ParseTree)params.get("tree");
             EventTime1 = AddRootAndGetTime(tree1);                    //Retrieval events
-            params.put("tree", tree1);
+            params.put("tree", tree1+"");
 
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
@@ -189,10 +189,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
     }
 
-    protected String getHtml(ArrayList<String> eventList,String EventTime){
 
-
-
+    private String getHtml(ArrayList<String> eventList, String EventTime1){
+        String html = "";
         int year;
         ////////////////年月日份表///////////////////
         String yeartablehtml = ".year{\n" +
