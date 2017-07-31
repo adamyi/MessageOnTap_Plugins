@@ -24,8 +24,9 @@ import edu.cmu.chimps.messageontap_api.MessageData;
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "GoogleDoc plugin";
-    private Long TidFindDoc, TidBubble, TidDocSend;
-    ArrayList<String> DocList;
+    private Long TidFindAllDoc, TidFindDoc, TidBubble, TidDetails, TidDocSend;
+    ParseTree tree1, tree2, treeForSearch;
+
     private Tag TAG_FILENAME;
     Tag tag_doc = new Tag("TAG_DOC", new ArrayList<String>(Collections.singletonList(
             "(file|doc|document)")));
@@ -43,6 +44,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 // doc, file
     // optional flag month, date, regular expression different format
+
     /**
      * Return the trigger criteria of this plug-in. This will be called when
      * MessageOnTap is started (when this plugin is already enabled) or when
@@ -64,7 +66,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_send);
         mOptional.add(tag_me);
         DIRECTION = 0;
-        clearLists(mMandatory,mOptional);
+        clearLists(mMandatory, mOptional);
         //trigger 4: I can send you XXX
         mMandatory.add(tag_I);
         mMandatory.add(tag_send);
@@ -79,7 +81,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_doc);
         mOptional.add(tag_time);
         DIRECTION = 0;
-        clearLists(mMandatory,mOptional);
+        clearLists(mMandatory, mOptional);
         // trigger 3: I want to send you the doc we talked about earlier
         // second example: I'll share my document
         mOptional.add(tag_I);
@@ -89,11 +91,11 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_time);
         DIRECTION = 1;
         MOOD = 0;
-        clearLists(mMandatory,mOptional);
+        clearLists(mMandatory, mOptional);
         return new PluginData().trigger(new Trigger());
     }
 
-    public void clearLists(ArrayList<Tag> mMandatory, ArrayList<Tag> mOptional){
+    public void clearLists(ArrayList<Tag> mMandatory, ArrayList<Tag> mOptional) {
         mMandatory.clear();
         mOptional.clear();
     }
@@ -109,7 +111,20 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
         //todo: if root is not googleDoc, add it
         //能不能找GoogleDoc？
-        TidFindDoc = newTaskResponsed(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+        if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
+            treeForSearch = new ParseTree();                              //Initial a new tree, only has one node
+            Node newNode = new Node();
+            treeForSearch.setNodeById(GOOGLEDOC_URL, newNode);
+            tree1 = params.get(Graph.SYNTAX_TREE);
+            params.remove(Graph.SYNTAX_TREE);
+            params.put(Graph.SYNTAX_TREE, tree1);
+            TidFindAllDoc = newTaskResponsed(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+        } else {
+            tree2 = params.get(Graph.SYNTAX_TREE);
+            tree2 = AddRoot(tree2);
+            params.put(Graph.SYNTAX_TREE, tree2);
+            TidFindDoc = newTaskResponsed(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+        }
 
     }
 
@@ -118,46 +133,87 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
 
-        ArrayList<String> eventList;
-        if (tid == TidShow1) {
+        ArrayList<Doc> DocList = new ArrayList<>();
+        if (tid == TidFindAllDoc) {
             //getCardMessage and put it into params
-            eventList = new ArrayList<>();
             try {
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
-                for (HashMap<String, Object> card:cardList){
-                    eventList.add((String)card.get("GRAPH_EVENT_NAME"));
+                String MessageDocName = tree1.FindNodeById(Id);
+                for (HashMap<String, Object> card : cardList) {
+                    if (MessageDocName.equals((String) card.get(Graph.Document.Name))){
+                        Doc doc = new Doc();
+                        doc.setDocName((String) card.get(Graph.Document.Name));
+                        doc.setDocUrl((String)card.get(Graph.Document.URL));
+                        DocList.add(doc);
+                    }
                 }
-                if (!cardList.isEmpty()) {
-                    params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                    params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
-                    TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                if (!AllDocList.isEmpty()) {
+                    params.put(BUBBLE_FIRST_LINE, "Show URL");
+                    params.put(BUBBLE_SECOND_LINE, "Event time:" + EventTime1);
+                    TidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-            TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
-        } else if (tid == TidShow2){
-            try {
-                params.put("HTML Details", getHtml(eventList, EventTime1));
-                TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
-            }catch (Exception e){
+        } else if (tid == TidFindDoc){
+            try{
+                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+                for (HashMap<String, Object> card : cardList) {
+                    Doc doc = new Doc();
+                    doc.setDocName((String) card.get(Graph.Document.Name));
+                    doc.setDocUrl((String)card.get(Graph.Document.URL));
+                    DocList.add(doc);
+                }
+                if (!DocList.isEmpty()) {
+                    params.put(BUBBLE_FIRST_LINE, "Show URL");
+                    params.put(BUBBLE_SECOND_LINE, "Event time:" + EventTime1);
+                    TidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow3){
+        }
+
+
+
+
+        if (tid == TidBubble) {
+            try {
+                params.put("HTML Details", getHtml(DocList));
+                TidDetails = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+            } catch (Exception e) {
+                e.printStackTrace();
+                endSession(sid);
+            }
+        } else if (tid == TidDetails){
+            params.get("", );                     //get selected URL
+            params.put("", );                      //send URL
+            TidDocSend = newTaskRequest(sid, MethodConstants.ACTION, "Send Doc URL", params);
+        } else if (tid == TidDocSend) {
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
 
-        if (tid == TidAdd1){
-            params.put("action:Add to calendar time", EventTime2);        //time 必须要精确到日期？
-            TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
-        } else if (tid == TidAdd2){
-            Log.e(TAG, "Ending session (triggerListAdd)");
-            endSession(sid);
-            Log.e(TAG, "Session ended");
-        }
+
     }
+
+
+    private ParseTree AddRoot(ParseTree tree){
+        for (int i; i<tree.){
+            if (node.getParent() == 0){
+                node.setParent(ROOT);
+                Node newNode = new Node();
+                newNode.setId(Event Name);
+                newNode.setParent(0);
+                newNode.setChildren(node.getId());
+                node.addTag(Graph.Document.URL);
+            }
+        }
+        return tree;
+    }
+
+}
 

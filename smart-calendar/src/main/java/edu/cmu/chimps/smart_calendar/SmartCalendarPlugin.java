@@ -184,7 +184,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
 
             if (tid == TidAdd1){
-                params.put("action:Add to calendar time", EventTime2);        //time 必须要精确到日期？
+                ArrayList<Long> time = (ArrayList<Long>) params.get("time");
+                params.put("action:Add to calendar time", time.get(0));        //time 必须要精确到日期？
                 TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
             } else if (tid == TidAdd2){
                 Log.e(TAG, "Ending session (triggerListAdd)");
