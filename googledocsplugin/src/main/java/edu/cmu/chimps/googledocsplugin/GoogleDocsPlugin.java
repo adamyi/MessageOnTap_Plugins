@@ -107,7 +107,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         //todo: if root is not googleDoc, add it
         //能不能找GoogleDoc？
         if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
-            treeForSearch = new ParseTree();                              //Initial a new tree, only has one node
+            treeForSearch = new ParseTree();                              //Initialize a new tree, only has one node
             ParseTree.Node newNode = new ParseTree.Node();
             treeForSearch.setNodeById(GOOGLEDOC_URL, newNode);
             tree1 = params.get(Graph.SYNTAX_TREE);
@@ -142,9 +142,9 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                         DocList.add(doc);
                     }
                 }
-                if (!AllDocList.isEmpty()) {
+                if (!DocList.isEmpty()) {
                     params.put(BUBBLE_FIRST_LINE, "Show URL");
-                    params.put(BUBBLE_SECOND_LINE, "Event time:" + EventTime1);
+                    params.put(BUBBLE_SECOND_LINE, "Event time:" + );
                     TidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
                 }
             } catch (Exception e) {
@@ -196,7 +196,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 
     private ParseTree AddRoot(ParseTree tree){
-        for (ParseTree.Node node : tree.Node){
+        for (ParseTree.Node node : tree.getNodeList){
             if (node.getParentId() == 0){
                 node.setParentId(213123);
                 ParseTree.Node newNode = new ParseTree.Node();
