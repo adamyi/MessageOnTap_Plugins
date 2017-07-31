@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
+import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
@@ -122,13 +123,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     @Override
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
-        Log.e(TAG, DataUtils.hashMapToString(params));
-
+        Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
 
         if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name")){
             tree1 = (ParseTree)params.get(Graph.SYNTAX_TREE);
-            Node EventTime = new Node();
+            ParseTree.Node EventTime = new ParseTree.Node();
             Node EventName = new Node();
             EventTime.setId(Root_ID);
             EventName.setId(Node_ID);
@@ -141,7 +141,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             //Retrieval events
             params.put(Graph.SYNTAX_TREE, tree1);
 
-            TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+            TidShow1 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
         if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name2")){
@@ -156,7 +156,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     @Override
     protected void newTaskResponsed(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
-        Log.e(TAG, DataUtils.hashMapToString(params));
+        Log.e(TAG, JSONUtils.hashMapToString(params));
 
         ArrayList<ArrayList<Object>> eventList;
             if (tid == TidShow1) {

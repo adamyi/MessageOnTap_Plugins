@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
+
+import edu.cmu.chimps.messageontap_api.JSONUtils;
+
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
@@ -16,9 +19,11 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
+
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
+
 
 
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
@@ -119,27 +124,24 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     @Override
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
-        Log.e(TAG, DataUtils.hashMapToString(params));
+        Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
-
-        DocList = new ArrayList<>();
-        params.put("FindDoc", DocList);
 
         //todo: if root is not googleDoc, add it
         //能不能找GoogleDoc？
         if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
             treeForSearch = new ParseTree();                              //Initial a new tree, only has one node
-            Node newNode = new Node();
+            ParseTree.Node newNode = new ParseTree.Node();
             treeForSearch.setNodeById(GOOGLEDOC_URL, newNode);
             tree1 = params.get(Graph.SYNTAX_TREE);
             params.remove(Graph.SYNTAX_TREE);
             params.put(Graph.SYNTAX_TREE, tree1);
-            TidFindAllDoc = newTaskResponsed(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+            TidFindAllDoc = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         } else {
             tree2 = params.get(Graph.SYNTAX_TREE);
             tree2 = AddRoot(tree2);
             params.put(Graph.SYNTAX_TREE, tree2);
-            TidFindDoc = newTaskResponsed(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
+            TidFindDoc = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
     }
@@ -147,7 +149,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     @Override
     protected void newTaskResponsed(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
-        Log.e(TAG, DataUtils.hashMapToString(params));
+        Log.e(TAG, JSONUtils.hashMapToString(params));
 
         ArrayList<Doc> DocList = new ArrayList<>();
         if (tid == TidFindAllDoc) {
@@ -213,19 +215,20 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             Log.e(TAG, "Session ended");
         }
 
-
     }
 
 
     private ParseTree AddRoot(ParseTree tree){
-        for (int i; i<tree.){
-            if (node.getParent() == 0){
-                node.setParent(ROOT);
-                Node newNode = new Node();
-                newNode.setId(Event Name);
-                newNode.setParent(0);
-                newNode.setChildren(node.getId());
-                node.addTag(Graph.Document.URL);
+        for (ParseTree.Node node : tree.Node){
+            if (node.getParentId() == 0){
+                node.setParentId(213123);
+                ParseTree.Node newNode = new ParseTree.Node();
+                newNode.setId(23434324);
+                newNode.setParentId(0);
+                Set<Integer> set = new HashSet<>();
+                set.add(node.getId());
+                newNode.setChildrenIds(set);
+                newNode.addTag(Graph.Document.URL);
             }
         }
         return tree;
