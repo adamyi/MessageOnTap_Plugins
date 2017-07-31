@@ -1,7 +1,5 @@
 package edu.cmu.chimps.smart_calendar;
 
-import android.text.Html;
-import android.util.EventLogTags;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -9,19 +7,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
+import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
-
-import static android.R.attr.tag;
-import static android.R.id.message;
-import static edu.cmu.chimps.messageontap_api.EntityAttributes.Event.EVENT_TIME;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -114,7 +107,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     @Override
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
-        Log.e(TAG, DataUtils.hashMapToString(params));
 
         // TID is something we might need to implement stateflow inside a plugin.
 
