@@ -3,20 +3,25 @@ package edu.cmu.chimps.smart_calendar;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
+import edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.Session;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
+
+import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
+import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -52,7 +57,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
      * @return PluginData containing the trigger
      */
 
-    public void clearLists(ArrayList<Tag> mMandatory, ArrayList<Tag> mOptional){
+    public void clearLists(Set<Tag> mMandatory, Set<Tag> mOptional){
         mMandatory.clear();
         mOptional.clear();
     }
@@ -60,8 +65,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e("plugin", "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
-        ArrayList<Tag> mMandatory = new ArrayList<>();
-        ArrayList<Tag> mOptional = new ArrayList<>();
+        Set<Tag> mMandatory = new HashSet<>();
+        Set<Tag> mOptional = new HashSet<>();
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
@@ -69,19 +74,21 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_free);
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
-        MOOD = 1;
-        DIRECTION = 0;
-        // TODO: create trigger and add it to triggerArrayList
+        HashSet<Trigger.Constraint> constraints= new HashSet<>();
+        Trigger trigger1 = new Trigger("calendar_trigger_one",mMandatory,mOptional,constraints,
+                Mood.INTERROGTIVE, Direction.INCOMING);
+        triggerArrayList.add(trigger1);
         clearLists(mMandatory,mOptional);
         // TODO: triggerListShow add entry
-        //Session.TRIGGER_SOURCE = "show_calendar";
         // Category two: update calendar
         // trigger2: I can pick it up at 9pm. outgoing
         mMandatory.add(tag_I);
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
-        MOOD = 0;
-        DIRECTION = 1;
+        HashSet<Trigger.Constraint> constraints2= new HashSet<>();
+        Trigger trigger2 = new Trigger("calendar_trigger_two",mMandatory,mOptional,constraints2,
+                Mood.IMPERATIVE, Direction.OUTGOING);
+        triggerArrayList.add(trigger2);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
         //Session.TRIGGER_SOURCE = "update_calendar";
@@ -89,6 +96,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_we);
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
+        HashSet<Trigger.Constraint> constraints3= new HashSet<>();
+        Trigger trigger3 = new Trigger("calendar_trigger_three",mMandatory,mOptional,constraints3,
+                Mood.UNKNOWN, Direction.UNKNOWN);
+        triggerArrayList.add(trigger3);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
 
@@ -97,7 +108,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_you);
         mOptional.add(tag_optional_time);
         mMandatory.add(tag_time);
-        DIRECTION = 0;
+        HashSet<Trigger.Constraint> constraints4= new HashSet<>();
+        Trigger trigger4 = new Trigger("calendar_trigger_four",mMandatory,mOptional,constraints4,
+                Mood.UNKNOWN, Direction.INCOMING);
+        triggerArrayList.add(trigger4);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
@@ -112,7 +126,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (Session.TRIGGER_SOURCE.equals("Trigger name")){
+        if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name")){
             tree1 = (ParseTree)params.get(Graph.SYNTAX_TREE);
             Node EventTime = new Node();
             Node EventName = new Node();
@@ -130,7 +144,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
-        if (Session.TRIGGER_SOURCE.equals("Trigger name2")){
+        if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name2")){
             tree2 = (ParseTree)params.get(Graph.SYNTAX_TREE);
             EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
