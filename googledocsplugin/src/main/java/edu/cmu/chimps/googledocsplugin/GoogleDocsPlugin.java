@@ -4,7 +4,6 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import edu.cmu.chimps.messageontap_api.PluginData;
-import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 
 
