@@ -128,11 +128,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (triggerListAdd.contains(params.get("trigger"))){
             tree2 = (ParseTree)params.get("tree");
-            for (Node node : tree2){
-                if (node.getId() == EVENT_TIME_){
-                    EventTime2 = node.getContent();
-                }
-            }
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
@@ -180,7 +175,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
 
             if (tid == TidAdd1){
-                params.put("action:Add to calendar time", EventTime2);        //time 必须要精确到日期？
+                ArrayList<Long> time = (ArrayList<Long>) params.get("time");
+                params.put("action:Add to calendar time", time.get(0));        //time 必须要精确到日期？
                 TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
             } else if (tid == TidAdd2){
                 Log.e(TAG, "Ending session (triggerListAdd)");
