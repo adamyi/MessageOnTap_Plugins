@@ -254,7 +254,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
             htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
-                    "<div class=\"datashower\" style=\"height:" + height + "\">\n" +
+                    "<div class=\"datashower\" style=\"height:" + height + "px\">\n" +
                     // 加上Time and Event
 
                     "<p class = \"text\" style = \"text-align:left;\">" + beginHour + "</p >\n" +
