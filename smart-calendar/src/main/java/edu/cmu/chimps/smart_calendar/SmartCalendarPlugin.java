@@ -118,7 +118,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
-        return new PluginDaa().trigger(new Trigger(holder));
+        return new PluginData().trigger(trigger1);
     }
 
     @Override
@@ -127,14 +127,16 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name")){
+        if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_one")||
+                params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_two")){
             tree1 = (ParseTree)params.get(Graph.SYNTAX_TREE);
             params.remove(Graph.SYNTAX_TREE);
             params.put(Graph.SYNTAX_TREE, AddRootEventName(tree1));
             TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
-        if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name2")){
+        if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
+                params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             tree2 = (ParseTree)params.get(Graph.SYNTAX_TREE);
             EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
