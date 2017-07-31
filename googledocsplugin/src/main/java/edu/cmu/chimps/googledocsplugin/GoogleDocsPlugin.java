@@ -65,7 +65,6 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_you);
         mMandatory.add(tag_send);
         mOptional.add(tag_me);
-        mMandatory.add(TAG_FILENAME);
         DIRECTION = 0;
         clearLists(mMandatory, mOptional);
         //trigger 4: I can send you XXX
