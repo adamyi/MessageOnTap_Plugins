@@ -5,6 +5,7 @@ import android.util.EventLogTags;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +34,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public ArrayList<Trigger>  triggerListShow = new ArrayList<>();
     public ArrayList<Trigger>  triggerListAdd = new ArrayList<>();
 
-    private Tree tree1,tree2;
+    private ParseTree tree1,tree2;
     String EventTime1, EventTime2;
 
 
@@ -117,15 +118,16 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (triggerListShow.contains(params.get("trigger"))){               //有没有可能符合两个trigger？希望pms能每符合一个trigger就发一次init
-            tree1 = (Tree)params.get("tree");
+        if (triggerListShow.contains(params.get("trigger"))){
+            tree1 = (ParseTree)params.get("tree");
             EventTime1 = AddRootAndGetTime(tree1);                    //Retrieval events
             params.put("tree", tree1);
 
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
+
         if (triggerListAdd.contains(params.get("trigger"))){
-            tree2 = (Tree)params.get("tree");
+            tree2 = (ParseTree)params.get("tree");
             for (Node node : tree2){
                 if (node.getId() == EVENT_TIME_){
                     EventTime2 = node.getContent();
@@ -163,8 +165,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
             } else if (tid == TidShow2){
                 try {
-                    params.put("HTML Details", getHtml(eventList, EventTime1));
-                    TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                    if (params.get(BUBBLE_STATUS) == 1){
+                        params.put("HTML Details", getHtml(eventList, EventTime1));
+                        TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                     endSession(sid);
@@ -184,12 +188,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 Log.e(TAG, "Session ended");
             }
     }
-
-<<<<<<< HEAD
-=======
-    private String getHtml(ArrayList<String> eventList, String EventTime1){
-        String html = "";
->>>>>>> 9f627f897018a8a318cb7e853218e1a6af9a577b
 
     protected String getHtml(ArrayList<String> eventList,String EventTime){
 
@@ -246,7 +244,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
 
-    private String AddRootAndGetTime(Tree tree1){
+    private String AddRootAndGetTime(ParseTree tree1){
         for (Node node: tree){
             if (node.getParent() == 0){
                 node.setParent(ROOT);
@@ -259,6 +257,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
         }
         return EventTime1;
+    }
+
+    private HashMap<String, Integer> getCurrentDate(){
+        Calendar c = Calendar.getInstance();
+        HashMap<String, Integer> Data = new HashMap<>();
+        Data.put("year", c.get(Calendar.YEAR));
+        Data.put("month", c.get(Calendar.MONTH));
+        Data.put("day", c.get(Calendar.DAY_OF_MONTH));
+        return Data;
     }
 
 }
