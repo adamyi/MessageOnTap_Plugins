@@ -1,27 +1,22 @@
 package edu.cmu.chimps.smart_calendar;
 
-import android.text.Html;
-import android.util.EventLogTags;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
+import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
-
-import static android.R.attr.tag;
-import static android.R.id.message;
-import static edu.cmu.chimps.messageontap_api.EntityAttributes.Event.EVENT_TIME;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -37,16 +32,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     private ParseTree tree1,tree2;
     String EventTime1, EventTime2;
 
-
     // init the tags
-    Tag tag_I = new Tag("TAG_I", new ArrayList<String>(Collections.singletonList("I")));
-    Tag tag_you = new Tag("TAG_You", new ArrayList<String>(Collections.singletonList("you")));
-    Tag tag_free = new Tag("TAG_FREE", new ArrayList<String>(Collections.singletonList(
+    Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
+    Tag tag_you = new Tag("TAG_You", new HashSet<>(Collections.singletonList("you")));
+    Tag tag_free = new Tag("TAG_FREE", new HashSet<>(Collections.singletonList(
             "(free|available|have time)")));
-    Tag tag_we = new Tag("TAG_WE", new ArrayList<String>(Collections.singletonList("(We|us|our)")));
-    Tag tag_time = new Tag("TAG_TIME", new ArrayList<String>(Collections.singletonList(
+    Tag tag_we = new Tag("TAG_WE", new HashSet<>(Collections.singletonList("(We|us|our)")));
+    Tag tag_time = new Tag("TAG_TIME", new HashSet<>(Collections.singletonList(
             "(tomorrow|AM|PM|am|pm|today|morning|afternoon|evening|night)")));
-    Tag tag_optional_time = new Tag("TAG_OPTIONAL_TIME",new ArrayList<String>(
+    Tag tag_optional_time = new Tag("TAG_OPTIONAL_TIME",new HashSet<>(
             Collections.singletonList("([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]")));
 
 
@@ -80,7 +74,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
         // TODO: triggerListShow add entry
-
+        //Session.TRIGGER_SOURCE = "show_calendar";
         // Category two: update calendar
         // trigger2: I can pick it up at 9pm. outgoing
         mMandatory.add(tag_I);
@@ -90,7 +84,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         DIRECTION = 1;
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
-
+        //Session.TRIGGER_SOURCE = "update_calendar";
         // trigger3: We will (Let us) meet next Monday morning. both ways
         mMandatory.add(tag_we);
         mMandatory.add(tag_time);
@@ -108,7 +102,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
-        return new PluginData().trigger(new Trigger(holder));
+        return new PluginDaa().trigger(new Trigger(holder));
     }
 
     @Override
@@ -118,21 +112,27 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (triggerListShow.contains(params.get("trigger"))){
-            tree1 = (ParseTree)params.get("tree");
-            EventTime1 = AddRootAndGetTime(tree1);                    //Retrieval events
-            params.put("tree", tree1+"");
+        if (Session.TRIGGER_SOURCE.equals("Trigger name")){
+            tree1 = (ParseTree)params.get(Graph.SYNTAX_TREE);
+            Node EventTime = new Node();
+            Node EventName = new Node();
+            EventTime.setId(Root_ID);
+            EventName.setId(Node_ID);
+            EventTime.setParent(0);
+            EventName.setParent(root);
+
+            tree.setNodebyId(root,ROOT_ID);
+            tree.setNodebyId(node,Node_ID);                    //Retrieval events
+            params.put("tree", tree1);
+            //Retrieval events
+            params.put(Graph.SYNTAX_TREE, tree1);
 
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
-        if (triggerListAdd.contains(params.get("trigger"))){
-            tree2 = (ParseTree)params.get("tree");
-            for (Node node : tree2){
-                if (node.getId() == EVENT_TIME_){
-                    EventTime2 = node.getContent();
-                }
-            }
+        if (Session.TRIGGER_SOURCE.equals("Trigger name2")){
+            tree2 = (ParseTree)params.get(Graph.SYNTAX_TREE);
+            EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
@@ -144,15 +144,19 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
 
-        ArrayList<String> eventList;
+        ArrayList<ArrayList<Object>> eventList;
             if (tid == TidShow1) {
                 //getCardMessage and put it into params
                 eventList = new ArrayList<>();
                 try {
                     ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
-                    for (HashMap<String, Object> card:cardList){
-                        eventList.add((String)card.get("GRAPH_EVENT_NAME"));
+                    for (HashMap<String, Object> card : cardList) {
+                        ArrayList<Object> Events = new ArrayList<>();
+                        Events.add((String) card.get("Graph.Event.Time"));
+                        Events.add((ArrayList<Long>) card.get("Graph.Event.Name"));
+                        eventList.add(Events);
                     }
+
                     if (!cardList.isEmpty()) {
                         params.put(BUBBLE_FIRST_LINE, "Show Calendar");
                         params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
@@ -190,10 +194,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
 
 
-    private String getHtml(ArrayList<String> eventList, String EventTime1){
+    private String getHtml(ArrayList<ArrayList<Object>> eventList){
         String html = "";
+
         int year;
-        ////////////////年月日份表///////////////////
+
+        ////////////////Time///////////////////
         String yeartablehtml = ".year{\n" +
                 "\t\tbackground: #39A90E;\n" +
                 "\t\theight:auto;\n" +
@@ -206,21 +212,28 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 ".datashower{\n" +
                 "background:#08AED8;\n" +
                 "border-radius:5px\n" +
-                "height:auto" +
+
                 "}\n" + ".text{\n" +
                 "\t\tmargin:10px;\n" +
-                "\t}"+
+                "\t}" +
                 "</style>";
-        ////////////////循环Events//////////////
+        ////////////////Recycle Events//////////////
         Iterator iterator = eventList.iterator();
 
         while (iterator.hasNext()) {
-            String theEvent = (String) iterator.next();
+            String theEvent = ((ArrayList<String>) iterator.next()).get(0);
+            ArrayList<Long> Time = ((ArrayList<Long>) iterator.next());
+            Long begintime = Time.get(0);
+            Long endTime = Time.get(1);
+            int height = (int) (endTime-begintime)/1000/3600*20;// ms->s->h->x20(20px/hour)
+
+
             htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
-                    "<div class=\"datashower\" >\n" +
+                    "<div class=\"datashower\" style=\"height:" + height + "\">\n" +
                     // 加上Time and Event
-                    "<p class = \"text\">"+ theEvent + "</p>\n" +            //time??  date = new Date(key)  date.getyear
-                    "<p class = \"text\">"+ EventTime +"</p>\n" +  //event??
+                    "<p class = \"text\">" + theEvent + "</p>\n" +            //time??  date = new Date(key)  date.getyear
+                    "<p class = \"text\">" + begintime + "</p>\n" +
+                    "<p class = \"text\">" + endTime + "</p>\n"+ //event??
                     //////////////
                     "</div>";
 
@@ -243,6 +256,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
 
+/*
     private String AddRootAndGetTime(ParseTree tree1){
         for (Node node: tree){
             if (node.getParent() == 0){
@@ -257,6 +271,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
         return EventTime1;
     }
+   */
 
     private HashMap<String, Integer> getCurrentDate(){
         Calendar c = Calendar.getInstance();
