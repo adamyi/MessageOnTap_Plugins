@@ -329,7 +329,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     private void setLocation(HashMap<String, Object> params){
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
         for (HashMap<String, Object> card : cardList) {
-            if ((String)card.get(Graph.Document.Name).equals(EventList.get(cardList.indexOf(card)).getEventName())){
+            if ((String)card.get(Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
                 EventList.get(cardList.indexOf(card)).setLocation(card.get(Graph.Place.NAME));
             }
         }

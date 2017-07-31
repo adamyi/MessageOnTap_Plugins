@@ -140,6 +140,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         } else {
             tree2 = params.get(Graph.SYNTAX_TREE);
             tree2 = AddRoot(tree2);
+            params.remove(Graph.SYNTAX_TREE);
             params.put(Graph.SYNTAX_TREE, tree2);
             TidFindDoc = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
