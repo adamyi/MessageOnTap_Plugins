@@ -201,8 +201,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
-
     private String getHtml(ArrayList<ArrayList<Object>> eventList){
+
         String html = "";
 
         int year;
@@ -221,6 +221,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 "background:#08AED8;\n" +
                 "border-radius:5px\n" +
 
+                "color: aliceblue;" +
+
+
                 "}\n" + ".text{\n" +
                 "\t\tmargin:10px;\n" +
                 "\t}" +
@@ -229,57 +232,46 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Iterator iterator = eventList.iterator();
 
         while (iterator.hasNext()) {
-            String theEvent = ((ArrayList<String>) iterator.next()).get(0);
-            ArrayList<Long> Time = ((ArrayList<Long>) iterator.next());
-            Long begintime = Time.get(0);
-            Long endTime = Time.get(1);
+
+            String theEvent = ((Event)iterator.next()).getEventName();
+
+
+            Long begintime = ((Event)iterator.next()).getBeginTime();
+            Long endTime = ((Event)iterator.next()).getEndTime();
+
+            Calendar beginT = Calendar.getInstance();
+            beginT.setTimeInMillis(begintime);
+
+            Calendar endT = Calendar.getInstance();
+            endT.setTimeInMillis(endTime);
+
+            int beginHour = beginT.get(Calendar.HOUR_OF_DAY);
+            int endHour = endT.get(Calendar.HOUR_OF_DAY);
+
+
+
             int height = (int) (endTime-begintime)/1000/3600*20;// ms->s->h->x20(20px/hour)
 
 
             htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
                     "<div class=\"datashower\" style=\"height:" + height + "\">\n" +
                     // 加上Time and Event
-                    "<p class = \"text\">" + theEvent + "</p>\n" +            //time??  date = new Date(key)  date.getyear
-                    "<p class = \"text\">" + begintime + "</p>\n" +
-                    "<p class = \"text\">" + endTime + "</p>\n"+ //event??
+
+                    "<p class = \"text\" style = \"text-align:left;\">" + beginHour + "</p >\n" +
+                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "</p >\n" +
+                    "<p class = \"text\" style = \"text-align:left;\">" + endHour + "</p >\n"+ //event??
+
+
                     //////////////
                     "</div>";
 
         }
-/*
-        for (int i = 0;i < html.size();i++){
-            htmlString =
-                    "<div class=\"datashower\" >\n" +
-                    // 加上Time and Event
-                    "<p>time</p>\n" +
-                    "<p>Events</p>\n" +
-                            /////////
-                    "</div>";
-        }
-        */
-///////ending/////////
+
+        ///////ending/////////
         htmlString = htmlString + "</body> </html>";
         return htmlString;
     }
 
-
-
-/*
-    private String AddRootAndGetTime(ParseTree tree1){
-        for (Node node: tree){
-            if (node.getParent() == 0){
-                node.setParent(ROOT);
-                Node newNode = new Node();
-                newNode.setId(Event Name);
-                newNode.setParent(0);
-                newNode.setChildren(node.getId());
-                node.addTag("GRAPH_EVENT_TIME");
-                EventTime1 = node.getContent();
-            }
-        }
-        return EventTime1;
-    }
-   */
 
     private ParseTree AddRootEventName(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
