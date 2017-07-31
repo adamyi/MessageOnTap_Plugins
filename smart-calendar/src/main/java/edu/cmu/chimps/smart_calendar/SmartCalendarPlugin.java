@@ -7,7 +7,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
@@ -18,6 +20,7 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static android.R.attr.tag;
 import static android.R.id.message;
+import static edu.cmu.chimps.messageontap_api.EntityAttributes.Event.EVENT_TIME;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -31,7 +34,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public ArrayList<Trigger>  triggerListAdd = new ArrayList<>();
 
     private Tree tree1,tree2;
-    String EventTime;
+    String EventTime1, EventTime2;
 
 
     // init the tags
@@ -113,17 +116,23 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, DataUtils.hashMapToString(params));
 
         // TID is something we might need to implement stateflow inside a plugin.
-        if (triggerListShow.contains(params.get("trigger"))){
-            //Todo:Add root
 
-            tree1 = params.get("tree");
-            EventTime = AddRoot(params);                    //Event
-            params.put("tree", tree);
+        if (triggerListShow.contains(params.get("trigger"))){               //有没有可能符合两个trigger？希望pms能每符合一个trigger就发一次init
+            tree1 = (Tree)params.get("tree");
+            EventTime1 = AddRootAndGetTime(tree1);                    //Retrieval events
+            params.put("tree", tree1+"");
+
             TidShow1 = newTaskRequest(sid, MethodConstants.PKG, MethodConstants.GRAPH_RETRIEVAL, params);
         }
         if (triggerListAdd.contains(params.get("trigger"))){
-            tree = (Tree)params.get("tree");
-
+            tree2 = (Tree)params.get("tree");
+            for (Node node : tree2){
+                if (node.getId() == EVENT_TIME_){
+                    EventTime2 = node.getContent();
+                }
+            }
+            params.put(BUBBLE_FIRST_LINE, "Add Calendar");
+            params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
         }
     }
@@ -135,7 +144,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         ArrayList<String> eventList;
             if (tid == TidShow1) {
-                //Todo:getCardMessage and put it into params
+                //getCardMessage and put it into params
                 eventList = new ArrayList<>();
                 try {
                     ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
@@ -143,7 +152,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                         eventList.add((String)card.get("GRAPH_EVENT_NAME"));
                     }
                     if (!cardList.isEmpty()) {
-                        params.put("Bubble Content", "Show Calendar");
+                        params.put(BUBBLE_FIRST_LINE, "Show Calendar");
+                        params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
                         TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
                     }
                 } catch (Exception e) {
@@ -153,53 +163,83 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
             } else if (tid == TidShow2){
                 try {
-                    params.put("HTML Details", getHtml(eventList, EventTime));
+                    params.put("HTML Details", getHtml(eventList, EventTime1));
                     TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
                 }catch (Exception e){
                     e.printStackTrace();
                     endSession(sid);
                 }
             } else if (tid == TidShow3){
-                Log.e(TAG, "Ending session (triggerList1)");
+                Log.e(TAG, "Ending session (triggerListShow)");
                 endSession(sid);
                 Log.e(TAG, "Session ended");
             }
 
             if (tid == TidAdd1){
-                String event = tree.FindNodeByTag(tag_event);     //！！如果要AddCalendar一定要有event
-                String time = tree.FindNodeByTag(tag_time);
-                params.put("action:Add to calendar event", event);
-                params.put("action:Add to calendar time", time);        //time 必须要精确到日期？
+                params.put("action:Add to calendar time", EventTime2);        //time 必须要精确到日期？
                 TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
             } else if (tid == TidAdd2){
-                Log.e(TAG, "Ending session (triggerList2)");
+                Log.e(TAG, "Ending session (triggerListAdd)");
                 endSession(sid);
                 Log.e(TAG, "Session ended");
             }
     }
 
-    private String getHtml(ArrayList<String> eventList, String EventTime){
+
+    private String getHtml(ArrayList<String> eventList, String EventTime1){
         String html = "";
+        int year;
+        ////////////////年月日份表///////////////////
+        String yeartablehtml = ".year{\n" +
+                "\t\tbackground: #39A90E;\n" +
+                "\t\theight:auto;\n" +
+                "\t\tborder-radius:5px;\n" +
+                "\t\ttext-align: center;\n" +
+                "\t}";
+        /////////////////style/////////////////////
+        String htmlString = "<html>\n" +
+                "<style>\n" +
+                ".datashower{\n" +
+                "background:#08AED8;\n" +
+                "border-radius:5px\n" +
+                "height:auto" +
+                "}\n" + ".text{\n" +
+                "\t\tmargin:10px;\n" +
+                "\t}"+
+                "</style>";
+        ////////////////循环Events//////////////
+        Iterator iterator = eventList.iterator();
 
-        return html;
-    }
+        while (iterator.hasNext()) {
+            String theEvent = (String) iterator.next();
+            htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
+                    "<div class=\"datashower\" >\n" +
+                    // 加上Time and Event
+                    "<p class = \"text\">"+ theEvent + "</p>\n" +            //time??  date = new Date(key)  date.getyear
+                    "<p class = \"text\">"+ EventTime +"</p>\n" +  //event??
+                    //////////////
+                    "</div>";
 
-    private Boolean CardisEmpty(HashMap<String, Object> params){
-        try {
-            HashMap<String, Object> card = (HashMap<String, Object>) params.get("Card");
-            if (card.isEmpty()){
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            Log.e(TAG, "CardisEmpty: can not find card");
         }
-        return true;
+/*
+        for (int i = 0;i < html.size();i++){
+            htmlString =
+                    "<div class=\"datashower\" >\n" +
+                    // 加上Time and Event
+                    "<p>time</p>\n" +
+                    "<p>Events</p>\n" +
+                            /////////
+                    "</div>";
+        }
+        */
+///////ending/////////
+        htmlString = htmlString + "</body> </html>";
+        return htmlString;
     }
 
-    private String AddRoot(Tree tree1){
+
+
+    private String AddRootAndGetTime(Tree tree1){
         for (Node node: tree){
             if (node.getParent() == 0){
                 node.setParent(ROOT);
@@ -208,10 +248,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 newNode.setParent(0);
                 newNode.setChildren(node.getId());
                 node.addTag("GRAPH_EVENT_TIME");
-                EventTime = node.getContent();
+                EventTime1 = node.getContent();
             }
         }
-        return EventTime;
+        return EventTime1;
     }
 
 }

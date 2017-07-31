@@ -1,6 +1,8 @@
 package edu.cmu.chimps.googledocsplugin;
 
+import android.os.RemoteException;
 import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +17,9 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
-import static android.R.attr.y;
+import edu.cmu.chimps.messageontap_api.MessageData;
+
+
 
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
@@ -115,28 +119,46 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, DataUtils.hashMapToString(params));
 
-        if (tid == TidFindDoc){
+        ArrayList<String> eventList;
+        if (tid == TidShow1) {
+            //getCardMessage and put it into params
+            eventList = new ArrayList<>();
             try {
-                HashMap<String, Object> card = (HashMap<String, Object>) params.get("Card");
-                if (!card.isEmpty()) {
-                    DocList = (ArrayList<String>) card.get("FindDoc");
-                    params.put("Bubble Content", "Send Docs");
-                    TidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+                for (HashMap<String, Object> card:cardList){
+                    eventList.add((String)card.get("GRAPH_EVENT_NAME"));
+                }
+                if (!cardList.isEmpty()) {
+                    params.put(BUBBLE_FIRST_LINE, "Show Calendar");
+                    params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
+                    TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidBubble){
-            params.put("Message to send", DocList);
-            //params.put("Action message", );
-            TidDocSend = newTaskRequest(sid, MethodConstants.ACTION, "Send GoogleDoc", params);
-        } else if (tid == TidDocSend){
-            Log.e(TAG, "Ending session");
+            TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
+        } else if (tid == TidShow2){
+            try {
+                params.put("HTML Details", getHtml(eventList, EventTime1));
+                TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+            }catch (Exception e){
+                e.printStackTrace();
+                endSession(sid);
+            }
+        } else if (tid == TidShow3){
+            Log.e(TAG, "Ending session (triggerListShow)");
+            endSession(sid);
+            Log.e(TAG, "Session ended");
+        }
+
+        if (tid == TidAdd1){
+            params.put("action:Add to calendar time", EventTime2);        //time 必须要精确到日期？
+            TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+        } else if (tid == TidAdd2){
+            Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
     }
-
-}
 
