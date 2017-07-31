@@ -3,6 +3,7 @@ package edu.cmu.chimps.googledocsplugin;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
@@ -11,6 +12,7 @@ import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static android.R.attr.y;
@@ -20,9 +22,23 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     public static final String TAG = "GoogleDoc plugin";
     private Long TidFindDoc, TidBubble, TidDocSend;
     ArrayList<String> DocList;
+    private Tag TAG_FILENAME;
+    Tag tag_doc = new Tag("TAG_DOC", new ArrayList<String>(Collections.singletonList(
+            "(file|doc|document)")));
+    Tag tag_I = new Tag("TAG_I", new ArrayList<String>(Collections.singletonList("I")));
+    Tag tag_me = new Tag("TAG_ME", new ArrayList<String>(Collections.singletonList(
+            "(us|me)")));
+    Tag tag_send = new Tag("TAG_SEND", new ArrayList<String>(Collections.singletonList(
+            "(share|send|show|give)")));
+    Tag tag_time = new Tag("TAG_TIME", new ArrayList<String>(Collections.singletonList(
+            "(tomorrow|AM|PM|am|pm|today|morning|afternoon|evening|night)")));
+    Tag tag_you = new Tag("TAG_You", new ArrayList<String>(Collections.singletonList("you")));
+    public int MOOD = 0; // 0 statement
+    public int DIRECTION = 0; // 0 incoming
+    public int COMPLETE = 0; // 0 is complete
 
-    //Todo: 写trigger, 分两种：1.包含文件名的。2.不包含文件名的
-
+// doc, file
+    // optional flag month, date, regular expression different format
     /**
      * Return the trigger criteria of this plug-in. This will be called when
      * MessageOnTap is started (when this plugin is already enabled) or when
@@ -33,11 +49,45 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     @Override
     protected PluginData iPluginData() {
         Log.e(TAG, "getting plugin data");
-        ArrayList<String> mKeyList = new ArrayList<>();
-        mKeyList.add(EntityAttributes.Person.PERSON_NAME);
-        mKeyList.add(EntityAttributes.Person.PHONE_NUMBER);
-        mKeyList.add(Globals.KEY_QUERY_SUBJECT);
-        return new PluginData().trigger(new Trigger(mKeyList));
+        ArrayList<Trigger> triggerArrayList = new ArrayList<>();
+        ArrayList<Tag> mMandatory = new ArrayList<>();
+        ArrayList<Tag> mOptional = new ArrayList<>();
+
+        // Category one: with file name
+        // trigger 1: Can you send me XXX (a file)?
+        COMPLETE = 0;
+        mOptional.add(tag_you);
+        mMandatory.add(tag_send);
+        mOptional.add(tag_me);
+        mMandatory.add(TAG_FILENAME);
+        DIRECTION = 0;
+        clearLists(mMandatory,mOptional);
+        //trigger 4: I can send you XXX
+        mMandatory.add(tag_I);
+        mMandatory.add(tag_send);
+        mOptional.add(tag_you);
+        MOOD = 0;
+        DIRECTION = 1;
+        // Category two: without file name
+        // trigger 2: Can you send me the file on this topic
+        // second example: send me the file please
+        mMandatory.add(tag_send);
+        mOptional.add(tag_me);
+        mMandatory.add(tag_doc);
+        mOptional.add(tag_time);
+        DIRECTION = 0;
+        clearLists(mMandatory,mOptional);
+        // trigger 3: I want to send you the doc we talked about earlier
+        // second example: I'll share my document
+        mOptional.add(tag_I);
+        mMandatory.add(tag_send);
+        mOptional.add(tag_you);
+        mMandatory.add(tag_doc);
+        mOptional.add(tag_time);
+        DIRECTION = 1;
+        MOOD = 0;
+        clearLists(mMandatory,mOptional);
+        return new PluginData().trigger(new Trigger());
     }
 
     public void clearLists(ArrayList<Tag> mMandatory, ArrayList<Tag> mOptional){
