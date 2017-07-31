@@ -143,7 +143,6 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             params.put(Graph.SYNTAX_TREE, tree2);
             TidFindDoc = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
-
     }
 
     @Override
@@ -156,7 +155,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             //getCardMessage and put it into params
             try {
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
-                String MessageDocName = tree1.FindNodeById(Id);
+                String MessageDocName = tree1.FindNodeById(Id).getContent;             //Don't know id
                 for (HashMap<String, Object> card : cardList) {
                     if (MessageDocName.equals((String) card.get(Graph.Document.Name))){
                         Doc doc = new Doc();

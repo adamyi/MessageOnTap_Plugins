@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.DataUtils;
+import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -30,10 +31,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    long TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
+    long TidShow0, TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
 
-    public ArrayList<Trigger>  triggerListShow = new ArrayList<>();
-    public ArrayList<Trigger>  triggerListAdd = new ArrayList<>();
+    ArrayList<Event> EventList;
+
 
     private ParseTree tree1,tree2;
     String EventTime1, EventTime2;
@@ -128,20 +129,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name")){
             tree1 = (ParseTree)params.get(Graph.SYNTAX_TREE);
-            ParseTree.Node EventTime = new ParseTree.Node();
-            Node EventName = new Node();
-            EventTime.setId(Root_ID);
-            EventName.setId(Node_ID);
-            EventTime.setParent(0);
-            EventName.setParent(root);
-
-            tree.setNodebyId(root,ROOT_ID);
-            tree.setNodebyId(node,Node_ID);                    //Retrieval events
-            params.put("tree", tree1);
-            //Retrieval events
-            params.put(Graph.SYNTAX_TREE, tree1);
-
-            TidShow1 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+            params.remove(Graph.SYNTAX_TREE);
+            params.put(Graph.SYNTAX_TREE, AddRootEventName(tree1));
+            TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
         if (params.get(Session.TRIGGER_SOURCE).equals("Trigger name2")){
@@ -158,54 +148,55 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
 
-        ArrayList<ArrayList<Object>> eventList;
-            if (tid == TidShow1) {
-                //getCardMessage and put it into params
-                eventList = new ArrayList<>();
-                try {
-                    ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
-                    for (HashMap<String, Object> card : cardList) {
-                        ArrayList<Object> Events = new ArrayList<>();
-                        Events.add((String) card.get("Graph.Event.Time"));
-                        Events.add((ArrayList<Long>) card.get("Graph.Event.Name"));
-                        eventList.add(Events);
-                    }
+        if (tid == TidShow0){
+            try{
+                EventList = getEventList(params);
+                params.remove(Graph.SYNTAX_TREE);
+                params.put(Graph.SYNTAX_TREE, AddRootLocation(tree1));
+                TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
 
-                    if (!cardList.isEmpty()) {
-                        params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                        params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
-                        TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    endSession(sid);
-                }
-                TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "paramsMessage", params);
-            } else if (tid == TidShow2){
-                try {
-                    if (params.get(BUBBLE_STATUS) == 1){
-                        params.put("HTML Details", getHtml(eventList, EventTime1));
-                        TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    endSession(sid);
-                }
-            } else if (tid == TidShow3){
-                Log.e(TAG, "Ending session (triggerListShow)");
+            }catch (Exception e){
+                e.printStackTrace();
                 endSession(sid);
-                Log.e(TAG, "Session ended");
             }
 
-            if (tid == TidAdd1){
-                ArrayList<Long> time = (ArrayList<Long>) params.get("time");
-                params.put("action:Add to calendar time", time.get(0));        //time 必须要精确到日期？
-                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
-            } else if (tid == TidAdd2){
-                Log.e(TAG, "Ending session (triggerListAdd)");
+        } else if (tid == TidShow1) {
+            //getCardMessage and put it into params
+            try {
+                setLocation(params);
+                params.put(BUBBLE_FIRST_LINE, "Show Calendar");
+                params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
+                TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+            } catch (Exception e) {
+                e.printStackTrace();
                 endSession(sid);
-                Log.e(TAG, "Session ended");
             }
+        } else if (tid == TidShow2){
+            try {
+                if (params.get(BUBBLE_STATUS) == 1){
+                    params.put("HTML Details", getHtml(EventList));
+                    TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                endSession(sid);
+            }
+        } else if (tid == TidShow3){
+            Log.e(TAG, "Ending session (triggerListShow)");
+            endSession(sid);
+            Log.e(TAG, "Session ended");
+        }
+
+
+        if (tid == TidAdd1){
+            ArrayList<Long> time = (ArrayList<Long>) params.get("time");
+            params.put("action:Add to calendar time", time.get(0));        //time 必须要精确到日期？
+            TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+        } else if (tid == TidAdd2){
+            Log.e(TAG, "Ending session (triggerListAdd)");
+            endSession(sid);
+            Log.e(TAG, "Session ended");
+        }
     }
 
 
@@ -288,13 +279,58 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
    */
 
-    private HashMap<String, Integer> getCurrentDate(){
-        Calendar c = Calendar.getInstance();
-        HashMap<String, Integer> Data = new HashMap<>();
-        Data.put("year", c.get(Calendar.YEAR));
-        Data.put("month", c.get(Calendar.MONTH));
-        Data.put("day", c.get(Calendar.DAY_OF_MONTH));
-        return Data;
+    private ParseTree AddRootEventName(ParseTree tree){
+        for (ParseTree.Node node : tree.getNodeList){
+            if (node.getParentId() == 0){
+                node.setParentId(3232);
+                ParseTree.Node newNode = new ParseTree.Node();
+                newNode.setId(3232);
+                newNode.setParentId(0);
+                Set<Integer> set = new HashSet<>();
+                set.add(node.getId());
+                newNode.setChildrenIds(set);
+                newNode.addTag(Graph.Event.NAME);
+            }
+        }
+        return tree;
+    }
+
+    private ParseTree AddRootLocation(ParseTree tree){
+        for (ParseTree.Node node : tree.getNodeList){
+            if (node.getParentId() == 0){
+                node.setParentId(213123);
+                ParseTree.Node newNode = new ParseTree.Node();
+                newNode.setId(23434324);
+                newNode.setParentId(0);
+                Set<Integer> set = new HashSet<>();
+                set.add(node.getId());
+                newNode.setChildrenIds(set);
+                newNode.addTag(Graph.Place.NAME);
+            }
+        }
+        return tree;
+    }
+
+    private ArrayList<Event> getEventList(HashMap<String, Object> params){
+        ArrayList<Event> EventList = new ArrayList<>();
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+        for (HashMap<String, Object> card : cardList) {
+            Event event = new Event();
+            event.setEventName((String) card.get(Graph.Document.Name));
+            event.setBeginTime((String)card.get(Graph.Event.START_TIME));
+            event.setEndTime((String)card.get(Graph.Event.END_TIME));
+            EventList.add(event);
+        }
+        return EventList;
+    }
+
+    private void setLocation(HashMap<String, Object> params){
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+        for (HashMap<String, Object> card : cardList) {
+            if ((String)card.get(Graph.Document.Name).equals(EventList.get(cardList.indexOf(card)).getEventName())){
+                EventList.get(cardList.indexOf(card)).setLocation(card.get(Graph.Place.NAME));
+            }
+        }
     }
 
 }

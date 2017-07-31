@@ -5,9 +5,9 @@ package edu.cmu.chimps.smart_calendar;
  */
 
 public class Event {
+    private String EventName;
     private Long BeginTime;
     private Long EndTime;
-    private String EventName;
     private String Location;
 
     public Long getBeginTime() {
