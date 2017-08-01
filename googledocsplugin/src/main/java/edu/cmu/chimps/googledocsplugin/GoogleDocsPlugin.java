@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -139,17 +140,17 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         // TID is something we might need to implement stateflow inside a plugin.
 
         if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
-            tree1 = params.get(Graph.SYNTAX_TREE);
+            tree1 = params.get(EntityAttributes.Graph.SYNTAX_TREE);
             treeForSearch1 = AddNameRoot(tree1, ALLDOCNAMEROOTID);
-            params.remove(Graph.SYNTAX_TREE);
-            params.put(Graph.SYNTAX_TREE, treeForSearch1);
+            params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
             tidFindAllDocName = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
 
         } else {
-            tree2 = params.get(Graph.SYNTAX_TREE);
+            tree2 = params.get(EntityAttributes.Graph.SYNTAX_TREE);
             treeForSearch2 = AddNameRoot(tree2, DOCNAMEROOTID);
-            params.remove(Graph.SYNTAX_TREE);
-            params.put(Graph.SYNTAX_TREE, treeForSearch2);
+            params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
             tidFindDocName = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
     }
@@ -165,11 +166,12 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             try {
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
                 for (HashMap<String, Object> card : cardList) {
-                    for (Node node : tree1.getNodeList){
-                        if (node.getWord().equals((String) card.get(Graph.Document.Name))){
+                    for (int i=0; i < tree1.getNodeList().size(); i++){
+                        ParseTree.Node node = tree1.getNodeList().get(i);
+                        if (node.getWord().equals((String) card.get(EntityAttributes.Graph.Document.TITLE))){
                             Doc doc = new Doc();
-                            doc.setDocName((String) card.get(Graph.Document.Name));
-                            doc.setCreatedTime((Long)card.get(Graph.Document.CREATED_TIME));
+                            doc.setDocName((String) card.get(EntityAttributes.Graph.Document.TITLE));
+                            doc.setCreatedTime((Long)card.get(EntityAttributes.Graph.Document.CREATED_TIME));
                             //doc.setDocUrl((String)card.get(Graph.Document.URL));
                             DocList.add(doc);
                         }
@@ -177,8 +179,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     tree1 = AddUrlRoot(tree1, ALLURLROOTID);
-                    params.remove(Graph.SYNTAX_TREE);
-                    params.put(Graph.SYNTAX_TREE, tree1);
+                    params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+                    params.put(EntityAttributes.Graph.SYNTAX_TREE, tree1);
                     tidFindUrl1 = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
                 }
             } catch (Exception e) {
@@ -190,15 +192,15 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
                 for (HashMap<String, Object> card : cardList) {
                     Doc doc = new Doc();
-                    doc.setDocName((String) card.get(Graph.Document.TITLE));
-                    doc.setCreatedTime((Long)card.get(Graph.Document.CREATED_TIME));
+                    doc.setDocName((String) card.get(EntityAttributes.Graph.Document.TITLE));
+                    doc.setCreatedTime((Long)card.get(EntityAttributes.Graph.Document.CREATED_TIME));
                     //doc.setDocUrl((String)card.get(Graph.Document.URL));
                     DocList.add(doc);
                 }
                 if (!DocList.isEmpty()) {
                     tree2 = AddUrlRoot(tree2, URLROOTID);
-                    params.remove(Graph.SYNTAX_TREE);
-                    params.put(Graph.SYNTAX_TREE, tree2);
+                    params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+                    params.put(EntityAttributes.Graph.SYNTAX_TREE, tree2);
                     tidFindUrl2 = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
                 }
             } catch (Exception e) {
@@ -214,8 +216,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
                 for (HashMap<String, Object> card : cardList) {
                     for (Doc doc : DocList){
-                        if (doc.getCreatedTime().equals(card.get(Graph.Document.CREATED_TIME))){
-                            doc.setDocUrl((String)card.get(Graph.Document.URL));
+                        if (doc.getCreatedTime().equals(card.get(EntityAttributes.Graph.Document.CREATED_TIME))){
+                            doc.setDocUrl((String)card.get(EntityAttributes.Graph.Document.URL));
                         }
                     }
                 }
@@ -305,7 +307,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     }
 
     private ParseTree AddNameRoot(ParseTree tree , int Id){
-        for (ParseTree.Node node : tree.getNodeList){
+        for (int i=0; i < tree.getNodeList().size(); i++){
+            ParseTree.Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
                 node.setParentId(Id);
                 ParseTree.Node newNode = new ParseTree.Node();
@@ -314,20 +317,20 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(Graph.Document.TITLE);
+                newNode.addTag(EntityAttributes.Graph.Document.TITLE);
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
-                node.addTag(Graph.Document.CREATED_TIME);
-                node.addTag(Graph.Document.MODIFIED_TIME);
-                node.addTag(Graph.Document.DESCRIPTION_TIME);
+                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
         return tree;
     }
 
     private ParseTree AddUrlRoot(ParseTree tree, int Id){
-        for (ParseTree.Node node : tree.getNodeList){
+        for (int i=0; i < tree.getNodeList().size(); i++){
+            ParseTree.Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
                 node.setParentId(Id);
                 ParseTree.Node newNode = new ParseTree.Node();
@@ -336,13 +339,12 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(Graph.Document.URL);
+                newNode.addTag(EntityAttributes.Graph.Document.URL);
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
-                node.addTag(Graph.Document.CREATED_TIME);
-                node.addTag(Graph.Document.MODIFIED_TIME);
-                node.addTag(Graph.Document.DESCRIPTION_TIME);
+                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
         return tree;
