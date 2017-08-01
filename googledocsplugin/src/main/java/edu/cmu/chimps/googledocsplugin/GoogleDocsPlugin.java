@@ -217,6 +217,52 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     }
 
+    private String getHtml(ArrayList<Doc> DocList) {
+        String List = ""
+        String html = "<html>" +
+                "<body>" +
+                "<style>" +
+                "datashower{" +
+                "border-radius: 10px;" +
+                "background: #08AED8;" +
+                "height:auto;" +
+
+                "}" +
+                ".doc{" +
+                "text-align: center;" +
+                "color: aliceblue;" +
+                "padding: 10px;" +
+                "}" +
+                ".checkbox{" +
+                "float: left;" +
+                "</style>" +
+                "<div class=\"Title\" style=\"border:  groove\">\n" +
+                "\t<p class=\"Tiltle\" style=\"text-align: center;font-family:'aguafina-script';\">Related Google Doc</p>\n" +
+                "</div>\n" + "<form id=\"data\">\n";
+        for (Doc doc:DocList) {
+            String docName = doc.getDocName();
+            List = List +
+
+                            "<div class= \"datashower\">\n" +
+                            "<p class=\"doc\">\n" +
+                            "<input name = \"GoogleDoc\" type=\"checkbox\" class = \"checkbox\">\n" +
+                            docName + "</p>\n"+
+                            "</div>\n";
+
+        }
+                  String btn =
+                          "</form>\n"+
+                "<div style=\"text-align: center\">\n" +
+                "<button data=\"\">\n" +
+                "\tOK\n" +
+                "</button>\n" +
+                "</div>\n" +
+                "</body>\n" +
+                "</html>";
+
+        String finalHtml = html + List + btn;
+        return finalHtml;
+    }
 
     private ParseTree AddRoot(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
