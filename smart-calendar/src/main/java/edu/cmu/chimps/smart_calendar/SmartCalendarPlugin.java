@@ -8,9 +8,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
+import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -334,11 +334,11 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         return EventList;
     }
 
-    private void setLocation(HashMap<String, Object> params){
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+    private void setLocation2(HashMap<String, Object> params){
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(CARD_KEY);
         for (HashMap<String, Object> card : cardList) {
             if ((String)card.get(Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
-                EventList.get(cardList.indexOf(card)).setLocation(card.get(Graph.Place.NAME));
+                EventList.get(cardList.indexOf(card)).setLocation((String) card.get(EntityAttributes.Graph.Place.NAME));
             }
         }
     }
