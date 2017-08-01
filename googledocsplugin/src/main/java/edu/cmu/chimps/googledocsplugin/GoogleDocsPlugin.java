@@ -282,15 +282,14 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         for (Doc doc:DocList) {
             String docName = doc.getDocName();
             List = List +
-
-                            "<div class= \"datashower\">\n" +
-                            "<p class=\"doc\">\n" +
-                            "<input name = \"GoogleDoc\" type=\"checkbox\" class = \"checkbox\">\n" +
-                            docName + "</p>\n"+
-                            "</div>\n";
+                    "<div class= \"datashower\">\n" +
+                    "<p class=\"doc\">\n" +
+                    "<input name = \"GoogleDoc\" type=\"checkbox\" class = \"checkbox\">\n" +
+                    docName + "</p>\n"+
+                    "</div>\n";
 
         }
-                  String btn =
+             String btn =
                           "</form>\n"+
                 "<div style=\"text-align: center\">\n" +
                 "<button data=\"\">\n" +

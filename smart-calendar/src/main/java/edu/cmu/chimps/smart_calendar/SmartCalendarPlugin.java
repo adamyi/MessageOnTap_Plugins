@@ -242,6 +242,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         String htmlString = "<html>\n" +
                 "<style>\n" +
                 ".datashower{\n" +
+                "margin-left: 10px;\n" +
+                "\t\tmargin-right: 10px" +
                 "background:#08AED8;\n" +
                 "border-radius:5px;\n" +
                 "color: aliceblue;" +
