@@ -2,6 +2,7 @@ package edu.cmu.chimps.smart_calendar;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -201,7 +202,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
-    private String getHtml(ArrayList<ArrayList<Object>> eventList){
+    private String getHtml(ArrayList<Event> eventList){
 
         String html = "";
 
@@ -219,7 +220,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 "<style>\n" +
                 ".datashower{\n" +
                 "background:#08AED8;\n" +
-                "border-radius:5px\n" +
+                "border-radius:5px;\n" +
                 "color: aliceblue;" +
                 "}\n" + ".text{\n" +
                 "\t\tmargin:10px;\n" +
@@ -228,15 +229,13 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 "\t}" +
                 "</style>";
         ////////////////Recycle Events//////////////
-        Iterator iterator = eventList.iterator();
+        for (Event event: eventList){
 
-        while (iterator.hasNext()) {
-
-            String theEvent = ((Event)iterator.next()).getEventName();
+            String theEvent = event.getEventName();
 
 
-            Long begintime = ((Event)iterator.next()).getBeginTime();
-            Long endTime = ((Event)iterator.next()).getEndTime();
+            Long begintime = event.getBeginTime();
+            Long endTime = event.getEndTime();
 
             Calendar beginT = Calendar.getInstance();
             beginT.setTimeInMillis(begintime);
@@ -247,17 +246,28 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             int beginHour = beginT.get(Calendar.HOUR_OF_DAY);
             int endHour = endT.get(Calendar.HOUR_OF_DAY);
 
+            SimpleDateFormat fmt = new SimpleDateFormat("HH-mm");
+            String finalBeginTime = fmt.format(begintime);
+            String finalEndTime = fmt.format(endTime);
 
 
-            int height = (int) (endTime-begintime)/1000/3600*20;// ms->s->h->x20(20px/hour)
 
+            int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
+            if (height < 75){
+                height = -1;
+            }
 
+            String h;
+            if (height == -1){
+                h = "auto";
+            }else
+            {   h = "" + height;}
             htmlString = htmlString +
-                    "<div class=\"datashower\" style=\"height:" + height + "px\">\n" +
+                    "<div class=\"datashower\" style=\"height:" + h + "px\">\n" +
                     // 加上Time and Event
-                    "<p class = \"text\" style = \"text-align:left;\">" + beginHour + "</p >\n" +
+                    "<p class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</p >\n" +
                     "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
-                    "<p class = \"text\" style = \"text-align:left;\">" + endHour + "</p >\n"+ //event?
+                    "<p class = \"text\" style = \"text-align:left;\">" + finalEndTime + "</p >\n"+ //event?
                     //////////////
                     "</div>";
         }
