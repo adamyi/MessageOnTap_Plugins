@@ -8,21 +8,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.DataUtils;
-
 import edu.cmu.chimps.messageontap_api.JSONUtils;
-
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.Session;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
-
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
-import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
 
 
 
@@ -72,7 +68,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_me);
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
-        Trigger trigger1 = new Trigger("doc_trigger_one",mMandatory,mOptional,constraints,
+        Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional, constraints,
                 Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger1);
         clearLists(mMandatory, mOptional);
@@ -83,7 +79,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         MOOD = 0;
         DIRECTION = 1;
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
-        Trigger trigger2 = new Trigger("calendar_trigger_two",mMandatory,mOptional,constraints2,
+        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger2);
         // Category two: without file name
@@ -95,8 +91,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_time);
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
-        Trigger trigger3 = new Trigger("calendar_trigger_three",mMandatory,mOptional,constraints3,
-                Mood.UNKNOWN, Direction.INCOMING);
+        Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
+                constraints3, Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger3);
         clearLists(mMandatory, mOptional);
         // trigger 3: I want to send you the doc we talked about earlier
@@ -109,7 +105,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         DIRECTION = 1;
         MOOD = 0;
         HashSet<Trigger.Constraint> constraints4= new HashSet<>();
-        Trigger trigger4 = new Trigger("calendar_trigger_four",mMandatory,mOptional,constraints4,
+        Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional, constraints4,
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger4);
         clearLists(mMandatory, mOptional);
@@ -136,7 +132,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             tree1 = params.get(Graph.SYNTAX_TREE);
             params.remove(Graph.SYNTAX_TREE);
             params.put(Graph.SYNTAX_TREE, tree1);
-            TidFindAllDoc = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+            TidFindAllDoc = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAFE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         } else {
             tree2 = params.get(Graph.SYNTAX_TREE);
             tree2 = AddRoot(tree2);
@@ -155,7 +151,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             //getCardMessage and put it into params
             try {
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
-                String MessageDocName = tree1.FindNodeById(Id).getContent;             //Don't know id
+                String MessageDocName = tree1.getNodeById(Id).getContent;             //Don't know id
                 for (HashMap<String, Object> card : cardList) {
                     if (MessageDocName.equals((String) card.get(Graph.Document.Name))){
                         Doc doc = new Doc();

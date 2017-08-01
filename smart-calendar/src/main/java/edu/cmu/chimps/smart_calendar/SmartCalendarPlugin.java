@@ -77,7 +77,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
-        Trigger trigger1 = new Trigger("calendar_trigger_one",mMandatory,mOptional,constraints,
+        Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory, mOptional, constraints,
                 Mood.INTERROGTIVE, Direction.INCOMING);
         triggerArrayList.add(trigger1);
         clearLists(mMandatory,mOptional);
@@ -88,7 +88,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
-        Trigger trigger2 = new Trigger("calendar_trigger_two",mMandatory,mOptional,constraints2,
+        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger2);
         // TODO: create trigger and add it to triggerArrayList
@@ -99,8 +99,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
-        Trigger trigger3 = new Trigger("calendar_trigger_three",mMandatory,mOptional,constraints3,
-                Mood.UNKNOWN, Direction.UNKNOWN);
+        Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
+                constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
         triggerArrayList.add(trigger3);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
@@ -111,7 +111,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_optional_time);
         mMandatory.add(tag_time);
         HashSet<Trigger.Constraint> constraints4= new HashSet<>();
-        Trigger trigger4 = new Trigger("calendar_trigger_four",mMandatory,mOptional,constraints4,
+        Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional, constraints4,
                 Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger4);
         // TODO: create trigger and add it to triggerArrayList
