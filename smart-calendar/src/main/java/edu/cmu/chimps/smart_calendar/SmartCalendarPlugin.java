@@ -9,11 +9,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.DataUtils;
-import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -25,8 +23,17 @@ import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
+
 import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
 import java.util.Collections;
+
+import static edu.cmu.chimps.smart_calendar.StringUtils.DAY;
+import static edu.cmu.chimps.smart_calendar.StringUtils.LOCATIONROOTID;
+import static edu.cmu.chimps.smart_calendar.StringUtils.MONTH;
+import static edu.cmu.chimps.smart_calendar.StringUtils.NAMEROOTID;
+import static edu.cmu.chimps.smart_calendar.StringUtils.YEAR;
+
+
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
@@ -47,7 +54,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
     private ParseTree tree1,tree2;
-    String EventTime1, EventTime2;
+    Long EventTime2;
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
@@ -87,7 +94,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
-        Trigger trigger1 = new Trigger("calendar_trigger_one",mMandatory,mOptional,constraints,
+        Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory, mOptional, constraints,
                 Mood.INTERROGTIVE, Direction.INCOMING);
         triggerArrayList.add(trigger1);
         clearLists(mMandatory,mOptional);
@@ -98,7 +105,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
-        Trigger trigger2 = new Trigger("calendar_trigger_two",mMandatory,mOptional,constraints2,
+        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger2);
         // TODO: create trigger and add it to triggerArrayList
@@ -109,8 +116,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add(tag_time);
         mOptional.add(tag_optional_time);
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
-        Trigger trigger3 = new Trigger("calendar_trigger_three",mMandatory,mOptional,constraints3,
-                Mood.UNKNOWN, Direction.UNKNOWN);
+        Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
+                constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
         triggerArrayList.add(trigger3);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
@@ -121,7 +128,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mOptional.add(tag_optional_time);
         mMandatory.add(tag_time);
         HashSet<Trigger.Constraint> constraints4= new HashSet<>();
-        Trigger trigger4 = new Trigger("calendar_trigger_four",mMandatory,mOptional,constraints4,
+        Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional, constraints4,
                 Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger4);
         // TODO: create trigger and add it to triggerArrayList
@@ -148,7 +155,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             tree2 = (ParseTree)params.get(Graph.SYNTAX_TREE);
-            EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
+            EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME).get(0);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
@@ -177,7 +184,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try {
                 setLocation(params);
                 params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -188,6 +194,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 if (params.get(BUBBLE_STATUS) == 1){
                     params.put("HTML Details", getHtml(EventListSortByTime(EventList)));
                     TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                } else {
+                    endSession(sid);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -201,9 +209,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
         if (tid == TidAdd1){
-            ArrayList<Long> time = (ArrayList<Long>) params.get("time");
-            params.put("action:Add to calendar time", time.get(0));        //time 必须要精确到日期？
-            TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+            if (params.get(BUBBLE_STATUS) == 1) {
+                HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
+                params.put("action:Add to calendar time", date.get(YEAR));
+                params.put("action:Add to calendar time", date.get(MONTH));
+                params.put("action:Add to calendar time", date.get(DAY));
+                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+            } else {
+                endSession(sid);
+            }
         } else if (tid == TidAdd2){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
@@ -302,9 +316,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     private ParseTree AddRootEventName(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
             if (node.getParentId() == 0){
-                node.setParentId(3232);
+                node.setParentId(NAMEROOTID);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(3232);
+                newNode.setId(NAMEROOTID);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
@@ -318,9 +332,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     private ParseTree AddRootLocation(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
             if (node.getParentId() == 0){
-                node.setParentId(213123);
+                node.setParentId(LOCATIONROOTID);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(213123);
+                newNode.setId(LOCATIONROOTID);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
@@ -352,6 +366,19 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
         }
     }
+
+
+
+    private HashMap<String, Integer> getDate(Long time){
+        Calendar beginT = Calendar.getInstance();
+        beginT.setTimeInMillis(time);
+        HashMap<String, Integer> date = new HashMap<>();
+        date.put(YEAR, beginT.get(Calendar.YEAR));
+        date.put(MONTH, beginT.get(Calendar.MONTH));
+        date.put(DAY, beginT.get(Calendar.MONTH));
+        return date;
+    }
+
 
 
 }
