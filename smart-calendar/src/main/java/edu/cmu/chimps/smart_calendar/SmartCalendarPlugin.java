@@ -220,12 +220,11 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 ".datashower{\n" +
                 "background:#08AED8;\n" +
                 "border-radius:5px\n" +
-
                 "color: aliceblue;" +
-
-
                 "}\n" + ".text{\n" +
                 "\t\tmargin:10px;\n" +
+                "\t}" + ".checkbox{\n" +
+                "\t\t float:right\n" +
                 "\t}" +
                 "</style>";
         ////////////////Recycle Events//////////////
@@ -253,22 +252,23 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             int height = (int) (endTime-begintime)/1000/3600*20;// ms->s->h->x20(20px/hour)
 
 
-            htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
+            htmlString = htmlString +
                     "<div class=\"datashower\" style=\"height:" + height + "px\">\n" +
                     // 加上Time and Event
-
                     "<p class = \"text\" style = \"text-align:left;\">" + beginHour + "</p >\n" +
-                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "</p >\n" +
-                    "<p class = \"text\" style = \"text-align:left;\">" + endHour + "</p >\n"+ //event??
-
-
+                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
+                    "<p class = \"text\" style = \"text-align:left;\">" + endHour + "</p >\n"+ //event?
                     //////////////
                     "</div>";
-
         }
 
         ///////ending/////////
-        htmlString = htmlString + "</body> </html>";
+        htmlString = htmlString + "<div style=\"text-align: center\">\n" +
+
+                "<button class=\"data\" style=\"\" data=\"\">\n" +
+                "\tOK\n" +
+                "</button>\n" +
+                "</div>"+"</body> </html>";
         return htmlString;
     }
 
