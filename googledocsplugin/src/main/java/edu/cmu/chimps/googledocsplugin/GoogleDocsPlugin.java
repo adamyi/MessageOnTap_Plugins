@@ -41,7 +41,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     private Long tidFindAllDocName, tidFindDocName, tidFindUrl1, tidFindUrl2, tidBubble, tidDetails, tidDocSend;
     ParseTree tree1, tree2, treeForSearch1, treeForSearch2;
     String DocTime1, DocTime2;
-
+    ArrayList<Doc> selectedDoc;
     private Tag TAG_FILENAME;
     Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
             "(file|doc|document)")));
@@ -251,7 +251,17 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
         } else if (tid == tidDetails){
             //Todo
-            params.get("", );                     //get selected URL
+            for (Doc doc:DocList){
+            String status = (String) params.get(doc.getDocName());
+                if (status == "On"){
+                    selectedDoc.add(doc);
+                }else (status == "Off"){
+                    //DO Nothing
+                }
+
+            }
+
+            //get selected URL
             params.put("", );                      //send URL
             tidDocSend = newTaskRequest(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_SETTEXT, params);
         } else if (tid == tidDocSend) {

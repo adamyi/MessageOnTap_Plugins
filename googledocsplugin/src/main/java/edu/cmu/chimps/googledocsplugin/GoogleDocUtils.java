@@ -50,7 +50,7 @@ public class GoogleDocUtils {
 
                     "<div class= \"datashower\">\n" +
                     "<p class=\"doc\">\n" +
-                    "<input name = \"GoogleDoc\" type=\"checkbox\" class = \"checkbox\">\n" +
+                    "<input name = \""+ docName + "\"type=\"checkbox\" class = \"checkbox\">\n" +
                     docName + "</p>\n"+
                     "</div>\n";
 
