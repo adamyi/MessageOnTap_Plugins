@@ -2,16 +2,15 @@ package edu.cmu.chimps.smart_calendar;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.DataUtils;
-import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -23,7 +22,11 @@ import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
-import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
+import static edu.cmu.chimps.smart_calendar.StringUtils.DAY;
+import static edu.cmu.chimps.smart_calendar.StringUtils.LOCATIONROOTID;
+import static edu.cmu.chimps.smart_calendar.StringUtils.MONTH;
+import static edu.cmu.chimps.smart_calendar.StringUtils.NAMEROOTID;
+import static edu.cmu.chimps.smart_calendar.StringUtils.YEAR;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -37,7 +40,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
     private ParseTree tree1,tree2;
-    String EventTime1, EventTime2;
+    Long EventTime2;
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
@@ -138,7 +141,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             tree2 = (ParseTree)params.get(Graph.SYNTAX_TREE);
-            EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
+            EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME).get(0);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
@@ -167,7 +170,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try {
                 setLocation(params);
                 params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime1);
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -191,8 +193,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
         if (tid == TidAdd1){
-            ArrayList<Long> time = (ArrayList<Long>) params.get("time");
-            params.put("action:Add to calendar time", time.get(0));        //time 必须要精确到日期？
+            HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
+            params.put("action:Add to calendar time", date.get(YEAR));
+            params.put("action:Add to calendar time", date.get(MONTH));
+            params.put("action:Add to calendar time", date.get(DAY));
             TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
         } else if (tid == TidAdd2){
             Log.e(TAG, "Ending session (triggerListAdd)");
@@ -201,8 +205,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
+    private String getHtml(ArrayList<Event> eventList){
 
-    private String getHtml(ArrayList<ArrayList<Object>> eventList){
         String html = "";
 
         int year;
@@ -219,74 +223,78 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 "<style>\n" +
                 ".datashower{\n" +
                 "background:#08AED8;\n" +
-                "border-radius:5px\n" +
-
+                "border-radius:5px;\n" +
+                "color: aliceblue;" +
                 "}\n" + ".text{\n" +
                 "\t\tmargin:10px;\n" +
+                "\t}" + ".checkbox{\n" +
+                "\t\t float:right\n" +
                 "\t}" +
                 "</style>";
         ////////////////Recycle Events//////////////
-        Iterator iterator = eventList.iterator();
+        for (Event event: eventList){
 
-        while (iterator.hasNext()) {
-            String theEvent = ((ArrayList<String>) iterator.next()).get(0);
-            ArrayList<Long> Time = ((ArrayList<Long>) iterator.next());
-            Long begintime = Time.get(0);
-            Long endTime = Time.get(1);
-            int height = (int) (endTime-begintime)/1000/3600*20;// ms->s->h->x20(20px/hour)
+            String theEvent = event.getEventName();
 
 
-            htmlString = htmlString + //if （year 与 之前加的不同）-》 + year框
-                    "<div class=\"datashower\" style=\"height:" + height + "\">\n" +
+            Long begintime = event.getBeginTime();
+            Long endTime = event.getEndTime();
+            String location = event.getLocation();
+            Calendar beginT = Calendar.getInstance();
+            beginT.setTimeInMillis(begintime);
+
+            Calendar endT = Calendar.getInstance();
+            endT.setTimeInMillis(endTime);
+
+            int beginHour = beginT.get(Calendar.HOUR_OF_DAY);
+            int endHour = endT.get(Calendar.HOUR_OF_DAY);
+
+            SimpleDateFormat fmt = new SimpleDateFormat("HH-mm");
+            String finalBeginTime = fmt.format(begintime);
+            String finalEndTime = fmt.format(endTime);
+
+
+
+
+
+            int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
+            if (height < 75){
+                height = -1;
+            }
+
+            String h;
+            if (height == -1){
+                h = "auto";
+            }else
+            {   h = "" + height + "px";}
+            htmlString = htmlString +
+                    "<div class=\"datashower\" style=\"height:" + h + ">\n" +
                     // 加上Time and Event
-                    "<p class = \"text\">" + theEvent + "</p>\n" +            //time??  date = new Date(key)  date.getyear
-                    "<p class = \"text\">" + begintime + "</p>\n" +
-                    "<p class = \"text\">" + endTime + "</p>\n"+ //event??
+                    "<p class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</p >\n" +
+                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
+                    "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
+                    "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
                     //////////////
                     "</div>";
+        }
 
-        }
-/*
-        for (int i = 0;i < html.size();i++){
-            htmlString =
-                    "<div class=\"datashower\" >\n" +
-                    // 加上Time and Event
-                    "<p>time</p>\n" +
-                    "<p>Events</p>\n" +
-                            /////////
-                    "</div>";
-        }
-        */
-///////ending/////////
-        htmlString = htmlString + "</body> </html>";
+        ///////ending/////////
+        htmlString = htmlString + "<div style=\"text-align: center\">\n" +
+
+                "<button class=\"data\" style=\"\" data=\"\">\n" +
+                "\tOK\n" +
+                "</button>\n" +
+                "</div>"+"</body> </html>";
         return htmlString;
     }
 
 
-
-/*
-    private String AddRootAndGetTime(ParseTree tree1){
-        for (Node node: tree){
-            if (node.getParent() == 0){
-                node.setParent(ROOT);
-                Node newNode = new Node();
-                newNode.setId(Event Name);
-                newNode.setParent(0);
-                newNode.setChildren(node.getId());
-                node.addTag("GRAPH_EVENT_TIME");
-                EventTime1 = node.getContent();
-            }
-        }
-        return EventTime1;
-    }
-   */
-
     private ParseTree AddRootEventName(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
             if (node.getParentId() == 0){
-                node.setParentId(3232);
+                node.setParentId(NAMEROOTID);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(3232);
+                newNode.setId(NAMEROOTID);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
@@ -300,9 +308,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     private ParseTree AddRootLocation(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
             if (node.getParentId() == 0){
-                node.setParentId(213123);
+                node.setParentId(LOCATIONROOTID);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(23434324);
+                newNode.setId(LOCATIONROOTID);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
@@ -329,11 +337,22 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     private void setLocation(HashMap<String, Object> params){
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
         for (HashMap<String, Object> card : cardList) {
-            if ((String)card.get(Graph.Document.Name).equals(EventList.get(cardList.indexOf(card)).getEventName())){
+            if ((String)card.get(Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
                 EventList.get(cardList.indexOf(card)).setLocation(card.get(Graph.Place.NAME));
             }
         }
     }
+
+    private HashMap<String, Integer> getDate(Long time){
+        Calendar beginT = Calendar.getInstance();
+        beginT.setTimeInMillis(time);
+        HashMap<String, Integer> date = new HashMap<>();
+        date.put(YEAR, beginT.get(Calendar.YEAR));
+        date.put(MONTH, beginT.get(Calendar.MONTH));
+        date.put(DAY, beginT.get(Calendar.MONTH));
+        return date;
+    }
+
 
 }
 
