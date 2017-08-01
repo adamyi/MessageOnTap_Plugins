@@ -1,0 +1,1727 @@
+[33mcommit baf23008373bb09962c1a9bf080ecf307863685e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: b3358fa ce892f5
+Author: ND <nd@ND.local>
+Date:   Tue Aug 1 14:52:19 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit b3358fa7de98a7022779dd78542ba8fdefe4c5f9[m
+Author: ND <nd@ND.local>
+Date:   Tue Aug 1 14:52:17 2017 -0400
+
+    partial change with Graph enabled
+
+[33mcommit ce892f57a390f8ced0595a0ef841245b35e40964[m
+Merge: 98baec0 3d4596c
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 14:25:35 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 98baec03ad910f6b2047584869d0720361c85242[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 14:23:44 2017 -0400
+
+    .
+    
+    ,,,
+
+[33mcommit 3d4596c74bd5b5dd0ee4fcccfd8b6472105dd1ee[m
+Merge: a1b292c 1952329
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Aug 1 14:16:13 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit a1b292c084897b062207c8fd967fc7c04e02b365[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Aug 1 14:14:50 2017 -0400
+
+    changes
+
+[33mcommit 195232907421cecd52df71ead2fb36d01f415e29[m
+Merge: 21cf45c 9323548
+Author: ND <nd@ND.local>
+Date:   Tue Aug 1 13:52:35 2017 -0400
+
+    merge conflict
+
+[33mcommit 21cf45ca05a0e0e6a659c3a9ac4ed948f32d44a5[m
+Author: ND <nd@ND.local>
+Date:   Tue Aug 1 13:50:46 2017 -0400
+
+    update
+
+[33mcommit 93235480a55d2a9cc212255f3015343d006c2224[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Aug 1 12:05:08 2017 -0400
+
+    add date transfer
+
+[33mcommit 90e5d2ac0d03021746e067a64d71c5c465cc4a0f[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 11:56:33 2017 -0400
+
+    Final adjustment
+
+[33mcommit 41376dca2be229742b5e149a22f361a8f17e333d[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 11:24:12 2017 -0400
+
+    little change
+
+[33mcommit fcdede56f9915ddcca665619325b8e53f2f7768f[m
+Merge: 9d9eaf1 d5580f1
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Aug 1 11:21:39 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 9d9eaf1185ab6897196b9f6fc48de2059358fe51[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Aug 1 11:21:37 2017 -0400
+
+    fix
+
+[33mcommit 29a27695ba43cfe98748610ec2e65360ebdd21d8[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 11:12:50 2017 -0400
+
+    Smart Calendar
+    
+    Add method EventsSortByTime
+
+[33mcommit d5580f1cbee04856519d266160ca71a22a9c4203[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 10:52:38 2017 -0400
+
+    Smart Calendar
+
+[33mcommit 4e6770e6fc57a2833b54fd3708006b7c76fcb67b[m
+Merge: 7ebcf58 a53b424
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 10:29:21 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 7ebcf582228a6e7bb20a3640c424f0aac696fded[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 10:29:19 2017 -0400
+
+    1111
+
+[33mcommit e37d54800d37c2a28a32683d0a0134ab1c537956[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Tue Aug 1 10:28:41 2017 -0400
+
+    Smart Calendar
+
+[33mcommit a53b4246d2600f458b516a5d0cecee25a1a88556[m
+Merge: 6182abf 081ea05
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 20:18:27 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 6182abff946513701aebc1104f6c0a4899ef5c89[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 20:18:25 2017 -0400
+
+    slight change
+
+[33mcommit 081ea056b82ba18d417a59f61a2d16e21efa0d9e[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Mon Jul 31 20:18:00 2017 -0400
+
+    xiaoqiangheye
+
+[33mcommit e11d9dc13e0c038b5cec574655d6b554510cdc96[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Mon Jul 31 19:13:07 2017 -0400
+
+    SmartCalendar
+
+[33mcommit 46a337d78f8e5319cce9c90e2a6b1b04f0e43d02[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 18:31:26 2017 -0400
+
+    html
+
+[33mcommit 7f4691c4da1cc344541131b01ad27dc66cc6fc43[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 18:27:16 2017 -0400
+
+    fix
+
+[33mcommit 8ab61e08b1011a0440a4a4af708f34f11cacd9e0[m
+Merge: 596a59c d98d3db
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 17:24:41 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 596a59c20ce77b2d33f7bab3ddf326baba1043c4[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 17:24:39 2017 -0400
+
+    improving
+
+[33mcommit d98d3db6835afb4bf59ca910768357c97c78f2c5[m
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 16:56:50 2017 -0400
+
+    latest code
+
+[33mcommit 8de73372f82d3a27f0666026162e5bc6f422fe34[m
+Merge: e8d8066 1ce85c8
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 16:30:10 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit e8d80663b2a16da18cbb899dc4528200413c60f6[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 16:30:09 2017 -0400
+
+    slight change
+
+[33mcommit 1ce85c8469b06108f5d0f51b6854c3a5a834a2d9[m
+Merge: bc73144 36e82d0
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 16:25:07 2017 -0400
+
+    merge
+
+[33mcommit bc73144b0d1abd23b5499afbae5bc27f1787a1c3[m
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 16:24:15 2017 -0400
+
+    trigger 0.2.12
+
+[33mcommit 36e82d09dec81fa76a004731a52168119dc74de3[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 15:35:09 2017 -0400
+
+    ++
+
+[33mcommit df4c6b6c7a4318f6a50905d171acb7d74b6caee4[m
+Merge: 5b3641b 19d5c6a
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 15:11:19 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 5b3641b0729c2bf4eed3a5e58e77707600cc939a[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 15:11:17 2017 -0400
+
+    commit
+
+[33mcommit 19d5c6a56f1099408d8bd9f703509d8de2ffad9b[m
+Merge: 85bf2f4 24f430d
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 15:05:44 2017 -0400
+
+    merge
+
+[33mcommit 85bf2f4bb1d6e78687cf8d88956f082072cb6e1c[m
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 15:03:39 2017 -0400
+
+    some update on 0.2.12
+
+[33mcommit 24f430d729de70bf77b0ca14859f9aa3e59d8ed3[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 15:02:40 2017 -0400
+
+    GoogleDoc plugin improving
+
+[33mcommit bc55c99adf84bb2569e633fbe113428984b42039[m
+Merge: ca00948 9f19ebb
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 11:19:26 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 9f19ebb8cb370bdf3263b03506aba6a8e5125e6c[m
+Merge: 6711864 ed42efc
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 11:19:14 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 6711864a128186b0809460e4d9bb644056fe6d33[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 31 11:16:28 2017 -0400
+
+    add currentdata
+
+[33mcommit ca00948fb34045611b6206f1df1700dd56b8c37b[m
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 11:16:22 2017 -0400
+
+    merge
+
+[33mcommit ed42efc88ed778eae9d9eefb12f8db4bfcc5121f[m
+Merge: d11a43b ccaa9d2
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 10:37:41 2017 -0400
+
+    merge conflict
+
+[33mcommit d11a43be27abd7326de728738493530d45588f64[m
+Author: ND <nd@ND.local>
+Date:   Mon Jul 31 10:33:54 2017 -0400
+
+    trigger update
+
+[33mcommit ccaa9d218f04736b2ed829f3b20456e957dec038[m
+Merge: 0adbbad 9f627f8
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Sun Jul 30 18:01:31 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 0adbbad02eb8c99dc582cc3a755954e14530cf84[m
+Merge: 5faf180 e8c8983
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Sun Jul 30 18:00:22 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+    
+    .......
+
+[33mcommit 9f627f897018a8a318cb7e853218e1a6af9a577b[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 30 17:47:31 2017 -0400
+
+    slight changes
+
+[33mcommit d092c2256a290eabe6c12c1a48407163d9d5fbad[m
+Merge: 4dca39f e8c8983
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 30 17:38:36 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 4dca39f4e590d7be7183036757f8217bb3ed4b84[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 30 17:35:51 2017 -0400
+
+    SmartCalendar function
+
+[33mcommit 5faf180802bfd9c419e3bbacd663838fb11fd2be[m
+Author: xiaoqiangheye <574808746@qq.com>
+Date:   Sun Jul 30 16:41:36 2017 -0400
+
+    html
+    
+    html
+
+[33mcommit e8c89834e02de252bb8aaf2c6d454b964ccfba2f[m
+Author: ND <nd@ND.local>
+Date:   Sun Jul 30 16:36:25 2017 -0400
+
+    merge
+
+[33mcommit 85a63fdfea71b68f9f49a74f81304fdb539d6bb1[m
+Merge: d24a474 e56b4c9
+Author: ND <nd@ND.local>
+Date:   Sun Jul 30 16:32:52 2017 -0400
+
+    merge
+
+[33mcommit d24a4749847d721b5ba555542dd0063ad1dec13b[m
+Author: ND <nd@ND.local>
+Date:   Sun Jul 30 16:29:52 2017 -0400
+
+    merge
+
+[33mcommit e56b4c96ef42ded5477ac77171828eeed816d11e[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 30 15:59:58 2017 -0400
+
+    improving
+
+[33mcommit 86403b9359c8ea16f7c59ab6693d2ac7f1a5d7b6[m
+Merge: a74785d 48c0ab6
+Author: ND <nd@ND.local>
+Date:   Sun Jul 30 14:26:13 2017 -0400
+
+    merge
+
+[33mcommit a74785de64f0ca02f0e68e9812af30ba83620921[m
+Author: ND <nd@ND.local>
+Date:   Sun Jul 30 14:23:42 2017 -0400
+
+    some change on google doc and merge
+
+[33mcommit 48c0ab641db5947265eeb8a7069e9f0ddb65c343[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 30 14:05:52 2017 -0400
+
+    improving
+
+[33mcommit dedd169a7d319ab154169ccdb797154886f0027a[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sat Jul 29 15:02:41 2017 -0400
+
+    googleDoc prototype
+
+[33mcommit bc4b5eb6b2c035b91c4fb61bc636064b56267e2b[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 28 17:51:56 2017 -0400
+
+    Add tasks
+
+[33mcommit fe4604bf6ae5d3bdad790523b6a0ad396959ffa3[m
+Merge: db3bc76 7eda77f
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 28 17:37:54 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit db3bc762752be21373080be591ef92ee6f6591b7[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 28 17:37:06 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 9c613db4b6097115fa78feb6747932905eb6b285[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 28 17:33:03 2017 -0400
+
+    slight slight
+
+[33mcommit 7eda77f16c6402705ca7a0ab42be07d67d29be16[m
+Author: ND <nd@ND.local>
+Date:   Fri Jul 28 17:26:03 2017 -0400
+
+    current trigger
+
+[33mcommit be98b7e639fde09db938de2513d476180a47b8b7[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Thu Jul 27 00:22:00 2017 -0400
+
+    Gradle
+
+[33mcommit f40f4341a50cf3f3b31b648b6ac2ff3a414908db[m
+Merge: 7e238af b28c60b
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 26 11:08:55 2017 -0400
+
+    fix gradle
+
+[33mcommit 7e238af40f1c7241d3f00b1c1ceeab6553927f98[m
+Merge: 3adee2e d285191
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 26 10:44:57 2017 -0400
+
+    slight change
+
+[33mcommit b28c60b79acd532c1ccd7bda34a00a72891beeec[m
+Merge: 1692dab 9138f5e
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 18:50:07 2017 -0400
+
+    yongchangduiniubi
+
+[33mcommit 1692dabfea312d1990ee54e59fb308603560bb67[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 18:49:10 2017 -0400
+
+    yongchang
+
+[33mcommit 9138f5eb76ad054180e7194dce8643a82265aee9[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 18:37:40 2017 -0400
+
+    Slight change
+
+[33mcommit 64c76d22f4851560ad024875bb252fea8b85fe6d[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 18:22:54 2017 -0400
+
+    Fix permission detection
+
+[33mcommit 2e7af86ec988ba1b62c5a7cca5dc54d454b97578[m
+Merge: 458e726 090de42
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 17:23:24 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 458e726654f56a05dc0222bec17dc540932b33e3[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 17:22:37 2017 -0400
+
+    Boom! Auto-select service won't start without permission now!
+
+[33mcommit 090de423b71656440bf34d6da30455758b4f23f4[m
+Merge: b68010d bafe987
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Jul 25 17:10:24 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit b68010d09348afd0cd3ab401a989ff6c9a54fecd[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Jul 25 17:08:10 2017 -0400
+
+    icon can be changed depend on selection
+
+[33mcommit bafe987a4176c8abae9d66cd77ce3c60e767ef46[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 16:16:21 2017 -0400
+
+    wooooo
+
+[33mcommit a7a2cc63b25a2fab23109f22731f27b49b8a9400[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 16:10:27 2017 -0400
+
+    crash dalian chaoyue
+
+[33mcommit cb4ed37f78c894a6ca107822390e09f29231df03[m
+Merge: a22ead4 6c0bd42
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 16:07:06 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit a22ead40c99f783637a5f4f35b467d61e21f4e39[m
+Merge: 2b95e7b aea5f00
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 16:07:02 2017 -0400
+
+    oh
+
+[33mcommit 6c0bd421519eed927937c6cb3d2e590b70061e19[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 16:02:53 2017 -0400
+
+    Contact select page icon change
+
+[33mcommit 2b95e7bbb559a7a01eec64afc660c891c2878d7d[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 15:39:20 2017 -0400
+
+    wwwwww
+
+[33mcommit aea5f007e71c772d02450aadf3c79dfd40254aaf[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 15:32:34 2017 -0400
+
+    update
+
+[33mcommit 89872dc70944fae4860d653794995ed6b52decfc[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 15:15:52 2017 -0400
+
+    Merge
+
+[33mcommit 071eaea047e6350b0670717f9dd6a969066e3401[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 15:02:41 2017 -0400
+
+    merge
+
+[33mcommit 1fd8d15f348cf83668932fb3147cf9cb8eb18c94[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 14:13:26 2017 -0400
+
+    Bug fix
+
+[33mcommit ecb60eb2c4641a8a643799822c03425d41b19e28[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 13:55:40 2017 -0400
+
+    slight change
+
+[33mcommit 76a63e11a561f78744d74557285e890b810e2712[m
+Merge: d0dd197 88fc272
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 12:08:59 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit d0dd197b0bacfcc80e310f6bedf50e1a2aa2cf9a[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Tue Jul 25 12:08:57 2017 -0400
+
+    merge
+
+[33mcommit 88fc27279714e30ebc70fe888ff0f815a06ff795[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 12:08:31 2017 -0400
+
+    contacts permission
+
+[33mcommit 3edaa079a964933b219fc2e11e5f5bacd391640a[m
+Merge: 13bc1c0 93853c2
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 11:42:09 2017 -0400
+
+    wooooo
+
+[33mcommit 13bc1c045e8e55f8c7fdec12b4b15f9ccb599c48[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 11:33:26 2017 -0400
+
+    spot
+
+[33mcommit 93853c2b89cfac84e7e8d4eebce569b5a00174a7[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Jul 25 11:31:39 2017 -0400
+
+    fix
+
+[33mcommit 4a3a8bb3cbb35fb4ee04a3928e129ba135d76b3b[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 10:42:08 2017 -0400
+
+    multidex
+
+[33mcommit 1dbe5948942f1f122159d02b3c2369e0c114ca5b[m
+Merge: a5b3ab1 27d964d
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 10:32:58 2017 -0400
+
+    merge
+
+[33mcommit a5b3ab1dd1e37a054035222aad6702c66e8b8421[m
+Author: everbrightw <yusencs@163.com>
+Date:   Tue Jul 25 10:30:18 2017 -0400
+
+    woo
+
+[33mcommit 27d964dfc75578334aca7f89b6c8479678371f93[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Tue Jul 25 09:15:34 2017 -0400
+
+    fix bug
+
+[33mcommit 3aa52b96b4ec30a43b6f336f9c7adb77fdffb914[m
+Merge: eb4a3ca db2f2d0
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 18:05:07 2017 -0400
+
+    Merge
+
+[33mcommit eb4a3cada5886d12c98c18299044686a8ef30d7d[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 18:04:34 2017 -0400
+
+    Delete unnecessary files
+
+[33mcommit db2f2d089a4247e749b1584f7719fe8f11873080[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 18:04:14 2017 -0400
+
+    Clearance
+
+[33mcommit 3074d2b732db01ecb23fe9615a410a579bd4b1c8[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 17:51:43 2017 -0400
+
+    Clearance
+
+[33mcommit b7bb39bfff221786b67d055c90158f884fc6730b[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 17:26:50 2017 -0400
+
+    bug fix
+
+[33mcommit f935741df8f50609c32bcb3076711cca158f0f65[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 17:20:24 2017 -0400
+
+    bugs fix
+
+[33mcommit 7075ccd17d661ac553e52eab73e5a53285ccd888[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 17:12:51 2017 -0400
+
+    ,
+
+[33mcommit a1c5902b4cdcdce16a8ae97027dab516aee51037[m
+Merge: b95ce46 b0c3ab1
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 17:09:54 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit b95ce46caa235476e5fa381d0104ec7489285fbb[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 17:09:05 2017 -0400
+
+    bug fix
+
+[33mcommit b0c3ab14583ef533678e0d3ec015be22fab71447[m
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 17:05:55 2017 -0400
+
+    tutorial
+
+[33mcommit 1943d05360a89a4d4a3ccf20828ce3e50cb43413[m
+Merge: ea42930 6e6ea92
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 16:52:36 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit ea4293066f4157221eb9b4c1744760d2564f22b3[m
+Merge: e6cad29 d483e35
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 16:52:32 2017 -0400
+
+    wooo
+
+[33mcommit 6e6ea9271b6fd1bbcab8087fbde14afc83a6264e[m
+Merge: 931dadb 3ccc2fd
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 16:52:03 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 931dadb1451b7587f22d7abb934f2cafda3cd27b[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 16:52:01 2017 -0400
+
+    icon test
+
+[33mcommit 3ccc2fd0b3a74657ad6cd7053a068c8751c646bc[m
+Merge: 3d3d424 d483e35
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 16:46:29 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 3d3d42422378283137f73570851645c4b57abe1f[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 16:46:27 2017 -0400
+
+    fix undo
+
+[33mcommit e6cad29e0a42ccdc0663833a3642e0d4780042c8[m
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 16:45:53 2017 -0400
+
+    ui changes
+
+[33mcommit d483e3599221e3e4526712d16973d9e425a4bc5d[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 16:24:55 2017 -0400
+
+    New icon for reset wifi
+
+[33mcommit 04d2bcc49e6f1e836792f05131ffe192180fdeaa[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 16:21:57 2017 -0400
+
+    Merge
+
+[33mcommit 83ffcab8b0c27787f04e3dd6c0c4f3bab60849b9[m
+Merge: 81c748d 120d263
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 16:13:49 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 81c748d337a9c70c0386469353aa8990edd2e0f8[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 16:12:57 2017 -0400
+
+    slight change
+
+[33mcommit 120d2635adc20ca49e82cafb30047c1a43dd7782[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 15:30:29 2017 -0400
+
+    fix Undefinedbutton
+
+[33mcommit e5f81e49e5a86ddb64d6b514b4b4a415a5b62661[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 15:15:24 2017 -0400
+
+    fix UNDO button
+
+[33mcommit 8e541620bb885c2989e686010a749dcf2b99b828[m
+Merge: 8888231 c320f52
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 14:57:48 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 88882316bb89f3d9e98342eb47094728065aac05[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 14:56:34 2017 -0400
+
+    Slight change
+
+[33mcommit c320f520327c2a09df1686c4fcd65d47ae5ca4db[m
+Merge: 39d0dc5 1a4b592
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 14:56:13 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 39d0dc57a96cb4b49fd601925a1d227a0e776fdc[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 14:53:17 2017 -0400
+
+    fix UNDO button
+
+[33mcommit 1a4b59255477bd0f28bda9f9ec63117c62498659[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 14:50:57 2017 -0400
+
+    Change back button action in selecting page
+    
+    click the back button twice to cancel the change
+
+[33mcommit 79cc07809931c9091d55e9400d297c64df848326[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 14:32:33 2017 -0400
+
+    Dynamic FAB in contact select page
+
+[33mcommit 48cfc5813b4b3dba35200e9ea09d0be30e03d679[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 13:55:43 2017 -0400
+
+    Undo button for all select
+    
+    Also ajust select contact activity UI
+
+[33mcommit 7af9e79f1bf24ebcf4a11ea67a1bca03e73884e4[m
+Merge: d8bb392 5939ecc
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 12:46:52 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit d8bb392267ac8c155fa28533f70dd93f28d43a71[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 12:46:51 2017 -0400
+
+    Tutorial update
+
+[33mcommit 5939eccf65212a6c13f53962f7f2e712d984d98e[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 12:33:45 2017 -0400
+
+    add pic
+
+[33mcommit a681c7e4931a2230b11e2dfd38efb3fea573df69[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 12:33:29 2017 -0400
+
+    fabCancel
+
+[33mcommit fe457b7ef770173640be76750bb54fcbcd65a5d9[m
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 12:30:31 2017 -0400
+
+    yongchang niubi
+
+[33mcommit 16fb0fb91b071156a31444f652073877f272fbb5[m
+Merge: fa2b530 56b2197
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 12:27:05 2017 -0400
+
+    wow
+
+[33mcommit fa2b5300ac54647b58803c3f7186f746204e06c8[m
+Merge: 5fe97f3 b18ce6e
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 12:25:35 2017 -0400
+
+    spotlight
+
+[33mcommit 56b21972375936f40031f3f311f3325134189a42[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 12:18:01 2017 -0400
+
+    First Time detection for tutorial
+
+[33mcommit b77f9858960ac56f00a364aad49d2dcdeffe61db[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 12:04:40 2017 -0400
+
+    Enhance tutorial content and visual experience
+
+[33mcommit 5fe97f31b1b78bfa607906dbf1858cdb769757a4[m
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 11:46:45 2017 -0400
+
+    spotlight
+
+[33mcommit b18ce6e1df686543173ff48bd1e060b7ee3cd54e[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Mon Jul 24 11:43:30 2017 -0400
+
+    Bug fix
+
+[33mcommit 2ee64ca11237b893939aeabe575dd2b78312b4ad[m
+Merge: 0cd5305 b95ca5c
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 11:14:09 2017 -0400
+
+    conflict
+
+[33mcommit 0cd530512af5a7ed7f6da39e0ff4aec5de403ea8[m
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 24 11:12:41 2017 -0400
+
+    spotlight
+
+[33mcommit b95ca5c9a687c6c4f5433d2c727ce07538f7ddfb[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 11:10:42 2017 -0400
+
+    Add MateriralSheetFab
+
+[33mcommit 39c1e41e3e346a91c0dbfb0b83bbd724ff6b65ae[m
+Merge: caeb770 85ab531
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 09:54:27 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit caeb770be6937a2a4c675efa5770a95d83229ac9[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Mon Jul 24 09:49:42 2017 -0400
+
+    Add fabCheck and fabSend
+
+[33mcommit 85ab531b4495153600d74d568b61619fd19a7b4c[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 20:05:41 2017 -0400
+
+    Merge
+
+[33mcommit aa4fac83f208453bbb4f129560d909800653d0bc[m
+Merge: b28bcf5 63375ec
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 20:05:35 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 63375ec7d2876e0a22e8da0c3f61b4bad3a2af90[m
+Merge: 50c335b 3b3ce5a
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 20:04:53 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit b28bcf5e4f6e422348e4e5b4d8cd2b3ff46756c2[m
+Merge: edf041d 3b3ce5a
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 20:04:34 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit edf041df0d38c0064a1b2133c304c2b69d37e766[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 20:04:25 2017 -0400
+
+    wow
+
+[33mcommit 50c335b9199ce1f78f2789761fe24884120169d2[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 20:03:28 2017 -0400
+
+    New UI and slight change
+    
+    Bug discovered: Reset wifi will crash the app when there's no connection
+
+[33mcommit 3b3ce5abc95956b9c1a861c76a6d290e9011139a[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 19:52:09 2017 -0400
+
+    checkbox color changed
+
+[33mcommit cf2a67b4034a0185b7ce739d7c94340b6d1f1e45[m
+Merge: d3c24fa c9ed873
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 19:09:29 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit d3c24faf994da12e6d3636968e848a2402dfdbf5[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 19:09:25 2017 -0400
+
+    slight change
+
+[33mcommit c9ed8732ed64486b70f47031c4cbb5b23b7fa940[m
+Merge: 8ee29b0 4f496a8
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 19:02:04 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 8ee29b063e0f9188f22a259e270c86406814284b[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 19:02:03 2017 -0400
+
+    Slight change
+
+[33mcommit 4f496a80969868937b96ff70e5402baca036bfa5[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 18:57:15 2017 -0400
+
+    get contact permission
+
+[33mcommit 874945c8ff14feccec123a1d51f4ce8e0c317784[m
+Merge: 1bc7ee2 6b096a3
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 18:45:34 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 1bc7ee20c952978cf091e3f644e0c07a6fbfc83d[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 18:45:30 2017 -0400
+
+    wow
+
+[33mcommit 6b096a369eb188a1cf3a874974675b18577a7a57[m
+Merge: 778a9af ecae772
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 18:44:41 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 778a9afdfe98fe1787b193bb6c1a65a7399ebb59[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 18:44:12 2017 -0400
+
+    First time detection
+
+[33mcommit ecae772f49cb33a63e09e4e6482d7ff8bad6a8d3[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 18:34:02 2017 -0400
+
+    change colors
+
+[33mcommit dcc1e92994fe6111852f20aee9b6a0b3ab090a25[m
+Merge: da4bf4c c21c459
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 18:12:38 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit c21c459b0669bafe46ebb4387ca6edb2c1ef16f4[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 18:08:43 2017 -0400
+
+    fix
+
+[33mcommit da4bf4c80e1e11da70a6e10ff87a7b2d220db468[m
+Merge: ee851a4 663db7e
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 18:08:23 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit ee851a4ca92e05346292554a1aceac93be51350f[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 18:08:19 2017 -0400
+
+    wow
+
+[33mcommit 663db7ee9494d05bbacb5074a931334a7db38ed2[m
+Merge: daf273d 08fb0c8
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 18:03:47 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit daf273d1d32932ce66c35ff074586e3fae4ecb5b[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 18:03:44 2017 -0400
+
+    add SelectAll button
+
+[33mcommit 51b9c717daefbf79bc4729a2c6942403b474c6cd[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 17:55:53 2017 -0400
+
+    bacground
+
+[33mcommit 08fb0c85ec4a47d2b5ce9823a05b82f36bc99f30[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 17:54:08 2017 -0400
+
+    Slight change
+    
+    bug fixed
+
+[33mcommit 16498de117a2aa179c1d5b133b1d2686f66642b9[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 17:47:51 2017 -0400
+
+    Merge
+
+[33mcommit 40c29b006fcf6e8a4e2873c9257076c39445d57f[m
+Merge: 47faa5f cdd9b46
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 17:46:12 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 47faa5fa937338b174c65c6f04d3818307efe3bb[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 17:45:24 2017 -0400
+
+    Add functions
+    
+    Contact select list will pop out when the selected list is empty. Add immediate send message function for the upper bottom.
+
+[33mcommit cdd9b466d813fa85417fb0dce87a6e617d57c0ac[m
+Merge: 981e009 f16a995
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 17:36:34 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 981e0098872c333985fa644414eb9bd85b34cddc[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 17:36:05 2017 -0400
+
+    store user bssid
+
+[33mcommit f16a9951793278e7ef2c664f29c76f354aecaf5f[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 17:25:58 2017 -0400
+
+    fix
+
+[33mcommit 1004df9a3c5bcd266d9c634efb059c756c46598c[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 17:20:53 2017 -0400
+
+    fixed bugs
+
+[33mcommit 5a3190dbaf138d1fa0ad9867ddaa5cd50b3eddc8[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 17:08:25 2017 -0400
+
+    get contacts bug fixed
+
+[33mcommit 1449c325d385e53041537e92c6746b9bed3f5959[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sun Jul 23 16:45:49 2017 -0400
+
+    fix
+
+[33mcommit d635f4e48597b5162c675b2c54c52fea8303233b[m
+Merge: 023d890 3178d11
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 16:43:29 2017 -0400
+
+    merge
+
+[33mcommit 023d890e6818ca9b3cb9cfef4bb40331ef5a1add[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 16:40:45 2017 -0400
+
+    icon changes
+
+[33mcommit 3178d11e3c4583e92734649f1081f4ba582f161f[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 16:40:28 2017 -0400
+
+    UI change
+
+[33mcommit b5213bb7f53c844217d9bfa42729469352f3d79a[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 16:31:34 2017 -0400
+
+    add wel_come page
+
+[33mcommit 3afef34882f5e253afff16ccc1f44ddd9d0244e4[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 16:30:06 2017 -0400
+
+    ui design
+
+[33mcommit cef503c918aa4e40e0ef5497384a783fa058c9b8[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 16:11:12 2017 -0400
+
+    intent change for contact list
+
+[33mcommit ef5e8428fd269e159b4cda579350a2ee2327de88[m
+Merge: 19a8756 5b532e5
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 16:09:44 2017 -0400
+
+    ui changes
+
+[33mcommit 19a87561e600ce70e571bad83e01dbe8a542b5bf[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 23 14:17:57 2017 -0400
+
+    welcome page circle menu
+
+[33mcommit 5b532e55fca80ded99df6d4ea4a1775a62759fbd[m
+Merge: 6590224 f9ce9c3
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 13:10:42 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 6590224779e7dee513fb4463079604a28b1f954b[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 06:31:37 2017 -0400
+
+    Add new function
+    
+    Time storage function added
+
+[33mcommit 4ccb3c00af90e882f2bf2ffc83ec6eddc5c35ac3[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sun Jul 23 05:59:29 2017 -0400
+
+    Slight change
+    
+    Add message storing code
+    Slightly change ui xml file
+
+[33mcommit f9ce9c3a658a6aff0ffd0865553c4bbb4103b133[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Sun Jul 23 05:58:44 2017 -0400
+
+    Update two extensions to API 0.1.3 on jfrog.yiad.am (won't compile right now)
+
+[33mcommit 3adee2e76f605f1dc0d3c74bba937c5281038575[m
+Merge: c9a1057 25c4654
+Author: chentc <fanglin@cmu.edu>
+Date:   Sat Jul 22 17:31:48 2017 -0400
+
+    slight change
+
+[33mcommit d285191f35e3285c4ca418926cbd7b79e780d1ef[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sat Jul 22 17:29:38 2017 -0400
+
+    Redesign UI
+    
+    Even though we've never had one
+
+[33mcommit c9a105793de53532f899bd95c5643effb78bd1b0[m
+Merge: 0bba221 92f6b47
+Author: chentc <fanglin@cmu.edu>
+Date:   Sat Jul 22 17:27:08 2017 -0400
+
+    slight change
+
+[33mcommit 25c4654d2dec7dc85d03fcd222862ad9f939eae5[m
+Merge: 33c9b1f 6b4c3e4
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sat Jul 22 15:50:28 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 33c9b1f83facea589a8f61ab0c884d11ee5e7d83[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sat Jul 22 15:50:22 2017 -0400
+
+    slight change
+
+[33mcommit 6b4c3e423b1e09290d4fbe4520e6f6314a05ef31[m
+Merge: 97e9949 56c7434
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sat Jul 22 15:34:06 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 97e9949e88ce28040d30c7ff17938c3808475fc4[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Sat Jul 22 15:34:03 2017 -0400
+
+    slight change
+    
+    Now notification will automatically conceal after clicking the action
+
+[33mcommit 56c74346024d7ed094cab2fd83a8872f5035fc0e[m
+Merge: 686c353 cfcd8d7
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sat Jul 22 15:04:25 2017 -0400
+
+    Merge branch 'Mao‘s'
+
+[33mcommit cfcd8d725edc918b9c55218b024fb7588ff82134[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Sat Jul 22 14:59:33 2017 -0400
+
+    change UI of contacts
+
+[33mcommit 686c353a33661b58abc7b315c904e5af95e49a31[m
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 16:35:59 2017 -0400
+
+    notification
+
+[33mcommit 3e41ab45dcf7b6ba112b85d83a38bad4de29c146[m
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 15:48:28 2017 -0400
+
+    cancel notification
+
+[33mcommit dc209aa04bab6deab886c111088e8f0bf39a1f51[m
+Merge: 368adaa b9c3eb5
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 15:46:42 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Plugins
+
+[33mcommit 368adaac05d458a03ac5d3b82931ff872b6448c4[m
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 15:46:37 2017 -0400
+
+    cancel alarm
+
+[33mcommit b9c3eb5ff65fd065ab7239f946986740c9d8756c[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 15:46:01 2017 -0400
+
+    Notification Intent added
+    
+    A all-time notification will be shown when at home
+
+[33mcommit 70a840afee490d8f87093851e81896ab1b104720[m
+Merge: 8e0c2c6 8606a16
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 15:15:41 2017 -0400
+
+    conflict fixed
+
+[33mcommit 8e0c2c632fb937169e25d488c28e5b4ec5d61bb5[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 14:57:10 2017 -0400
+
+    Enhance function
+
+[33mcommit 0bba221853dd9f741817f416ef7c05b658b2a83a[m
+Merge: 1c14b81 7e39682
+Author: chentc <fanglin@cmu.edu>
+Date:   Fri Jul 21 14:44:13 2017 -0400
+
+    slight changes
+
+[33mcommit 8606a16a355c78bbd2e23c989a06b65f7296b251[m
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 14:39:07 2017 -0400
+
+    fix service
+
+[33mcommit 92f6b47abe59577bd283134d349dedb13d181a38[m
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 14:24:34 2017 -0400
+
+    fix send service
+
+[33mcommit 13e62b46db11e45b3d6180add83d948b03284e37[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 14:00:38 2017 -0400
+
+    Bugs fixed
+
+[33mcommit 5970ce8a40f47e144b2dd271dd8e539c2ef0dcc9[m
+Merge: 392d676 9cb5802
+Author: Adam Yi <xuan@yiad.am>
+Date:   Fri Jul 21 12:35:30 2017 -0400
+
+    merge and fix
+
+[33mcommit 392d6768c5f2b75a3eff352f39d94b01a16c5fa4[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Fri Jul 21 12:35:06 2017 -0400
+
+    Update API to v0.1.2
+
+[33mcommit 9cb58022c1dc2a967f3a55583364349c02e52aea[m
+Merge: 0d88ed8 f82a095
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 21 12:33:02 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit 0d88ed804fd21fe8b340eea617ba6df80890d4e5[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 21 12:32:54 2017 -0400
+
+    commit
+
+[33mcommit f82a09575fc023d9c3df816444f3bf656c2c81f7[m
+Merge: c26eb17 0d4d453
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 12:31:58 2017 -0400
+
+    .
+
+[33mcommit c26eb17a2958c70d30033769b762cbac9fcb586a[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 12:19:58 2017 -0400
+
+    Merge
+
+[33mcommit 479ca8150bf6fe00fd7b420be3882854299476be[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 12:17:17 2017 -0400
+
+    resolved manifest error
+
+[33mcommit 0d4d453832d272b49d2c63ca63d23349c3334233[m
+Merge: 63feb89 0fa65f2
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 21 11:54:08 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+    
+    merge ui view
+
+[33mcommit 63feb898fa8f184bdf878976cde5bf0c340f4b44[m
+Author: JiaYeMao <610275388@qq.com>
+Date:   Fri Jul 21 11:45:52 2017 -0400
+
+    add something
+    
+    items are selected from beginning, accroding to savedContactList
+
+[33mcommit 0fa65f2290640ec21b170b68f89730588b116c32[m
+Merge: 1cc5bd4 17e6261
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 11:44:16 2017 -0400
+
+    integrate
+
+[33mcommit 1cc5bd40329c906e5e8a4832bc3cbeb89bc97166[m
+Author: everbrightw <yusencs@163.com>
+Date:   Fri Jul 21 11:41:46 2017 -0400
+
+    integrate
+
+[33mcommit 17e6261a8bc17a04f440a06b453751e1c1e712ce[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Fri Jul 21 11:39:11 2017 -0400
+
+    slight change
+
+[33mcommit 33f8bc0876b1fdb91859f4781e2f060a47845302[m
+Merge: c8be97a 2268a0e
+Author: everbrightw <yusencs@163.com>
+Date:   Thu Jul 20 18:18:28 2017 -0400
+
+    integrate
+
+[33mcommit c8be97a01c1494cdc550bc11f5b8a00899647ee0[m
+Author: everbrightw <yusencs@163.com>
+Date:   Thu Jul 20 17:59:05 2017 -0400
+
+    merge
+
+[33mcommit 2268a0ea0a7532436e788c1aeff459854afaa035[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Thu Jul 20 17:58:30 2017 -0400
+
+    Add Listener
+
+[33mcommit 1ae83d70a766739a4853932dc7d7bf0a5d095b63[m
+Author: YDTQHD <linhancheng14@icloud.com>
+Date:   Thu Jul 20 17:55:58 2017 -0400
+
+    Merge
+
+[33mcommit 5cd2ebbbef3969951c66ac125ddcff8d74d16b81[m
+Author: everbrightw <yusencs@163.com>
+Date:   Thu Jul 20 17:47:11 2017 -0400
+
+    integrate at home func and UI
+
+[33mcommit 1c14b8190c763d260fbe0b6d22087d616c6e2268[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Thu Jul 20 00:15:51 2017 -0400
+
+    use messageontap api
+
+[33mcommit 7e396827b18c82375f6c4f71761faa83bb0f16c4[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Wed Jul 19 23:45:58 2017 -0400
+
+    Use separate API lib
+
+[33mcommit 0c597fb2a3ef6b2ecc51cc33736aa33ada55271e[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 18:24:46 2017 -0400
+
+    slight change
+
+[33mcommit fcb3aeaf6a4e9a8b0ba5ef91f4395f0a51422916[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Wed Jul 19 16:51:58 2017 -0400
+
+    Remove useless files
+
+[33mcommit 60ea9ea5a92bab90fd859ec96c26ec7e60446102[m
+Merge: c7dbcb6 10333a6
+Author: Adam Yi <xuan@yiad.am>
+Date:   Wed Jul 19 16:39:53 2017 -0400
+
+    merge and fix
+
+[33mcommit c7dbcb6961a4077ef169a0cc26e8a5c047c74617[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Wed Jul 19 16:39:11 2017 -0400
+
+    refactor and update api
+
+[33mcommit 10333a613310f851283c232c7497967b8a896d9c[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 16:31:25 2017 -0400
+
+    further refactoring
+
+[33mcommit 08fa4398ab1e33320590cf6bf36f2cb8fb8a147b[m
+Merge: aad966e c500c72
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 16:30:37 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit c500c728f4b40e4bfc3465cd6aa8d92ecc70989e[m
+Merge: cf6c62c 59b1a84
+Author: dniu <dniu@andrew.cmu.edu>
+Date:   Wed Jul 19 16:26:25 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit cf6c62c25f25aa483206b9198660a8d7534525b9[m
+Author: dniu <dniu@andrew.cmu.edu>
+Date:   Wed Jul 19 16:26:22 2017 -0400
+
+    fix manifest
+
+[33mcommit aad966ed96244eee3e0ef5743db6a7098501012c[m
+Merge: 5809db4 59b1a84
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 15:50:40 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit 5809db43dd9f852b825366d7452807609e77fc0c[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 15:50:37 2017 -0400
+
+    slight change
+
+[33mcommit 59b1a8401110bee424929142b1d917722d538b07[m
+Merge: a295215 4862067
+Author: everbrightw <yusencs@163.com>
+Date:   Wed Jul 19 15:33:36 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit a29521553f25a15d02edab6f2200d2be75e39a86[m
+Author: everbrightw <yusencs@163.com>
+Date:   Wed Jul 19 15:33:06 2017 -0400
+
+    cancel alarm
+
+[33mcommit 4862067b3431867d4b1d4bbb6dd0f1b60e412e59[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Wed Jul 19 15:32:36 2017 -0400
+
+    Update API to match new CORE
+
+[33mcommit b7d2cd734f62fb4586fa8244dff96457c1cf22f0[m
+Merge: 1e5513d ddd1b41
+Author: everbrightw <yusencs@163.com>
+Date:   Wed Jul 19 15:27:03 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit 1e5513d399471d08cbc80521bac196f7da1a91f2[m
+Author: everbrightw <yusencs@163.com>
+Date:   Wed Jul 19 15:26:56 2017 -0400
+
+    cancel alarm
+
+[33mcommit ddd1b416298c1be9dcd1112d56c37c51375722b6[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 14:46:52 2017 -0400
+
+    add icons
+
+[33mcommit b38f4be8cb3b65b8f3c1070d7e5a9eb10e8a50f5[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Wed Jul 19 14:45:33 2017 -0400
+
+    refactor code
+
+[33mcommit c82d8d61ec0185d939dc472ad8eec0c76c6dc0dc[m
+Merge: 89af0a2 e355a6f
+Author: chentc <fanglin@cmu.edu>
+Date:   Tue Jul 18 16:06:27 2017 -0400
+
+    slight change
+
+[33mcommit 89af0a2e5031c6ab7c3dff0252c404b257051658[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Tue Jul 18 16:04:01 2017 -0400
+
+    slight change
+
+[33mcommit e355a6f9958be465fc5b44d09a15037a5e3c4c83[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Mon Jul 17 20:16:45 2017 -0400
+
+    Update API to match 919082d9c99e25d9bb2ee9d4f84c3ba4998a0d5d in MessageOnTap_Prototype
+
+[33mcommit ce029a6b256bd8ee9e68ad5b44efd9821e488371[m
+Merge: 05180a3 682636f
+Author: chentc <fanglin@cmu.edu>
+Date:   Mon Jul 17 20:01:09 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit 05180a30480e420b81f5747fa7a390f864a8c6e5[m
+Merge: f518fa3 353c37c
+Author: chentc <fanglin@cmu.edu>
+Date:   Mon Jul 17 20:01:05 2017 -0400
+
+    slight change
+
+[33mcommit 682636fa03cdaebfd3d5476932f194852067962f[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Mon Jul 17 19:57:30 2017 -0400
+
+    Fix gradle bug
+
+[33mcommit df9163ddf43cb2f7ea186c7f629a3895593a946d[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Mon Jul 17 19:47:46 2017 -0400
+
+    Update GoogleDocs and SmartCalendar to new plugin framework
+
+[33mcommit 68fb88bb1179c0a3b0a36d065f8c58bcb8a6dfbf[m
+Merge: a5fe88b c2fe976
+Author: Adam Yi <xuan@yiad.am>
+Date:   Mon Jul 17 15:28:34 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit a5fe88b33e964ee5578fcba22913d7a2e094fcdf[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Mon Jul 17 15:28:29 2017 -0400
+
+    Update api to match 116525de74fc98691d2146d28e7cf02b54ca6ffe commit in MessageOnTap_Prototype; plug-in template update needed.
+
+[33mcommit c2fe976c7b3220cd33af01be77bbddd34ebd7107[m
+Author: everbrightw <yusencs@163.com>
+Date:   Mon Jul 17 09:42:08 2017 -0400
+
+    i am at home
+
+[33mcommit f518fa306057521588f735bf5d6f4f6e3b979508[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Mon Jul 17 09:37:39 2017 -0400
+
+    getWhatsAppContacts
+
+[33mcommit 353c37ced6fcf16138217a433fa3184e0ff7cbc5[m
+Author: everbrightw <yusencs@163.com>
+Date:   Sun Jul 16 23:55:56 2017 -0400
+
+    i am at home
+
+[33mcommit 54316393e21a001c823716a2314b48f46da304d2[m
+Merge: c40b546 0edbe6c
+Author: everbrightw <yusenw2@illinois.edu>
+Date:   Sun Jul 16 23:50:10 2017 -0400
+
+    iamathome
+
+[33mcommit c40b546ba756ac350be9bd6774e72bccfbebfd77[m
+Author: everbrightw <yusenw2@illinois.edu>
+Date:   Sun Jul 16 23:18:51 2017 -0400
+
+    iamathome
+
+[33mcommit 0edbe6c65475e5118d630cf2130172445b651fb6[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Sun Jul 16 23:14:51 2017 -0400
+
+    clean up
+
+[33mcommit cd8c1fd61506c7ade0a870be4699bbc3a4ef8462[m
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 22:53:13 2017 -0400
+
+    iamathome
+
+[33mcommit 6f5f57451e9a5b722f5c215a8779c1ae4b3cb556[m
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 22:49:31 2017 -0400
+
+    iamathome
+
+[33mcommit 817109c5652815309f99f451935cb6a9c60ddc3e[m
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 22:46:57 2017 -0400
+
+    iamathome
+
+[33mcommit 04e38c4960f10a41a0575f94e30ee5e0ab898b26[m
+Merge: 5189abe e89e242
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 22:09:07 2017 -0400
+
+    iamathome
+
+[33mcommit 5189abe34604dadcbdb101a7a261dd7b9d772048[m
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 22:06:55 2017 -0400
+
+    iamathome
+
+[33mcommit 56ea3fa93ad9c6e8c97d2083f862042315149d61[m
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 22:05:38 2017 -0400
+
+    iamathome
+
+[33mcommit e89e2425e7fc29cebbb5bb523b29d3b728ab17e1[m
+Merge: 48dd648 da0cf9f
+Author: chentc <fanglin@cmu.edu>
+Date:   Sun Jul 16 18:42:27 2017 -0400
+
+    Merge branch 'master' of https://github.com/adamyi/MessageOnTap_Extensions
+
+[33mcommit 48dd648206772589e2932b256a86bb29ea776124[m
+Author: chentc <fanglin@cmu.edu>
+Date:   Sun Jul 16 18:41:57 2017 -0400
+
+    add gradle import for privacystrams
+
+[33mcommit da0cf9f7b55a6b96af6f5b31525062591975cda9[m
+Author: yusenwang <yusenw2@illinois.edu>
+Date:   Sun Jul 16 17:57:32 2017 -0400
+
+    unfinised iamathome
+
+[33mcommit 09808b54e54c6e078d50b6b3a7386f60319eb720[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Sun Jul 16 14:45:15 2017 -0400
+
+    Add intent for getting extension list
+
+[33mcommit 96497dbba6d5ff32dfa4ac6c36119f3f95f6945e[m
+Author: Adam Yi <xuan@yiad.am>
+Date:   Sun Jul 16 13:55:00 2017 -0400
+
+    first commit with three basic plugins (only name & description for now)

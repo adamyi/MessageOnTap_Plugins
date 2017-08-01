@@ -22,6 +22,7 @@ import edu.cmu.chimps.messageontap_api.Session;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
+import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
@@ -146,15 +147,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_one")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_two")){
-            tree1 = (ParseTree)params.get(Graph.SYNTAX_TREE);
-            params.remove(Graph.SYNTAX_TREE);
-            params.put(Graph.SYNTAX_TREE, AddRootEventName(tree1));
+            tree1 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
+            params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1));
             TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
         }
 
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
-            tree2 = (ParseTree)params.get(Graph.SYNTAX_TREE);
+            tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
             EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME).get(0);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
@@ -170,8 +171,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (tid == TidShow0){
             try{
                 EventList = getEventList(params);
-                params.remove(Graph.SYNTAX_TREE);
-                params.put(Graph.SYNTAX_TREE, AddRootLocation(tree1));
+                params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1));
                 TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
 
             }catch (Exception e){
@@ -316,7 +317,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
     private ParseTree AddRootEventName(ParseTree tree){
-        for (ParseTree.Node node : tree.getNodeList){
+        for (int i=0; i < tree.getNodeList().size(); i++){
+            Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
                 node.setParentId(NAMEROOTID);
                 ParseTree.Node newNode = new ParseTree.Node();
@@ -325,14 +327,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(Graph.Event.NAME);
+                newNode.addTag(EntityAttributes.Graph.Event.NAME);
             }
         }
         return tree;
     }
 
     private ParseTree AddRootLocation(ParseTree tree){
-        for (ParseTree.Node node : tree.getNodeList){
+        for (int i=0; i < tree.getNodeList().size(); i++){
+            Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
                 node.setParentId(LOCATIONROOTID);
                 ParseTree.Node newNode = new ParseTree.Node();
@@ -341,7 +344,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(Graph.Place.NAME);
+                newNode.addTag(EntityAttributes.Graph.Place.NAME);
             }
         }
         return tree;
@@ -352,18 +355,18 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
-            event.setEventName((String) card.get(Graph.Document.Name));
-            event.setBeginTime((String)card.get(Graph.Event.START_TIME));
-            event.setEndTime((String)card.get(Graph.Event.END_TIME));
+            event.setEventName((String) card.get(EntityAttributes.Graph.Document.TITLE));
+            event.setBeginTime((Long) card.get(EntityAttributes.Graph.Event.START_TIME));
+            event.setEndTime((Long) card.get(EntityAttributes.Graph.Event.END_TIME));
             EventList.add(event);
         }
         return EventList;
     }
 
-    private void setLocation2(HashMap<String, Object> params){
+    private void setLocation(HashMap<String, Object> params){
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(CARD_KEY);
         for (HashMap<String, Object> card : cardList) {
-            if ((String)card.get(Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
+            if (card.get(EntityAttributes.Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
                 EventList.get(cardList.indexOf(card)).setLocation((String) card.get(EntityAttributes.Graph.Place.NAME));
             }
         }
