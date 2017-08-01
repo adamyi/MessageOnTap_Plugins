@@ -255,7 +255,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     }
 
     private String getHtml(ArrayList<Doc> DocList) {
-        String List = ""
+        String List = "";
         String html = "<html>" +
                 "<body>" +
                 "<style>" +
