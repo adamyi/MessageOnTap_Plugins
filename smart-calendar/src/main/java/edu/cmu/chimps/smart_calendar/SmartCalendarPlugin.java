@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,10 @@ import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
+
+import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
+import java.util.Collections;
+
 import static edu.cmu.chimps.smart_calendar.StringUtils.DAY;
 import static edu.cmu.chimps.smart_calendar.StringUtils.LOCATIONROOTID;
 import static edu.cmu.chimps.smart_calendar.StringUtils.MONTH;
@@ -29,7 +34,16 @@ import static edu.cmu.chimps.smart_calendar.StringUtils.NAMEROOTID;
 import static edu.cmu.chimps.smart_calendar.StringUtils.YEAR;
 
 
+
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
+
+    class SortbyTime implements Comparator{
+        public int compare(Object o1,Object o2){
+            Event e1 = (Event) o1;
+            Event e2 = (Event) o2;
+            return e1.getBeginTime().compareTo(e2.getBeginTime());
+        }
+    }
 
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
@@ -178,8 +192,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         } else if (tid == TidShow2){
             try {
                 if (params.get(BUBBLE_STATUS) == 1){
-                    params.put("HTML Details", getHtml(EventList));
+                    params.put("HTML Details", getHtml(EventListSortByTime(EventList)));
                     TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                } else {
+                    endSession(sid);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -193,11 +209,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
         if (tid == TidAdd1){
-            HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
-            params.put("action:Add to calendar time", date.get(YEAR));
-            params.put("action:Add to calendar time", date.get(MONTH));
-            params.put("action:Add to calendar time", date.get(DAY));
-            TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+            if (params.get(BUBBLE_STATUS) == 1) {
+                HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
+                params.put("action:Add to calendar time", date.get(YEAR));
+                params.put("action:Add to calendar time", date.get(MONTH));
+                params.put("action:Add to calendar time", date.get(DAY));
+                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+            } else {
+                endSession(sid);
+            }
         } else if (tid == TidAdd2){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
@@ -254,9 +274,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             String finalEndTime = fmt.format(endTime);
 
 
-
-
-
             int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
             if (height < 75){
                 height = -1;
@@ -267,10 +284,11 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 h = "auto";
             }else
             {   h = "" + height + "px";}
+
             htmlString = htmlString +
-                    "<div class=\"datashower\" style=\"height:" + h + ">\n" +
+                    "<div class=\"datashower\" style=\"height:" + h + "\";>\n" +
                     // 加上Time and Event
-                    "<p class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</p >\n" +
+                    "<h class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</h >\n" +
                     "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
                     "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
                     "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
@@ -286,6 +304,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 "</button>\n" +
                 "</div>"+"</body> </html>";
         return htmlString;
+    }
+
+    private ArrayList<Event> EventListSortByTime(ArrayList<Event> events){
+        Collections.sort(events,new SortbyTime());
+        return events;
+
     }
 
 
@@ -343,6 +367,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
+
+
     private HashMap<String, Integer> getDate(Long time){
         Calendar beginT = Calendar.getInstance();
         beginT.setTimeInMillis(time);
@@ -354,5 +380,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
 
 
+
 }
+
 
