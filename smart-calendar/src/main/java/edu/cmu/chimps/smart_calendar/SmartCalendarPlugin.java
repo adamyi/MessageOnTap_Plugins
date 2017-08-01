@@ -276,7 +276,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             htmlString = htmlString +
                     "<div class=\"datashower\" style=\"height:" + h + ">\n" +
                     // 加上Time and Event
-                    "<p class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</p >\n" +
+                    "<h class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</h >\n" +
                     "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
                     "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
                     "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
