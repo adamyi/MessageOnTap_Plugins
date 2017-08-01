@@ -260,9 +260,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             String finalEndTime = fmt.format(endTime);
 
 
-
-
-
             int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
             if (height < 75){
                 height = -1;
