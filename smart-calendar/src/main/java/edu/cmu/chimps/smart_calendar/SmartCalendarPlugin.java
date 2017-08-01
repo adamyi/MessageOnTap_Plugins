@@ -180,6 +180,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 if (params.get(BUBBLE_STATUS) == 1){
                     params.put("HTML Details", getHtml(EventList));
                     TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                } else {
+                    endSession(sid);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -193,11 +195,15 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
         if (tid == TidAdd1){
-            HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
-            params.put("action:Add to calendar time", date.get(YEAR));
-            params.put("action:Add to calendar time", date.get(MONTH));
-            params.put("action:Add to calendar time", date.get(DAY));
-            TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+            if (params.get(BUBBLE_STATUS) == 1) {
+                HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
+                params.put("action:Add to calendar time", date.get(YEAR));
+                params.put("action:Add to calendar time", date.get(MONTH));
+                params.put("action:Add to calendar time", date.get(DAY));
+                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+            } else {
+                endSession(sid);
+            }
         } else if (tid == TidAdd2){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);

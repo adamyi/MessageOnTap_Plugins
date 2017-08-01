@@ -235,11 +235,15 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 
         if (tid == tidBubble) {
-            try {
-                params.put("HTML Details", getHtml(DocList));
-                tidDetails = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (params.get(BUBBLE_STATUS) == 1) {
+                try {
+                    params.put("HTML Details", getHtml(DocList));
+                    tidDetails = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    endSession(sid);
+                }
+            } else {
                 endSession(sid);
             }
         } else if (tid == tidDetails){
