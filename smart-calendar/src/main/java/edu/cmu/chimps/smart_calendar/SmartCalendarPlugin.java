@@ -236,7 +236,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             Long begintime = event.getBeginTime();
             Long endTime = event.getEndTime();
-
+            String location = event.getLocation();
             Calendar beginT = Calendar.getInstance();
             beginT.setTimeInMillis(begintime);
 
@@ -252,6 +252,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
 
+
+
             int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
             if (height < 75){
                 height = -1;
@@ -261,13 +263,14 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             if (height == -1){
                 h = "auto";
             }else
-            {   h = "" + height;}
+            {   h = "" + height + "px";}
             htmlString = htmlString +
-                    "<div class=\"datashower\" style=\"height:" + h + "px\">\n" +
+                    "<div class=\"datashower\" style=\"height:" + h + ">\n" +
                     // 加上Time and Event
                     "<p class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</p >\n" +
                     "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
-                    "<p class = \"text\" style = \"text-align:left;\">" + finalEndTime + "</p >\n"+ //event?
+                    "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
+                    "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
                     //////////////
                     "</div>";
         }
