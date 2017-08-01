@@ -19,18 +19,17 @@ import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 
-import static android.R.attr.id;
-import static android.bluetooth.BluetoothAssignedNumbers.GOOGLE;
-import static android.os.Build.VERSION_CODES.M;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.ALLDOCNAMEROOTID;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.ALLDOCROOT;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.ALLURLROOT;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.ALLURLROOTID;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.DOCNAMEROOTID;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.DOCROOT;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.URLROOT;
-import static edu.cmu.chimps.googledocsplugin.StringUtils.URLROOTID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCNAMEROOTID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCROOT;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOT;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOTID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.DOCNAMEROOTID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.DOCROOT;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.URLROOT;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.URLROOTID;
 
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getHtml;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getTimeString;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 
@@ -41,6 +40,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     public static final String TAG = "GoogleDoc plugin";
     private Long tidFindAllDocName, tidFindDocName, tidFindUrl1, tidFindUrl2, tidBubble, tidDetails, tidDocSend;
     ParseTree tree1, tree2, treeForSearch1, treeForSearch2;
+    String DocTime1, DocTime2;
 
     private Tag TAG_FILENAME;
     Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
@@ -141,17 +141,19 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
         if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
             tree1 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
-            treeForSearch1 = AddNameRoot(tree1, ALLDOCNAMEROOTID);
+            DocTime1 = getTimeString(params);
+            treeForSearch1 = AddNameRoot(tree1, ALLDOCNAMEROOTID, DocTime1);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
-            tidFindAllDocName = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+            tidFindAllDocName = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
 
         } else {
             tree2 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
-            treeForSearch2 = AddNameRoot(tree2, DOCNAMEROOTID);
+            DocTime2 = getTimeString(params);
+            treeForSearch2 = AddNameRoot(tree2, DOCNAMEROOTID, DocTime2);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
-            tidFindDocName = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+            tidFindDocName = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
         }
     }
 
@@ -178,10 +180,10 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     }
                 }
                 if (!DocList.isEmpty()) {
-                    tree1 = AddUrlRoot(tree1, ALLURLROOTID);
+                    tree1 = AddUrlRoot(tree1, ALLURLROOTID, DocTime1);
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree1);
-                    tidFindUrl1 = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+                    tidFindUrl1 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -198,10 +200,10 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     DocList.add(doc);
                 }
                 if (!DocList.isEmpty()) {
-                    tree2 = AddUrlRoot(tree2, URLROOTID);
+                    tree2 = AddUrlRoot(tree2, URLROOTID, DocTime2);
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree2);
-                    tidFindUrl2 = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+                    tidFindUrl2 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -223,7 +225,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     params.put(BUBBLE_FIRST_LINE, "Show GoogleDocs name");
-                    tidBubble = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                    tidBubble = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -239,7 +241,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             if (params.get(BUBBLE_STATUS) == 1) {
                 try {
                     params.put("HTML Details", getHtml(DocList));
-                    tidDetails = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                    tidDetails = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params);
                 } catch (Exception e) {
                     e.printStackTrace();
                     endSession(sid);
@@ -248,9 +250,10 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 endSession(sid);
             }
         } else if (tid == tidDetails){
+            //Todo
             params.get("", );                     //get selected URL
             params.put("", );                      //send URL
-            tidDocSend = newTaskRequest(sid, MethodConstants.ACTION, "Send Doc URL", params);
+            tidDocSend = newTaskRequest(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_SETTEXT, params);
         } else if (tid == tidDocSend) {
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
@@ -259,54 +262,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     }
 
-    private String getHtml(ArrayList<Doc> DocList) {
-        String List = "";
-        String html = "<html>" +
-                "<body>" +
-                "<style>" +
-                "datashower{" +
-                "border-radius: 10px;" +
-                "background: #08AED8;" +
-                "height:auto;" +
 
-                "}" +
-                ".doc{" +
-                "text-align: center;" +
-                "color: aliceblue;" +
-                "padding: 10px;" +
-                "}" +
-                ".checkbox{" +
-                "float: left;" +
-                "</style>" +
-                "<div class=\"Title\" style=\"border:  groove\">\n" +
-                "\t<p class=\"Tiltle\" style=\"text-align: center;font-family:'aguafina-script';\">Related Google Doc</p>\n" +
-                "</div>\n" + "<form id=\"data\">\n";
-        for (Doc doc:DocList) {
-            String docName = doc.getDocName();
-            List = List +
-
-                            "<div class= \"datashower\">\n" +
-                            "<p class=\"doc\">\n" +
-                            "<input name = \"GoogleDoc\" type=\"checkbox\" class = \"checkbox\">\n" +
-                            docName + "</p>\n"+
-                            "</div>\n";
-
-        }
-                  String btn =
-                          "</form>\n"+
-                "<div style=\"text-align: center\">\n" +
-                "<button data=\"\">\n" +
-                "\tOK\n" +
-                "</button>\n" +
-                "</div>\n" +
-                "</body>\n" +
-                "</html>";
-
-        String finalHtml = html + List + btn;
-        return finalHtml;
-    }
-
-    private ParseTree AddNameRoot(ParseTree tree , int Id){
+    private ParseTree AddNameRoot(ParseTree tree , int Id, String time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             ParseTree.Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
@@ -321,6 +278,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
+                node.setWord(time);
                 node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
                 node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
             }
@@ -328,7 +286,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         return tree;
     }
 
-    private ParseTree AddUrlRoot(ParseTree tree, int Id){
+    private ParseTree AddUrlRoot(ParseTree tree, int Id, String time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             ParseTree.Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
@@ -343,6 +301,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
+                node.setWord(time);
                 node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
                 node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
             }

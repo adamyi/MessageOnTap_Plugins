@@ -2,7 +2,6 @@ package edu.cmu.chimps.smart_calendar;
 
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -26,14 +25,15 @@ import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_E
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
-import java.util.Collections;
 
-import static edu.cmu.chimps.smart_calendar.StringUtils.DAY;
-import static edu.cmu.chimps.smart_calendar.StringUtils.LOCATIONROOTID;
-import static edu.cmu.chimps.smart_calendar.StringUtils.MONTH;
-import static edu.cmu.chimps.smart_calendar.StringUtils.NAMEROOTID;
-import static edu.cmu.chimps.smart_calendar.StringUtils.YEAR;
-
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.DAY;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.HOUR;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.LOCATIONROOTID;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.MONTH;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAMEROOTID;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.YEAR;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -55,7 +55,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
     private ParseTree tree1,tree2;
-    Long EventTime2;
+    String EventTimeString1, EventTimeString2;
+    Long EventBeginTime2, EventEndTime2;
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
@@ -148,18 +149,22 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_one")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_two")){
             tree1 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
+            EventTimeString1 = getTimeString(params);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1));
-            TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1, EventTimeString1));
+            TidShow0 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
         }
 
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
-            EventTime2 = params.get(CURRENT_MESSAGE_EMBEDDED_TIME).get(0);
+            Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
+            EventBeginTime2 = timeArray[0];
+            EventEndTime2 = timeArray[1];
+            EventTimeString1 = getTimeString(params);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
-            params.put(BUBBLE_SECOND_LINE, "Event time:"+EventTime2);
-            TidAdd1 = newTaskRequest(sid, MethodConstants.UI_SHOW, "BubbleShow", params);
+            params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
+            TidAdd1 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
         }
     }
 
@@ -172,8 +177,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try{
                 EventList = getEventList(params);
                 params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1));
-                TidShow0 = newTaskRequest(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
+                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1, EventTimeString1));
+                TidShow0 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -185,7 +190,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try {
                 setLocation(params);
                 params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                TidShow2 = newTaskRequest(sid, MethodConstants.UI_SHOW, "Bubble", params);
+                TidShow2 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
@@ -194,7 +199,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try {
                 if (params.get(BUBBLE_STATUS) == 1){
                     params.put("HTML Details", getHtml(EventListSortByTime(EventList)));
-                    TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
+                    TidShow3 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params);
                 } else {
                     endSession(sid);
                 }
@@ -211,11 +216,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (tid == TidAdd1){
             if (params.get(BUBBLE_STATUS) == 1) {
-                HashMap<String, Integer> date = getDate(EventTime2);           //transfer from Long to date
+                HashMap<String, Integer> beginDate = getDate(EventBeginTime2);           //transfer from Long to date
+                HashMap<String, Integer> endDate = getDate(EventEndTime2);
                 params.put("action:Add to calendar time", date.get(YEAR));
                 params.put("action:Add to calendar time", date.get(MONTH));
                 params.put("action:Add to calendar time", date.get(DAY));
-                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION, "params", params);
+                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params);
             } else {
                 endSession(sid);
             }
@@ -226,86 +232,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
-    private String getHtml(ArrayList<Event> eventList){
-
-        String html = "";
-
-        int year;
-
-        ////////////////Time///////////////////
-        String yeartablehtml = ".year{\n" +
-                "\t\tbackground: #39A90E;\n" +
-                "\t\theight:auto;\n" +
-                "\t\tborder-radius:5px;\n" +
-                "\t\ttext-align: center;\n" +
-                "\t}";
-        /////////////////style/////////////////////
-        String htmlString = "<html>\n" +
-                "<style>\n" +
-                ".datashower{\n" +
-                "background:#08AED8;\n" +
-                "border-radius:5px;\n" +
-                "color: aliceblue;" +
-                "}\n" + ".text{\n" +
-                "\t\tmargin:10px;\n" +
-                "\t}" + ".checkbox{\n" +
-                "\t\t float:right\n" +
-                "\t}" +
-                "</style>";
-        ////////////////Recycle Events//////////////
-        for (Event event: eventList){
-
-            String theEvent = event.getEventName();
-
-
-            Long begintime = event.getBeginTime();
-            Long endTime = event.getEndTime();
-            String location = event.getLocation();
-            Calendar beginT = Calendar.getInstance();
-            beginT.setTimeInMillis(begintime);
-
-            Calendar endT = Calendar.getInstance();
-            endT.setTimeInMillis(endTime);
-
-            int beginHour = beginT.get(Calendar.HOUR_OF_DAY);
-            int endHour = endT.get(Calendar.HOUR_OF_DAY);
-
-            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm");
-            String finalBeginTime = fmt.format(begintime);
-            String finalEndTime = fmt.format(endTime);
-
-
-            int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
-            if (height < 75){
-                height = -1;
-            }
-
-            String h;
-            if (height == -1){
-                h = "auto";
-            }else
-            {   h = "" + height + "px";}
-
-            htmlString = htmlString +
-                    "<div class=\"datashower\" style=\"height:" + h + "\";>\n" +
-                    // 加上Time and Event
-                    "<h class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</h >\n" +
-                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
-                    "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
-                    "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
-                    //////////////
-                    "</div>";
-        }
-
-        ///////ending/////////
-        htmlString = htmlString + "<div style=\"text-align: center\">\n" +
-
-                "<button class=\"data\" style=\"\" data=\"\">\n" +
-                "\tOK\n" +
-                "</button>\n" +
-                "</div>"+"</body> </html>";
-        return htmlString;
-    }
 
     private ArrayList<Event> EventListSortByTime(ArrayList<Event> events){
         Collections.sort(events,new SortbyTime());
@@ -314,7 +240,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
 
 
-    private ParseTree AddRootEventName(ParseTree tree){
+    private ParseTree AddRootEventName(ParseTree tree, String time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
@@ -327,11 +253,17 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 newNode.setChildrenIds(set);
                 newNode.addTag(EntityAttributes.Graph.Event.NAME);
             }
+            if (node.getTagList().contains(tag_time)){
+                node.getTagList().clear();
+                node.setWord(time);
+                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+            }
         }
         return tree;
     }
 
-    private ParseTree AddRootLocation(ParseTree tree){
+    private ParseTree AddRootLocation(ParseTree tree, String time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
@@ -343,6 +275,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
                 newNode.addTag(EntityAttributes.Graph.Place.NAME);
+            }
+            if (node.getTagList().contains(tag_time)){
+                node.getTagList().clear();
+                node.setWord(time);
+                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
         return tree;
@@ -378,7 +316,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         HashMap<String, Integer> date = new HashMap<>();
         date.put(YEAR, beginT.get(Calendar.YEAR));
         date.put(MONTH, beginT.get(Calendar.MONTH));
-        date.put(DAY, beginT.get(Calendar.MONTH));
+        date.put(DAY, beginT.get(Calendar.DAY_OF_MONTH));
+        date.put(HOUR, beginT.get(Calendar.HOUR_OF_DAY));
+        date.put(DAY, beginT.get(Calendar.MINUTE));
         return date;
     }
 
