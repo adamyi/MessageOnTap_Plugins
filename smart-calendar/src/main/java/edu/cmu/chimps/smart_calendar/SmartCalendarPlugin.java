@@ -294,7 +294,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             if (node.getParentId() == 0){
                 node.setParentId(213123);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(23434324);
+                newNode.setId(213123);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
