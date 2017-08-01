@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,9 +26,17 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
-
+import java.util.Collections;
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
+
+    class SortbyTime implements Comparator{
+        public int compare(Object o1,Object o2){
+            Event e1 = (Event) o1;
+            Event e2 = (Event) o2;
+            return e1.getBeginTime().compareTo(e2.getBeginTime());
+        }
+    }
 
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
@@ -177,7 +186,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         } else if (tid == TidShow2){
             try {
                 if (params.get(BUBBLE_STATUS) == 1){
-                    params.put("HTML Details", getHtml(EventList));
+                    params.put("HTML Details", getHtml(EventListSortByTime(EventList)));
                     TidShow3 = newTaskRequest(sid, MethodConstants.UI_UPDATE, "html", params);
                 }
             }catch (Exception e){
@@ -285,6 +294,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         return htmlString;
     }
 
+    private ArrayList<Event> EventListSortByTime(ArrayList<Event> events){
+        Collections.sort(events,new SortbyTime());
+        return events;
+
+    }
+
 
     private ParseTree AddRootEventName(ParseTree tree){
         for (ParseTree.Node node : tree.getNodeList){
@@ -340,5 +355,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
+
 }
+
 
