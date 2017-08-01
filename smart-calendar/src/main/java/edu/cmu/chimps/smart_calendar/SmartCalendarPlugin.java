@@ -269,7 +269,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             int beginHour = beginT.get(Calendar.HOUR_OF_DAY);
             int endHour = endT.get(Calendar.HOUR_OF_DAY);
 
-            SimpleDateFormat fmt = new SimpleDateFormat("HH-mm");
+            SimpleDateFormat fmt = new SimpleDateFormat("HH:mm");
             String finalBeginTime = fmt.format(begintime);
             String finalEndTime = fmt.format(endTime);
 
