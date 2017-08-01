@@ -140,14 +140,14 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         // TID is something we might need to implement stateflow inside a plugin.
 
         if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
-            tree1 = params.get(EntityAttributes.Graph.SYNTAX_TREE);
+            tree1 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             treeForSearch1 = AddNameRoot(tree1, ALLDOCNAMEROOTID);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
             tidFindAllDocName = newTaskResponsed(sid, MethodConstants.PERSONAL_GRAPE_TYPE, MethodConstants.GRAPH_RETRIEVAL, params);
 
         } else {
-            tree2 = params.get(EntityAttributes.Graph.SYNTAX_TREE);
+            tree2 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             treeForSearch2 = AddNameRoot(tree2, DOCNAMEROOTID);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
