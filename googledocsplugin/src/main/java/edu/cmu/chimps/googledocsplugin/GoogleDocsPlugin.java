@@ -14,26 +14,13 @@ import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
-import edu.cmu.chimps.messageontap_api.Session;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCNAMEROOTID;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCROOT;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOT;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOTID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_DOCNAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_URL_ROOT_ID;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.DOCNAMEROOTID;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.DOCROOT;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_DOCNAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_URL_ROOT_ID;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.URLROOT;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.URLROOTID;
-
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getHtml;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getTimeString;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
@@ -76,16 +63,16 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e(TAG, "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
-        HashSet<Tag> mMandatory = new HashSet<>();
-        HashSet<Tag> mOptional = new HashSet<>();
+        HashSet<String> mMandatory = new HashSet<>();
+        HashSet<String> mOptional = new HashSet<>();
 
         // Category one: with file name
         // trigger 1: Can you send me XXX (a file)?
         COMPLETE = 0;
-        mOptional.add(tag_you);
-        mMandatory.add(tag_send);
-        mOptional.add(tag_me);
-        mOptional.add(tag_time);
+        mOptional.add("tag_you");
+        mMandatory.add("tag_send");
+        mOptional.add("tag_me");
+        mOptional.add("tag_time");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
         Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional, constraints,
@@ -93,10 +80,10 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         triggerArrayList.add(trigger1);
         clearLists(mMandatory, mOptional);
         //trigger 4: I can send you XXX
-        mMandatory.add(tag_I);
-        mMandatory.add(tag_send);
-        mOptional.add(tag_you);
-        mOptional.add(tag_time);
+        mMandatory.add("tag_I");
+        mMandatory.add("tag_send");
+        mOptional.add("tag_you");
+        mOptional.add("tag_time");
         MOOD = 0;
         DIRECTION = 1;
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
@@ -106,10 +93,10 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         // Category two: without file name
         // trigger 2: Can you send me the file on this topic
         // second example: send me the file please
-        mMandatory.add(tag_send);
-        mOptional.add(tag_me);
-        mMandatory.add(tag_doc);
-        mOptional.add(tag_time);
+        mMandatory.add("tag_send");
+        mOptional.add("tag_me");
+        mMandatory.add("tag_doc");
+        mOptional.add("tag_time");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
         Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
@@ -118,11 +105,11 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory, mOptional);
         // trigger 3: I want to send you the doc we talked about earlier
         // second example: I'll share my document
-        mOptional.add(tag_I);
-        mMandatory.add(tag_send);
-        mOptional.add(tag_you);
-        mMandatory.add(tag_doc);
-        mOptional.add(tag_time);
+        mOptional.add("tag_I");
+        mMandatory.add("tag_send");
+        mOptional.add("tag_you");
+        mMandatory.add("tag_doc");
+        mOptional.add("tag_time");
         DIRECTION = 1;
         MOOD = 0;
         HashSet<Trigger.Constraint> constraints4= new HashSet<>();
@@ -130,10 +117,11 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger4);
         clearLists(mMandatory, mOptional);
+        //Todo:taglist
         return new PluginData().trigger(new Trigger());
     }
 
-    public void clearLists(HashSet<Tag> mMandatory, HashSet<Tag> mOptional) {
+    public void clearLists(HashSet<String> mMandatory, HashSet<String> mOptional) {
         mMandatory.clear();
         mOptional.clear();
     }
@@ -144,7 +132,18 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
+
+        /*
+         * Divide all triggers into two groups, those whose message contains a whole DocName
+         * and those whose message only contains terms like doc or file.
+         * No matter which group was triggered, plugin is requested to query twice. In the first time
+         * the root is DocName, and in the second time the root is DocUrl.
+         * The difference between two groups is, if the message contains DocName, plugin have to
+         * query all the user's DocNames, and judge whether the message contains one of them, after that can
+         * the plugin step forward.
+         */
+        //if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
+        if (1 == 1){
             tree1 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             DocTime1 = getTimeString(params);
             treeForSearch1 = AddNameRoot(tree1, ALL_DOCNAME_ROOT_ID, DocTime1);
@@ -217,7 +216,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         }
 
 
-
+/*
         if ((tid == tidFindUrl1)||(tid == tidFindUrl2)){
             try{
                 ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
@@ -269,7 +268,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
-
+*/
     }
 
 
