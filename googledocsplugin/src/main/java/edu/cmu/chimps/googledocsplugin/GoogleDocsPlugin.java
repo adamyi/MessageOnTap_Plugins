@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
@@ -19,6 +18,8 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_DOCNAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_URL_ROOT_ID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.AddNameRoot;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.AddUrlRoot;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_DOCNAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_URL_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getTimeString;
@@ -146,7 +147,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         if (1 == 1){
             tree1 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             DocTime1 = getTimeString(params);
-            treeForSearch1 = AddNameRoot(tree1, ALL_DOCNAME_ROOT_ID, DocTime1);
+            treeForSearch1 = AddNameRoot(tree1, ALL_DOCNAME_ROOT_ID, DocTime1, tag_time);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
             tidFindAllDocName = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -154,7 +155,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         } else {
             tree2 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             DocTime2 = getTimeString(params);
-            treeForSearch2 = AddNameRoot(tree2, FILTERED_DOCNAME_ROOT_ID, DocTime2);
+            treeForSearch2 = AddNameRoot(tree2, FILTERED_DOCNAME_ROOT_ID, DocTime2, tag_time);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
             tidFindDocName = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -184,7 +185,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     }
                 }
                 if (!DocList.isEmpty()) {
-                    tree1 = AddUrlRoot(tree1, ALL_URL_ROOT_ID, DocTime1);
+                    tree1 = AddUrlRoot(tree1, ALL_URL_ROOT_ID, DocTime1, tag_time);
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree1);
                     tidFindUrl1 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -204,7 +205,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     DocList.add(doc);
                 }
                 if (!DocList.isEmpty()) {
-                    tree2 = AddUrlRoot(tree2, FILTERED_URL_ROOT_ID, DocTime2);
+                    tree2 = AddUrlRoot(tree2, FILTERED_URL_ROOT_ID, DocTime2, tag_time);
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree2);
                     tidFindUrl2 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -272,51 +273,6 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     }
 
 
-    private ParseTree AddNameRoot(ParseTree tree , int Id, String time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            ParseTree.Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
-                node.setParentId(Id);
-                ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(Id);
-                newNode.setParentId(0);
-                Set<Integer> set = new HashSet<>();
-                set.add(node.getId());
-                newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Document.TITLE);
-            }
-            if (node.getTagList().contains(tag_time)){
-                node.getTagList().clear();
-                node.setWord(time);
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
-            }
-        }
-        return tree;
-    }
-
-    private ParseTree AddUrlRoot(ParseTree tree, int Id, String time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            ParseTree.Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
-                node.setParentId(Id);
-                ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(Id);
-                newNode.setParentId(0);
-                Set<Integer> set = new HashSet<>();
-                set.add(node.getId());
-                newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Document.DESCRIPTION);           //need to change to Url
-            }
-            if (node.getTagList().contains(tag_time)){
-                node.getTagList().clear();
-                node.setWord(time);
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
-            }
-        }
-        return tree;
-    }
 
     
 

@@ -2,6 +2,12 @@ package edu.cmu.chimps.googledocsplugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import edu.cmu.chimps.messageontap_api.EntityAttributes;
+import edu.cmu.chimps.messageontap_api.ParseTree;
+import edu.cmu.chimps.messageontap_api.Tag;
 
 import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 
@@ -20,6 +26,52 @@ public class GoogleDocUtils {
         Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
         String time =  timeArray[0]+ "," + timeArray[1];
         return time;
+    }
+
+    public static ParseTree AddNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
+        for (int i=0; i < tree.getNodeList().size(); i++){
+            ParseTree.Node node = tree.getNodeList().get(i);
+            if (node.getParentId() == 0){
+                node.setParentId(Id);
+                ParseTree.Node newNode = new ParseTree.Node();
+                newNode.setId(Id);
+                newNode.setParentId(0);
+                Set<Integer> set = new HashSet<>();
+                set.add(node.getId());
+                newNode.setChildrenIds(set);
+                newNode.addTag(EntityAttributes.Graph.Document.TITLE);
+            }
+            if (node.getTagList().contains(tag_time)){
+                node.getTagList().clear();
+                node.setWord(time);
+                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+            }
+        }
+        return tree;
+    }
+
+    public static ParseTree AddUrlRoot(ParseTree tree, int Id, String time, Tag tag_time){
+        for (int i=0; i < tree.getNodeList().size(); i++){
+            ParseTree.Node node = tree.getNodeList().get(i);
+            if (node.getParentId() == 0){
+                node.setParentId(Id);
+                ParseTree.Node newNode = new ParseTree.Node();
+                newNode.setId(Id);
+                newNode.setParentId(0);
+                Set<Integer> set = new HashSet<>();
+                set.add(node.getId());
+                newNode.setChildrenIds(set);
+                newNode.addTag(EntityAttributes.Graph.Document.DESCRIPTION);           //need to change to Url
+            }
+            if (node.getTagList().contains(tag_time)){
+                node.getTagList().clear();
+                node.setWord(time);
+                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+            }
+        }
+        return tree;
     }
 
     public static String getHtml(ArrayList<Doc> DocList) {

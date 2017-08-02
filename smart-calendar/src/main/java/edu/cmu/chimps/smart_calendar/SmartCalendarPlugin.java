@@ -26,6 +26,8 @@ import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 
 import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
 
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootEventName;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootLocation;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.DAY;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.HOUR;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.LOCATIONROOTID;
@@ -34,19 +36,14 @@ import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.MONTH;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAMEROOTID;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAME_ROOT_ID;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.YEAR;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getDate;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
-
-    class SortbyTime implements Comparator{
-        public int compare(Object o1,Object o2){
-            Event e1 = (Event) o1;
-            Event e2 = (Event) o2;
-            return e1.getBeginTime().compareTo(e2.getBeginTime());
-        }
-    }
 
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
@@ -152,7 +149,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             tree1 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
             EventTimeString1 = getTimeString(params);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1, EventTimeString1));
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1, EventTimeString1, tag_time));
             TidShow0 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
         }
 
@@ -178,7 +175,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try{
                 EventList = getEventList(params);
                 params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1, EventTimeString1));
+                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1, EventTimeString1, tag_time));
                 TidShow0 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
 
             }catch (Exception e){
@@ -216,11 +213,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (tid == TidAdd1){
             if (params.get(BUBBLE_STATUS) == 1) {
-                HashMap<String, Integer> beginDate = getDate(EventBeginTime2);           //transfer from Long to date
-                HashMap<String, Integer> endDate = getDate(EventEndTime2);
-                params.put("action:Add to calendar time", date.get(YEAR));
-                params.put("action:Add to calendar time", date.get(MONTH));
-                params.put("action:Add to calendar time", date.get(DAY));
+                Calendar beginDate = getDate(EventBeginTime2);           //transfer from Long to date
+                Calendar endDate = getDate(EventEndTime2);
+                params.put("action:Add to calendar time", beginDate);
+                params.put("action:Add to calendar time", endDate);
                 TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params);
             } else {
                 endSession(sid);
@@ -232,96 +228,19 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
     }
 
-
     private ArrayList<Event> EventListSortByTime(ArrayList<Event> events){
         Collections.sort(events,new SortbyTime());
         return events;
 
     }
 
-
-    private ParseTree AddRootEventName(ParseTree tree, String time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
-                node.setParentId(NAME_ROOT_ID);
-                ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(NAME_ROOT_ID);
-                newNode.setParentId(0);
-                Set<Integer> set = new HashSet<>();
-                set.add(node.getId());
-                newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Event.NAME);
-            }
-            if (node.getTagList().contains(tag_time)){
-                node.getTagList().clear();
-                node.setWord(time);                         //The former root "time" need to be added a real time
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
-            }
-        }
-        return tree;
-    }
-
-    private ParseTree AddRootLocation(ParseTree tree, String time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
-                node.setParentId(LOCATION_ROOT_ID);
-                ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(LOCATION_ROOT_ID);
-                newNode.setParentId(0);
-                Set<Integer> set = new HashSet<>();
-                set.add(node.getId());
-                newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Place.NAME);
-            }
-            if (node.getTagList().contains(tag_time)){
-                node.getTagList().clear();
-                node.setWord(time);
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
-            }
-        }
-        return tree;
-    }
-
-    private ArrayList<Event> getEventList(HashMap<String, Object> params){
-        ArrayList<Event> EventList = new ArrayList<>();
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
-        for (HashMap<String, Object> card : cardList) {
-            Event event = new Event();
-            event.setEventName((String) card.get(EntityAttributes.Graph.Document.TITLE));
-            event.setBeginTime((Long) card.get(EntityAttributes.Graph.Event.START_TIME));
-            event.setEndTime((Long) card.get(EntityAttributes.Graph.Event.END_TIME));
-            EventList.add(event);
-        }
-        return EventList;
-    }
-
-    private void setListLocation(ArrayList<Event> EventList, HashMap<String, Object> params){
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
-        for (HashMap<String, Object> card : cardList) {
-            if (card.get(EntityAttributes.Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
-                EventList.get(cardList.indexOf(card)).setLocation((String) card.get(EntityAttributes.Graph.Place.NAME));
-            }
+    class SortbyTime implements Comparator{
+        public int compare(Object o1,Object o2){
+            Event e1 = (Event) o1;
+            Event e2 = (Event) o2;
+            return e1.getBeginTime().compareTo(e2.getBeginTime());
         }
     }
-
-
-
-    private HashMap<String, Integer> getDate(Long time){
-        Calendar beginT = Calendar.getInstance();
-        beginT.setTimeInMillis(time);
-        HashMap<String, Integer> date = new HashMap<>();
-        date.put(YEAR, beginT.get(Calendar.YEAR));
-        date.put(MONTH, beginT.get(Calendar.MONTH));
-        date.put(DAY, beginT.get(Calendar.DAY_OF_MONTH));
-        date.put(HOUR, beginT.get(Calendar.HOUR_OF_DAY));
-        date.put(DAY, beginT.get(Calendar.MINUTE));
-        return date;
-    }
-
 
 
 }
