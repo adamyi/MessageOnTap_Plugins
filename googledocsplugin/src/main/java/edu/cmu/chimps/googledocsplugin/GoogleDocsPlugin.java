@@ -19,6 +19,7 @@ import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCNAMEROOTID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCROOT;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOT;
@@ -41,7 +42,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     private Long tidFindAllDocName, tidFindDocName, tidFindUrl1, tidFindUrl2, tidBubble, tidDetails, tidDocSend;
     ParseTree tree1, tree2, treeForSearch1, treeForSearch2;
     String DocTime1, DocTime2;
-    ArrayList<Doc> selectedDoc;
+    StringBuilder selectedDocUrl = null;
     private Tag TAG_FILENAME;
     Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
             "(file|doc|document)")));
@@ -250,19 +251,14 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 endSession(sid);
             }
         } else if (tid == tidDetails){
-            //Todo
+            //get selected URL
             for (Doc doc:DocList){
             String status = (String) params.get(doc.getDocName());
-                if (status == "On"){
-                    selectedDoc.add(doc);
-                }else (status == "Off"){
-                    //DO Nothing
+                if (status.equals("on")){
+                    selectedDocUrl.append(doc.getDocUrl());
                 }
-
             }
-
-            //get selected URL
-            params.put("", );                      //send URL
+            params.put("Action SetText", selectedDocUrl.toString());                      //send URL
             tidDocSend = newTaskRequest(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_SETTEXT, params);
         } else if (tid == tidDocSend) {
             Log.e(TAG, "Ending session (triggerListShow)");
