@@ -76,7 +76,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
      * @return PluginData containing the trigger
      */
 
-    public void clearLists(Set<Tag> mMandatory, Set<Tag> mOptional){
+    public void clearLists(Set<String> mMandatory, Set<String> mOptional){
         mMandatory.clear();
         mOptional.clear();
     }
@@ -84,8 +84,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e("plugin", "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
-        Set<Tag> mMandatory = new HashSet<>();
-        Set<Tag> mOptional = new HashSet<>();
+        Set<String> mMandatory = new HashSet<>();
+        Set<String> mOptional = new HashSet<>();
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
