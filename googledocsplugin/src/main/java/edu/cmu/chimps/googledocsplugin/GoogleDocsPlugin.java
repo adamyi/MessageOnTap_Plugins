@@ -24,8 +24,12 @@ import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCNAMEROOTID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLDOCROOT;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOT;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALLURLROOTID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_DOCNAME_ROOT_ID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_URL_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.DOCNAMEROOTID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.DOCROOT;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_DOCNAME_ROOT_ID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_URL_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.URLROOT;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.URLROOTID;
 
@@ -143,7 +147,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         if (triggerListHasName.contains(params.get(Session.TRIGGER_SOURCE))){
             tree1 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             DocTime1 = getTimeString(params);
-            treeForSearch1 = AddNameRoot(tree1, ALLDOCNAMEROOTID, DocTime1);
+            treeForSearch1 = AddNameRoot(tree1, ALL_DOCNAME_ROOT_ID, DocTime1);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
             tidFindAllDocName = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -151,7 +155,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         } else {
             tree2 = (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE);
             DocTime2 = getTimeString(params);
-            treeForSearch2 = AddNameRoot(tree2, DOCNAMEROOTID, DocTime2);
+            treeForSearch2 = AddNameRoot(tree2, FILTERED_DOCNAME_ROOT_ID, DocTime2);
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
             tidFindDocName = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -181,7 +185,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     }
                 }
                 if (!DocList.isEmpty()) {
-                    tree1 = AddUrlRoot(tree1, ALLURLROOTID, DocTime1);
+                    tree1 = AddUrlRoot(tree1, ALL_URL_ROOT_ID, DocTime1);
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree1);
                     tidFindUrl1 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
@@ -201,7 +205,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     DocList.add(doc);
                 }
                 if (!DocList.isEmpty()) {
-                    tree2 = AddUrlRoot(tree2, URLROOTID, DocTime2);
+                    tree2 = AddUrlRoot(tree2, FILTERED_URL_ROOT_ID, DocTime2);
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree2);
                     tidFindUrl2 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);

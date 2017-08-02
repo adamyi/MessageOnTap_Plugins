@@ -29,8 +29,10 @@ import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.DAY;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.HOUR;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.LOCATIONROOTID;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.LOCATION_ROOT_ID;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.MONTH;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAMEROOTID;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAME_ROOT_ID;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.YEAR;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
@@ -53,8 +55,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     ArrayList<Event> EventList;
 
-
-    private ParseTree tree1,tree2;
+    private ParseTree tree1, tree2;
     String EventTimeString1, EventTimeString2;
     Long EventBeginTime2, EventEndTime2;
 
@@ -146,7 +147,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_one")||
+        if (params.get(Session.TRIGGER_SOURCE ).equals("calendar_trigger_one")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_two")){
             tree1 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
             EventTimeString1 = getTimeString(params);
@@ -157,11 +158,11 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
                 params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
-            tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
+            //tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
             Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
             EventBeginTime2 = timeArray[0];
             EventEndTime2 = timeArray[1];
-            EventTimeString1 = getTimeString(params);
+            //EventTimeString2 = getTimeString(params);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
             TidAdd1 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
@@ -244,9 +245,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         for (int i=0; i < tree.getNodeList().size(); i++){
             Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
-                node.setParentId(NAMEROOTID);
+                node.setParentId(NAME_ROOT_ID);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(NAMEROOTID);
+                newNode.setId(NAME_ROOT_ID);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
@@ -267,9 +268,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         for (int i=0; i < tree.getNodeList().size(); i++){
             Node node = tree.getNodeList().get(i);
             if (node.getParentId() == 0){
-                node.setParentId(LOCATIONROOTID);
+                node.setParentId(LOCATION_ROOT_ID);
                 ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(LOCATIONROOTID);
+                newNode.setId(LOCATION_ROOT_ID);
                 newNode.setParentId(0);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());

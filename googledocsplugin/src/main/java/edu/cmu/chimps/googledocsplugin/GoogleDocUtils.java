@@ -11,10 +11,10 @@ import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_E
 
 public class GoogleDocUtils {
 
-    public static final int ALLDOCNAMEROOTID = 111;
-    public static final int DOCNAMEROOTID =222;
-    public static final int ALLURLROOTID = 333;
-    public static final int URLROOTID = 444;
+    public static final int ALL_DOCNAME_ROOT_ID = 111;
+    public static final int FILTERED_DOCNAME_ROOT_ID = 222;
+    public static final int ALL_URL_ROOT_ID = 333;
+    public static final int FILTERED_URL_ROOT_ID = 444;
 
     public static String getTimeString(HashMap<String, Object> params){
         Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);

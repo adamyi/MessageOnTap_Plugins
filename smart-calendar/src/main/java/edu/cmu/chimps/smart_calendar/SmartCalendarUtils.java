@@ -12,8 +12,8 @@ import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_E
  */
 
 public class SmartCalendarUtils {
-    public static final int NAMEROOTID = 45;
-    public static final int LOCATIONROOTID = 67;
+    public static final int NAME_ROOT_ID = 45;
+    public static final int LOCATION_ROOT_ID = 67;
 
     public static final String YEAR = "year";
     public static final String MONTH = "month";
