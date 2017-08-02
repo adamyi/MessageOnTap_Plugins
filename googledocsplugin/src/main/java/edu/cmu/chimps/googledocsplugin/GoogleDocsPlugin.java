@@ -171,7 +171,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         if (tid == tidFindAllDocName) {
             //getCardMessage and put it into params
             try {
-                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     for (int i=0; i < tree1.getNodeList().size(); i++){
                         ParseTree.Node node = tree1.getNodeList().get(i);
@@ -196,7 +196,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
         } else if (tid == tidFindDocName){
             try{
-                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     Doc doc = new Doc();
                     doc.setDocName((String) card.get(EntityAttributes.Graph.Document.TITLE));
@@ -220,7 +220,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
         if ((tid == tidFindUrl1)||(tid == tidFindUrl2)){
             try{
-                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     for (Doc doc : DocList){
                         if (doc.getCreatedTime().equals(card.get(EntityAttributes.Graph.Document.CREATED_TIME))){
@@ -307,7 +307,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Document.URL);
+                newNode.addTag(EntityAttributes.Graph.Document.DESCRIPTION);           //need to change to Url
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
@@ -318,6 +318,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         }
         return tree;
     }
+
     
 
 }

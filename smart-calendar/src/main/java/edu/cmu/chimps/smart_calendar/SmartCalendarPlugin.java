@@ -185,11 +185,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-
         } else if (tid == TidShow1) {
             //getCardMessage and put it into params
             try {
-                setLocation(params);
+                setListLocation(EventList, params);
                 params.put(BUBBLE_FIRST_LINE, "Show Calendar");
                 TidShow2 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
             } catch (Exception e) {
@@ -256,7 +255,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
-                node.setWord(time);
+                node.setWord(time);                         //The former root "time" need to be added a real time
                 node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
                 node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
             }
@@ -289,7 +288,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     private ArrayList<Event> getEventList(HashMap<String, Object> params){
         ArrayList<Event> EventList = new ArrayList<>();
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get("Card");
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
             event.setEventName((String) card.get(EntityAttributes.Graph.Document.TITLE));
@@ -300,8 +299,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         return EventList;
     }
 
-    private void setLocation(HashMap<String, Object> params){
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(CARD_KEY);
+    private void setListLocation(ArrayList<Event> EventList, HashMap<String, Object> params){
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             if (card.get(EntityAttributes.Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
                 EventList.get(cardList.indexOf(card)).setLocation((String) card.get(EntityAttributes.Graph.Place.NAME));
