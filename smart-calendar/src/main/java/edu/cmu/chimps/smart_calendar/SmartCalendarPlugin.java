@@ -39,7 +39,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    HashMap<Long, Long> TidShow0, TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
+    HashMap<Long, Long> TidPutTreeToGetTime, TidPutTreeToGetLocation, TidShowBubble, TidShowHtml, TidAddAction_ShowBubble, TidAddAction;
 
     HashMap<Long,ArrayList<Event>> EventList;
 
@@ -143,7 +143,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             EventTimeString1.put(sid, getTimeString(params));
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1.get(sid), EventTimeString1.get(sid), tag_time));
-            TidShow0.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+            TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
         }
 
         if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||
@@ -155,7 +155,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             //EventTimeString2 = getTimeString(params);
             //params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             //params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
-            TidAdd1.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+            TidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
 
@@ -165,33 +165,33 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
 
-        if (tid == TidShow0.get(sid)){
+        if (tid == TidPutTreeToGetTime.get(sid)){
             try{
                 EventList.put(sid, getEventList(params));
                 params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                 params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid), EventTimeString1.get(sid), tag_time));
-                TidShow1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+                TidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
             }catch (Exception e){
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow1.get(sid)) {
+        } else if (tid == TidPutTreeToGetLocation.get(sid)) {
             //getCardMessage and put it into params
             try {
                 setListLocation(EventList.get(sid), params);
                 //params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                TidShow2.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+                TidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow2.get(sid)){
+        } else if (tid == TidShowBubble.get(sid)){
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (1 == 1){
                     params.put("HTML Details", getHtml(EventListSortByTime(EventList.get(sid))));
-                    TidShow3.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
+                    TidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
                     endSession(sid);
                 }
@@ -199,25 +199,25 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow3.get(sid)){
+        } else if (tid == TidShowHtml.get(sid)){
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
 
 
-        if (tid == TidAdd1.get(sid)){
+        if (tid == TidAddAction_ShowBubble.get(sid)){
             //if (params.get(BUBBLE_STATUS) == 1) {
             if (1 == 1){
                 Calendar beginDate = getDate(EventBeginTime2.get(sid));           //transfer from Long to date
                 Calendar endDate = getDate(EventEndTime2.get(sid));
                 params.put("action:Add to calendar time", beginDate);
                 params.put("action:Add to calendar time", endDate);
-                TidAdd2.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
+                TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
-        } else if (tid == TidAdd2.get(sid)){
+        } else if (tid == TidAddAction.get(sid)){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
@@ -240,8 +240,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     @Override
     protected void endSession(long sid) {
-        TidShow0.remove(sid); TidShow1.remove(sid); TidShow2.remove(sid); TidShow3.remove(sid);
-        TidAdd1.remove(sid); TidAdd2.remove(sid); EventList.remove(sid); tree1.remove(sid);
+        TidPutTreeToGetTime.remove(sid); TidPutTreeToGetLocation.remove(sid); TidShowBubble.remove(sid); TidShowHtml.remove(sid);
+        TidAddAction.remove(sid); TidAddAction_ShowBubble.remove(sid); EventList.remove(sid); tree1.remove(sid);
         tree2.remove(sid); EventTimeString1.remove(sid); EventTimeString2.remove(sid);
         EventBeginTime2.remove(sid); EventEndTime2.remove(sid);
         super.endSession(sid);
