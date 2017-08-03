@@ -17,25 +17,13 @@ import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 import edu.cmu.chimps.messageontap_api.PluginData;
-import edu.cmu.chimps.messageontap_api.Session;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
-
-import static edu.cmu.chimps.messageontap_api.ParseTree.Node;
-
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootEventName;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootLocation;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.DAY;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.HOUR;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.LOCATIONROOTID;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.LOCATION_ROOT_ID;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.MONTH;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAMEROOTID;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.NAME_ROOT_ID;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.YEAR;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getDate;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
@@ -160,8 +148,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             EventBeginTime2.put(sid, timeArray[0]);
             EventEndTime2.put(sid, timeArray[1]);
             //EventTimeString2 = getTimeString(params);
-            params.put(BUBBLE_FIRST_LINE, "Add Calendar");
-            params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
+            //params.put(BUBBLE_FIRST_LINE, "Add Calendar");
+            //params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
             TidAdd1.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
@@ -187,7 +175,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             //getCardMessage and put it into params
             try {
                 setListLocation(EventList.get(sid), params);
-                params.put(BUBBLE_FIRST_LINE, "Show Calendar");
+                //params.put(BUBBLE_FIRST_LINE, "Show Calendar");
                 TidShow2.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -195,7 +183,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
         } else if (tid == TidShow2.get(sid)){
             try {
-                if (params.get(BUBBLE_STATUS) == 1){
+                //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
+                if (1 == 1){
                     params.put("HTML Details", getHtml(EventListSortByTime(EventList.get(sid))));
                     TidShow3.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
@@ -213,7 +202,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
         if (tid == TidAdd1.get(sid)){
-            if (params.get(BUBBLE_STATUS) == 1) {
+            //if (params.get(BUBBLE_STATUS) == 1) {
+            if (1 == 1){
                 Calendar beginDate = getDate(EventBeginTime2.get(sid));           //transfer from Long to date
                 Calendar endDate = getDate(EventEndTime2.get(sid));
                 params.put("action:Add to calendar time", beginDate);

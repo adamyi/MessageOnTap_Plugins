@@ -232,7 +232,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     }
                 }
                 if (!DocList.isEmpty()) {
-                    params.put(BUBBLE_FIRST_LINE, "Show GoogleDocs name");
+                    //params.put(BUBBLE_FIRST_LINE, "Show GoogleDocs name");
                     tidBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
                 }
             } catch (Exception e) {
