@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.EntityAttributes;
+import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -126,7 +127,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
-        return new PluginData().tagSet(tagList).triggerSet(trigger1.getJson());             //Todo: triggerList
+        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
+                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import edu.cmu.chimps.messageontap_api.EntityAttributes;
+import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -36,7 +37,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     HashMap<Long, ParseTree> tree1, tree2, treeForSearch1, treeForSearch2;
     HashMap<Long, String> DocTime1, DocTime2;
     HashMap<Long, StringBuilder> selectedDocUrl = null;
-    ArrayList<Trigger> triggerListHasName;
+    ArrayList<Trigger> triggerListHasName = new ArrayList<>();
     private Tag TAG_FILENAME;
     Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
             "(file|doc|document)")));
@@ -69,7 +70,6 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_doc, tag_me, tag_send, tag_time, tag_time, tag_you));
         HashSet<String> mMandatory = new HashSet<>();
         HashSet<String> mOptional = new HashSet<>();
-
         // Category one: with file name
         // trigger 1: Can you send me XXX (a file)?
         COMPLETE = 0;
@@ -125,7 +125,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory, mOptional);
         Log.e(TAG, "returning plugin data");
         //Todo:taglist
-        return new PluginData().tagSet("TODO: string").triggerSet("TODO:string");
+        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
+                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
     }
 
     public void clearLists(HashSet<String> mMandatory, HashSet<String> mOptional) {
