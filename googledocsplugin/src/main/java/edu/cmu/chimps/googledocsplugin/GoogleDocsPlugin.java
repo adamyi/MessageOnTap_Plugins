@@ -22,7 +22,6 @@ import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.AddNameRoot;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.AddUrlRoot;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_DOCNAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_URL_ROOT_ID;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getHtml;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getTimeString;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
@@ -122,6 +121,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         triggerListHasName.add(trigger1);
         triggerListHasName.add(trigger2);
         clearLists(mMandatory, mOptional);
+        Log.e(TAG, "returning plugin data");
         //Todo:taglist
         return new PluginData().triggerSet(trigger4.getJson());
     }
@@ -243,7 +243,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 
 
-
+/*
 
         if (tid == tidBubble.get(sid)) {
             if (params.get(BUBBLE_STATUS) == 1) {
@@ -272,6 +272,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
+        */
     }
 
     @Override
@@ -283,6 +284,6 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         super.endSession(sid);
     }
 
-    }
 }
+
 
