@@ -38,7 +38,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    HashMap<Long, Long> TidPutTreeToGetTime, TidPutTreeToGetLocation, TidShowBubble, TidShowHtml, TidAdd1, TidAdd2;
+    HashMap<Long, Long> TidPutTreeToGetTime, TidPutTreeToGetLocation, TidShowBubble, TidShowHtml, TidAddAction_ShowBubble, TidAddAction;
 
     HashMap<Long,ArrayList<Event>> EventList;
 
@@ -153,7 +153,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             //EventTimeString2 = getTimeString(params);
             //params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             //params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
-            TidAdd1.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+            TidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
 
@@ -204,18 +204,18 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
 
 
-        if (tid == TidAdd1.get(sid)){
+        if (tid == TidAddAction_ShowBubble.get(sid)){
             //if (params.get(BUBBLE_STATUS) == 1) {
             if (1 == 1){
                 Calendar beginDate = getDate(EventBeginTime2.get(sid));           //transfer from Long to date
                 Calendar endDate = getDate(EventEndTime2.get(sid));
                 params.put("action:Add to calendar time", beginDate);
                 params.put("action:Add to calendar time", endDate);
-                TidAdd2.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
+                TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
-        } else if (tid == TidAdd2.get(sid)){
+        } else if (tid == TidAddAction.get(sid)){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
@@ -239,7 +239,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     @Override
     protected void endSession(long sid) {
         TidPutTreeToGetTime.remove(sid); TidPutTreeToGetLocation.remove(sid); TidShowBubble.remove(sid); TidShowHtml.remove(sid);
-        TidAdd1.remove(sid); TidAdd2.remove(sid); EventList.remove(sid); tree1.remove(sid);
+        TidAddAction.remove(sid); TidAddAction_ShowBubble.remove(sid); EventList.remove(sid); tree1.remove(sid);
         tree2.remove(sid); EventTimeString1.remove(sid); EventTimeString2.remove(sid);
         EventBeginTime2.remove(sid); EventEndTime2.remove(sid);
         super.endSession(sid);
