@@ -48,13 +48,13 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    long TidShow0, TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
+    HashMap<Long, Long> TidShow0, TidShow1, TidShow2, TidShow3, TidAdd1, TidAdd2;
 
-    ArrayList<Event> EventList;
+    HashMap<Long,ArrayList<Event>> EventList;
 
-    private ParseTree tree1, tree2;
-    String EventTimeString1, EventTimeString2;
-    Long EventBeginTime2, EventEndTime2;
+    HashMap<Long, ParseTree> tree1, tree2;
+    HashMap<Long, String> EventTimeString1, EventTimeString2;
+    HashMap<Long, Long> EventBeginTime2, EventEndTime2;
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
@@ -89,10 +89,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
-        mMandatory.add(tag_you);
-        mMandatory.add(tag_free);
-        mMandatory.add(tag_time);
-        mOptional.add(tag_optional_time);
+        mMandatory.add("TAG_You");
+        mMandatory.add("TAG_FREE");
+        mMandatory.add("TAG_TIME");
+        mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
         Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory, mOptional, constraints,
                 Mood.INTERROGTIVE, Direction.INCOMING);
@@ -101,9 +101,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TODO: triggerListShow add entry
         // Category two: update calendar
         // trigger2: I can pick it up at 9pm. outgoing
-        mMandatory.add(tag_I);
-        mMandatory.add(tag_time);
-        mOptional.add(tag_optional_time);
+        mMandatory.add("TAG_I");
+        mMandatory.add("TAG_TIME");
+        mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
         Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
@@ -112,9 +112,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         //Session.TRIGGER_SOURCE = "update_calendar";
         // trigger3: We will (Let us) meet next Monday morning. both ways
-        mMandatory.add(tag_we);
-        mMandatory.add(tag_time);
-        mOptional.add(tag_optional_time);
+        mMandatory.add("TAG_WE");
+        mMandatory.add("TAG_TIME");
+        mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
         Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
                 constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
@@ -123,10 +123,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
 
         // trigger 4: Can you (I) pick it up this afternoon? Incoming
-        mOptional.add(tag_I);
-        mOptional.add(tag_you);
-        mOptional.add(tag_optional_time);
-        mMandatory.add(tag_time);
+        mOptional.add("TAG_I");
+        mOptional.add("TAG_You");
+        mOptional.add("TAG_OPTIONAL_TIME");
+        mMandatory.add("TAG_TIME");
         HashSet<Trigger.Constraint> constraints4= new HashSet<>();
         Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional, constraints4,
                 Mood.UNKNOWN, Direction.INCOMING);
@@ -135,7 +135,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
-        return new PluginData().trigger(trigger1);
+        return new PluginData().triggerSet(trigger1.getJson());             //Todo: triggerList
     }
 
     @Override
@@ -144,59 +144,60 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
 
-        if (params.get(Session.TRIGGER_SOURCE ).equals("calendar_trigger_one")||
-                params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_two")){
-            tree1 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
-            EventTimeString1 = getTimeString(params);
+        if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_one")||
+                params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
+            tree1.put(sid, (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE));
+            EventTimeString1.put(sid, getTimeString(params));
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1, EventTimeString1, tag_time));
-            TidShow0 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1.get(sid), EventTimeString1.get(sid), tag_time));
+            TidShow0.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
         }
 
-        if (params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_three")||
-                params.get(Session.TRIGGER_SOURCE).equals("calendar_trigger_four")){
+        if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||
+                params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             //tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
             Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
-            EventBeginTime2 = timeArray[0];
-            EventEndTime2 = timeArray[1];
+            EventBeginTime2.put(sid, timeArray[0]);
+            EventEndTime2.put(sid, timeArray[1]);
             //EventTimeString2 = getTimeString(params);
             params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
-            TidAdd1 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
+            TidAdd1.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
+
 
     @Override
     protected void newTaskResponsed(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
 
-        if (tid == TidShow0){
+        if (tid == TidShow0.get(sid)){
             try{
-                EventList = getEventList(params);
+                EventList.put(sid, getEventList(params));
                 params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1, EventTimeString1, tag_time));
-                TidShow0 = newTaskRequest(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params);
+                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid), EventTimeString1.get(sid), tag_time));
+                TidShow0.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
             }catch (Exception e){
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow1) {
+        } else if (tid == TidShow1.get(sid)) {
             //getCardMessage and put it into params
             try {
-                setListLocation(EventList, params);
+                setListLocation(EventList.get(sid), params);
                 params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                TidShow2 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
+                TidShow2.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow2){
+        } else if (tid == TidShow2.get(sid)){
             try {
                 if (params.get(BUBBLE_STATUS) == 1){
-                    params.put("HTML Details", getHtml(EventListSortByTime(EventList)));
-                    TidShow3 = newTaskRequest(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params);
+                    params.put("HTML Details", getHtml(EventListSortByTime(EventList.get(sid))));
+                    TidShow3.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
                     endSession(sid);
                 }
@@ -204,24 +205,24 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShow3){
+        } else if (tid == TidShow3.get(sid)){
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
 
 
-        if (tid == TidAdd1){
+        if (tid == TidAdd1.get(sid)){
             if (params.get(BUBBLE_STATUS) == 1) {
-                Calendar beginDate = getDate(EventBeginTime2);           //transfer from Long to date
-                Calendar endDate = getDate(EventEndTime2);
+                Calendar beginDate = getDate(EventBeginTime2.get(sid));           //transfer from Long to date
+                Calendar endDate = getDate(EventEndTime2.get(sid));
                 params.put("action:Add to calendar time", beginDate);
                 params.put("action:Add to calendar time", endDate);
-                TidAdd2 = newTaskRequest(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params);
+                TidAdd2.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
-        } else if (tid == TidAdd2){
+        } else if (tid == TidAdd2.get(sid)){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
@@ -241,6 +242,16 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             return e1.getBeginTime().compareTo(e2.getBeginTime());
         }
     }
+
+    @Override
+    protected void endSession(long sid) {
+        TidShow0.remove(sid); TidShow1.remove(sid); TidShow2.remove(sid); TidShow3.remove(sid);
+        TidAdd1.remove(sid); TidAdd2.remove(sid); EventList.remove(sid); tree1.remove(sid);
+        tree2.remove(sid); EventTimeString1.remove(sid); EventTimeString2.remove(sid);
+        EventBeginTime2.remove(sid); EventEndTime2.remove(sid);
+        super.endSession(sid);
+    }
+    
 
 
 }
