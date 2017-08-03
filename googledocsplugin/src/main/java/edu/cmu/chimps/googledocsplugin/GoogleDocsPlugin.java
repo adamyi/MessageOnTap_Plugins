@@ -3,6 +3,7 @@ package edu.cmu.chimps.googledocsplugin;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -65,6 +66,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e(TAG, "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
+        ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_doc, tag_me, tag_send, tag_time, tag_time, tag_you));
         HashSet<String> mMandatory = new HashSet<>();
         HashSet<String> mOptional = new HashSet<>();
 
@@ -123,7 +125,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory, mOptional);
         Log.e(TAG, "returning plugin data");
         //Todo:taglist
-        return new PluginData().triggerSet(trigger4.getJson());
+        return new PluginData().tagSet("TODO: string").triggerSet("TODO:string");
     }
 
     public void clearLists(HashSet<String> mMandatory, HashSet<String> mOptional) {
@@ -147,7 +149,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
          * query all the user's DocNames, and judge whether the message contains one of them, after that can
          * the plugin step forward.
          */
-        if (triggerListHasName.contains(params.get(EntityAttributes.PMS.TRIGGER_SOURCE))){
+        if (triggerListHasName.contains((Trigger) params.get(EntityAttributes.PMS.TRIGGER_SOURCE))){
             tree1.put(sid, (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE));
             DocTime1.put(sid, getTimeString(params));
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));

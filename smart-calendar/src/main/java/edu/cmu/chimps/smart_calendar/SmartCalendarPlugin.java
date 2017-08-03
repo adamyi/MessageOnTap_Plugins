@@ -3,6 +3,7 @@ package edu.cmu.chimps.smart_calendar;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -72,6 +73,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e("plugin", "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
+        ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_you, tag_free, tag_we, tag_time, tag_optional_time));
         Set<String> mMandatory = new HashSet<>();
         Set<String> mOptional = new HashSet<>();
 
@@ -123,7 +125,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
-        return new PluginData().triggerSet(trigger1.getJson());             //Todo: triggerList
+        return new PluginData().tagSet(tagList).triggerSet(trigger1.getJson());             //Todo: triggerList
     }
 
     @Override
