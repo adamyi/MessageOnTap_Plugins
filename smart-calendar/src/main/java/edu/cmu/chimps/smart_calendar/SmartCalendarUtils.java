@@ -51,8 +51,8 @@ public class SmartCalendarUtils {
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);                         //The former root "time" need to be added a real time
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+                node.addTag(EntityAttributes.Graph.Event.TIME);
+                node.addTag(EntityAttributes.Graph.Event.NAME);
             }
         }
         return tree;
@@ -86,7 +86,7 @@ public class SmartCalendarUtils {
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
-            event.setEventName((String) card.get(EntityAttributes.Graph.Document.TITLE));
+            event.setEventName((String) card.get(EntityAttributes.Graph.Event.NAME));
             event.setBeginTime((Long) card.get(EntityAttributes.Graph.Event.START_TIME));
             event.setEndTime((Long) card.get(EntityAttributes.Graph.Event.END_TIME));
             EventList.add(event);
