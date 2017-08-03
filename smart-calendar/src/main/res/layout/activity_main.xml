@@ -11,5 +11,9 @@
         android:textSize="23sp"
         android:layout_marginLeft="20dp"
         android:layout_gravity="center"/>
+    
+    <ListView android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 
 </LinearLayout>
