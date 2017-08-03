@@ -51,8 +51,8 @@ public class SmartCalendarUtils {
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);                         //The former root "time" need to be added a real time
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+                node.addTag(EntityAttributes.Graph.Event.TIME);
+                node.addTag(EntityAttributes.Graph.Event.NAME);
             }
         }
         return tree;
