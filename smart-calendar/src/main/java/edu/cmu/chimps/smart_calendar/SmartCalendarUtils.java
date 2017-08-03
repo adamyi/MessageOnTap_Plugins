@@ -86,7 +86,7 @@ public class SmartCalendarUtils {
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
-            event.setEventName((String) card.get(EntityAttributes.Graph.Document.TITLE));
+            event.setEventName((String) card.get(EntityAttributes.Graph.Event.NAME));
             event.setBeginTime((Long) card.get(EntityAttributes.Graph.Event.START_TIME));
             event.setEndTime((Long) card.get(EntityAttributes.Graph.Event.END_TIME));
             EventList.add(event);
