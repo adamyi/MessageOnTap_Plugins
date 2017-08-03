@@ -165,7 +165,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 EventList.put(sid, getEventList(params));
                 params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                 params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid), EventTimeString1.get(sid), tag_time));
-                TidShow0.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+                TidShow1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
             }catch (Exception e){
                 e.printStackTrace();
