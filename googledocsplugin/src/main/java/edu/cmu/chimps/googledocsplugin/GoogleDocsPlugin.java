@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.Globals;
@@ -33,7 +34,8 @@ import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "GoogleDoc plugin";
-    HashMap<Long, Long> tidFindAllDocName, tidFindDocName, tidFindUrl1, tidFindUrl2, tidBubble, tidDetails, tidDocSend;
+    HashMap<Long, Long> tidFindAllDocName, tidFindDocName, tidFindUrl1, tidFindUrl2,
+            tidBubble, tidDetails, tidDocSend;
     HashMap<Long, ParseTree> tree1, tree2, treeForSearch1, treeForSearch2;
     HashMap<Long, String> DocTime1, DocTime2;
     HashMap<Long, StringBuilder> selectedDocUrl = null;
@@ -67,7 +69,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e(TAG, "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
-        ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_doc, tag_me, tag_send, tag_time, tag_time, tag_you));
+        Set<Tag> tagList = new HashSet<>(Arrays.asList(tag_I, tag_doc, tag_me, tag_send,
+                tag_time, tag_time, tag_you));
         HashSet<String> mMandatory = new HashSet<>();
         HashSet<String> mOptional = new HashSet<>();
         // Category one: with file name
@@ -134,12 +137,12 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.clear();
     }
 
+
     @Override
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
         // TID is something we might need to implement stateflow inside a plugin.
-
 
         /*
          * Divide all triggers into two groups, those whose message contains a whole DocName
@@ -156,15 +159,18 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
-            tidFindAllDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+            tidFindAllDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                    MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
         } else {
             tree2.put(sid, (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE));
             DocTime2.put(sid, getTimeString(params));
-            treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID, DocTime2.get(sid), tag_time));
+            treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID,
+                    DocTime2.get(sid), tag_time));
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
             params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
-            tidFindDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+            tidFindDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                    MethodConstants.GRAPH_METHOD_RETRIEVE, params));
         }
     }
 
@@ -177,7 +183,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         if (tid == tidFindAllDocName.get(sid)) {
             //getCardMessage and put it into params
             try {
-                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+                ArrayList<HashMap<String, Object>> cardList =
+                        (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     for (int i = 0; i < tree1.get(sid).getNodeList().size(); i++) {
                         ParseTree.Node node = tree1.get(sid).getNodeList().get(i);
@@ -194,7 +201,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     tree1.put(sid, AddUrlRoot(tree1.get(sid), ALL_URL_ROOT_ID, DocTime1.get(sid), tag_time));
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree1);
-                    tidFindUrl1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+                    tidFindUrl1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                            MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -202,7 +210,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
         } else if (tid == tidFindDocName.get(sid)) {
             try {
-                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+                ArrayList<HashMap<String, Object>> cardList =
+                        (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     Doc doc = new Doc();
                     doc.setDocName((String) card.get(EntityAttributes.Graph.Document.TITLE));
@@ -214,7 +223,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                     tree2.put(sid, AddUrlRoot(tree2.get(sid), FILTERED_URL_ROOT_ID, DocTime2.get(sid), tag_time));
                     params.remove(EntityAttributes.Graph.SYNTAX_TREE);
                     params.put(EntityAttributes.Graph.SYNTAX_TREE, tree2);
-                    tidFindUrl2.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+                    tidFindUrl2.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                            MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -226,7 +236,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
         if ((tid == tidFindUrl1.get(sid))||(tid == tidFindUrl2.get(sid))){
             try{
-                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+                ArrayList<HashMap<String, Object>> cardList =
+                        (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     for (Doc doc : DocList){
                         if (doc.getCreatedTime().equals(card.get(EntityAttributes.Graph.Document.CREATED_TIME))){
@@ -236,7 +247,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     //params.put(BUBBLE_FIRST_LINE, "Show GoogleDocs name");
-                    tidBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+                    tidBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                            MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -252,7 +264,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             if (params.get(BUBBLE_STATUS) == 1) {
                 try {
                     params.put("HTML Details", getHtml(DocList));
-                    tidDetails.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
+                    tidDetails.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                    MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } catch (Exception e) {
                     e.printStackTrace();
                     endSession(sid);
@@ -269,7 +282,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
             }
             params.put("Action SetText", selectedDocUrl.toString());                      //send URL
-            tidDocSend.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_SETTEXT, params));
+            tidDocSend.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
+            MethodConstants.ACTION_METHOD_SETTEXT, params));
         } else if (tid == tidDocSend.get(sid)) {
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);

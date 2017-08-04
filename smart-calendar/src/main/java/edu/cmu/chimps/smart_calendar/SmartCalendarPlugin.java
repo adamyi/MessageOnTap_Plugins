@@ -39,7 +39,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    HashMap<Long, Long> TidPutTreeToGetTime, TidPutTreeToGetLocation, TidShowBubble, TidShowHtml, TidAddAction_ShowBubble, TidAddAction;
+    HashMap<Long, Long> TidPutTreeToGetTime, TidPutTreeToGetLocation, TidShowBubble,
+            TidShowHtml, TidAddAction_ShowBubble, TidAddAction;
 
     HashMap<Long,ArrayList<Event>> EventList;
 
@@ -75,7 +76,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected PluginData iPluginData() {
         Log.e("plugin", "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
-        ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_you, tag_free, tag_we, tag_time, tag_optional_time));
+        ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_you, tag_free,
+                tag_we, tag_time, tag_optional_time));
         Set<String> mMandatory = new HashSet<>();
         Set<String> mOptional = new HashSet<>();
 
@@ -142,8 +144,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             tree1.put(sid, (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE));
             EventTimeString1.put(sid, getTimeString(params));
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1.get(sid), EventTimeString1.get(sid), tag_time));
-            TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1.get(sid),
+                    EventTimeString1.get(sid), tag_time));
+            TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                    MethodConstants.GRAPH_METHOD_RETRIEVE, params));
         }
 
         if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||
@@ -169,8 +173,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try{
                 EventList.put(sid, getEventList(params));
                 params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid), EventTimeString1.get(sid), tag_time));
-                TidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE, MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+                params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid),
+                        EventTimeString1.get(sid), tag_time));
+                TidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                        MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -181,7 +187,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try {
                 setListLocation(EventList.get(sid), params);
                 //params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                TidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+                TidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                        MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
@@ -191,7 +198,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (1 == 1){
                     params.put("HTML Details", getHtml(EventListSortByTime(EventList.get(sid))));
-                    TidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
+                    TidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                            MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
                     endSession(sid);
                 }
@@ -213,7 +221,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 Calendar endDate = getDate(EventEndTime2.get(sid));
                 params.put("action:Add to calendar time", beginDate);
                 params.put("action:Add to calendar time", endDate);
-                TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
+                TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
+                        MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
@@ -240,10 +249,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     @Override
     protected void endSession(long sid) {
-        TidPutTreeToGetTime.remove(sid); TidPutTreeToGetLocation.remove(sid); TidShowBubble.remove(sid); TidShowHtml.remove(sid);
-        TidAddAction.remove(sid); TidAddAction_ShowBubble.remove(sid); EventList.remove(sid); tree1.remove(sid);
-        tree2.remove(sid); EventTimeString1.remove(sid); EventTimeString2.remove(sid);
-        EventBeginTime2.remove(sid); EventEndTime2.remove(sid);
+        TidPutTreeToGetTime.remove(sid); TidPutTreeToGetLocation.remove(sid); TidShowBubble.remove(sid);
+        TidShowHtml.remove(sid); TidAddAction.remove(sid); TidAddAction_ShowBubble.remove(sid);
+        EventList.remove(sid); tree1.remove(sid); tree2.remove(sid); EventTimeString1.remove(sid);
+        EventTimeString2.remove(sid); EventBeginTime2.remove(sid); EventEndTime2.remove(sid);
         super.endSession(sid);
     }
     
