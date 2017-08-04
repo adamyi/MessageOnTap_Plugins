@@ -4,7 +4,6 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,7 +22,6 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.SparseArrayTypeAdapter;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
-
 
 import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
