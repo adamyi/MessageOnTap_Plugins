@@ -45,14 +45,22 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     HashMap<Long,Long> TidAddAction = new HashMap<>();
     HashMap<Long,Long> TidShowHtml = new HashMap<>();
+    HashMap<Long,Long> TidShowBubble = new HashMap<>();
 
 
 
-    HashMap<Long,ArrayList<Event>> EventList;
+    HashMap<Long,ArrayList<Event>> EventList = new HashMap<>();
 
-    HashMap<Long, ParseTree> tree1, tree2;
-    HashMap<Long, String> EventTimeString1, EventTimeString2;
-    HashMap<Long, Long> EventBeginTime2, EventEndTime2;
+    HashMap<Long, ParseTree> tree1 = new HashMap<>();
+    HashMap<Long, ParseTree> tree2 = new HashMap<>();
+
+    HashMap<Long, String> EventTimeString1 = new HashMap<>();
+
+    HashMap<Long, String> EventTimeString2 = new HashMap<>();
+
+    HashMap<Long, Long> EventBeginTime2 = new HashMap<>();
+
+    HashMap<Long, Long> EventEndTime2 = new HashMap<>();
 
     // init the tags
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
