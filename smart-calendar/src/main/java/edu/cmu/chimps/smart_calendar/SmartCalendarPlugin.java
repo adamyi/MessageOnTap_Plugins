@@ -1,6 +1,7 @@
 package edu.cmu.chimps.smart_calendar;
 
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.SparseArrayTypeAdapter;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
@@ -39,8 +41,14 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    HashMap<Long, Long> TidPutTreeToGetTime, TidPutTreeToGetLocation, TidShowBubble,
-            TidShowHtml, TidAddAction_ShowBubble, TidAddAction;
+    HashMap<Long, Long> TidPutTreeToGetTime = new HashMap<>();
+    HashMap<Long,Long> TidPutTreeToGetLocation = new HashMap<>();
+    HashMap<Long,Long> TidAddAction_ShowBubble = new HashMap<>();
+
+    HashMap<Long,Long> TidAddAction = new HashMap<>();
+    HashMap<Long,Long> TidShowHtml = new HashMap<>();
+
+
 
     HashMap<Long,ArrayList<Event>> EventList;
 
@@ -136,8 +144,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
-        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
-                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
+
+        triggerArrayList.clear();
+        triggerArrayList.add(new Trigger("calendar_trigger_one", new HashSet<String>()));
+        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList,Globals.TYPE_TRIGGER_SET));
+                //.tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
+
     }
 
     @Override
@@ -148,13 +160,44 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_one")||
                 params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
-            tree1.put(sid, (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE));
+            ParseTree tree3 = new ParseTree();
+            ParseTree.Node newNode1 = new ParseTree.Node();
+
+            newNode1.setWord("1476455096,1476455099");
+            newNode1.addTag(EntityAttributes.Graph.Image.TAKEN_TIME);
+            newNode1.setId(1567);
+            newNode1.setParentId(3726);
+            ParseTree.Node newNode2 = new ParseTree.Node();
+            newNode2.addTag(EntityAttributes.Graph.Image.URI);
+            newNode2.setId(3726);
+            newNode2.setParentId(0);
+            Set<Integer> set = new HashSet<>();
+            set.add(1567);
+            newNode2.setChildrenIds(set);
+
+            SparseArray<ParseTree.Node> array = new SparseArray<>();
+            array.put(1567, newNode1);
+            array.put(3726, newNode2);
+            tree3.setNodeList(array);
+            Log.e(TAG, "Start to Send Tree to PMS");
+            /*
+            try{
+                tree1.put(sid, (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE));
+
+            } catch (Exception e){
+                throw e;
+            }
+            Log.e(TAG, "Add");
             EventTimeString1.put(sid, getTimeString(params));
+            Log.e(TAG, "Add Root");
             params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootEventName(tree1.get(sid),
-                    EventTimeString1.get(sid), tag_time));
+            */
+            params.put(EntityAttributes.Graph.SYNTAX_TREE, JSONUtils.simpleObjectToJson(tree3, Globals.TYPE_PARSE_TREE));
+            Log.e(TAG, "Put Tree");
+
             TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+            Log.e(TAG, "Send Tree to PMS");
         }
 
         if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||
