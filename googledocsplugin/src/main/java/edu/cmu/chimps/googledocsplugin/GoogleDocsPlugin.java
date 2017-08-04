@@ -34,13 +34,22 @@ import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "GoogleDoc plugin";
-    HashMap<Long, Long> tidFindAllDocName, tidFindDocName, tidFindUrl1, tidFindUrl2,
-            tidBubble, tidDetails, tidDocSend;
-    HashMap<Long, ParseTree> tree1, tree2, treeForSearch1, treeForSearch2;
-    HashMap<Long, String> DocTime1, DocTime2;
-    HashMap<Long, StringBuilder> selectedDocUrl = null;
+    HashMap<Long, Long> tidFindAllDocName = new HashMap<>();
+    HashMap<Long, Long> tidFindDocName = new HashMap<>();
+    HashMap<Long, Long> tidFindUrl1 = new HashMap<>();
+    HashMap<Long, Long> tidFindUrl2 = new HashMap<>();
+    HashMap<Long, Long> tidBubble = new HashMap<>();
+    HashMap<Long, Long> tidDetails = new HashMap<>();
+    HashMap<Long, Long> tidDocSend = new HashMap<>();
+
+    HashMap<Long, ParseTree> tree1 = new HashMap<>();
+    HashMap<Long, ParseTree> tree2 = new HashMap<>();
+    HashMap<Long, ParseTree> treeForSearch1 = new HashMap<>();
+    HashMap<Long, ParseTree> treeForSearch2 = new HashMap<>();
+    HashMap<Long, String> DocTime1 = new HashMap<>();
+    HashMap<Long, String> DocTime2 = new HashMap<>();
+    HashMap<Long, StringBuilder> selectedDocUrl = new HashMap<>();
     ArrayList<Trigger> triggerListHasName = new ArrayList<>();
-    private Tag TAG_FILENAME;
     Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
             "(file|doc|document)")));
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
@@ -128,8 +137,11 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory, mOptional);
         Log.e(TAG, "returning plugin data");
         //Todo:taglist
-        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
-                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
+        //return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
+        //        .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
+        Set<Trigger> triggerList = new HashSet<>();
+        triggerList.add(new Trigger("test", new HashSet<String>()));
+        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerList, Globals.TYPE_TRIGGER_SET));
     }
 
     public void clearLists(HashSet<String> mMandatory, HashSet<String> mOptional) {
