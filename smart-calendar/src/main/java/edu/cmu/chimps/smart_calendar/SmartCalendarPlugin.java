@@ -75,9 +75,16 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     @Override
     protected PluginData iPluginData() {
         Log.e("plugin", "getting plugin data");
-        ArrayList<Trigger> triggerArrayList = new ArrayList<>();
-        ArrayList<Tag> tagList = new ArrayList<>(Arrays.asList(tag_I, tag_you, tag_free,
-                tag_we, tag_time, tag_optional_time));
+
+        Set<Trigger> triggerArrayList = new HashSet<>();
+        Set<Tag> tagList = new HashSet<>();
+        tagList.add(tag_I);
+        tagList.add(tag_you);
+        tagList.add(tag_free);
+        tagList.add(tag_we);
+        tagList.add(tag_time);
+        tagList.add(tag_optional_time);
+
         Set<String> mMandatory = new HashSet<>();
         Set<String> mOptional = new HashSet<>();
 
