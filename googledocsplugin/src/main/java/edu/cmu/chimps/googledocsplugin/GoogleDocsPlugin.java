@@ -137,11 +137,9 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory, mOptional);
         Log.e(TAG, "returning plugin data");
         //Todo:taglist
-        //return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
-        //        .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
-        Set<Trigger> triggerList = new HashSet<>();
-        triggerList.add(new Trigger("test", new HashSet<String>()));
-        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerList, Globals.TYPE_TRIGGER_SET));
+        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
+                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
+
     }
 
     public void clearLists(HashSet<String> mMandatory, HashSet<String> mOptional) {

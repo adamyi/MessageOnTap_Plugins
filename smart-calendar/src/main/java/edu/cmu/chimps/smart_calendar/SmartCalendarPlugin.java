@@ -19,18 +19,15 @@ import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 import edu.cmu.chimps.messageontap_api.PluginData;
-import edu.cmu.chimps.messageontap_api.SparseArrayTypeAdapter;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootEventName;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootLocation;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getDate;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
 
@@ -104,10 +101,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
-        mMandatory.add("TAG_You");
-        mMandatory.add("TAG_FREE");
-        mMandatory.add("TAG_TIME");
-        mOptional.add("TAG_OPTIONAL_TIME");
+        mMandatory.add(tag_you.getName());
+        mMandatory.add(tag_free.getName());
+        mMandatory.add(tag_time.getName());
+        mOptional.add(tag_optional_time.getName());
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
         Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory, mOptional, constraints,
                 Mood.INTERROGTIVE, Direction.INCOMING);
@@ -151,10 +148,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
 
-        triggerArrayList.clear();
-        triggerArrayList.add(new Trigger("calendar_trigger_one", new HashSet<String>()));
-        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList,Globals.TYPE_TRIGGER_SET));
-                //.tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
+        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList,Globals.TYPE_TRIGGER_SET))
+                .tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET));
 
     }
 
@@ -169,17 +164,21 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             ParseTree tree3 = new ParseTree();
             ParseTree.Node newNode1 = new ParseTree.Node();
 
-            newNode1.setWord("1476455096,1476455099");
-            newNode1.addTag(EntityAttributes.Graph.Image.TAKEN_TIME);
+            newNode1.setWord("jiaye");
+            Set<String> set = new HashSet<>();
+            set.add(EntityAttributes.Graph.Person.NAME);
+            newNode1.setTagList(set);
             newNode1.setId(1567);
             newNode1.setParentId(3726);
             ParseTree.Node newNode2 = new ParseTree.Node();
-            newNode2.addTag(EntityAttributes.Graph.Image.URI);
+            Set<String> set2 = new HashSet<>();
+            set2.add(EntityAttributes.Graph.Person.NUMBER);
+            newNode2.setTagList(set2);
             newNode2.setId(3726);
-            newNode2.setParentId(0);
-            Set<Integer> set = new HashSet<>();
-            set.add(1567);
-            newNode2.setChildrenIds(set);
+            newNode2.setParentId(-1);
+            Set<Integer> set3 = new HashSet<>();
+            set3.add(1567);
+            newNode2.setChildrenIds(set3);
 
             SparseArray<ParseTree.Node> array = new SparseArray<>();
             array.put(1567, newNode1);
