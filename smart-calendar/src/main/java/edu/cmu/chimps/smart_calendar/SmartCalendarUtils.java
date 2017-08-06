@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.EntityAttributes;
+import edu.cmu.chimps.messageontap_api.Globals;
+import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.Tag;
 
@@ -26,6 +28,15 @@ public class SmartCalendarUtils {
     public static final String DAY = "day";
     public static final String HOUR = "hour";
     public static final String MINUTE = "minute";
+
+    public static Long getTid (HashMap<Long, Long> map, Long sid){
+        if (map.get(sid) == null){
+            return map.get(sid);
+        }
+        Long i = (long) -1;
+        return i;
+    }
+
 
     public static String getTimeString(HashMap<String, Object> params){
         Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
@@ -82,7 +93,7 @@ public class SmartCalendarUtils {
 
     public static ArrayList<Event> getEventList(HashMap<String, Object> params){
         ArrayList<Event> EventList = new ArrayList<>();
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(EntityAttributes.Graph.CARD_LIST), Globals.TYPE_CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
             event.setEventName((String) card.get(EntityAttributes.Graph.Event.NAME));
