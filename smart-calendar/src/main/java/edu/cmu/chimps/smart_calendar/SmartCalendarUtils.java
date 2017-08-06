@@ -30,7 +30,7 @@ public class SmartCalendarUtils {
     public static final String MINUTE = "minute";
 
     public static Long getTid (HashMap<Long, Long> map, Long sid){
-        if (map.get(sid) == null){
+        if (map.get(sid) != null){
             return map.get(sid);
         }
         Long i = (long) -1;
