@@ -1,14 +1,20 @@
 package edu.cmu.chimps.smart_calendar;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.SparseArray;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.EntityAttributes;
@@ -43,7 +49,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     HashMap<Long,Long> TidAddAction = new HashMap<>();
     HashMap<Long,Long> TidShowHtml = new HashMap<>();
     HashMap<Long,Long> TidShowBubble = new HashMap<>();
-
+    ParseTree tree3;
 
 
     HashMap<Long,ArrayList<Event>> EventList = new HashMap<>();
@@ -60,6 +66,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     HashMap<Long, Long> EventEndTime2 = new HashMap<>();
 
     // init the tags
+
     Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
     Tag tag_you = new Tag("TAG_You", new HashSet<>(Collections.singletonList("you")));
     Tag tag_free = new Tag("TAG_FREE", new HashSet<>(Collections.singletonList(
@@ -70,6 +77,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     Tag tag_optional_time = new Tag("TAG_OPTIONAL_TIME",new HashSet<>(
             Collections.singletonList("([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]")));
 
+    Tag tag_I_text = new Tag ("TAG_T_TEXT",new HashSet<>(Collections.singletonList("I")));
+    Tag tag_you_text = new Tag("TAG_YOU_TEXT",new HashSet<>(Collections.singletonList("you")));
+    Tag tag_free_text = new Tag("TAG_FREE_TEXT", new HashSet<>(Collections.singletonList("free")));
 
     /**
      * Return the trigger criteria of this plug-in. This will be called when
@@ -95,19 +105,21 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         tagList.add(tag_we);
         tagList.add(tag_time);
         tagList.add(tag_optional_time);
+        tagList.add(tag_free_text);
+
 
         Set<String> mMandatory = new HashSet<>();
         Set<String> mOptional = new HashSet<>();
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
-        mMandatory.add(tag_you.getName());
-        mMandatory.add(tag_free.getName());
-        mMandatory.add(tag_time.getName());
-        mOptional.add(tag_optional_time.getName());
+        mMandatory.add("TAG_You");
+        mMandatory.add("TAG_FREE_TEXT");
+        //mMandatory.add("TAG_TIME");
+        mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
-        Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory, mOptional, constraints,
-                Mood.INTERROGTIVE, Direction.INCOMING);
+
+        Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory);//, mOptional, constraints,Mood.INTERROGTIVE, Direction.INCOMING);
         triggerArrayList.add(trigger1);
         clearLists(mMandatory,mOptional);
         // TODO: triggerListShow add entry
@@ -117,19 +129,17 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
-        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory, mOptional, constraints2,
-                Mood.IMPERATIVE, Direction.OUTGOING);
+        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory,mOptional, constraints2,Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger2);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
         //Session.TRIGGER_SOURCE = "update_calendar";
         // trigger3: We will (Let us) meet next Monday morning. both ways
-        mMandatory.add("TAG_WE");
-        mMandatory.add("TAG_TIME");
-        mOptional.add("TAG_OPTIONAL_TIME");
+        mMandatory.add("TAG_I");
+        mMandatory.add("TAG_FREE_TEXT");
+        //mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
-        Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
-                constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
+        Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory);//, mOptional,constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
         triggerArrayList.add(trigger3);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
@@ -161,21 +171,41 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_one")||
                 params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
-            ParseTree tree3 = new ParseTree();
-            ParseTree.Node newNode1 = new ParseTree.Node();
 
-            newNode1.setWord("jiaye");
+            tree3 = new ParseTree();
+            ParseTree.Node newNode1 = new ParseTree.Node();
+            Date date = new Date();
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);
+            try {
+                date = s.parse("2017-8-1-8-30");
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+
+
+            Date date2 = new Date();
+            SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+            try{
+                date2 = s.parse("2017-8-1-9-40");
+            }catch (ParseException e){
+
+            }
+            newNode1.setWord(String.valueOf(date.getTime()) + "," + String.valueOf(date2.getTime()));
+            Log.e(TAG,String.valueOf(date.getTime()) + "," + String.valueOf(date2.getTime()));
             Set<String> set = new HashSet<>();
-            set.add(EntityAttributes.Graph.Person.NAME);
+            set.add(EntityAttributes.Graph.Event.TIME);
             newNode1.setTagList(set);
             newNode1.setId(1567);
             newNode1.setParentId(3726);
             ParseTree.Node newNode2 = new ParseTree.Node();
+
+
             Set<String> set2 = new HashSet<>();
-            set2.add(EntityAttributes.Graph.Person.NUMBER);
+            set2.add(EntityAttributes.Graph.Event.NAME);
             newNode2.setTagList(set2);
             newNode2.setId(3726);
             newNode2.setParentId(-1);
+
             Set<Integer> set3 = new HashSet<>();
             set3.add(1567);
             newNode2.setChildrenIds(set3);
@@ -184,8 +214,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             array.put(1567, newNode1);
             array.put(3726, newNode2);
             tree3.setNodeList(array);
+
             Log.e(TAG, "Start to Send Tree to PMS");
-            /*
+/*
             try{
                 tree1.put(sid, (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE));
 
@@ -195,8 +226,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             Log.e(TAG, "Add");
             EventTimeString1.put(sid, getTimeString(params));
             Log.e(TAG, "Add Root");
-            params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            */
+
+*/
             params.put(EntityAttributes.Graph.SYNTAX_TREE, JSONUtils.simpleObjectToJson(tree3, Globals.TYPE_PARSE_TREE));
             Log.e(TAG, "Put Tree");
 
@@ -209,8 +240,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             //tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
             Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
-            EventBeginTime2.put(sid, timeArray[0]);
-            EventEndTime2.put(sid, timeArray[1]);
+            //EventBeginTime2.put(sid, timeArray[0]);
+            //EventEndTime2.put(sid, timeArray[1]);
             //EventTimeString2 = getTimeString(params);
             //params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             //params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
@@ -227,11 +258,37 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (tid == TidPutTreeToGetTime.get(sid)){
             try{
                 EventList.put(sid, getEventList(params));
-                params.remove(EntityAttributes.Graph.SYNTAX_TREE);
+                Log.e(TAG, "Event List=" + getEventList(params).toString());
+       Log.e(TAG, "Got Task ID");
+              /*
                 params.put(EntityAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid),
                         EventTimeString1.get(sid), tag_time));
+                        */
+
+
+              SparseArray<ParseTree.Node> nodeList = tree3.getNodeList();
+                nodeList.remove(3726);
+
+                ParseTree.Node node= new ParseTree.Node();
+                node.setId(9123);
+                node.setParentId(-1);
+                Set<Integer> setChildIds = new HashSet<>();
+                setChildIds.add(1567);
+                node.setChildrenIds(setChildIds);
+                Set<String> set = new HashSet<>();
+                set.add(EntityAttributes.Graph.Event.NAME);
+                node.setTagList(set);
+                nodeList.put(9123, node);
+                tree3.setNodeList(nodeList);
+                Log.e(TAG, "tree3 is : " + JSONUtils.simpleObjectToJson(tree3, Globals.TYPE_PARSE_TREE)  );
+
+                params.put(EntityAttributes.Graph.SYNTAX_TREE,tree3);
+
+
+                Log.e(TAG, "newTaskResponsed:   creating task" );
                 TidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                         MethodConstants.GRAPH_METHOD_RETRIEVE, params));
+                Log.e(TAG,"PUT TREE TO GET LOCATION");
 
             }catch (Exception e){
                 e.printStackTrace();
