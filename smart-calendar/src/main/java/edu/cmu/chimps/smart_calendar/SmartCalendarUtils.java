@@ -42,7 +42,7 @@ public class SmartCalendarUtils {
                 node.setParentId(NAME_ROOT_ID);
                 ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(NAME_ROOT_ID);
-                newNode.setParentId(0);
+                newNode.setParentId(-1);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
@@ -52,7 +52,6 @@ public class SmartCalendarUtils {
                 node.getTagList().clear();
                 node.setWord(time);                         //The former root "time" need to be added a real time
                 node.addTag(EntityAttributes.Graph.Event.TIME);
-                node.addTag(EntityAttributes.Graph.Event.NAME);
             }
         }
         return tree;
@@ -65,7 +64,7 @@ public class SmartCalendarUtils {
                 node.setParentId(LOCATION_ROOT_ID);
                 ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(LOCATION_ROOT_ID);
-                newNode.setParentId(0);
+                newNode.setParentId(-1);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);

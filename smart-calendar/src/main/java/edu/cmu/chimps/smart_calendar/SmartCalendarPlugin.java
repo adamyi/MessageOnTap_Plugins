@@ -1,14 +1,11 @@
 package edu.cmu.chimps.smart_calendar;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.SparseArray;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -30,8 +27,6 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 
 import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.AddRootLocation;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getDate;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
@@ -329,10 +324,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (tid == TidAddAction_ShowBubble.get(sid)){
             //if (params.get(BUBBLE_STATUS) == 1) {
             if (1 == 1){
-                Calendar beginDate = getDate(EventBeginTime2.get(sid));           //transfer from Long to date
-                Calendar endDate = getDate(EventEndTime2.get(sid));
-                params.put("action:Add to calendar time", beginDate);
-                params.put("action:Add to calendar time", endDate);
+                params.put("calendar_extra_time_start", EventBeginTime2.get(sid));
+                params.put("calendar_extra_time_end", EventEndTime2.get(sid));
                 TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
                         MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
