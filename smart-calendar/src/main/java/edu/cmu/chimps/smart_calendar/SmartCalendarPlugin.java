@@ -29,6 +29,7 @@ import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_E
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
 
@@ -321,7 +322,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
 
 
-        if (tid == TidAddAction_ShowBubble.get(sid)){
+        if (tid == getTid(TidPutTreeToGetLocation, sid)){
             //if (params.get(BUBBLE_STATUS) == 1) {
             if (1 == 1){
                 params.put("calendar_extra_time_start", EventBeginTime2.get(sid));
@@ -331,7 +332,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             } else {
                 endSession(sid);
             }
-        } else if (tid == TidAddAction.get(sid)){
+        } else if (tid == getTid(TidAddAction, sid)){
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
