@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.ParseTree;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
-
-import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
 
 /**
  * Created by knight006 on 8/1/2017.
@@ -23,7 +21,7 @@ public class GoogleDocUtils {
     public static final int FILTERED_URL_ROOT_ID = 444;
 
     public static String getTimeString(HashMap<String, Object> params){
-        Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
+        Long[] timeArray = (Long[])params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
         String time =  timeArray[0]+ "," + timeArray[1];
         return time;
     }
@@ -39,13 +37,13 @@ public class GoogleDocUtils {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Document.TITLE);
+                newNode.addTag(ServiceAttributes.Graph.Document.TITLE);
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+                node.addTag(ServiceAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(ServiceAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
         return tree;
@@ -62,13 +60,13 @@ public class GoogleDocUtils {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Document.DESCRIPTION);           //need to change to Url
+                newNode.addTag(ServiceAttributes.Graph.Document.DESCRIPTION);           //need to change to Url
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+                node.addTag(ServiceAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(ServiceAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
         return tree;

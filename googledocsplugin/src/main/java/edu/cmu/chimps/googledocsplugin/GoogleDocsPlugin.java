@@ -9,13 +9,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.EntityAttributes;
-import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
@@ -137,8 +136,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory, mOptional);
         Log.e(TAG, "returning plugin data");
         //Todo:taglist
-        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, Globals.TYPE_TAG_SET))
-                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, Globals.TYPE_TRIGGER_SET));
+        return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, JSONUtils.TYPE_TAG_SET))
+                .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, JSONUtils.TYPE_TRIGGER_SET));
 
     }
 
@@ -163,29 +162,29 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
          * query all the user's DocNames, and judge whether the message contains one of them, after that can
          * the plugin step forward.
          */
-        if (triggerListHasName.contains((Trigger) params.get(EntityAttributes.PMS.TRIGGER_SOURCE))){
-            tree1.put(sid, (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE));
+        if (triggerListHasName.contains((Trigger) params.get(ServiceAttributes.PMS.TRIGGER_SOURCE))){
+            tree1.put(sid, (ParseTree) params.get(ServiceAttributes.Graph.SYNTAX_TREE));
             DocTime1.put(sid, getTimeString(params));
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));
-            params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch1);
+            params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+            params.put(ServiceAttributes.Graph.SYNTAX_TREE, treeForSearch1);
             tidFindAllDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
         } else {
-            tree2.put(sid, (ParseTree) params.get(EntityAttributes.Graph.SYNTAX_TREE));
+            tree2.put(sid, (ParseTree) params.get(ServiceAttributes.Graph.SYNTAX_TREE));
             DocTime2.put(sid, getTimeString(params));
             treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID,
                     DocTime2.get(sid), tag_time));
-            params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-            params.put(EntityAttributes.Graph.SYNTAX_TREE, treeForSearch2);
+            params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+            params.put(ServiceAttributes.Graph.SYNTAX_TREE, treeForSearch2);
             tidFindDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
         }
     }
 
     @Override
-    protected void newTaskResponsed(long sid, long tid, HashMap<String, Object> params) throws Exception {
+    protected void newTaskResponded(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
 
@@ -194,14 +193,14 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             //getCardMessage and put it into params
             try {
                 ArrayList<HashMap<String, Object>> cardList =
-                        (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+                        (ArrayList<HashMap<String, Object>>) params.get(ServiceAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     for (int i = 0; i < tree1.get(sid).getNodeList().size(); i++) {
                         ParseTree.Node node = tree1.get(sid).getNodeList().get(i);
-                        if (node.getWord().equals((String) card.get(EntityAttributes.Graph.Document.TITLE))) {
+                        if (node.getWord().equals((String) card.get(ServiceAttributes.Graph.Document.TITLE))) {
                             Doc doc = new Doc();
-                            doc.setDocName((String) card.get(EntityAttributes.Graph.Document.TITLE));
-                            doc.setCreatedTime((Long) card.get(EntityAttributes.Graph.Document.CREATED_TIME));
+                            doc.setDocName((String) card.get(ServiceAttributes.Graph.Document.TITLE));
+                            doc.setCreatedTime((Long) card.get(ServiceAttributes.Graph.Document.CREATED_TIME));
                             //doc.setDocUrl((String)card.get(Graph.Document.URL));
                             DocList.add(doc);
                         }
@@ -209,8 +208,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     tree1.put(sid, AddUrlRoot(tree1.get(sid), ALL_URL_ROOT_ID, DocTime1.get(sid), tag_time));
-                    params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-                    params.put(EntityAttributes.Graph.SYNTAX_TREE, tree1);
+                    params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+                    params.put(ServiceAttributes.Graph.SYNTAX_TREE, tree1);
                     tidFindUrl1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                             MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
@@ -221,18 +220,18 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         } else if (tid == tidFindDocName.get(sid)) {
             try {
                 ArrayList<HashMap<String, Object>> cardList =
-                        (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+                        (ArrayList<HashMap<String, Object>>) params.get(ServiceAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     Doc doc = new Doc();
-                    doc.setDocName((String) card.get(EntityAttributes.Graph.Document.TITLE));
-                    doc.setCreatedTime((Long) card.get(EntityAttributes.Graph.Document.CREATED_TIME));
+                    doc.setDocName((String) card.get(ServiceAttributes.Graph.Document.TITLE));
+                    doc.setCreatedTime((Long) card.get(ServiceAttributes.Graph.Document.CREATED_TIME));
                     //doc.setDocUrl((String)card.get(Graph.Document.URL));
                     DocList.add(doc);
                 }
                 if (!DocList.isEmpty()) {
                     tree2.put(sid, AddUrlRoot(tree2.get(sid), FILTERED_URL_ROOT_ID, DocTime2.get(sid), tag_time));
-                    params.remove(EntityAttributes.Graph.SYNTAX_TREE);
-                    params.put(EntityAttributes.Graph.SYNTAX_TREE, tree2);
+                    params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+                    params.put(ServiceAttributes.Graph.SYNTAX_TREE, tree2);
                     tidFindUrl2.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                             MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
@@ -247,11 +246,11 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         if ((tid == tidFindUrl1.get(sid))||(tid == tidFindUrl2.get(sid))){
             try{
                 ArrayList<HashMap<String, Object>> cardList =
-                        (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+                        (ArrayList<HashMap<String, Object>>) params.get(ServiceAttributes.Graph.CARD_LIST);
                 for (HashMap<String, Object> card : cardList) {
                     for (Doc doc : DocList){
-                        if (doc.getCreatedTime().equals(card.get(EntityAttributes.Graph.Document.CREATED_TIME))){
-                            doc.setDocUrl((String)card.get(EntityAttributes.Graph.Document.TITLE));           //Todo:change to URL
+                        if (doc.getCreatedTime().equals(card.get(ServiceAttributes.Graph.Document.CREATED_TIME))){
+                            doc.setDocUrl((String)card.get(ServiceAttributes.Graph.Document.TITLE));           //Todo:change to URL
                         }
                     }
                 }

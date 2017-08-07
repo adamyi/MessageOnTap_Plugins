@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.EntityAttributes;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.ParseTree;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 
 /**
@@ -37,7 +38,7 @@ public class SmartCalendarUtils {
 
 
     public static String getTimeString(HashMap<String, Object> params){
-        ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get("time_result");      //CURRENT_MESSAGE_EMBEDDED_TIME
+        ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);      //CURRENT_MESSAGE_EMBEDDED_TIME
         StringBuilder timeString =  new StringBuilder();
         try {
             timeString.append(messageTime.get(0)).append(",").append(messageTime.get(0));
@@ -62,12 +63,12 @@ public class SmartCalendarUtils {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Event.NAME);
+                newNode.addTag(ServiceAttributes.Graph.Event.NAME);
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);                         //The former root "time" need to be added a real time
-                node.addTag(EntityAttributes.Graph.Event.TIME);
+                node.addTag(ServiceAttributes.Graph.Event.TIME);
             }
         }
         return tree;
@@ -84,13 +85,13 @@ public class SmartCalendarUtils {
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(EntityAttributes.Graph.Place.NAME);
+                newNode.addTag(ServiceAttributes.Graph.Place.NAME);
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);
-                node.addTag(EntityAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(EntityAttributes.Graph.Document.MODIFIED_TIME);
+                node.addTag(ServiceAttributes.Graph.Document.CREATED_TIME);
+                node.addTag(ServiceAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
         return tree;
@@ -98,22 +99,22 @@ public class SmartCalendarUtils {
 
     public static ArrayList<Event> getEventList(HashMap<String, Object> params){
         ArrayList<Event> EventList = new ArrayList<>();
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(EntityAttributes.Graph.CARD_LIST), Globals.TYPE_CARD_LIST);
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), Globals.TYPE_CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
-            event.setEventName((String) card.get(EntityAttributes.Graph.Event.NAME));
-            event.setBeginTime((Long) card.get(EntityAttributes.Graph.Event.START_TIME));
-            event.setEndTime((Long) card.get(EntityAttributes.Graph.Event.END_TIME));
+            event.setEventName((String) card.get(ServiceAttributes.Graph.Event.NAME));
+            event.setBeginTime((Long) card.get(ServiceAttributes.Graph.Event.START_TIME));
+            event.setEndTime((Long) card.get(ServiceAttributes.Graph.Event.END_TIME));
             EventList.add(event);
         }
         return EventList;
     }
 
     public static void setListLocation(ArrayList<Event> EventList, HashMap<String, Object> params){
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(EntityAttributes.Graph.CARD_LIST);
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>) params.get(ServiceAttributes.Graph.CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
-            if (card.get(EntityAttributes.Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
-                EventList.get(cardList.indexOf(card)).setLocation((String) card.get(EntityAttributes.Graph.Place.NAME));
+            if (card.get(ServiceAttributes.Graph.Event.START_TIME).equals(EventList.get(cardList.indexOf(card)).getBeginTime())){
+                EventList.get(cardList.indexOf(card)).setLocation((String) card.get(ServiceAttributes.Graph.Place.NAME));
             }
         }
     }
