@@ -30,7 +30,7 @@ public class SmartCalendarUtils {
     public static final String MINUTE = "minute";
 
     public static Long getTid (HashMap<Long, Long> map, Long sid){
-        if (map.get(sid) == null){
+        if (map.get(sid) != null){
             return map.get(sid);
         }
         Long i = (long) -1;
@@ -39,8 +39,8 @@ public class SmartCalendarUtils {
 
 
     public static String getTimeString(HashMap<String, Object> params){
-        Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
-        String time =  timeArray[0]+ "," + timeArray[1];
+        ArrayList<long[]> timeArray = (ArrayList<long[]>)params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
+        String time =  timeArray.get(0)[0]+ "," + timeArray.get(0)[1];
         return time;
     }
 
