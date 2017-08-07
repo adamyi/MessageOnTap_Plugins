@@ -242,6 +242,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             //params.put(BUBBLE_FIRST_LINE, "Add Calendar");
             //params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
             TidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+
+
         }
     }
 
@@ -261,10 +263,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                         EventTimeString1.get(sid), tag_time));
                         */
 
-
-              SparseArray<ParseTree.Node> nodeList = tree3.getNodeList();
+                SparseArray<ParseTree.Node> nodeList = tree3.getNodeList();
                 nodeList.remove(3726);
-
                 ParseTree.Node node= new ParseTree.Node();
                 node.setId(9123);
                 node.setParentId(-1);
@@ -277,8 +277,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 nodeList.put(9123, node);
                 tree3.setNodeList(nodeList);
                 Log.e(TAG, "tree3 is : " + JSONUtils.simpleObjectToJson(tree3, Globals.TYPE_PARSE_TREE)  );
-
                 params.put(EntityAttributes.Graph.SYNTAX_TREE,tree3);
+
 
 
                 Log.e(TAG, "newTaskResponsed:   creating task" );
@@ -324,9 +324,27 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (tid == getTid(TidPutTreeToGetLocation, sid)){
             //if (params.get(BUBBLE_STATUS) == 1) {
-            if (1 == 1){
-                params.put("calendar_extra_time_start", EventBeginTime2.get(sid));
-                params.put("calendar_extra_time_end", EventEndTime2.get(sid));
+            //TEXT TIME
+            Date date = new Date();
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);
+            try {
+                date = s.parse("2017-8-1-8-30");
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+
+
+            Date date2 = new Date();
+            SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+            try{
+                date2 = s.parse("2017-8-1-9-40");
+            }catch (ParseException e){
+
+            }
+
+            if (1 == 1){       //User Clicked Bubble
+                params.put("calendar_extra_time_start",date.getTime());
+                params.put("calendar_extra_time_end", date2.getTime());
                 TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
                         MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
