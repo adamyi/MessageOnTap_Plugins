@@ -253,7 +253,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
 
-        if (tid == TidPutTreeToGetTime.get(sid)){
+        if (tid == getTid(TidPutTreeToGetTime, sid)){
             try{
                 EventList.put(sid, getEventList(params));
                 Log.e(TAG, "Event List=" + getEventList(params).toString());
@@ -290,7 +290,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidPutTreeToGetLocation.get(sid)) {
+        } else if (tid == getTid(TidPutTreeToGetLocation, sid)) {
             //getCardMessage and put it into params
             try {
                 setListLocation(EventList.get(sid), params);
@@ -301,7 +301,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShowBubble.get(sid)){
+        } else if (tid == getTid(TidShowBubble, sid)){
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (1 == 1){
@@ -315,7 +315,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == TidShowHtml.get(sid)){
+        } else if (tid == getTid(TidShowHtml, sid)){
+            Log.e(TAG, "Successfully Run Action");
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
             Log.e(TAG, "Session ended");
