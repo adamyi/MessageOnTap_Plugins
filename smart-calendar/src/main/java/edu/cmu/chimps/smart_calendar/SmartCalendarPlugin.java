@@ -235,7 +235,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||
                 params.get(EntityAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")){
             //tree2 = (ParseTree)params.get(EntityAttributes.Graph.SYNTAX_TREE);
-            Long[] timeArray = (Long[])params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
+            ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get("time_result");
+            EventBeginTime2.put(sid,messageTime.get(0).get(0));
+            EventEndTime2.put(sid,messageTime.get(0).get(1));
             //EventBeginTime2.put(sid, timeArray[0]);
             //EventEndTime2.put(sid, timeArray[1]);
             //EventTimeString2 = getTimeString(params);
@@ -342,15 +344,18 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
 
-            if (1 == 1){       //User Clicked Bubble
-                params.put("calendar_extra_time_start",date.getTime());
-                params.put("calendar_extra_time_end", date2.getTime());
+            if (params.get(BUBBLE_STATUS)==1){       //User Clicked Bubble
+                params.put("calendar_extra_time_start",EventBeginTime2);
+                params.put("calendar_extra_time_end", EventEndTime2);
                 TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
                         MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
         } else if (tid == getTid(TidAddAction, sid)){
+
+
+            Log.e(TAG, "Successfully Run Action");
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
