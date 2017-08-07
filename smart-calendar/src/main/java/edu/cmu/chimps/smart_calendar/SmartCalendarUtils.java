@@ -37,9 +37,16 @@ public class SmartCalendarUtils {
 
 
     public static String getTimeString(HashMap<String, Object> params){
-        ArrayList<long[]> messageTime = (ArrayList<long[]>)params.get("time_result");      //CURRENT_MESSAGE_EMBEDDED_TIME
-        String time =  messageTime.get(0)[0]+ "," + messageTime.get(0)[1];
-        return time;
+        ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get("time_result");      //CURRENT_MESSAGE_EMBEDDED_TIME
+        StringBuilder timeString =  new StringBuilder();
+        try {
+            timeString.append(messageTime.get(0)).append(",").append(messageTime.get(0));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return  timeString.toString();
     }
 
 
