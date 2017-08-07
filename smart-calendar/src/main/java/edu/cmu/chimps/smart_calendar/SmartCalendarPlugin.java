@@ -30,6 +30,7 @@ import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
 
@@ -109,8 +110,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
-        mMandatory.add("TAG_You");
-        mMandatory.add("TAG_FREE_TEXT");
+        mMandatory.add("TAG_FREE");
         //mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
@@ -186,7 +186,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }catch (ParseException e){
 
             }
-            newNode1.setWord(String.valueOf(date.getTime()) + "," + String.valueOf(date2.getTime()));
+            newNode1.setWord(getTimeString(params));
             Log.e(TAG,String.valueOf(date.getTime()) + "," + String.valueOf(date2.getTime()));
             Set<String> set = new HashSet<>();
             set.add(EntityAttributes.Graph.Event.TIME);

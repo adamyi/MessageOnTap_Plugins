@@ -13,8 +13,6 @@ import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.Tag;
 
-import static edu.cmu.chimps.messageontap_api.EntityAttributes.CURRENT_MESSAGE_EMBEDDED_TIME;
-
 /**
  * Created by knight006 on 8/1/2017.
  */
@@ -39,8 +37,8 @@ public class SmartCalendarUtils {
 
 
     public static String getTimeString(HashMap<String, Object> params){
-        ArrayList<long[]> timeArray = (ArrayList<long[]>)params.get(CURRENT_MESSAGE_EMBEDDED_TIME);
-        String time =  timeArray.get(0)[0]+ "," + timeArray.get(0)[1];
+        ArrayList<long[]> messageTime = (ArrayList<long[]>)params.get("time_result");      //CURRENT_MESSAGE_EMBEDDED_TIME
+        String time =  messageTime.get(0)[0]+ "," + messageTime.get(0)[1];
         return time;
     }
 
