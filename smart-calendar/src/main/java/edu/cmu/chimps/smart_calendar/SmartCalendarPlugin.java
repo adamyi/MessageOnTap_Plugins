@@ -222,6 +222,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             Log.e(TAG, "Add Root");
 
 */
+
+
+
             params.put(ServiceAttributes.Graph.SYNTAX_TREE, JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE));
             Log.e(TAG, "Put Tree");
 
@@ -342,7 +345,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
 
-            if (params.get(BUBBLE_STATUS)==1){       //User Clicked Bubble
+            if (1==1){       //params.get(BUBBLE_STATUS)==1
                 params.put("calendar_extra_time_start",EventBeginTime2);
                 params.put("calendar_extra_time_end", EventEndTime2);
                 TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
@@ -353,7 +356,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         } else if (tid == getTid(TidAddAction, sid)){
 
 
-            Log.e(TAG, "Successfully Run Action");
+            Log.e(TAG, "Action Response:" + params.get(ServiceAttributes.Action.RESULT));
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
