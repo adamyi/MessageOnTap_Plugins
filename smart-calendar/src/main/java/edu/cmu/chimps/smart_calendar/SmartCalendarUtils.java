@@ -102,9 +102,11 @@ public class SmartCalendarUtils {
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
-            event.setEventName((String) card.get(ServiceAttributes.Graph.Event.NAME));
-            event.setBeginTime((Long) card.get(ServiceAttributes.Graph.Event.START_TIME));
-            event.setEndTime((Long) card.get(ServiceAttributes.Graph.Event.END_TIME));
+            event.setEventName((String) card.get(EntityAttributes.Graph.Event.NAME));
+            ArrayList<Long> Time = (ArrayList<Long>) card.get(EntityAttributes.Graph.Event.TIME);
+            event.setBeginTime(Time.get(0));
+            event.setEndTime(Time.get(1));
+            
             EventList.add(event);
         }
         return EventList;
