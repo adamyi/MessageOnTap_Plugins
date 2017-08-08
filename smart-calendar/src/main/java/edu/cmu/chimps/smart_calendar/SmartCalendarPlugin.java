@@ -108,8 +108,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
+        mMandatory.add("TAG_I");
         mMandatory.add("TAG_FREE");
-        //mMandatory.add("TAG_TIME");
+        mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints= new HashSet<>();
 
@@ -167,6 +168,29 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
 
             tree3 = new ParseTree();
+            tree3 = (ParseTree)JSONUtils.jsonToSimpleObject((String) params.get(ServiceAttributes.Graph.SYNTAX_TREE),JSONUtils.TYPE_PARSE_TREE);
+            Log.e(TAG, "Tree is " + (String) params.get(ServiceAttributes.Graph.SYNTAX_TREE));
+            /*
+            for (int i=0; i < tree3.getNodeList().size(); i++){
+                ParseTree.Node node = tree3.getNodeList().get(i);
+                if (node.getParentId() == 0){
+                    node.setParentId(-1);
+                    ParseTree.Node newNode = new ParseTree.Node();
+                    newNode.setId(1);
+                    newNode.setParentId(-1);
+                    Set<Integer> set = new HashSet<>();
+                    set.add(node.getId());
+                    newNode.setChildrenIds(set);
+                    newNode.addTag(ServiceAttributes.Graph.Event.NAME);
+                }
+
+                if (node.getTagList().contains(tag_time)){
+                    node.getTagList().clear();
+                    node.setWord(getTimeString(params));
+                    node.addTag(ServiceAttributes.Graph.Event.TIME);
+                }
+            }
+            */
             ParseTree.Node newNode1 = new ParseTree.Node();
             Date date = new Date();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);

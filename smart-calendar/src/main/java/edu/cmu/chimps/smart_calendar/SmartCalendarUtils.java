@@ -8,10 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
-import edu.cmu.chimps.messageontap_api.Globals;
+
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.ParseTree;
-import edu.cmu.chimps.messageontap_api.ServiceAttributes;
+
 import edu.cmu.chimps.messageontap_api.Tag;
 
 /**
@@ -99,7 +99,7 @@ public class SmartCalendarUtils {
 
     public static ArrayList<Event> getEventList(HashMap<String, Object> params){
         ArrayList<Event> EventList = new ArrayList<>();
-        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), Globals.TYPE_CARD_LIST);
+        ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
             event.setEventName((String) card.get(ServiceAttributes.Graph.Event.NAME));
