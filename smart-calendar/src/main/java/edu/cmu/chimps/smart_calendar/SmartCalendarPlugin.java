@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
+//import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
@@ -108,7 +109,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
-        mMandatory.add("TAG_I");
+        mMandatory.add("TAG_You");
         mMandatory.add("TAG_FREE");
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
@@ -124,7 +125,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints2= new HashSet<>();
-        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory,mOptional, constraints2,Mood.IMPERATIVE, Direction.OUTGOING);
+        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory,mOptional);
         triggerArrayList.add(trigger2);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
@@ -140,20 +141,19 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
 
         // trigger 4: Can you (I) pick it up this afternoon? Incoming
-        mOptional.add("TAG_I");
-        mOptional.add("TAG_You");
-        mOptional.add("TAG_OPTIONAL_TIME");
-        mMandatory.add("TAG_TIME");
-        HashSet<Trigger.Constraint> constraints4= new HashSet<>();
-        Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional, constraints4,
-                Mood.UNKNOWN, Direction.INCOMING);
-        triggerArrayList.add(trigger4);
+        //mOptional.add("TAG_I");
+        //mOptional.add("TAG_You");
+        //mOptional.add("TAG_OPTIONAL_TIME");
+        //mMandatory.add("TAG_TIME");
+        //HashSet<Trigger.Constraint> constraints4= new HashSet<>();
+        //Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional);
+        //triggerArrayList.add(trigger4);
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
         ArrayList<String> holder = new ArrayList<>();
 
-        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList,JSONUtils.TYPE_TRIGGER_SET))
+        return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, JSONUtils.TYPE_TRIGGER_SET))
                 .tagSet(JSONUtils.simpleObjectToJson(tagList, JSONUtils.TYPE_TAG_SET));
 
     }
@@ -168,8 +168,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
 
             tree3 = new ParseTree();
-            tree3 = (ParseTree)JSONUtils.jsonToSimpleObject((String) params.get(ServiceAttributes.Graph.SYNTAX_TREE),JSONUtils.TYPE_PARSE_TREE);
-            Log.e(TAG, "Tree is " + (String) params.get(ServiceAttributes.Graph.SYNTAX_TREE));
+            tree3 = (ParseTree) JSONUtils.jsonToSimpleObject((String)params.get("tree"),JSONUtils.TYPE_PARSE_TREE);
+            Log.e(TAG, "Tree is " + params.get("tree"));
             /*
             for (int i=0; i < tree3.getNodeList().size(); i++){
                 ParseTree.Node node = tree3.getNodeList().get(i);
@@ -209,7 +209,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
             newNode1.setWord(getTimeString(params));
-            Log.e(TAG,String.valueOf(date.getTime()) + "," + String.valueOf(date2.getTime()));
+            Log.e(TAG,getTimeString(params));
             Set<String> set = new HashSet<>();
             set.add(ServiceAttributes.Graph.Event.TIME);
             newNode1.setTagList(set);
@@ -249,7 +249,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
 
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE, JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE));
+            params.put("tree", JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE));
             Log.e(TAG, "Put Tree");
 
             TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
@@ -257,8 +257,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             Log.e(TAG, "Send Tree to PMS");
         }
 
-        if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||
-                params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")){
+        if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")) {
             //tree2 = (ParseTree)params.get(ServiceAttributes.Graph.SYNTAX_TREE);
             ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get("time_result");
             EventBeginTime2.put(sid,messageTime.get(0).get(0));
@@ -275,6 +274,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
 
 
+
     @Override
     protected void newTaskResponded(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
@@ -284,7 +284,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             try{
                 EventList.put(sid, getEventList(params));
                 Log.e(TAG, "Event List=" + getEventList(params).toString());
-       Log.e(TAG, "Got Task ID");
+                Log.e(TAG, "Got Task ID");
               /*
                 params.put(ServiceAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid),
                         EventTimeString1.get(sid), tag_time));
@@ -303,7 +303,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 node.setTagList(set);
                 nodeList.put(9123, node);
                 tree3.setNodeList(nodeList);
-                Log.e(TAG, "tree3 is : " + JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE)  );
+                Log.e(TAG, "tree3 is : " + JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE));
                 params.put(ServiceAttributes.Graph.SYNTAX_TREE,tree3);
 
 
@@ -381,7 +381,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         } else if (tid == getTid(TidAddAction, sid)){
 
 
-            Log.e(TAG, "Action Response:" + params.get(ServiceAttributes.Action.RESULT));
+            //Log.e(TAG, "Action Response:" + params.get(EntityAttributes.Action.RESULT));
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");

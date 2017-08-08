@@ -1,5 +1,7 @@
 package edu.cmu.chimps.smart_calendar;
 
+import android.content.Entity;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,8 +9,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+//import edu.cmu.chimps.messageontap_api.EntityAttributes;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 
+//import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 
@@ -102,11 +106,11 @@ public class SmartCalendarUtils {
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
-            event.setEventName((String) card.get(EntityAttributes.Graph.Event.NAME));
-            ArrayList<Long> Time = (ArrayList<Long>) card.get(EntityAttributes.Graph.Event.TIME);
+            event.setEventName((String) card.get(ServiceAttributes.Graph.Event.NAME));
+            ArrayList<Long> Time = (ArrayList<Long>) card.get(ServiceAttributes.Graph.Event.TIME);
             event.setBeginTime(Time.get(0));
             event.setEndTime(Time.get(1));
-            
+
             EventList.add(event);
         }
         return EventList;
