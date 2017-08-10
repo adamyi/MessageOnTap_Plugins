@@ -1,5 +1,8 @@
 package edu.cmu.chimps.googledocsplugin;
 
+import android.util.Log;
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,6 +11,8 @@ import java.util.Set;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
+
+import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 /**
  * Created by knight006 on 8/1/2017.
@@ -21,23 +26,27 @@ public class GoogleDocUtils {
     public static final int FILTERED_URL_ROOT_ID = 444;
 
     public static String getTimeString(HashMap<String, Object> params){
-        Long[] timeArray = (Long[])params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
-        String time =  timeArray[0]+ "," + timeArray[1];
+        ArrayList<ArrayList<Long>> timeArray = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
+        String time =  timeArray.get(0).get(0)+ "," + timeArray.get(0).get(1);
         return time;
     }
 
     public static ParseTree AddNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            ParseTree.Node node = tree.getNodeList().get(i);
+        SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
+        for (int i=0; i < nodeList.size(); i++){
+            ParseTree.Node node = nodeList.get(i);
             if (node.getParentId() == 0){
                 node.setParentId(Id);
                 ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(Id);
-                newNode.setParentId(0);
+                newNode.setParentId(-1);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
                 newNode.addTag(ServiceAttributes.Graph.Document.TITLE);
+                nodeList.put(Id, newNode);
+                tree.setNodeList(nodeList);
+
             }
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
@@ -46,6 +55,7 @@ public class GoogleDocUtils {
                 node.addTag(ServiceAttributes.Graph.Document.MODIFIED_TIME);
             }
         }
+        Log.e(TAG, "AddNameRoot:    (root added)the new tree is " + tree.toString());
         return tree;
     }
 

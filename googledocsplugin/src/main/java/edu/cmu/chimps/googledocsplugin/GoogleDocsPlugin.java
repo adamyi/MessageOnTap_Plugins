@@ -63,6 +63,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     public int DIRECTION = 0; // 0 incoming
     public int COMPLETE = 0; // 0 is complete
 
+
 // doc, file
     // optional flag month, date, regular expression different format
 
@@ -82,7 +83,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         HashSet<String> mMandatory = new HashSet<>();
         HashSet<String> mOptional = new HashSet<>();
         // Category one: with file name
-        // trigger 1: Can you send me XXX (a file)?
+        // trigger 1: Can you send me XXX (a file)?  incoming
         COMPLETE = 0;
         mOptional.add("TAG_You");
         mMandatory.add("TAG_SEND");
@@ -90,8 +91,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add("TAG_TIME");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints = new HashSet<>();
-        Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional, constraints,
-                Mood.UNKNOWN, Direction.INCOMING);
+        Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional);
         triggerArrayList.add(trigger1);
         clearLists(mMandatory, mOptional);
         //trigger 2: I can send you XXX
@@ -135,7 +135,6 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         triggerListHasName.add(trigger2);
         clearLists(mMandatory, mOptional);
         Log.e(TAG, "returning plugin data");
-        //Todo:taglist
         return new PluginData().tagSet(JSONUtils.simpleObjectToJson(tagList, JSONUtils.TYPE_TAG_SET))
                 .triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, JSONUtils.TYPE_TRIGGER_SET));
 
@@ -154,7 +153,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         // TID is something we might need to implement stateflow inside a plugin.
 
         /*
-         * Divide all triggers into two groups, those whose message contains a whole DocName
+         * Divide all triggers into two groups, include those whose message contains a whole DocName
          * and those whose message only contains terms like doc or file.
          * No matter which group was triggered, plugin is requested to query twice. In the first time
          * the root is DocName, and in the second time the root is DocUrl.
@@ -162,22 +161,38 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
          * query all the user's DocNames, and judge whether the message contains one of them, after that can
          * the plugin step forward.
          */
-        if (triggerListHasName.contains((Trigger) params.get(ServiceAttributes.PMS.TRIGGER_SOURCE))){
-            tree1.put(sid, (ParseTree) params.get(ServiceAttributes.Graph.SYNTAX_TREE));
+        if ((ContactsReceiver.contactList==null) || !ContactsReceiver.contactList.contains((String)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_CONTACT_NAME))){
+            //Toast.makeText(this, ContactsReceiver.contactList.toString(), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, " contact not matched ..... contactList is " + ContactsReceiver.contactList.toString());
+            endSession(sid);
+        }
+        if (triggerListHasName.contains((Trigger)JSONUtils.jsonToSimpleObject
+                ((String) params.get(ServiceAttributes.PMS.TRIGGER_SOURCE),JSONUtils.TYPE_TRIGGER))){
+
+            tree1.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
+                    .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
+
             DocTime1.put(sid, getTimeString(params));
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));
             params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE, treeForSearch1);
+
+            params.put(ServiceAttributes.Graph.SYNTAX_TREE,
+                    JSONUtils.simpleObjectToJson(treeForSearch1.get(sid), JSONUtils.TYPE_PARSE_TREE));
+
             tidFindAllDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
 
         } else {
-            tree2.put(sid, (ParseTree) params.get(ServiceAttributes.Graph.SYNTAX_TREE));
+            tree2.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
+                    .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
+
             DocTime2.put(sid, getTimeString(params));
-            treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID,
-                    DocTime2.get(sid), tag_time));
+            treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID, DocTime2.get(sid), tag_time));
             params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE, treeForSearch2);
+
+            params.put(ServiceAttributes.Graph.SYNTAX_TREE,
+                    JSONUtils.simpleObjectToJson(treeForSearch2.get(sid), JSONUtils.TYPE_PARSE_TREE));
+
             tidFindDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
         }
@@ -192,8 +207,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         if (tid == tidFindAllDocName.get(sid)) {
             //getCardMessage and put it into params
             try {
-                ArrayList<HashMap<String, Object>> cardList =
-                        (ArrayList<HashMap<String, Object>>) params.get(ServiceAttributes.Graph.CARD_LIST);
+                ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)
+                        JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST) ;
                 for (HashMap<String, Object> card : cardList) {
                     for (int i = 0; i < tree1.get(sid).getNodeList().size(); i++) {
                         ParseTree.Node node = tree1.get(sid).getNodeList().get(i);
