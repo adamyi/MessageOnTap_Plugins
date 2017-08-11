@@ -137,12 +137,6 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                 //Toast.makeText(StarbucksSettingActivity.this, "Contacts saved", Toast.LENGTH_SHORT).show();
                 ScriptStorage.storeScript(StarbucksSettingActivity.this, Script.getSelectedName());//if scriptName is empty, save "empty"
                 Toast.makeText(StarbucksSettingActivity.this, "script saved", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent("edu.cmu.chimps.googledocsplugin.sendcontacts");
-                intent.addCategory("sendcontacts");
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("contacts", Script.getSavedContactList());
-                intent.putExtra("contacts", bundle);
-                sendBroadcast(intent);
             }
         });        
     }

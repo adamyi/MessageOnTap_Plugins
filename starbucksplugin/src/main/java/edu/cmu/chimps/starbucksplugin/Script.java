@@ -49,31 +49,11 @@ public class Script {
         return "empty";
     }
 
-    public static int SelectedItemCount(){
-        int count = 0;
-        for (int i = 0; i< scriptList.size(); i++){
-            if (scriptList.get(i).isFlag()){
-                count++;
-            }
-        }
-        return count;
-    }
 
     public  static void SetAllFlag(Boolean flag){
         for (int i = 0; i < scriptList.size(); i++) {
             scriptList.get(i).setFlag(flag);
         }
-    }
-
-
-    public static ArrayList<String> getSavedContactList(){
-        ArrayList<String> savedContactList = new ArrayList<>();
-        for (int i = 0; i < Script.scriptList.size(); i++){
-            if (Script.scriptList.get(i).isFlag()){
-                savedContactList.add(Script.scriptList.get(i).getName());
-            }
-        }
-        return savedContactList;
     }
 
 
