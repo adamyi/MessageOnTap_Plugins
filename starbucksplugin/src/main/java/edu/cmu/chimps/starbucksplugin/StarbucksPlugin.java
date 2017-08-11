@@ -4,14 +4,12 @@ package edu.cmu.chimps.starbucksplugin;
  * Created by apple on 2017/8/10.
  */
 
-import android.util.Log;
 import android.content.Intent;
-import android.app.Activity;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.JSONUtils;
@@ -21,7 +19,6 @@ import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
-import edu.cmu.chimps.starbucksplugin.StarbucksIntent;
 
 /**
  * This is a sample plugin for MessageOnTap to facilitate developing plugins for MessageOnTap.
@@ -74,7 +71,6 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         Log.e(TAG, JSONUtils.hashMapToString(params));
         Log.e(TAG, "parse tree: " + ((ParseTree) JSONUtils.jsonToSimpleObject((String) params.get("tree"), JSONUtils.TYPE_PARSE_TREE)).toString());
         HashMap<String, Object> reqParams = new HashMap<>();
-
         //reqParams.put("key1", "value1");
         //reqParams.put("key2", "value2");
         //reqParams.put("key3", "value3");

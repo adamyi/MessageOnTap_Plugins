@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.github.privacystreams.core.exceptions.PSException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,12 +50,11 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "onActivityResult:     get result " );
         switch (requestCode) {
-            // request code 1 means speech activity
             case 1: {
-                // if user speech any word and stop speak and data not null
                 if (resultCode == RESULT_OK && null != data) {
-                    ArrayList<String> text = data.getStringArrayListExtra("result");
-                    Log.e(TAG, "onActivityResult:     get result"+text);
+                    String text = data.getStringExtra("result");
+                    Log.e(TAG, "onActivityResult:     get result"+ text);
+                    GoogleDocsSettingsActivity.super.onBackPressed();
                 }
                 break;
             }
@@ -175,10 +173,6 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                 sugiliteIntent.addCategory("android.intent.category.DEFAULT");
                 sugiliteIntent.putExtra("messageType", "GET_SCRIPT_LIST");
                 startActivityForResult(sugiliteIntent, 1);
-
-
-
-                GoogleDocsSettingsActivity.super.onBackPressed();
             }
         });
 
