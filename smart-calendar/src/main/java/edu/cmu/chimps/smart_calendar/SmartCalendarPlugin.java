@@ -110,7 +110,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
         mMandatory.add("TAG_You");
-        mMandatory.add("TAG_FREE");
+        mMandatory.add("TAG_FREE_TEXT");
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints= new HashSet<>();

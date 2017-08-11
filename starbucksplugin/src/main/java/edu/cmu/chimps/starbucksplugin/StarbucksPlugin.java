@@ -17,6 +17,7 @@ import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
@@ -69,16 +70,15 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
-        Log.e(TAG, "parse tree: " + ((ParseTree) JSONUtils.jsonToSimpleObject((String) params.get("tree"), JSONUtils.TYPE_PARSE_TREE)).toString());
+        //Log.e(TAG, "parse tree: " + ((ParseTree) JSONUtils.jsonToSimpleObject((String) params.get("tree"), JSONUtils.TYPE_PARSE_TREE)).toString());
         HashMap<String, Object> reqParams = new HashMap<>();
         //reqParams.put("key1", "value1");
         //reqParams.put("key2", "value2");
         //reqParams.put("key3", "value3");
-        //reqParams.put(BUBBLE_FIRST_LINE, "Order Offee?");
-        //reqParams.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
+        params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Order Offee?");
+
         // TID is something we might need to implement stateflow inside a plugin.
         tidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
-
     }
 
     @Override
@@ -88,13 +88,29 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
         if (tid == tidShowBubble) {
-            if (params.get("Bubble_Status").equals("clicked")) {
+            if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")) {
                 //HashMap<String, Object> newParams = new HashMap<>();
                 //newParams.put("perform script", "script");
                 //createTask(sid, MethodConstants.ACTION_TYPE,"perform script", newParams);
-              Intent intent = new Intent(StarbucksPlugin.this, StarbucksIntent.class);
-                startActivity(intent);
 
+                Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
+                sugiliteIntent.addCategory("android.intent.category.DEFAULT");
+                sugiliteIntent.putExtra("messageType", "RUN_SCRIPT");
+                String scriptName = ScriptStorage.getScript(StarbucksPlugin.this);
+                if (scriptName != "empty") {
+                    sugiliteIntent.putExtra("arg1", scriptName);
+                    sugiliteIntent.putExtra("arg2", "Run Script Complete");
+                    startActivity(sugiliteIntent);}
+
+                endSession(sid);
+                Log.e(TAG, "Ending session " + sid);
+                Log.e(TAG, "Action officially run" + sid);
+                /*
+                String scriptName = ScriptStorage.getScript(StarbucksPlugin.this);
+                StarbucksIntent.SCRIPT_NAME = scriptName;
+                Intent intent = new Intent(StarbucksPlugin.this,StarbucksIntent.class);
+                startActivity(intent);
+                */
 
 
             }

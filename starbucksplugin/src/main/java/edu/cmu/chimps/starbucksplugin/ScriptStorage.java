@@ -12,13 +12,14 @@ public class ScriptStorage {
 
     public static void storeScript(Context context, String scriptName){
         SharedPreferences.Editor editor = context.getSharedPreferences(STORAGE, context.MODE_PRIVATE).edit();
+
         editor.putString(POSITION, scriptName);
         editor.apply();
     }
 
-    public static Set<String> getScript(Context context){
+    public static String getScript(Context context){
         SharedPreferences pref = context.getSharedPreferences(STORAGE, context.MODE_PRIVATE);
-        return pref.getStringSet(POSITION, new HashSet<String>());
+        return pref.getString(POSITION,"empty");
     }
 
 
