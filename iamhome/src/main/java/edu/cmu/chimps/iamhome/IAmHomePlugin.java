@@ -1,8 +1,12 @@
 package edu.cmu.chimps.iamhome;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.github.privacystreams.core.Callback;
@@ -11,18 +15,23 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.WifiAp;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.listeners.OnHomeEventListener;
+import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
-import edu.cmu.chimps.messageontap_api.MessageData;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
+import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
     UQI mUQI;
+    Long tid;
 
     private final static int ALARM_HOUR = 8;
     private final static int ALARM_MINUTE = 29;
@@ -31,6 +40,22 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     public static boolean result = false;
     private OnHomeEventListener homeEventListener;
+
+    @Override
+    protected void initNewSession(long l, HashMap<String, Object> hashMap) throws Exception {
+        hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_REFERENCE_LIST, ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE).toArray());
+        hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_MESSAGE, StringStorage.getMessage(MyApplication.getContext()));
+        hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_APP, "whatsapp");
+        hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_TOAST, true);
+        tid = createTask(l, MethodConstants.ACTION_TYPE, MethodConstants.ACTION_METHOD_AUTO_SHARE, hashMap);
+    }
+
+    @Override
+    protected void newTaskResponded(long l, long l1, HashMap<String, Object> hashMap) throws Exception {
+        if (l1 == tid) {
+            endSession(l);
+        }
+    }
 
     public void setHomeEventListener(OnHomeEventListener homeEventListener) {
         this.homeEventListener=homeEventListener;
@@ -77,7 +102,13 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     }
 
-
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e("BroadcastReceiver", "Received Broadcast");
+            createSession();
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -86,8 +117,9 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
         Log.e("service","stshbuob" );
         //set the alarm
         AlarmUtils.setAlarm(this,ALARM_HOUR, ALARM_MINUTE, ALARM_SECOND);
-
         homeSensing();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("Session On Start"));
         return START_STICKY;
     }
 
@@ -102,9 +134,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
         return new PluginData();
     }
 
-    @Override
-    protected void analyzeMessage(MessageData data) {
-    }
     public boolean isAtHome(){
         return result;
     }
