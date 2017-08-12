@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +25,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.listeners.IconChangeListener;
-import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.views.Contact;
@@ -179,8 +179,8 @@ public class SelectContactActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     BackPressedCount = 2;
                     onBackPressed();
-                    Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
-                    startService(launchService);
+                    Intent startSessionIntent = new Intent("Session On Start");
+                    LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(startSessionIntent);
                 }
             });
         } else {

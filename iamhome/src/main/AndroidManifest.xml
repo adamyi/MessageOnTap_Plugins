@@ -25,8 +25,6 @@
             android:exported="false"/>
         <service android:name=".services.notificationTriggerService"
             android:exported="false"/>
-        <service android:name=".services.ShareMessageService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />
 
         <receiver android:name=".AlarmReceiver" />
         <activity android:name=".IAmHomeSettingsActivity"

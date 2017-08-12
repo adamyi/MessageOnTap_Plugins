@@ -5,6 +5,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+
+import edu.cmu.chimps.iamhome.MyApplication;
 
 /**
  * Created by wangyusen on 7/21/17.
@@ -39,8 +42,8 @@ public class notificationTriggerService extends IntentService{
                 //// TODO: 7/21/17 send message to yuser
                 Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
                 this.sendBroadcast(closeNotificationDrawer);
-                Intent launchService = new Intent(this, ShareMessageService.class);
-                startService(launchService);
+                Intent startSessionIntent = new Intent("Session On Start");
+                LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(startSessionIntent);
             }
         }
 

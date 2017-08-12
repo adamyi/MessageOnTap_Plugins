@@ -67,6 +67,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 // doc, file
     // optional flag month, date, regular expression different format
 
+
+
     /**
      * Return the trigger criteria of this plug-in. This will be called when
      * MessageOnTap is started (when this plugin is already enabled) or when
@@ -79,7 +81,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "getting plugin data");
         ArrayList<Trigger> triggerArrayList = new ArrayList<>();
         Set<Tag> tagList = new HashSet<>(Arrays.asList(tag_I, tag_doc, tag_me, tag_send,
-                tag_time, tag_time, tag_you));
+                 tag_time, tag_you));
         HashSet<String> mMandatory = new HashSet<>();
         HashSet<String> mOptional = new HashSet<>();
         // Category one: with file name
@@ -102,7 +104,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         MOOD = 0;
         DIRECTION = 1;
         HashSet<Trigger.Constraint> constraints2 = new HashSet<>();
-        Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory, mOptional, constraints2,
+        Trigger trigger2 = new Trigger("doc_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger2);
         // Category two: without file name
@@ -114,8 +116,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add("TAG_TIME");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
-        Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory, mOptional,
-                constraints3, Mood.UNKNOWN, Direction.INCOMING);
+        Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional, constraints3, Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger3);
         clearLists(mMandatory, mOptional);
         // trigger 4: I want to send you the doc we talked about earlier
@@ -128,7 +129,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         DIRECTION = 1;
         MOOD = 0;
         HashSet<Trigger.Constraint> constraints4 = new HashSet<>();
-        Trigger trigger4 = new Trigger("calendar_trigger_four", mMandatory, mOptional, constraints4,
+        Trigger trigger4 = new Trigger("doc_trigger_four", mMandatory, mOptional, constraints4,
                 Mood.IMPERATIVE, Direction.OUTGOING);
         triggerArrayList.add(trigger4);
         triggerListHasName.add(trigger1);
@@ -163,16 +164,26 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
          */
         if ((ContactsReceiver.contactList==null) || !ContactsReceiver.contactList.contains((String)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_CONTACT_NAME))){
             //Toast.makeText(this, ContactsReceiver.contactList.toString(), Toast.LENGTH_SHORT).show();
-            Log.e(TAG, " contact not matched ..... contactList is " + ContactsReceiver.contactList.toString());
+            try{
+                Log.e(TAG, " contact not matched ..... contactList is " + ContactsReceiver.contactList.toString());
+            } catch (Exception e){
+                Log.e(TAG, " contact not matched ..... contactlist is empty");
+            }
             endSession(sid);
         }
-        if (triggerListHasName.contains((Trigger)JSONUtils.jsonToSimpleObject
-                ((String) params.get(ServiceAttributes.PMS.TRIGGER_SOURCE),JSONUtils.TYPE_TRIGGER))){
+        Log.e(TAG, "initNewSession: contact matched");
+        if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("doc_trigger_one")||
+                params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("doc_trigger_two")){
 
             tree1.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
                     .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
 
-            DocTime1.put(sid, getTimeString(params));
+            try{
+                DocTime1.put(sid, getTimeString(params));
+            } catch (Exception e){
+                DocTime1.put(sid, "");
+            }
+
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));
             params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
 
