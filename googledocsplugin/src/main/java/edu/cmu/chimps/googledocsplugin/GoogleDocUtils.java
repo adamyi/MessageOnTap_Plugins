@@ -48,7 +48,7 @@ public class GoogleDocUtils {
                 tree.setNodeList(nodeList);
 
             }
-            if (node.getTagList().contains(tag_time)){
+            if (node.getTagList().contains(tag_time) && time != ""){
                 node.getTagList().clear();
                 node.setWord(time);
                 node.addTag(ServiceAttributes.Graph.Document.CREATED_TIME);
