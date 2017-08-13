@@ -170,7 +170,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             tree3 = new ParseTree();
             tree3 = (ParseTree) JSONUtils.jsonToSimpleObject((String)params.get("tree"),JSONUtils.TYPE_PARSE_TREE);
             Log.e(TAG, "Tree is " + params.get("tree"));
-            /*
+
             for (int i=0; i < tree3.getNodeList().size(); i++){
                 ParseTree.Node node = tree3.getNodeList().get(i);
                 if (node.getParentId() == 0){
@@ -190,8 +190,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                     node.addTag(ServiceAttributes.Graph.Event.TIME);
                 }
             }
-            */
-            ParseTree.Node newNode1 = new ParseTree.Node();
+
+            /*
+
             Date date = new Date();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);
             try {
@@ -208,6 +209,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }catch (ParseException e){
 
             }
+            */
+
+            ParseTree.Node newNode1 = new ParseTree.Node();
             newNode1.setWord(getTimeString(params));
             Log.e(TAG,getTimeString(params));
             Set<String> set = new HashSet<>();
@@ -331,8 +335,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         } else if (tid == getTid(TidShowBubble, sid)){
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
-                if (1 == 1){
-                    params.put("HTML Details", getHtml(EventListSortByTime(EventList.get(sid))));
+                if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){
+                    params.put("html_string", getHtml(EventListSortByTime(EventList.get(sid))));
                     TidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                             MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
