@@ -1,6 +1,6 @@
 package edu.cmu.chimps.smart_calendar;
 
-import android.content.Entity;
+import android.util.SparseArray;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,14 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-//import edu.cmu.chimps.messageontap_api.EntityAttributes;
-import edu.cmu.chimps.messageontap_api.ServiceAttributes;
-
-//import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.ParseTree;
-
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
+
+//import edu.cmu.chimps.messageontap_api.EntityAttributes;
+//import edu.cmu.chimps.messageontap_api.Globals;
 
 /**
  * Created by knight006 on 8/1/2017.
@@ -42,7 +41,7 @@ public class SmartCalendarUtils {
 
 
     public static String getTimeString(HashMap<String, Object> params){
-        ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get("time_result");      //CURRENT_MESSAGE_EMBEDDED_TIME
+        ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);      //CURRENT_MESSAGE_EMBEDDED_TIME
         StringBuilder timeString =  new StringBuilder();
         try {
             timeString.append(messageTime.get(0).get(0)).append(",").append(messageTime.get(0).get(1));
@@ -57,9 +56,12 @@ public class SmartCalendarUtils {
 
 
     public static ParseTree AddRootEventName(ParseTree tree, String time, Tag tag_time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            ParseTree.Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
+        SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
+        int key = 0;
+        for(int i = 0; i < nodeList.size(); i++) {
+            key = nodeList.keyAt(i);
+            ParseTree.Node node = nodeList.get(key);
+            if (node.getParentId() == -1) {
                 node.setParentId(NAME_ROOT_ID);
                 ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(NAME_ROOT_ID);
@@ -68,11 +70,20 @@ public class SmartCalendarUtils {
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
                 newNode.addTag(ServiceAttributes.Graph.Event.NAME);
+                nodeList.put(NAME_ROOT_ID, newNode);
+                tree.setNodeList(nodeList);
+                break;
             }
+        }
+        for(int i = 0; i < nodeList.size(); i++) {
+            key = nodeList.keyAt(i);
+            ParseTree.Node node = nodeList.get(key);
             if (node.getTagList().contains(tag_time)){
                 node.getTagList().clear();
                 node.setWord(time);                         //The former root "time" need to be added a real time
                 node.addTag(ServiceAttributes.Graph.Event.TIME);
+            } else {
+                nodeList.delete(key);
             }
         }
         return tree;
@@ -81,7 +92,7 @@ public class SmartCalendarUtils {
     public static ParseTree AddRootLocation(ParseTree tree, String time, Tag tag_time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             ParseTree.Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
+            if (node.getParentId() == -1){
                 node.setParentId(LOCATION_ROOT_ID);
                 ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(LOCATION_ROOT_ID);

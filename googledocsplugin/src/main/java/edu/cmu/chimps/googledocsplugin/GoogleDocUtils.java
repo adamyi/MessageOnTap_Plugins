@@ -33,36 +33,45 @@ public class GoogleDocUtils {
 
     public static ParseTree AddNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
         SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
-        for (int i=0; i < nodeList.size(); i++){
-            ParseTree.Node node = nodeList.get(i);
-            if (node.getParentId() == 0){
+        int key = 0;
+        ParseTree.Node newNode = new ParseTree.Node();;
+        for(int i = 0; i < nodeList.size(); i++) {
+            key = nodeList.keyAt(i);
+            ParseTree.Node node = nodeList.get(key);
+            if (node.getParentId() == -1) {
                 node.setParentId(Id);
-                ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(Id);
                 newNode.setParentId(-1);
                 Set<Integer> set = new HashSet<>();
                 set.add(node.getId());
                 newNode.setChildrenIds(set);
-                newNode.addTag(ServiceAttributes.Graph.Document.TITLE);
-                nodeList.put(Id, newNode);
-                tree.setNodeList(nodeList);
-
+                newNode.addTag(ServiceAttributes.Graph.Document.TITLE);          //need to be changed to document.TITLE
+                break;
             }
-            if (node.getTagList().contains(tag_time) && time != ""){
+        }
+        for(int i = 0; i < nodeList.size(); i++) {
+            key = nodeList.keyAt(i);
+            ParseTree.Node node = nodeList.get(key);
+            if (node.getTagList().contains(tag_time) && !time.equals("")){
                 node.getTagList().clear();
                 node.setWord(time);
                 node.addTag(ServiceAttributes.Graph.Document.CREATED_TIME);
                 node.addTag(ServiceAttributes.Graph.Document.MODIFIED_TIME);
+                break;
+            } else {
+                nodeList.delete(key);
             }
         }
-        Log.e(TAG, "AddNameRoot:    (root added)the new tree is " + tree.toString());
+        nodeList.put(Id, newNode);
+        tree.setNodeList(nodeList);
+        Log.e(TAG, "AddNameRoot:    (root added)the new tree is " + tree.getNodeList().toString());
         return tree;
     }
 
     public static ParseTree AddUrlRoot(ParseTree tree, int Id, String time, Tag tag_time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             ParseTree.Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == 0){
+            if (node.getParentId() == -1){
                 node.setParentId(Id);
                 ParseTree.Node newNode = new ParseTree.Node();
                 newNode.setId(Id);

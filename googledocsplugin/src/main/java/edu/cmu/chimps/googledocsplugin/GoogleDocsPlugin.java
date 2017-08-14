@@ -87,14 +87,15 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         // Category one: with file name
         // trigger 1: Can you send me XXX (a file)?  incoming
         COMPLETE = 0;
-        mOptional.add("TAG_You");
+        //mOptional.add("TAG_You");
         mMandatory.add("TAG_SEND");
+        mMandatory.add("TAG_You");
         mOptional.add("TAG_ME");
         mOptional.add("TAG_TIME");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints = new HashSet<>();
         Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional);
-        triggerArrayList.add(trigger1);
+        //triggerArrayList.add(trigger1);                  //message with file name is not available now
         clearLists(mMandatory, mOptional);
         //trigger 2: I can send you XXX
         mMandatory.add("TAG_I");
@@ -106,7 +107,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         HashSet<Trigger.Constraint> constraints2 = new HashSet<>();
         Trigger trigger2 = new Trigger("doc_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
-        triggerArrayList.add(trigger2);
+        //triggerArrayList.add(trigger2);
+
         // Category two: without file name
         // trigger 3: Can you send me the file on this topic
         // second example: send me the file please
@@ -116,7 +118,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add("TAG_TIME");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
-        Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional, constraints3, Mood.UNKNOWN, Direction.INCOMING);
+        Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional);//, constraints3, Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger3);
         clearLists(mMandatory, mOptional);
         // trigger 4: I want to send you the doc we talked about earlier
@@ -176,7 +178,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("doc_trigger_two")){
 
             tree1.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
-                    .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
+                    .get(ServiceAttributes.PMS.PARSE_TREE), JSONUtils.TYPE_PARSE_TREE));
 
             try{
                 DocTime1.put(sid, getTimeString(params));
@@ -185,23 +187,22 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
 
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));
-            params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+            params.remove(ServiceAttributes.PMS.PARSE_TREE);
 
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE,
+            params.put(ServiceAttributes.PMS.PARSE_TREE,
                     JSONUtils.simpleObjectToJson(treeForSearch1.get(sid), JSONUtils.TYPE_PARSE_TREE));
 
             tidFindAllDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
-
         } else {
             tree2.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
-                    .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
+                    .get(ServiceAttributes.PMS.PARSE_TREE), JSONUtils.TYPE_PARSE_TREE));
 
             DocTime2.put(sid, getTimeString(params));
             treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID, DocTime2.get(sid), tag_time));
-            params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+            params.remove(ServiceAttributes.PMS.PARSE_TREE);
 
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE,
+            params.put(ServiceAttributes.PMS.PARSE_TREE,
                     JSONUtils.simpleObjectToJson(treeForSearch2.get(sid), JSONUtils.TYPE_PARSE_TREE));
 
             tidFindDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
@@ -212,7 +213,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     @Override
     protected void newTaskResponded(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
-        Log.e(TAG, JSONUtils.hashMapToString(params));
+        Log.e(TAG, "params is : " + JSONUtils.hashMapToString(params));
 
         ArrayList<Doc> DocList = new ArrayList<>();
         if (tid == tidFindAllDocName.get(sid)) {
@@ -234,8 +235,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     tree1.put(sid, AddUrlRoot(tree1.get(sid), ALL_URL_ROOT_ID, DocTime1.get(sid), tag_time));
-                    params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
-                    params.put(ServiceAttributes.Graph.SYNTAX_TREE, tree1);
+                    params.remove(ServiceAttributes.PMS.PARSE_TREE);
+                    params.put(ServiceAttributes.PMS.PARSE_TREE, tree1);
                     tidFindUrl1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                             MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
@@ -256,8 +257,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     tree2.put(sid, AddUrlRoot(tree2.get(sid), FILTERED_URL_ROOT_ID, DocTime2.get(sid), tag_time));
-                    params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
-                    params.put(ServiceAttributes.Graph.SYNTAX_TREE, tree2);
+                    params.remove(ServiceAttributes.PMS.PARSE_TREE);
+                    params.put(ServiceAttributes.PMS.PARSE_TREE, tree2);
                     tidFindUrl2.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                             MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
