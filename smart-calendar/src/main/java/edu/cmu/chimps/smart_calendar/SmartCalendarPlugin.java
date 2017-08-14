@@ -14,23 +14,22 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import edu.cmu.chimps.messageontap_api.ServiceAttributes;
-//import edu.cmu.chimps.messageontap_api.Globals;
 import edu.cmu.chimps.messageontap_api.JSONUtils;
 import edu.cmu.chimps.messageontap_api.MessageOnTapPlugin;
 import edu.cmu.chimps.messageontap_api.MethodConstants;
 import edu.cmu.chimps.messageontap_api.ParseTree;
-import edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 import edu.cmu.chimps.messageontap_api.PluginData;
+import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
-import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
+
+//import edu.cmu.chimps.messageontap_api.Globals;
 
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
@@ -45,8 +44,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     HashMap<Long,Long> TidAddAction = new HashMap<>();
     HashMap<Long,Long> TidShowHtml = new HashMap<>();
     HashMap<Long,Long> TidShowBubble = new HashMap<>();
-    ParseTree tree3;
-
 
     HashMap<Long,ArrayList<Event>> EventList = new HashMap<>();
 
@@ -167,12 +164,13 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_one")||
                 params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
 
-            tree3 = new ParseTree();
-            tree3 = (ParseTree) JSONUtils.jsonToSimpleObject((String)params.get("tree"),JSONUtils.TYPE_PARSE_TREE);
-            Log.e(TAG, "Tree is " + params.get("tree"));
+            tree1.put(sid,(ParseTree) JSONUtils.jsonToSimpleObject((String)params
+                    .get(ServiceAttributes.PMS.PARSE_TREE),JSONUtils.TYPE_PARSE_TREE));
+            Log.e(TAG, "Tree is " + params.get(ServiceAttributes.PMS.PARSE_TREE));
+            /*
+            for (int i=0; i < tree1.getNodeList().size(); i++){
+                ParseTree.Node node = tree1.getNodeList().get(i);
 
-            for (int i=0; i < tree3.getNodeList().size(); i++){
-                ParseTree.Node node = tree3.getNodeList().get(i);
                 if (node.getParentId() == 0){
                     node.setParentId(-1);
                     ParseTree.Node newNode = new ParseTree.Node();
@@ -190,6 +188,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                     node.addTag(ServiceAttributes.Graph.Event.TIME);
                 }
             }
+
 
             /*
 
@@ -235,7 +234,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             SparseArray<ParseTree.Node> array = new SparseArray<>();
             array.put(1567, newNode1);
             array.put(3726, newNode2);
-            tree3.setNodeList(array);
+            tree1.get(sid).setNodeList(array);
 
             Log.e(TAG, "Start to Send Tree to PMS");
 /*
@@ -253,8 +252,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
 
-            params.put("tree", JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE));
-            Log.e(TAG, "Put Tree");
+            params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
+            Log.e(TAG, "Put Tree" + JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
 
             TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
@@ -294,7 +293,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                         EventTimeString1.get(sid), tag_time));
                         */
 
-                SparseArray<ParseTree.Node> nodeList = tree3.getNodeList();
+                SparseArray<ParseTree.Node> nodeList = tree1.get(sid).getNodeList();
                 nodeList.remove(3726);
                 ParseTree.Node node= new ParseTree.Node();
                 node.setId(9123);
@@ -306,9 +305,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 set.add(ServiceAttributes.Graph.Event.NAME);
                 node.setTagList(set);
                 nodeList.put(9123, node);
-                tree3.setNodeList(nodeList);
-                Log.e(TAG, "tree3 is : " + JSONUtils.simpleObjectToJson(tree3, JSONUtils.TYPE_PARSE_TREE));
-                params.put(ServiceAttributes.Graph.SYNTAX_TREE,tree3);
+                tree1.get(sid).setNodeList(nodeList);
+                Log.e(TAG, "tree1 is : " + JSONUtils.simpleObjectToJson(tree1, JSONUtils.TYPE_PARSE_TREE));
+                params.put(ServiceAttributes.Graph.SYNTAX_TREE,tree1);
 
 
 

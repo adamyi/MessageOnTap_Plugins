@@ -1,6 +1,7 @@
 package edu.cmu.chimps.googledocsplugin;
 
 import android.util.Log;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +23,8 @@ import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_DOCNAME_ROOT_ID
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_URL_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.AddNameRoot;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.AddUrlRoot;
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_DOCNAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.FILTERED_URL_ROOT_ID;
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getHtml;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.getTimeString;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Direction;
 import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
@@ -87,14 +88,15 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         // Category one: with file name
         // trigger 1: Can you send me XXX (a file)?  incoming
         COMPLETE = 0;
-        mOptional.add("TAG_You");
+        //mOptional.add("TAG_You");
         mMandatory.add("TAG_SEND");
+        mMandatory.add("TAG_You");
         mOptional.add("TAG_ME");
         mOptional.add("TAG_TIME");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints = new HashSet<>();
         Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional);
-        triggerArrayList.add(trigger1);
+        //triggerArrayList.add(trigger1);                  //message with file name is not available now
         clearLists(mMandatory, mOptional);
         //trigger 2: I can send you XXX
         mMandatory.add("TAG_I");
@@ -106,7 +108,9 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         HashSet<Trigger.Constraint> constraints2 = new HashSet<>();
         Trigger trigger2 = new Trigger("doc_trigger_two", mMandatory, mOptional, constraints2,
                 Mood.IMPERATIVE, Direction.OUTGOING);
-        triggerArrayList.add(trigger2);
+        //triggerArrayList.add(trigger2);
+        clearLists(mMandatory, mOptional);
+
         // Category two: without file name
         // trigger 3: Can you send me the file on this topic
         // second example: send me the file please
@@ -116,7 +120,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add("TAG_TIME");
         DIRECTION = 0;
         HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
-        Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional, constraints3, Mood.UNKNOWN, Direction.INCOMING);
+        Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional);//, constraints3, Mood.UNKNOWN, Direction.INCOMING);
         triggerArrayList.add(trigger3);
         clearLists(mMandatory, mOptional);
         // trigger 4: I want to send you the doc we talked about earlier
@@ -176,7 +180,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("doc_trigger_two")){
 
             tree1.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
-                    .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
+                    .get(ServiceAttributes.PMS.PARSE_TREE), JSONUtils.TYPE_PARSE_TREE));
 
             try{
                 DocTime1.put(sid, getTimeString(params));
@@ -185,24 +189,56 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
 
             treeForSearch1.put(sid, AddNameRoot(tree1.get(sid), ALL_DOCNAME_ROOT_ID, DocTime1.get(sid), tag_time));
-            params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+            params.remove(ServiceAttributes.PMS.PARSE_TREE);
 
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE,
+            params.put(ServiceAttributes.PMS.PARSE_TREE,
                     JSONUtils.simpleObjectToJson(treeForSearch1.get(sid), JSONUtils.TYPE_PARSE_TREE));
 
             tidFindAllDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
-
         } else {
             tree2.put(sid, (ParseTree)JSONUtils.jsonToSimpleObject((String)params
-                    .get(ServiceAttributes.Graph.SYNTAX_TREE), JSONUtils.TYPE_PARSE_TREE));
+                    .get(ServiceAttributes.PMS.PARSE_TREE), JSONUtils.TYPE_PARSE_TREE));
 
-            DocTime2.put(sid, getTimeString(params));
-            treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID, DocTime2.get(sid), tag_time));
-            params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
+            Log.e(TAG, "initNewSession:    original tree2 is : " + params.get(ServiceAttributes.PMS.PARSE_TREE).toString());
 
-            params.put(ServiceAttributes.Graph.SYNTAX_TREE,
-                    JSONUtils.simpleObjectToJson(treeForSearch2.get(sid), JSONUtils.TYPE_PARSE_TREE));
+            try{
+                DocTime2.put(sid, getTimeString(params));
+            } catch (Exception e){
+                DocTime2.put(sid, "");
+            }
+
+            ParseTree.Node newNode1 = new ParseTree.Node();
+            newNode1.setWord(DocTime2.get(sid));
+            Log.e(TAG,getTimeString(params));
+            Set<String> set = new HashSet<>();
+            set.add(ServiceAttributes.Graph.Event.TIME);
+            newNode1.setTagList(set);
+            newNode1.setId(1567);
+            newNode1.setParentId(3726);
+            ParseTree.Node newNode2 = new ParseTree.Node();
+
+
+            Set<String> set2 = new HashSet<>();
+            set2.add(ServiceAttributes.Graph.Event.NAME);
+            newNode2.setTagList(set2);
+            newNode2.setId(3726);
+            newNode2.setParentId(-1);
+
+            Set<Integer> set3 = new HashSet<>();
+            set3.add(1567);
+            newNode2.setChildrenIds(set3);
+
+            SparseArray<ParseTree.Node> array = new SparseArray<>();
+            array.put(1567, newNode1);
+            array.put(3726, newNode2);
+            tree2.get(sid).setNodeList(array);
+
+//            treeForSearch2.put(sid, AddNameRoot(tree2.get(sid), FILTERED_DOCNAME_ROOT_ID, DocTime2.get(sid), tag_time));
+//            params.remove(ServiceAttributes.PMS.PARSE_TREE);
+
+            params.put(ServiceAttributes.PMS.PARSE_TREE,
+                    JSONUtils.simpleObjectToJson(tree2.get(sid), JSONUtils.TYPE_PARSE_TREE));
 
             tidFindDocName.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
@@ -212,7 +248,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
     @Override
     protected void newTaskResponded(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
-        Log.e(TAG, JSONUtils.hashMapToString(params));
+        Log.e(TAG, "params is : " + JSONUtils.hashMapToString(params));
 
         ArrayList<Doc> DocList = new ArrayList<>();
         if (tid == tidFindAllDocName.get(sid)) {
@@ -234,8 +270,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     tree1.put(sid, AddUrlRoot(tree1.get(sid), ALL_URL_ROOT_ID, DocTime1.get(sid), tag_time));
-                    params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
-                    params.put(ServiceAttributes.Graph.SYNTAX_TREE, tree1);
+                    params.remove(ServiceAttributes.PMS.PARSE_TREE);
+                    params.put(ServiceAttributes.PMS.PARSE_TREE, tree1);
                     tidFindUrl1.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                             MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
@@ -256,8 +292,8 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 }
                 if (!DocList.isEmpty()) {
                     tree2.put(sid, AddUrlRoot(tree2.get(sid), FILTERED_URL_ROOT_ID, DocTime2.get(sid), tag_time));
-                    params.remove(ServiceAttributes.Graph.SYNTAX_TREE);
-                    params.put(ServiceAttributes.Graph.SYNTAX_TREE, tree2);
+                    params.remove(ServiceAttributes.PMS.PARSE_TREE);
+                    params.put(ServiceAttributes.PMS.PARSE_TREE, tree2);
                     tidFindUrl2.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                             MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 }
@@ -293,10 +329,9 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 
 
-/*
 
         if (tid == tidBubble.get(sid)) {
-            if (params.get(BUBBLE_STATUS) == 1) {
+            if ((Integer)params.get(ServiceAttributes.UI.STATUS) == 1) {
                 try {
                     params.put("HTML Details", getHtml(DocList));
                     tidDetails.put(sid, createTask(sid, MethodConstants.UI_TYPE,
@@ -318,13 +353,13 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             }
             params.put("Action SetText", selectedDocUrl.toString());                      //send URL
             tidDocSend.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
-            MethodConstants.ACTION_METHOD_SETTEXT, params));
+            ServiceAttributes.Action.SET_TEXT_EXTRA_MESSAGE, params));
         } else if (tid == tidDocSend.get(sid)) {
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
-        */
+
     }
 
     @Override
