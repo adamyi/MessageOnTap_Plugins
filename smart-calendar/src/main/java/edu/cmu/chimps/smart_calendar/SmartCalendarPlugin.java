@@ -170,6 +170,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             /*
             for (int i=0; i < tree1.getNodeList().size(); i++){
                 ParseTree.Node node = tree1.getNodeList().get(i);
+
                 if (node.getParentId() == 0){
                     node.setParentId(-1);
                     ParseTree.Node newNode = new ParseTree.Node();
@@ -187,24 +188,28 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                     node.addTag(ServiceAttributes.Graph.Event.TIME);
                 }
             }
+
+
+            /*
+
+            Date date = new Date();
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);
+            try {
+                date = s.parse("2017-8-1-8-30");
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+
+
+            Date date2 = new Date();
+            SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+            try{
+                date2 = s.parse("2017-8-1-9-40");
+            }catch (ParseException e){
+
+            }
             */
 
-//            Date date = new Date();
-//            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);
-//            try {
-//                date = s.parse("2017-8-1-8-30");
-//            }catch (ParseException e){
-//                e.printStackTrace();
-//            }
-//
-//
-//            Date date2 = new Date();
-//            SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
-//            try{
-//                date2 = s.parse("2017-8-1-9-40");
-//            }catch (ParseException e){
-//
-//            }
             ParseTree.Node newNode1 = new ParseTree.Node();
             newNode1.setWord(getTimeString(params));
             Log.e(TAG,getTimeString(params));
@@ -329,8 +334,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         } else if (tid == getTid(TidShowBubble, sid)){
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
-                if (1 == 1){
-                    params.put("HTML Details", getHtml(EventListSortByTime(EventList.get(sid))));
+                if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){
+                    params.put("html_string", getHtml(EventListSortByTime(EventList.get(sid))));
                     TidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                             MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
