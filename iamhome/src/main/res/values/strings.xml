@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">I Am Home Plug-In for MessageOnTap</string>
+    <string name="app_name">I am Home</string>
     <string name="plugin_title">I am Home</string>
     <string name="plugin_description">Automatically notify others upon arrival at home.</string>
     <string name="are_you_at_home">Are you at home?</string>
