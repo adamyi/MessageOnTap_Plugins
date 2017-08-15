@@ -126,3 +126,4 @@ crashlytics-build.properties
 fabric.properties
 
 # End of https://www.gitignore.io/api/androidstudio
+smart-calendar/src/main/java/edu/cmu/chimps/smart_calendar/SmartCalendarPlugin.java

@@ -75,7 +75,10 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         //reqParams.put("key1", "value1");
         //reqParams.put("key2", "value2");
         //reqParams.put("key3", "value3");
-        //params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Order Offee?");
+        params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Starbucks Plugin");
+        params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Order Coffee?");
+        params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_coffee);
+
 
         // TID is something we might need to implement stateflow inside a plugin.
         tidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
@@ -88,7 +91,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
         if (tid == tidShowBubble) {
-            if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")) {
+            if (params.get("status").equals("clicked")) {
                 Log.e(TAG, "button clicked");
                 //HashMap<String, Object> newParams = new HashMap<>();
                 //newParams.put("perform script", "script");

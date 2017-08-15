@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">starbucksplugin</string>
+    <string name= "fa_coffee">&#xf0f4;</string>
 </resources>

@@ -128,9 +128,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         clearLists(mMandatory,mOptional);
         //Session.TRIGGER_SOURCE = "update_calendar";
         // trigger3: We will (Let us) meet next Monday morning. both ways
-        mMandatory.add("TAG_I");
-        mMandatory.add("TAG_FREE_TEXT");
-        //mOptional.add("TAG_OPTIONAL_TIME");
+        mMandatory.add("TAG_WE");
+        mMandatory.add("TAG_TIME");
+        mOptional.add("TAG_OPTIONAL_TIME");
         HashSet<Trigger.Constraint> constraints3= new HashSet<>();
         Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory);//, mOptional,constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
         triggerArrayList.add(trigger3);
