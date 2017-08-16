@@ -268,8 +268,8 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             //EventBeginTime2.put(sid, timeArray[0]);
             //EventEndTime2.put(sid, timeArray[1]);
             //EventTimeString2 = getTimeString(params);
-            //params.put(BUBBLE_FIRST_LINE, "Add Calendar");
-            //params.put(BUBBLE_SECOND_LINE, "Event begin time:"+ EventBeginTime2);
+            params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
+            params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, EventBeginTime2 + "-" + EventEndTime2);
             TidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
 
 

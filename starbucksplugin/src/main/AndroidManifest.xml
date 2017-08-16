@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".StarbucksSettingActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:label="StarBucks">
+            android:label="StarBucks"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,12 +20,12 @@
         <service android:name=".StarbucksPlugin"
             android:label="Starbucks">
             <intent-filter>
-                <action android:name="edu.cmu.chimps.messageontap_prototype.Plugin" />
+                <action android:name="edu.cmu.chimps.messageontap.Plugin" />
             </intent-filter>
             <meta-data android:name="description"
             android:value="order coffee" />
             <meta-data android:name="settingsActivity"
-                android:value=".SmartCalendarSettingsActivity" />
+                android:value=".StarbucksSettingActivity" />
         </service>
     </application>
 
