@@ -31,6 +31,9 @@ import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "SmartCalendar plugin";
+    public static int eventNameId = 3726;
+    public static int eventTimeId = 1567;
+    public static int eventLocationId = 9123;
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
     HashMap<Long, Long> tidPutTreeToGetTime = new HashMap<>();
@@ -179,103 +182,91 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 }
             }
 
-
             /*
-
             Date date = new Date();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.ENGLISH);
             try {
-                date = s.parse("2017-8-1-8-30");
+                dateBegin = s.parse("2017-8-1-8-30");
             }catch (ParseException e){
                 e.printStackTrace();
             }
 
-
             Date date2 = new Date();
             SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
             try{
-                date2 = s.parse("2017-8-1-9-40");
+                dateEnd = s.parse("2017-8-1-9-40");
             }catch (ParseException e){
 
             }
             */
-/*
-            ParseTree.Node newNode1 = new ParseTree.Node();
-            newNode1.setWord(getTimeString(params));
+
+            ParseTree.Node timeNode = new ParseTree.Node();
+            timeNode.setWord(getTimeString(params));
             Log.e(TAG,getTimeString(params));
-            Set<String> set = new HashSet<>();
-            set.add(ServiceAttributes.Graph.Event.TIME);
-            newNode1.setTagList(set);
-            newNode1.setId(1567);
-            newNode1.setParentId(3726);
-            ParseTree.Node newNode2 = new ParseTree.Node();
+            Set<String> timeTagSet = new HashSet<>();
+            timeTagSet.add(ServiceAttributes.Graph.Event.TIME);
+            timeNode.setTagList(timeTagSet);
+            timeNode.setId(eventTimeId);
+            timeNode.setParentId(eventNameId);
 
+            ParseTree.Node eventNode = new ParseTree.Node();
+            Set<String> nameTagSet = new HashSet<>();
+            nameTagSet.add(ServiceAttributes.Graph.Event.NAME);
+            eventNode.setTagList(nameTagSet);
+            eventNode.setId(eventNameId);
+            eventNode.setParentId(-1);//root id
 
-            Set<String> set2 = new HashSet<>();
-            set2.add(ServiceAttributes.Graph.Event.NAME);
-            newNode2.setTagList(set2);
-            newNode2.setId(3726);
-            newNode2.setParentId(-1);
-
-            Set<Integer> set3 = new HashSet<>();
-            set3.add(1567);
-            newNode2.setChildrenIds(set3);
+            Set<Integer> ChildrenId = new HashSet<>();
+            ChildrenId.add(eventTimeId);
+            eventNode.setChildrenIds(ChildrenId);
 
             SparseArray<ParseTree.Node> array = new SparseArray<>();
-            array.put(1567, newNode1);
-            array.put(3726, newNode2);
+            array.put(eventTimeId,timeNode);
+            array.put(eventNameId,eventNode);
             tree1.get(sid).setNodeList(array);
 
             Log.e(TAG, "Start to Send Tree to PMS");
-/*
+
             try{
                 tree1.put(sid, (ParseTree)params.get(ServiceAttributes.Graph.SYNTAX_TREE));
-
             } catch (Exception e){
                 throw e;
             }
-            Log.e(TAG, "Add");
-            EventTimeString1.put(sid, getTimeString(params));
             Log.e(TAG, "Add Root");
-
-params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
+            params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
             Log.e(TAG, "Put Tree" + JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
-
             tidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
             Log.e(TAG, "Send Tree to PMS");
 
-            */
-
-            Event event1 = new Event();
+           /*  testing html
+            Event eventTest = new Event();
             Date date = new Date();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm",Locale.ENGLISH);
             try {
-                date = s.parse("2001-11-10-8-30");
+                dateBegin = s.parse("2001-11-10-8-30");
             }catch (ParseException e){
                 e.printStackTrace();
             }
-
             event1.setBeginTime(date.getTime());
             event1.setEndTime(date.getTime());
-
-            Date date2 = new Date();
+            Date dateEnd = new Date();
             SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
             try{
-                date2 = s.parse("2001-11-10-9-40");
+                dateEnd = s.parse("2001-11-10-9-40");
             }catch (ParseException e){
 
             }
-            event1.setEndTime(date2.getTime());
-            event1.setEventName("Do HomeWork");
-            event1.setLocation("Zoo");
+            eventTest.setEndTime(date2.getTime());
+            eventTest.setEventName("Do HomeWork");
+            eventTest.setLocation("Zoo");
             ArrayList<Event> events = new ArrayList<>();
-
-            events.add(event1);
+            events.add(eventTest);
             eventList.put(sid,events);
             params.put("html_string", getHtml(eventList.get(sid)));
             tidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                     MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
+            */
         }
 
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")) {
@@ -286,9 +277,6 @@ params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.
             ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
             eventBeginTime.put(sid,messageTime.get(0).get(0));
             eventEndTime.put(sid,messageTime.get(0).get(1));
-            //EventBeginTime2.put(sid, timeArray[0]);
-            //EventEndTime2.put(sid, timeArray[1]);
-            //EventTimeString2 = getTimeString(params);
              params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
              params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, eventBeginTime + "-" + eventEndTime);
                 params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
@@ -297,14 +285,11 @@ params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.
                 params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
                 params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, "");
                 params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
-;
             }
 
             tidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
-
-
 
     @Override
     protected void newTaskResponded(long sid, long tid, HashMap<String, Object> params) throws Exception {
@@ -319,30 +304,28 @@ params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.
                 params.put(ServiceAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid),
                         EventTimeString1.get(sid), tag_time));
                         */
-/* for testing
+              // set location node
                 SparseArray<ParseTree.Node> nodeList = tree1.get(sid).getNodeList();
-                nodeList.remove(3726);
-                ParseTree.Node node= new ParseTree.Node();
-                node.setId(9123);
-                node.setParentId(-1);
+                nodeList.remove(eventNameId);
+                ParseTree.Node locationNode = new ParseTree.Node();
+                locationNode.setId(eventLocationId);
+                locationNode.setParentId(-1);
                 Set<Integer> setChildIds = new HashSet<>();
-                setChildIds.add(1567);
-                node.setChildrenIds(setChildIds);
+                setChildIds.add(eventTimeId);
+                locationNode.setChildrenIds(setChildIds);
+                //set tag
                 Set<String> set = new HashSet<>();
-                set.add(ServiceAttributes.Graph.Event.NAME);
-                node.setTagList(set);
-                nodeList.put(9123, node);
+                set.add(ServiceAttributes.Graph.Place.NAME);
+                locationNode.setTagList(set);
+                nodeList.put(eventLocationId, locationNode);
+                //put and send tree
                 tree1.get(sid).setNodeList(nodeList);
                 Log.e(TAG, "tree1 is : " + JSONUtils.simpleObjectToJson(tree1, JSONUtils.TYPE_PARSE_TREE));
                 params.put(ServiceAttributes.Graph.SYNTAX_TREE,tree1);
-
-
-
-                Log.e(TAG, "newTaskResponsed:   creating task" );
                 tidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                         MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 Log.e(TAG,"PUT TREE TO GET LOCATION");
-                */
+
             }catch (Exception e){
                 e.printStackTrace();
                 endSession(sid);
@@ -351,7 +334,8 @@ params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.
             //getCardMessage and put it into params
             try {
                 setListLocation(eventList.get(sid), params);
-                //params.put(BUBBLE_FIRST_LINE, "Show Calendar");
+                params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Smart Calendar");
+                params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Show Events");
                 tidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                         MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
@@ -362,7 +346,7 @@ params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){
-                    params.put("html_string", getHtml(EventListSortByTime(eventList.get(sid))));
+                    params.put("html_string", getHtml(eventListSortByTime(eventList.get(sid))));
                     tidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                             MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
@@ -397,13 +381,13 @@ params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.
         }
     }
 
-    private ArrayList<Event> EventListSortByTime(ArrayList<Event> events){
-        Collections.sort(events,new SortByTime());
+    private ArrayList<Event> eventListSortByTime(ArrayList<Event> events){
+        Collections.sort(events,new sortByTime());
         return events;
 
     }
 
-    class SortByTime implements Comparator{
+    class sortByTime implements Comparator{
         public int compare(Object o1,Object o2){
             Event e1 = (Event) o1;
             Event e2 = (Event) o2;

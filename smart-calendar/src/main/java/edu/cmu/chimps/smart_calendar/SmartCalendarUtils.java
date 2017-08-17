@@ -129,22 +129,15 @@ public class SmartCalendarUtils {
         }
     }
 
-
-
-
     public static Calendar getDate(Long time){
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(time);
         return date;
     }
 
-
     public static String getHtml(ArrayList<Event> eventList){
-
         String html = "";
-
         int year;
-
         ////////////////Time///////////////////
         String yeartablehtml = ".year{\n" +
                 "\t\tbackground: #39A90E;\n" +
@@ -164,35 +157,27 @@ public class SmartCalendarUtils {
                 "\t}" + ".checkbox{\n" +
                 "\t\t float:right\n" +
                 "\t}" +
-                "</style>";
+                "</style>" + "<form class = \"eventform\">";
         ////////////////Recycle Events//////////////
         for (Event event: eventList){
-
             String theEvent = event.getEventName();
-
-
             Long begintime = event.getBeginTime();
             Long endTime = event.getEndTime();
             String location = event.getLocation();
             Calendar beginT = Calendar.getInstance();
             beginT.setTimeInMillis(begintime);
-
             Calendar endT = Calendar.getInstance();
             endT.setTimeInMillis(endTime);
-
             int beginHour = beginT.get(Calendar.HOUR_OF_DAY);
             int endHour = endT.get(Calendar.HOUR_OF_DAY);
-
+           // year = beginT.get(Calendar.YEAR);
             SimpleDateFormat fmt = new SimpleDateFormat("HH:mm");
             String finalBeginTime = fmt.format(begintime);
             String finalEndTime = fmt.format(endTime);
-
-
             int height = (beginHour-endHour) * 20;// ms->s->h->x20(20px/hour)
             if (height < 75){
                 height = -1;
             }
-
             String h;
             if (height == -1){
                 h = "auto";
@@ -203,7 +188,8 @@ public class SmartCalendarUtils {
                     "<div class=\"datashower\" style=\"height:" + h + "\";>\n" +
                     // 加上Time and Event
                     "<h class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</h >\n" +
-                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent + "<input type=\"checkbox\" class = \"checkbox\">"+"</p >\n" +
+                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent +
+                    "<input type=\"checkbox\" class = \"checkbox\""+ "id=\""+ theEvent + "\"></p >\n" +
                     "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
                     "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
                     //////////////
@@ -211,7 +197,7 @@ public class SmartCalendarUtils {
         }
 
         ///////ending/////////
-        htmlString = htmlString + "<div style=\"text-align: center\">\n" +
+        htmlString = htmlString + "</form>"+ "<div style=\"text-align: center\">\n" +
 
                 "<button class=\"data\" style=\"\" data=\"\">\n" +
                 "\tOK\n" +
