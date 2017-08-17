@@ -259,13 +259,13 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 for (HashMap<String, Object> card : cardList) {
                     for (int i = 0; i < tree1.get(sid).getNodeList().size(); i++) {
                         ParseTree.Node node = tree1.get(sid).getNodeList().get(i);
-                        if (node.getWord().equals((String) card.get(ServiceAttributes.Graph.Document.TITLE))) {
+                       // if (node.getWord().equals((String) card.get(ServiceAttributes.Graph.Document.TITLE))) {
                             Doc doc = new Doc();
                             doc.setDocName((String) card.get(ServiceAttributes.Graph.Document.TITLE));
                             doc.setCreatedTime((Long) card.get(ServiceAttributes.Graph.Document.CREATED_TIME));
                             //doc.setDocUrl((String)card.get(Graph.Document.URL));
                             DocList.add(doc);
-                        }
+                       // }
                     }
                 }
                 if (!DocList.isEmpty()) {

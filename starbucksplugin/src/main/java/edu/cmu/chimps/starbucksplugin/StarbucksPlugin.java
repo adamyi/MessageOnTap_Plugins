@@ -76,8 +76,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         //reqParams.put("key3", "value3");
         params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Starbucks Plugin");
         params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Order Coffee?");
-        params.put(ServiceAttributes.UI.ICON_TYPE_STRING,"fa_coffee");
-
+        params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_coffee);
 
         // TID is something we might need to implement stateflow inside a plugin.
         tidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
@@ -96,7 +95,6 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
                 //HashMap<String, Object> newParams = new HashMap<>();
                 //newParams.put("perform script", "script");
                 //createTask(sid, MethodConstants.ACTION_TYPE,"perform script", newParams);
-
                 Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
                 sugiliteIntent.addCategory("android.intent.category.DEFAULT");
                 sugiliteIntent.putExtra("messageType", "RUN_SCRIPT");
@@ -105,7 +103,6 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
                     sugiliteIntent.putExtra("arg1", scriptName);
                     sugiliteIntent.putExtra("arg2", "Run Script Complete");
                     startActivity(sugiliteIntent);}
-
                 endSession(sid);
                 Log.e(TAG, "Ending session " + sid);
                 Log.e(TAG, "Action officially run" + sid);
@@ -115,8 +112,6 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
                 Intent intent = new Intent(StarbucksPlugin.this,StarbucksIntent.class);
                 startActivity(intent);
                 */
-
-
             }
         }else{
             Log.e(TAG, "Ending session " + sid);

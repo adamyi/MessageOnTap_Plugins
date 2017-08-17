@@ -26,7 +26,6 @@ public class StarbucksSettingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private int BackPressedCount;
     public static FlagChangeListener listener;
-
     public static void setFlagChangeListener(FlagChangeListener icl) {
          listener = icl;
     }
@@ -51,18 +50,24 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                     Result = data.getStringExtra("result");
                     //ArrayList<String> ResultArray = (ArrayList<String>) JSONUtils.jsonToSimpleObject(Result,JSONUtils.TYPE_TAG_ARRAY);
                     Log.e(TAG, "onResult:" + Result);
-
-                    ArrayList<String> result = rehandledResultArrayList(Result);
-                    Script.scriptList.clear();
-                    for (String str : result){
-                        Script script = new Script(str);
-                        Script.scriptList.add(script);
+                    ArrayList<String> result = new ArrayList<>();
+                    if (Result != "") {
+                        result = rehandledResultArrayList(Result);
+                        Script.scriptList.clear();
+                        for (String str : result){
+                            Script script = new Script(str);
+                            Script.scriptList.add(script);
+                        }
+                        adapter.notifyDataSetChanged();
+                        Log.e(TAG, "onActivityResult: " + result.toString());
+                        Snackbar snackbar = Snackbar
+                                .make(findViewById(R.id.recyclerview), "Scripts have been updated", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }else{
+                        Snackbar snackbar = Snackbar
+                                .make(findViewById(R.id.recyclerview), "No Script", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
-                    adapter.notifyDataSetChanged();
-                    Log.e(TAG, "onActivityResult: " + result.toString());
-                    Snackbar snackbar = Snackbar
-                            .make(findViewById(R.id.recyclerview), "Scripts have been updated", Snackbar.LENGTH_LONG);
-                    snackbar.show();
                 }
                 break;
         }
@@ -127,8 +132,6 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-
         FloatingActionButton floatingUndefinedButton = (FloatingActionButton) findViewById(R.id.floatingUndefinedAction);
         floatingUndefinedButton.setImageResource(R.drawable.ic_action_check);
         floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +143,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
             }
         });        
     }
-    
-
+    //turn the json string into Arraylist
     protected ArrayList<String> rehandledResultArrayList(String json){
         ArrayList<String> result = new ArrayList<>();
         String nJson = json;
@@ -151,7 +153,6 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         for (String i:nJsonString){
             result.add(i);
         }
-
         return result;
     }
 }

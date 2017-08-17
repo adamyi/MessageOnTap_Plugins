@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import java.util.List;
 
 
@@ -34,7 +33,6 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
             contactCheckBox = (CheckBox) itemView.findViewById(R.id.contact_checkbox);
         }
     }
-
 
     public ScriptAdapter(List<Script> mScriptList, Toolbar toolbar) {
         this.mScriptList = mScriptList;
@@ -75,8 +73,6 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     public int getItemCount() {
         return mScriptList.size();
     }
-
-
     public  static void SetSelection(ViewHolder holder, Script script){
         if (script.isFlag()){
             holder.contactCheckBox.setChecked(true);
@@ -109,11 +105,11 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
                         } else {
                             holder.contactCheckBox.setChecked(false);
                         }
-                        Log.i("iiii", "SetAllSavedSelection: "+holder.contactName.getText() + script.isFlag());
+                        Log.i("Script", "SetAllSavedSelection: "+holder.contactName.getText() + script.isFlag());
                     }
                 }
             }
-            Log.i("iiii", "SetAllSelection:  completed");
+            Log.i("Script", "SetAllSelection:  completed");
         }
 
     }

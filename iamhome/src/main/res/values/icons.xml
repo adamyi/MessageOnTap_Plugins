@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fa_icon_areachart">&#xf1fe;</string>
+    <string name="fa_icon_piechart">&#xf200;</string>
+    <string name="fa_icon_linechart">&#xf201;</string>
+    <string name="fa_book">&#xf02d;</string>
+    <string name="fa_cancel">&#xf00d;</string>
+
+    <string name="fa_message">&#xf27b;</string>
+    <string name="fa_calendar">&#xf073;</string>
+    <string name="fa_home">&#xf015;</string>
+    <string name="fa_coffee">&#xf0f4;</string>
+    <string name="fa_contact_book">&#xf2b9;</string>
+
+
+    <string name="fa_plane">&#xf072;</string>
+
+
+</resources>

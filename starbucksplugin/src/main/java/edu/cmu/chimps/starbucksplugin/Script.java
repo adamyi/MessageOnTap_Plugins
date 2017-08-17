@@ -36,13 +36,19 @@ public class Script {
         return drawable;
     }
 
-    public static String getSelectedName(){
-        for (int i = 0; i< scriptList.size(); i++){
-            if (scriptList.get(i).isFlag()){
-                return scriptList.get(i).getName();
+    public static String getSelectedName() {
+      String selectedName = new String();
+            if (scriptList.size() != 0){
+            for (int i = 0; i < scriptList.size(); i++) {
+                if (scriptList.get(i).isFlag()) {
+                    selectedName = scriptList.get(i).getName();
+                }
             }
-        }
-        return "empty";
+            return selectedName;
+            }
+        else{
+                return "empty";
+            }
     }
 
 
