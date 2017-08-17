@@ -1,1 +1,1 @@
-include ':smart-calendar', ':iamhome', ':googledocsplugin'
+include ':smart-calendar', ':iamhome', ':googledocsplugin', ':starbucksplugin'

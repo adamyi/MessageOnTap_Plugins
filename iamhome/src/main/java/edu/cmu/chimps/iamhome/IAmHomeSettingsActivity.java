@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -40,7 +41,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
-import edu.cmu.chimps.iamhome.services.ShareMessageService;
 import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
@@ -369,8 +369,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent launchService = new Intent(MyApplication.getContext(), ShareMessageService.class);
-                                startService(launchService);
+                            Intent startSessionIntent = new Intent("Session On Start");
+                            LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(startSessionIntent);
                         }
                     });
                     dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

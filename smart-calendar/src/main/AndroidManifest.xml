@@ -19,7 +19,7 @@
         <service android:name=".SmartCalendarPlugin"
             android:label="@string/plugin_title">
             <intent-filter>
-                <action android:name="edu.cmu.chimps.messageontap_prototype.Plugin" />
+                <action android:name="edu.cmu.chimps.messageontap.Plugin" />
             </intent-filter>
             <meta-data android:name="description"
                 android:value="@string/plugin_description" />

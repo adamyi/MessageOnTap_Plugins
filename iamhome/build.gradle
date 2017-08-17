@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "edu.cmu.chimps.iamhome"
@@ -44,9 +44,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'
     })
+    compile 'messageontap:api:0.3.2'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'messageontap:api:0.2.0'
     compile 'com.github.chentc:PrivacyStreams:v0.1.4.7'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -54,6 +54,5 @@ dependencies {
     compile 'com.github.imangazalievm:circlemenu:1.0.3'
     compile 'com.github.wooplr:Spotlight:1.2.3'
     compile 'com.github.takusemba:spotlight:1.0.3'
-    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
 }

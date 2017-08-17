@@ -13,7 +13,7 @@ public class TimeStorage {
     private List<Integer> storedTimeimeList;
 
     public static void storeTime(Context context, String identifier, List<Integer> timeList) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(identifier, context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences(identifier, Context.MODE_PRIVATE).edit();
         editor.putInt("Hour", timeList.get(0));
         editor.putInt("Minute", timeList.get(1));
         if (timeList.size() < 2) {
@@ -25,7 +25,7 @@ public class TimeStorage {
     }
 
     public static ArrayList<Integer> getTime(Context context, String identifier) {
-        SharedPreferences time = context.getSharedPreferences(identifier, context.MODE_PRIVATE);
+        SharedPreferences time = context.getSharedPreferences(identifier, Context.MODE_PRIVATE);
         Integer hour = time.getInt("Hour", 0);
         Integer minute = time.getInt("Minute", 0);
         Integer second = time.getInt("Second", 0);

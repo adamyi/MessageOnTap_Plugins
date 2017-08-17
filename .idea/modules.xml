@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/googledocsplugin/googledocsplugin.iml" filepath="$PROJECT_DIR$/googledocsplugin/googledocsplugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/iamhome/iamhome.iml" filepath="$PROJECT_DIR$/iamhome/iamhome.iml" />
       <module fileurl="file://$PROJECT_DIR$/smart-calendar/smart-calendar.iml" filepath="$PROJECT_DIR$/smart-calendar/smart-calendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/starbucksplugin/starbucksplugin.iml" filepath="$PROJECT_DIR$/starbucksplugin/starbucksplugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/starbucksplugin/starbucksplugin.iml" filepath="$PROJECT_DIR$/starbucksplugin/starbucksplugin.iml" />
     </modules>
   </component>
 </project>

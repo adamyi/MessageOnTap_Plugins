@@ -5,17 +5,17 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 
-/**
- * Created by wangyusen on 7/21/17.
- */
+import edu.cmu.chimps.iamhome.MyApplication;
 
-public class notificationTriggerService extends IntentService{
+
+public class NotificationTriggerService extends IntentService{
     public static final String ACTION_SEND = "ACTION_SEND";
-    public notificationTriggerService(String name) {
+    public NotificationTriggerService(String name) {
         super(name);
     }
-    public notificationTriggerService(){
+    public NotificationTriggerService(){
         super("");
     }
 
@@ -39,8 +39,8 @@ public class notificationTriggerService extends IntentService{
                 //// TODO: 7/21/17 send message to yuser
                 Intent closeNotificationDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
                 this.sendBroadcast(closeNotificationDrawer);
-                Intent launchService = new Intent(this, ShareMessageService.class);
-                startService(launchService);
+                Intent startSessionIntent = new Intent("Session On Start");
+                LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(startSessionIntent);
             }
         }
 

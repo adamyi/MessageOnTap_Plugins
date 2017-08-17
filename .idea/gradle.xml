@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/googledocsplugin" />
             <option value="$PROJECT_DIR$/iamhome" />
             <option value="$PROJECT_DIR$/smart-calendar" />
+            <option value="$PROJECT_DIR$/starbucksplugin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
