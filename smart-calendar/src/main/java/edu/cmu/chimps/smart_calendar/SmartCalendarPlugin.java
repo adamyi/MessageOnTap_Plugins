@@ -37,26 +37,26 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     public static final String TAG = "SmartCalendar plugin";
     public int MOOD = 0; // 0 statement
     public int DIRECTION = 0; // 0 incoming
-    HashMap<Long, Long> TidPutTreeToGetTime = new HashMap<>();
-    HashMap<Long,Long> TidPutTreeToGetLocation = new HashMap<>();
-    HashMap<Long,Long> TidAddAction_ShowBubble = new HashMap<>();
+    HashMap<Long, Long> tidPutTreeToGetTime = new HashMap<>();
+    HashMap<Long,Long> tidPutTreeToGetLocation = new HashMap<>();
+    HashMap<Long,Long> tidAddAction_ShowBubble = new HashMap<>();
 
-    HashMap<Long,Long> TidAddAction = new HashMap<>();
-    HashMap<Long,Long> TidShowHtml = new HashMap<>();
-    HashMap<Long,Long> TidShowBubble = new HashMap<>();
+    HashMap<Long,Long> tidAddAction = new HashMap<>();
+    HashMap<Long,Long> tidShowHtml = new HashMap<>();
+    HashMap<Long,Long> tidShowBubble = new HashMap<>();
 
-    HashMap<Long,ArrayList<Event>> EventList = new HashMap<>();
+    HashMap<Long,ArrayList<Event>> eventList = new HashMap<>();
 
     HashMap<Long, ParseTree> tree1 = new HashMap<>();
     HashMap<Long, ParseTree> tree2 = new HashMap<>();
 
-    HashMap<Long, String> EventTimeString1 = new HashMap<>();
+    HashMap<Long, String> eventTimeString1 = new HashMap<>();
 
-    HashMap<Long, String> EventTimeString2 = new HashMap<>();
+    HashMap<Long, String> eventTimeString2 = new HashMap<>();
 
-    HashMap<Long, Long> EventBeginTime2 = new HashMap<>();
+    HashMap<Long, Long> eventBeginTime2 = new HashMap<>();
 
-    HashMap<Long, Long> EventEndTime2 = new HashMap<>();
+    HashMap<Long, Long> eventEndTime2 = new HashMap<>();
 
     // init the tags
 
@@ -255,22 +255,34 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
             Log.e(TAG, "Put Tree" + JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
 
-            TidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+            tidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
             Log.e(TAG, "Send Tree to PMS");
         }
 
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")) {
             //tree2 = (ParseTree)params.get(ServiceAttributes.Graph.SYNTAX_TREE);
-            ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get("time_result");
-            EventBeginTime2.put(sid,messageTime.get(0).get(0));
-            EventEndTime2.put(sid,messageTime.get(0).get(1));
+            Log.e(TAG, "Trigger3");
+            if (params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME).equals("")){
+                Log.e(TAG, "initNewSession: get messsage embeded time");
+            ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
+            eventBeginTime2.put(sid,messageTime.get(0).get(0));
+            eventEndTime2.put(sid,messageTime.get(0).get(1));
             //EventBeginTime2.put(sid, timeArray[0]);
             //EventEndTime2.put(sid, timeArray[1]);
             //EventTimeString2 = getTimeString(params);
-            params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
-            params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, EventBeginTime2 + "-" + EventEndTime2);
-            TidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+             params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
+             params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, eventBeginTime2 + "-" + eventEndTime2);
+                params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
+            }
+            else{
+                params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
+                params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, "");
+                params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
+;
+            }
+
+            tidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
 
 
         }
@@ -283,9 +295,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
 
-        if (tid == getTid(TidPutTreeToGetTime, sid)){
+        if (tid == getTid(tidPutTreeToGetTime, sid)){
             try{
-                EventList.put(sid, getEventList(params));
+                eventList.put(sid, getEventList(params));
                 Log.e(TAG, "Event List=" + getEventList(params).toString());
                 Log.e(TAG, "Got Task ID");
               /*
@@ -312,7 +324,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
 
                 Log.e(TAG, "newTaskResponsed:   creating task" );
-                TidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                tidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                         MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 Log.e(TAG,"PUT TREE TO GET LOCATION");
 
@@ -320,23 +332,23 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == getTid(TidPutTreeToGetLocation, sid)) {
+        } else if (tid == getTid(tidPutTreeToGetLocation, sid)) {
             //getCardMessage and put it into params
             try {
-                setListLocation(EventList.get(sid), params);
+                setListLocation(eventList.get(sid), params);
                 //params.put(BUBBLE_FIRST_LINE, "Show Calendar");
-                TidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                tidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                         MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == getTid(TidShowBubble, sid)){
+        } else if (tid == getTid(tidShowBubble, sid)){
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){
-                    params.put("html_string", getHtml(EventListSortByTime(EventList.get(sid))));
-                    TidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                    params.put("html_string", getHtml(EventListSortByTime(eventList.get(sid))));
+                    tidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                             MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
                     endSession(sid);
@@ -345,7 +357,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == getTid(TidShowHtml, sid)){
+        } else if (tid == getTid(tidShowHtml, sid)){
             Log.e(TAG, "Successfully Run Action");
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
@@ -353,7 +365,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         }
 
 
-        if (tid == getTid(TidPutTreeToGetLocation, sid)){
+        if (tid == getTid(tidPutTreeToGetLocation, sid)){
             //if (params.get(BUBBLE_STATUS) == 1) {
             //TEXT TIME
             Date date = new Date();
@@ -374,14 +386,14 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
 
             if (1==1){       //params.get(BUBBLE_STATUS)==1
-                params.put("calendar_extra_time_start",EventBeginTime2);
-                params.put("calendar_extra_time_end", EventEndTime2);
-                TidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
+                params.put("calendar_extra_time_start",eventBeginTime2);
+                params.put("calendar_extra_time_end", eventEndTime2);
+                tidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
                         MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
-        } else if (tid == getTid(TidAddAction, sid)){
+        } else if (tid == getTid(tidAddAction, sid)){
 
 
             //Log.e(TAG, "Action Response:" + params.get(EntityAttributes.Action.RESULT));
@@ -407,10 +419,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     @Override
     protected void endSession(long sid) {
-        TidPutTreeToGetTime.remove(sid); TidPutTreeToGetLocation.remove(sid); TidShowBubble.remove(sid);
-        TidShowHtml.remove(sid); TidAddAction.remove(sid); TidAddAction_ShowBubble.remove(sid);
-        EventList.remove(sid); tree1.remove(sid); tree2.remove(sid); EventTimeString1.remove(sid);
-        EventTimeString2.remove(sid); EventBeginTime2.remove(sid); EventEndTime2.remove(sid);
+        tidPutTreeToGetTime.remove(sid); tidPutTreeToGetLocation.remove(sid); tidShowBubble.remove(sid);
+        tidShowHtml.remove(sid); tidAddAction.remove(sid); tidAddAction_ShowBubble.remove(sid);
+        eventList.remove(sid); tree1.remove(sid); tree2.remove(sid); eventTimeString1.remove(sid);
+        eventTimeString2.remove(sid); eventBeginTime2.remove(sid); eventEndTime2.remove(sid);
         super.endSession(sid);
     }
     

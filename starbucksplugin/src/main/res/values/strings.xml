@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">starbucksplugin</string>
     <string name= "fa_coffee">&#xf0f4;</string>
+    <string name= "fa_message">&#xf27b;</string>
+    <string name= "fa_home">&#xf015;</string>
+    <string name= "fa_contact_book">&#xf2b9;</string>
+    <string name= "fa_calendar">&#xf073;</string>
 </resources>

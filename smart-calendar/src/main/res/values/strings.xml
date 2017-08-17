@@ -3,4 +3,6 @@
     <string name="plugin_title">Smart Calendar</string>
     <string name="plugin_description">Respond to messages like \"Are you free tomorrow?\"</string>
     <string name="title_settings">Smart Calendar Settings</string>
+
+
 </resources>
