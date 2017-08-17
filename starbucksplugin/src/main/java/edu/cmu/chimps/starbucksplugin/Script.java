@@ -6,10 +6,6 @@ import com.amulyakhare.textdrawable.TextDrawable;
 
 import java.util.ArrayList;
 
-/**
- * Created by knight006 on 7/18/2017.
- */
-
 public class Script {
     private String Name;
     private boolean isFlag;

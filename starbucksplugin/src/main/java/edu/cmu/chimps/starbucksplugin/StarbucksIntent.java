@@ -1,19 +1,12 @@
 package edu.cmu.chimps.starbucksplugin;
 
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.CursorJoiner;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.renderscript.Script;
 import android.util.Log;
-import edu.cmu.chimps.starbucksplugin.StarbucksPlugin;
 
 
-/**
- * Created by apple on 2017/8/10.
- */
 
 public class StarbucksIntent extends PreferenceActivity {
     public static String SCRIPT_RESULT;

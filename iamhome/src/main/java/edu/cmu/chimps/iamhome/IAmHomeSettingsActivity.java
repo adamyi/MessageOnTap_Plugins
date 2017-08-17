@@ -81,7 +81,6 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     imageView.setImageDrawable(getDrawable(R.drawable.ic_home_white_24px));
                     StatusToastsUtils.createAthomeNoti(MyApplication.getContext());
 
-
                 } else if (input.getValueByField(WifiAp.STATUS).toString().equals(WifiAp.STATUS_CONNECTED)) {
                     TextView textView = (TextView) findViewById(R.id.textView3);
                     textView.setText("Connected WIFI: " + "\n" + input.getValueByField(WifiAp.SSID));

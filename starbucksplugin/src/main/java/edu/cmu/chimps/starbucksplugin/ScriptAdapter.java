@@ -1,6 +1,5 @@
 package edu.cmu.chimps.starbucksplugin;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,14 +13,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by knight006 on 7/18/2017.
- */
 
 public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder> {
     private List<Script> mScriptList;
     protected Toolbar mToolbar;
-    public Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View contactView;

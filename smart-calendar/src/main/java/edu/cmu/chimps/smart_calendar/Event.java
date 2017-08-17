@@ -1,8 +1,5 @@
 package edu.cmu.chimps.smart_calendar;
 
-/**
- * Created by knight006 on 7/31/2017.
- */
 
 public class Event {
     private String EventName;

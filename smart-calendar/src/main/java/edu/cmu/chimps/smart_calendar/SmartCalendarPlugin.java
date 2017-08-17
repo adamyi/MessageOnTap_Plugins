@@ -29,9 +29,6 @@ import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
-//import edu.cmu.chimps.messageontap_api.Globals;
-
-
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "SmartCalendar plugin";
@@ -385,6 +382,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
 
+
             if (1==1){       //params.get(BUBBLE_STATUS)==1
                 params.put("calendar_extra_time_start",eventBeginTime2);
                 params.put("calendar_extra_time_end", eventEndTime2);
@@ -394,6 +392,14 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 endSession(sid);
             }
         } else if (tid == getTid(tidAddAction, sid)){
+
+            //params.get(BUBBLE_STATUS)==1
+            params.put("calendar_extra_time_start",eventBeginTime2);
+            params.put("calendar_extra_time_end", eventEndTime2);
+            tidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
+                    MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
+        } else if (tid == getTid(tidAddAction, sid)){
+
 
 
             //Log.e(TAG, "Action Response:" + params.get(EntityAttributes.Action.RESULT));

@@ -14,12 +14,6 @@ import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 
-//import edu.cmu.chimps.messageontap_api.EntityAttributes;
-//import edu.cmu.chimps.messageontap_api.Globals;
-
-/**
- * Created by knight006 on 8/1/2017.
- */
 
 public class SmartCalendarUtils {
     public static final int NAME_ROOT_ID = 45;
@@ -35,8 +29,7 @@ public class SmartCalendarUtils {
         if (map.get(sid) != null){
             return map.get(sid);
         }
-        Long i = (long) -1;
-        return i;
+        return (Long) (long) -1;
     }
 
 
@@ -195,7 +188,7 @@ public class SmartCalendarUtils {
             String finalEndTime = fmt.format(endTime);
 
 
-            int height = (int) (beginHour-endHour)*20;// ms->s->h->x20(20px/hour)
+            int height = (beginHour-endHour) * 20;// ms->s->h->x20(20px/hour)
             if (height < 75){
                 height = -1;
             }

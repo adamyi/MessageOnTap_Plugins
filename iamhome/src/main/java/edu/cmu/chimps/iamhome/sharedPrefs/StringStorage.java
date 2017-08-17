@@ -10,7 +10,7 @@ public class StringStorage {
     private static final String POSITION = "IAmHomeDefaultMessage";
 
     public static void storeMessage(Context context, String inputText, Boolean mute) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("message", context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences("message", Context.MODE_PRIVATE).edit();
         if (inputText.replaceAll(" ", "").equals("")) {
             if(!mute) {
                 Toast.makeText(context, "Message has been reset to default", Toast.LENGTH_SHORT).show();
@@ -27,7 +27,7 @@ public class StringStorage {
     }
 
     public static String getMessage(Context context) {
-        SharedPreferences msg = context.getSharedPreferences("message", context.MODE_PRIVATE);
-        return msg.getString(POSITION, new String());
+        SharedPreferences msg = context.getSharedPreferences("message", Context.MODE_PRIVATE);
+        return msg.getString(POSITION, "");
     }
 }

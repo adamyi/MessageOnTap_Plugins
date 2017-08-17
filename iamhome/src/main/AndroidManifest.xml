@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    />
+
     <application
         android:name=".MyApplication"
         tools:replace="android:name"
@@ -48,7 +48,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IAmHomeSettingsActivity" />
         </activity>
-
 
         <service android:name=".IAmHomePlugin"
             android:label="@string/plugin_title"
