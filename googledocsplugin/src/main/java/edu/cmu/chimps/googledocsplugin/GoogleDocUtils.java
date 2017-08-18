@@ -12,7 +12,7 @@ import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 
-import static com.google.android.gms.plus.PlusOneDummyView.TAG;
+//import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 /**
  * Created by knight006 on 8/1/2017.
