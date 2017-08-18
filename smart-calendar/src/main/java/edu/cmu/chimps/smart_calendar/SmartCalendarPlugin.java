@@ -315,7 +315,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 //put and send tree
                 tree1.get(sid).setNodeList(nodeList);
                 Log.e(TAG, "tree1 is : " + JSONUtils.simpleObjectToJson(tree1, JSONUtils.TYPE_PARSE_TREE));
-                params.put(ServiceAttributes.Graph.SYNTAX_TREE,tree1);
+                params.put("tree",JSONUtils.simpleObjectToJson(tree1.get(sid),JSONUtils.TYPE_PARSE_TREE));
                 tidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                         MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 Log.e(TAG,"PUT TREE TO GET LOCATION");

@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.1"
-
+    targetCompatibility = '1.7'
+    sourceCompatibility = '1.7'
     defaultConfig {
         applicationId "edu.cmu.chimps.iamhome"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -36,6 +37,7 @@ android {
     lintOptions{
         disable 'RestrictedApi'
     }
+
 }
 
 dependencies {
@@ -44,15 +46,21 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'
     })
-    compile 'messageontap:api:0.3.2'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'messageontap:api:0.3.3'
+    compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.chentc:PrivacyStreams:v0.1.4.7'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.github.imangazalievm:circlemenu:1.0.3'
     compile 'com.github.wooplr:Spotlight:1.2.3'
     compile 'com.github.takusemba:spotlight:1.0.3'
     testCompile 'junit:junit:4.12'
+}
+
+repositories {
+    maven {
+        url "https://maven.google.com"
+    }
 }
