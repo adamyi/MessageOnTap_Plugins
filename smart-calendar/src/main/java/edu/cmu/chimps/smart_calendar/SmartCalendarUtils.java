@@ -34,10 +34,10 @@ public class SmartCalendarUtils {
 
 
     public static String getTimeString(HashMap<String, Object> params){
-        ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);      //CURRENT_MESSAGE_EMBEDDED_TIME
+        ArrayList<Long> messageTime = (ArrayList<Long>) params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);      //CURRENT_MESSAGE_EMBEDDED_TIME
         StringBuilder timeString =  new StringBuilder();
         try {
-            timeString.append(messageTime.get(0).get(0)).append(",").append(messageTime.get(0).get(1));
+            timeString.append(messageTime.get(0)).append(",").append(messageTime.get(1));
         } catch (Exception e){
             e.printStackTrace();
         }

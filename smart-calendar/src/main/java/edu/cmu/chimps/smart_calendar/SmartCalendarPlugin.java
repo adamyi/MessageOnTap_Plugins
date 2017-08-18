@@ -199,7 +199,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
             */
-
+            ParseTree tree = new ParseTree();
             ParseTree.Node timeNode = new ParseTree.Node();
             timeNode.setWord(getTimeString(params));
             Log.e(TAG,getTimeString(params));
@@ -223,16 +223,11 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             SparseArray<ParseTree.Node> array = new SparseArray<>();
             array.put(eventTimeId,timeNode);
             array.put(eventNameId,eventNode);
-            tree1.get(sid).setNodeList(array);
+            tree.setNodeList(array);
+            tree1.put(sid,tree);
 
             Log.e(TAG, "Start to Send Tree to PMS");
 
-            try{
-                tree1.put(sid, (ParseTree)params.get(ServiceAttributes.Graph.SYNTAX_TREE));
-            } catch (Exception e){
-                throw e;
-            }
-            Log.e(TAG, "Add Root");
             params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
             Log.e(TAG, "Put Tree" + JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
             tidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
@@ -286,7 +281,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, "");
                 params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
             }
-
             tidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
@@ -404,9 +398,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         eventBeginTime.remove(sid); eventEndTime.remove(sid);
         super.endSession(sid);
     }
-    
-
-
 }
 
 
