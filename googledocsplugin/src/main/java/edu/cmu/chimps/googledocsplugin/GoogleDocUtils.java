@@ -24,6 +24,7 @@ public class GoogleDocUtils {
     public static final int FILTERED_DOCNAME_ROOT_ID = 222;
     public static final int ALL_URL_ROOT_ID = 333;
     public static final int FILTERED_URL_ROOT_ID = 444;
+    public static final String TAG = "GoogleDocPlugin";
 
     public static String getTimeString(HashMap<String, Object> params){
         ArrayList<ArrayList<Long>> timeArray = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
