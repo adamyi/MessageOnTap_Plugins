@@ -7,7 +7,7 @@ import android.preference.PreferenceActivity;
 import android.util.Log;
 public class StarbucksIntent extends PreferenceActivity {
     public static String SCRIPT_RESULT;
-    private final static String TAG = "StarbucksIntent";
+    public final static String TAG = "StarbucksIntent";
     public static String SCRIPT_NAME;
     @Override
     protected void onCreate(Bundle savedInstanceState){

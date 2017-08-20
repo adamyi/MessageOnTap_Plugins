@@ -147,17 +147,7 @@ public class SmartCalendarUtils {
                 "\t}";
         /////////////////style/////////////////////
         String htmlString = "<html>\n" +
-                "<style>\n" +
-                ".datashower{\n" +
-                "background:#08AED8;\n" +
-                "border-radius:5px;\n" +
-                "color: aliceblue;" +
-                "}\n" + ".text{\n" +
-                "\t\tmargin:10px;\n" +
-                "\t}" + ".checkbox{\n" +
-                "\t\t float:right\n" +
-                "\t}" +
-                "</style>" + "<form class = \"eventform\">";
+               "<form class = \"eventform\">";
         ////////////////Recycle Events//////////////
         for (Event event: eventList){
             String theEvent = event.getEventName();
@@ -185,24 +175,24 @@ public class SmartCalendarUtils {
             {   h = "" + height + "px";}
 
             htmlString = htmlString +
-                    "<div class=\"datashower\" style=\"height:" + h + "\";>\n" +
+                    "<div class=\"datashower\" style=\"height:" + h + ";background:#08AED8;" + "border-radius:5px;\n" +
+                    "color: aliceblue;" + "\">\n" +
                     // 加上Time and Event
-                    "<h class = \"text\" style = \"text-align:left;\">" + finalBeginTime + "</h >\n" +
-                    "<p class = \"text\" style = \"text-align:center;\">" + theEvent +
-                    "<input type=\"checkbox\" class = \"checkbox\""+ "id=\""+ theEvent + "\"></p >\n" +
-                    "<h class = \"text\" style = \"text-align:left;\">" + finalEndTime +
-                    "</h >\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
+                    "<h class=\"text\" style=\"text-align:left; margin:10px;\">" + finalBeginTime + "</h >\n" +
+                    "<p class=\"text\" style=\"text-align:center;margin:10px;\">" + theEvent +
+                    "<input id=\"pluginForm\"type=\"checkbox\" style=\"float:right;\" class=\"checkbox\""+ "name=\""+ theEvent + "\"></p >\n" +
+                    "<h class=\"text\" style=\"text-align:left;margin:10px;\">" + finalEndTime +
+                    "</h>\n"+ "<h style=\"float: right;margin-right:10px;\">" + location + "</h>"+
                     //////////////
                     "</div>";
         }
 
         ///////ending/////////
-        htmlString = htmlString + "</form>"+ "<div style=\"text-align: center\">\n" +
+        htmlString = htmlString +  "<div style=\"text-align: center\">\n" +
 
-                "<button class=\"data\" style=\"\" data=\"\">\n" +
-                "\tOK\n" +
-                "</button>\n" +
-                "</div>"+"</body> </html>";
+                "<input type=\"submit\" class=\"pluginButton\" style=\"\" value=\"Cancel\">\n" +
+                "\n" +
+                "</div>"+"</form>"+"</body> </html>";
         return htmlString;
     }
 }

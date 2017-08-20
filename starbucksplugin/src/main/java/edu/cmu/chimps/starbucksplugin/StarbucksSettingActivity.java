@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 public class StarbucksSettingActivity extends AppCompatActivity {
     public static String TAG = "StarbucksActivity";
-    private static String Result;
-    Toolbar toolbar;
-    ScriptAdapter adapter;
-    RecyclerView recyclerView;
-    private int BackPressedCount;
+    private static String sResult;
+    Toolbar mToolbar;
+    ScriptAdapter mAdapter;
+    RecyclerView mRecyclerView;
+    private int mBackPressedCount;
     public static FlagChangeListener listener;
     public static void setFlagChangeListener(FlagChangeListener icl) {
          listener = icl;
@@ -33,10 +33,10 @@ public class StarbucksSettingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (BackPressedCount == 0) {
+        if (mBackPressedCount == 0) {
             Toast.makeText(StarbucksSettingActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT).show();
-            BackPressedCount++;
-        } else if (BackPressedCount == 1) {
+            mBackPressedCount++;
+        } else if (mBackPressedCount == 1) {
             Toast.makeText(StarbucksSettingActivity.this, "Change canceled", Toast.LENGTH_SHORT).show();
             super.onBackPressed();
         }
@@ -47,18 +47,18 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         switch (requestCode){
             case 1:
                 if (resultCode == RESULT_OK && data != null) {
-                    Result = data.getStringExtra("result");
-                    //ArrayList<String> ResultArray = (ArrayList<String>) JSONUtils.jsonToSimpleObject(Result,JSONUtils.TYPE_TAG_ARRAY);
-                    Log.e(TAG, "onResult:" + Result);
+                    sResult = data.getStringExtra("result");
+                    //ArrayList<String> ResultArray = (ArrayList<String>) JSONUtils.jsonToSimpleObject(SResult,JSONUtils.TYPE_TAG_ARRAY);
+                    Log.e(TAG, "onResult:" + sResult);
                     ArrayList<String> result = new ArrayList<>();
-                    if (Result != "") {
-                        result = rehandledResultArrayList(Result);
+                    if (sResult != "") {
+                        result = rehandledResultArrayList(sResult);
                         Script.scriptList.clear();
                         for (String str : result){
                             Script script = new Script(str);
                             Script.scriptList.add(script);
                         }
-                        adapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                         Log.e(TAG, "onActivityResult: " + result.toString());
                         Snackbar snackbar = Snackbar
                                 .make(findViewById(R.id.recyclerview), "Scripts have been updated", Snackbar.LENGTH_LONG);
@@ -87,7 +87,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         setFlagChangeListener(new FlagChangeListener() {
             @Override
             public void onChange(Boolean wantChange) {
-                if (wantChange) ScriptAdapter.SetAllSelection(recyclerView);
+                if (wantChange) ScriptAdapter.SetAllSelection(mRecyclerView);
             }
         });
 
@@ -97,12 +97,12 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setTitle("Select Script");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.inflateMenu(R.menu.updatescript);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        //mToolbar.setNavigationIcon(R.drawable.ic_action_back);
+        mToolbar.setTitle("Select Script");
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
+        mToolbar.inflateMenu(R.menu.updatescript);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
@@ -110,7 +110,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
             }
         });
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (Script.scriptList.isEmpty()) return false;
@@ -127,11 +127,11 @@ public class StarbucksSettingActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new ScriptAdapter(Script.scriptList, toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mAdapter = new ScriptAdapter(Script.scriptList, mToolbar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
         FloatingActionButton floatingUndefinedButton = (FloatingActionButton) findViewById(R.id.floatingUndefinedAction);
         floatingUndefinedButton.setImageResource(R.drawable.ic_action_check);
         floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {

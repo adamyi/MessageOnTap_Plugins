@@ -7,16 +7,16 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import java.util.ArrayList;
 
 public class Script {
-    private String Name;
+    private String mName;
     private boolean isFlag;
     public static ArrayList<Script> scriptList =  new ArrayList<>();
 
     public Script(String Name){
-        this.Name = Name;
+        this.mName = Name;
     }
 
     public String getName() {
-        return Name;
+        return mName;
     }
 
     public boolean isFlag(){
@@ -28,7 +28,7 @@ public class Script {
     }
 
     public char getFirstC(){
-        return this.Name.charAt(0);
+        return this.mName.charAt(0);
     }
     public TextDrawable getContactPicture(){
         TextDrawable drawable = TextDrawable.builder()

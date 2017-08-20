@@ -31,25 +31,21 @@ import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "SmartCalendar plugin";
-    public static int eventNameId = 3726;
-    public static int eventTimeId = 1567;
-    public static int eventLocationId = 9123;
-    public int MOOD = 0; // 0 statement
-    public int DIRECTION = 0; // 0 incoming
-    HashMap<Long, Long> tidPutTreeToGetTime = new HashMap<>();
-    HashMap<Long,Long> tidPutTreeToGetLocation = new HashMap<>();
-    HashMap<Long,Long> tidAddAction_ShowBubble = new HashMap<>();
-
-    HashMap<Long,Long> tidAddAction = new HashMap<>();
-    HashMap<Long,Long> tidShowHtml = new HashMap<>();
-    HashMap<Long,Long> tidShowBubble = new HashMap<>();
-    HashMap<Long,ArrayList<Event>> eventList = new HashMap<>();
-    HashMap<Long, ParseTree> tree1 = new HashMap<>();
-    HashMap<Long, ParseTree> tree2 = new HashMap<>();
-   // HashMap<Long, String> eventTimeString1 = new HashMap<>();
-   // HashMap<Long, String> eventTimeString2 = new HashMap<>();
-    HashMap<Long, Long> eventBeginTime = new HashMap<>();
-    HashMap<Long, Long> eventEndTime = new HashMap<>();
+    public static int EVENT_NAME_ID = 3726;
+    public static int EVENT_TIME_ID = 1567;
+    public static int EVENT_LOCATION_ID = 9123;
+    public int mood = 0; // 0 statement
+    public int direction = 0; // 0 incoming
+    HashMap<Long, Long> mTidPutTreeToGetTime = new HashMap<>();
+    HashMap<Long,Long> mTidPutTreeToGetLocation = new HashMap<>();
+    HashMap<Long,Long> mTidAddAction_ShowBubble = new HashMap<>();
+    HashMap<Long,Long> mTidAddAction = new HashMap<>();
+    HashMap<Long,Long> mTidShowHtml = new HashMap<>();
+    HashMap<Long,Long> mTidShowBubble = new HashMap<>();
+    HashMap<Long,ArrayList<Event>> mEventList = new HashMap<>();
+    HashMap<Long, ParseTree> mTree = new HashMap<>();
+    HashMap<Long, Long> mEventBeginTime = new HashMap<>();
+    HashMap<Long, Long> mEventEndTime = new HashMap<>();
 
     // init the tags
 
@@ -62,7 +58,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             "(tomorrow|AM|PM|am|pm|today|morning|afternoon|evening|night)")));
     Tag tag_optional_time = new Tag("TAG_OPTIONAL_TIME",new HashSet<>(
             Collections.singletonList("([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]")));
-
     Tag tag_I_text = new Tag ("TAG_T_TEXT",new HashSet<>(Collections.singletonList("I")));
     Tag tag_you_text = new Tag("TAG_YOU_TEXT",new HashSet<>(Collections.singletonList("you")));
     Tag tag_free_text = new Tag("TAG_FREE_TEXT", new HashSet<>(Collections.singletonList("free")));
@@ -157,12 +152,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_one")||
                 params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_two")){
 
-            tree1.put(sid,(ParseTree) JSONUtils.jsonToSimpleObject((String)params
+            mTree.put(sid,(ParseTree) JSONUtils.jsonToSimpleObject((String)params
                     .get(ServiceAttributes.PMS.PARSE_TREE),JSONUtils.TYPE_PARSE_TREE));
             Log.e(TAG, "Tree is " + params.get(ServiceAttributes.PMS.PARSE_TREE));
             /*
-            for (int i=0; i < tree1.getNodeList().size(); i++){
-                ParseTree.Node node = tree1.getNodeList().get(i);
+            for (int i=0; i < mTree.getNodeList().size(); i++){
+                ParseTree.Node node = mTree.getNodeList().get(i);
 
                 if (node.getParentId() == 0){
                     node.setParentId(-1);
@@ -199,6 +194,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
             */
+            /*
             ParseTree tree = new ParseTree();
             ParseTree.Node timeNode = new ParseTree.Node();
             timeNode.setWord(getTimeString(params));
@@ -206,45 +202,47 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             Set<String> timeTagSet = new HashSet<>();
             timeTagSet.add(ServiceAttributes.Graph.Event.TIME);
             timeNode.setTagList(timeTagSet);
-            timeNode.setId(eventTimeId);
-            timeNode.setParentId(eventNameId);
+            timeNode.setId(EVENT_TIME_ID);
+            timeNode.setParentId(EVENT_NAME_ID);
 
             ParseTree.Node eventNode = new ParseTree.Node();
             Set<String> nameTagSet = new HashSet<>();
             nameTagSet.add(ServiceAttributes.Graph.Event.NAME);
             eventNode.setTagList(nameTagSet);
-            eventNode.setId(eventNameId);
+            eventNode.setId(EVENT_NAME_ID);
             eventNode.setParentId(-1);//root id
 
             Set<Integer> ChildrenId = new HashSet<>();
-            ChildrenId.add(eventTimeId);
+            ChildrenId.add(EVENT_TIME_ID);
             eventNode.setChildrenIds(ChildrenId);
 
             SparseArray<ParseTree.Node> array = new SparseArray<>();
-            array.put(eventTimeId,timeNode);
-            array.put(eventNameId,eventNode);
+            array.put(EVENT_TIME_ID,timeNode);
+            array.put(EVENT_NAME_ID,eventNode);
             tree.setNodeList(array);
-            tree1.put(sid,tree);
+            tree.direction = ParseTree.Direction.UNKNOWN;
+            mTree.put(sid,tree);
 
             Log.e(TAG, "Start to Send Tree to PMS");
-
-            params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
-            Log.e(TAG, "Put Tree" + JSONUtils.simpleObjectToJson(tree1.get(sid), JSONUtils.TYPE_PARSE_TREE));
-            tidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+            params.remove(ServiceAttributes.PMS.PARSE_TREE);
+            params.put(ServiceAttributes.PMS.PARSE_TREE, JSONUtils.simpleObjectToJson(mTree.get(sid), JSONUtils.TYPE_PARSE_TREE));
+            Log.e(TAG, "Put Tree" + JSONUtils.simpleObjectToJson(mTree.get(sid), JSONUtils.TYPE_PARSE_TREE));
+            mTidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
             Log.e(TAG, "Send Tree to PMS");
+            */
 
-           /*  testing html
+
             Event eventTest = new Event();
-            Date date = new Date();
+            Date dateBegin = new Date();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm",Locale.ENGLISH);
             try {
                 dateBegin = s.parse("2001-11-10-8-30");
             }catch (ParseException e){
                 e.printStackTrace();
             }
-            event1.setBeginTime(date.getTime());
-            event1.setEndTime(date.getTime());
+            eventTest.setBeginTime(dateBegin.getTime());
+            eventTest.setEndTime(dateBegin.getTime());
             Date dateEnd = new Date();
             SimpleDateFormat en = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
             try{
@@ -252,16 +250,16 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }catch (ParseException e){
 
             }
-            eventTest.setEndTime(date2.getTime());
+            eventTest.setEndTime(dateEnd.getTime());
             eventTest.setEventName("Do HomeWork");
             eventTest.setLocation("Zoo");
             ArrayList<Event> events = new ArrayList<>();
             events.add(eventTest);
-            eventList.put(sid,events);
-            params.put("html_string", getHtml(eventList.get(sid)));
-            tidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+            mEventList.put(sid,events);
+            params.put("html_string", getHtml(mEventList.get(sid)));
+            mTidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                     MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
-            */
+            
         }
 
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")) {
@@ -270,10 +268,10 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             if (params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME).equals("")){
                 Log.e(TAG, "initNewSession: get messsage embeded time");
             ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
-            eventBeginTime.put(sid,messageTime.get(0).get(0));
-            eventEndTime.put(sid,messageTime.get(0).get(1));
+            mEventBeginTime.put(sid,messageTime.get(0).get(0));
+            mEventEndTime.put(sid,messageTime.get(0).get(1));
              params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
-             params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, eventBeginTime + "-" + eventEndTime);
+             params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, mEventBeginTime + "-" + mEventEndTime);
                 params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
             }
             else{
@@ -281,7 +279,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, "");
                 params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
             }
-            tidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
+            mTidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
     }
 
@@ -289,34 +287,35 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected void newTaskResponded(long sid, long tid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
-        if (tid == getTid(tidPutTreeToGetTime, sid)){
+        if (tid == getTid(mTidPutTreeToGetTime, sid)){
             try{
-                eventList.put(sid, getEventList(params));
+                mEventList.put(sid, getEventList(params));
                 Log.e(TAG, "Event List=" + getEventList(params).toString());
                 Log.e(TAG, "Got Task ID");
               /*
-                params.put(ServiceAttributes.Graph.SYNTAX_TREE, AddRootLocation(tree1.get(sid),
+                params.put(ServiceAttributes.Graph.SYNTAX_TREE, AddRootLocation(mTree.get(sid),
                         EventTimeString1.get(sid), tag_time));
                         */
               // set location node
-                SparseArray<ParseTree.Node> nodeList = tree1.get(sid).getNodeList();
-                nodeList.remove(eventNameId);
+                SparseArray<ParseTree.Node> nodeList = mTree.get(sid).getNodeList();
+                nodeList.remove(EVENT_NAME_ID);
                 ParseTree.Node locationNode = new ParseTree.Node();
-                locationNode.setId(eventLocationId);
+                locationNode.setId(EVENT_LOCATION_ID);
                 locationNode.setParentId(-1);
                 Set<Integer> setChildIds = new HashSet<>();
-                setChildIds.add(eventTimeId);
+                setChildIds.add(EVENT_TIME_ID);
                 locationNode.setChildrenIds(setChildIds);
                 //set tag
                 Set<String> set = new HashSet<>();
                 set.add(ServiceAttributes.Graph.Place.NAME);
                 locationNode.setTagList(set);
-                nodeList.put(eventLocationId, locationNode);
+                nodeList.put(EVENT_LOCATION_ID, locationNode);
                 //put and send tree
-                tree1.get(sid).setNodeList(nodeList);
-                Log.e(TAG, "tree1 is : " + JSONUtils.simpleObjectToJson(tree1, JSONUtils.TYPE_PARSE_TREE));
-                params.put("tree",JSONUtils.simpleObjectToJson(tree1.get(sid),JSONUtils.TYPE_PARSE_TREE));
-                tidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
+                mTree.get(sid).setNodeList(nodeList);
+                Log.e(TAG, "mTree is : " + JSONUtils.simpleObjectToJson(mTree.get(sid), JSONUtils.TYPE_PARSE_TREE));
+                params.remove(ServiceAttributes.PMS.PARSE_TREE);
+                params.put(ServiceAttributes.PMS.PARSE_TREE,JSONUtils.simpleObjectToJson(mTree.get(sid),JSONUtils.TYPE_PARSE_TREE));
+                mTidPutTreeToGetLocation.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                         MethodConstants.GRAPH_METHOD_RETRIEVE, params));
                 Log.e(TAG,"PUT TREE TO GET LOCATION");
 
@@ -324,24 +323,24 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == getTid(tidPutTreeToGetLocation, sid)) {
+        } else if (tid == getTid(mTidPutTreeToGetLocation, sid)) {
             //getCardMessage and put it into params
             try {
-                setListLocation(eventList.get(sid), params);
+                setListLocation(mEventList.get(sid), params);
                 params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Smart Calendar");
                 params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Show Events");
-                tidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                mTidShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                         MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
             } catch (Exception e) {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == getTid(tidShowBubble, sid)){
+        } else if (tid == getTid(mTidShowBubble, sid)){
             try {
                 //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){
-                    params.put("html_string", getHtml(eventListSortByTime(eventList.get(sid))));
-                    tidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
+                    params.put("html_string", getHtml(eventListSortByTime(mEventList.get(sid))));
+                    mTidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                             MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
                 } else {
                     endSession(sid);
@@ -350,24 +349,24 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
                 e.printStackTrace();
                 endSession(sid);
             }
-        } else if (tid == getTid(tidShowHtml, sid)){
+        } else if (tid == getTid(mTidShowHtml, sid)){
             Log.e(TAG, "Successfully Run Action");
             Log.e(TAG, "Ending session (triggerListShow)");
             endSession(sid);
             Log.e(TAG, "Session ended");
         }
         // Add Action
-        if (tid == getTid(tidAddAction_ShowBubble, sid)){
+        if (tid == getTid(mTidAddAction_ShowBubble, sid)){
             if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){       //BUBBLE_STATUS)==1
-                params.put("calendar_extra_time_start",eventBeginTime);
-                params.put("calendar_extra_time_end", eventEndTime);
-                tidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
+                params.put("calendar_extra_time_start",mEventBeginTime);
+                params.put("calendar_extra_time_end", mEventEndTime);
+                mTidAddAction.put(sid, createTask(sid, MethodConstants.ACTION_TYPE,
                         MethodConstants.ACTION_METHOD_CALENDAR_NEW, params));
             } else {
                 endSession(sid);
             }
 
-        } else if (tid == getTid(tidAddAction, sid)){
+        } else if (tid == getTid(mTidAddAction, sid)){
             //Log.e(TAG, "Action Response:" + params.get(EntityAttributes.Action.RESULT));
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
@@ -390,12 +389,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
     @Override
     protected void endSession(long sid) {
-        tidPutTreeToGetTime.remove(sid); tidPutTreeToGetLocation.remove(sid); tidShowBubble.remove(sid);
-        tidShowHtml.remove(sid); tidAddAction.remove(sid); tidAddAction_ShowBubble.remove(sid);
-        eventList.remove(sid); tree1.remove(sid); tree2.remove(sid);
+        mTidPutTreeToGetTime.remove(sid); mTidPutTreeToGetLocation.remove(sid); mTidShowBubble.remove(sid);
+        mTidShowHtml.remove(sid); mTidAddAction.remove(sid); mTidAddAction_ShowBubble.remove(sid);
+        mEventList.remove(sid); mTree.remove(sid); 
         // eventTimeString1.remove(sid);
         //eventTimeString2.remove(sid);
-        eventBeginTime.remove(sid); eventEndTime.remove(sid);
+        mEventBeginTime.remove(sid); mEventEndTime.remove(sid);
         super.endSession(sid);
     }
 }

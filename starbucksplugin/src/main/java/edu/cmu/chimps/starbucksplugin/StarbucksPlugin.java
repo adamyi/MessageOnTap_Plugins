@@ -27,7 +27,7 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 public class StarbucksPlugin extends MessageOnTapPlugin{
 
     public static final String TAG = "StarbucksPlugin";
-    Long tidShowBubble;
+    Long mTidShowBubble;
     Tag tag_Coffee = new Tag("TAG_COFFEE", new HashSet<>(Collections.singletonList("(coffee|Coffee|StarbucksSettingActivity|starbucks)")));
     //Tag tag_verb = new Tag("TAG_COFFEE",new HashSet<>(Collections.singletonList("(order|Order)")));
     String result;
@@ -79,7 +79,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
 
         // TID is something we might need to implement stateflow inside a plugin.
-        tidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
+        mTidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         //Perform action script
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
-        if (tid == tidShowBubble) {
+        if (tid == mTidShowBubble) {
             Log.e(TAG, "TID is right " );
             if (params.get("status").equals("clicked")) {
                 Log.e(TAG, "button clicked");

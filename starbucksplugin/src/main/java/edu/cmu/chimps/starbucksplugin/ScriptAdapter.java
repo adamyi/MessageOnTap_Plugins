@@ -18,19 +18,19 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     protected Toolbar mToolbar;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        View contactView;
-        ImageView contactImage;
-        TextView contactName;
-        LinearLayout contactLayout;
-        CheckBox contactCheckBox;
+        View mContactView;
+        ImageView mContactImage;
+        TextView mContactName;
+        LinearLayout mContactLayout;
+        CheckBox mContactCheckBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            contactView = itemView;
-            contactLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-            contactImage = (ImageView) itemView.findViewById(R.id.contact_image);
-            contactName = (TextView) itemView.findViewById(R.id.contact_name);
-            contactCheckBox = (CheckBox) itemView.findViewById(R.id.contact_checkbox);
+            mContactView = itemView;
+            mContactLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+            mContactImage = (ImageView) itemView.findViewById(R.id.contact_image);
+            mContactName = (TextView) itemView.findViewById(R.id.contact_name);
+            mContactCheckBox = (CheckBox) itemView.findViewById(R.id.contact_checkbox);
         }
     }
 
@@ -43,7 +43,7 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-        holder.contactView.setOnClickListener(new View.OnClickListener() {
+        holder.mContactView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
@@ -64,8 +64,8 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Script script = mScriptList.get(position);
-        holder.contactImage.setImageDrawable(script.getContactPicture());
-        holder.contactName.setText(script.getName());
+        holder.mContactImage.setImageDrawable(script.getContactPicture());
+        holder.mContactName.setText(script.getName());
         SetSelection(holder, script);
     }
 
@@ -75,23 +75,23 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     }
     public  static void SetSelection(ViewHolder holder, Script script){
         if (script.isFlag()){
-            holder.contactCheckBox.setChecked(true);
+            holder.mContactCheckBox.setChecked(true);
         }else {
-            holder.contactCheckBox.setChecked(false);
+            holder.mContactCheckBox.setChecked(false);
         }
     }
 
     public static void SetAllSelectionByBoolean(Boolean selection, RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            holder.contactCheckBox.setChecked(selection);
+            holder.mContactCheckBox.setChecked(selection);
         }
     }
     
     public static void SetAllSelection(RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            holder.contactCheckBox.setChecked(false);
+            holder.mContactCheckBox.setChecked(false);
         }
         if (Script.scriptList.size() == 0){
             SetAllSelectionByBoolean(false,recyclerView);
@@ -99,13 +99,13 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
             for (Script script : Script.scriptList) {
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-                    if (script.getName().equals(holder.contactName.getText())){
+                    if (script.getName().equals(holder.mContactName.getText())){
                         if (script.isFlag()){
-                            holder.contactCheckBox.setChecked(true);
+                            holder.mContactCheckBox.setChecked(true);
                         } else {
-                            holder.contactCheckBox.setChecked(false);
+                            holder.mContactCheckBox.setChecked(false);
                         }
-                        Log.i("Script", "SetAllSavedSelection: "+holder.contactName.getText() + script.isFlag());
+                        Log.i("Script", "SetAllSavedSelection: "+holder.mContactName.getText() + script.isFlag());
                     }
                 }
             }
