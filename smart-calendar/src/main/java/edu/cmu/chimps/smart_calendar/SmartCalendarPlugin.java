@@ -25,7 +25,6 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {

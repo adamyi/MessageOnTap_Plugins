@@ -1,8 +1,5 @@
 package edu.cmu.chimps.googledocsplugin;
 
-/**
- * Created by knight006 on 7/31/2017.
- */
 
 public class Doc {
     private String DocName;

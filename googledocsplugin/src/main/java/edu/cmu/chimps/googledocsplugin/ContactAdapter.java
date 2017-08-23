@@ -1,6 +1,5 @@
 package edu.cmu.chimps.googledocsplugin;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,14 +18,9 @@ import static edu.cmu.chimps.googledocsplugin.Contact.SelectedItemCount;
 import static edu.cmu.chimps.googledocsplugin.Contact.contactList;
 import static edu.cmu.chimps.googledocsplugin.Contact.toggleFlag;
 
-/**
- * Created by knight006 on 7/18/2017.
- */
-
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
     private List<Contact> mContactList;
     protected Toolbar mToolbar;
-    public Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View contactView;
@@ -38,10 +32,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             contactView = itemView;
-            contactLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-            contactImage = (ImageView) itemView.findViewById(R.id.contact_image);
-            contactName = (TextView) itemView.findViewById(R.id.contact_name);
-            contactCheckBox = (CheckBox) itemView.findViewById(R.id.contact_checkbox);
+            contactLayout = itemView.findViewById(R.id.linearLayout);
+            contactImage =  itemView.findViewById(R.id.contact_image);
+            contactName =  itemView.findViewById(R.id.contact_name);
+            contactCheckBox = itemView.findViewById(R.id.contact_checkbox);
         }
     }
 

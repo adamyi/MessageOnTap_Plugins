@@ -161,7 +161,7 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Set<String> set = new HashSet<>(Contact.getSavedContactList());
                 ContactStorage.storeSendUsers(GoogleDocsSettingsActivity.this, set, ContactStorage.STORAGE);
-                Toast.makeText(GoogleDocsSettingsActivity.this, "Contacts saved", Toast.LENGTH_SHORT);
+                Toast.makeText(GoogleDocsSettingsActivity.this, "Contacts saved", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent("edu.cmu.chimps.googledocsplugin.sendcontacts");
                 intent.addCategory("sendcontacts");
                 Bundle bundle = new Bundle();

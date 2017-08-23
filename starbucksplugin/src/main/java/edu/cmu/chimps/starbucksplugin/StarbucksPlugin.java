@@ -17,17 +17,13 @@ import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
-/**
- * This is a sample plugin for MessageOnTap to facilitate developing plugins for MessageOnTap.
- */
 
 public class StarbucksPlugin extends MessageOnTapPlugin{
 
     public static final String TAG = "StarbucksPlugin";
     Long mTidShowBubble;
     Tag tag_Coffee = new Tag("TAG_COFFEE", new HashSet<>(Collections.singletonList("(coffee|Coffee|StarbucksSettingActivity|starbucks)")));
-    //Tag tag_verb = new Tag("TAG_COFFEE",new HashSet<>(Collections.singletonList("(order|Order)")));
-    String result;
+
     /**
      * Return the trigger criteria of this plug-in. This will be called when
      * MessageOnTap is started (when this plugin is already enabled) or when

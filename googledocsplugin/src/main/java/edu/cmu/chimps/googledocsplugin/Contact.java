@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by knight006 on 7/18/2017.
- */
 
 public class Contact {
     private String Name;
@@ -57,9 +54,8 @@ public class Contact {
         return this.Name.charAt(0);
     }
     public TextDrawable getContactPicture(){
-        TextDrawable drawable = TextDrawable.builder()
+        return TextDrawable.builder()
                 .buildRound(String.valueOf(getFirstC()), Color.GRAY);
-        return drawable;
     }
 
     public static int SelectedItemCount(){
