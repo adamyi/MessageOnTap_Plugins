@@ -17,10 +17,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class StarbucksSettingActivity extends AppCompatActivity {
     public static String TAG = "StarbucksActivity";
-    private static String sResult;
     Toolbar mToolbar;
     ScriptAdapter mAdapter;
     RecyclerView mRecyclerView;
@@ -47,11 +47,11 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         switch (requestCode){
             case 1:
                 if (resultCode == RESULT_OK && data != null) {
-                    sResult = data.getStringExtra("result");
+                    String sResult = data.getStringExtra("result");
                     //ArrayList<String> ResultArray = (ArrayList<String>) JSONUtils.jsonToSimpleObject(SResult,JSONUtils.TYPE_TAG_ARRAY);
                     Log.e(TAG, "onResult:" + sResult);
-                    ArrayList<String> result = new ArrayList<>();
-                    if (sResult != "") {
+                    ArrayList<String> result;
+                    if (!sResult.isEmpty()) {
                         result = rehandledResultArrayList(sResult);
                         Script.scriptList.clear();
                         for (String str : result){
@@ -96,16 +96,13 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
-        //StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), true);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        //mToolbar.setNavigationIcon(R.drawable.ic_action_back);
         mToolbar.setTitle("Select Script");
         mToolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
         mToolbar.inflateMenu(R.menu.updatescript);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getBaseContext(), "Contacts Saved" , Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -128,16 +125,15 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         });
 
         mAdapter = new ScriptAdapter(Script.scriptList, mToolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mRecyclerView = findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        FloatingActionButton floatingUndefinedButton = (FloatingActionButton) findViewById(R.id.floatingUndefinedAction);
+        FloatingActionButton floatingUndefinedButton = findViewById(R.id.floatingUndefinedAction);
         floatingUndefinedButton.setImageResource(R.drawable.ic_action_check);
         floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(StarbucksSettingActivity.this, "Contacts saved", Toast.LENGTH_SHORT).show();
                 ScriptStorage.storeScript(StarbucksSettingActivity.this, Script.getSelectedName());//if scriptName is empty, save "empty"
                 Toast.makeText(StarbucksSettingActivity.this, "script saved", Toast.LENGTH_SHORT).show();
             }
@@ -150,9 +146,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         nJson = nJson.substring(2);
         nJson = nJson.substring(0,nJson.length()-2);
         String[] nJsonString = nJson.split("\",\"");
-        for (String i:nJsonString){
-            result.add(i);
-        }
+        Collections.addAll(result, nJsonString);
         return result;
     }
 }

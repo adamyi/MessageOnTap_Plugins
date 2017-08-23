@@ -27,10 +27,10 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             mContactView = itemView;
-            mContactLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-            mContactImage = (ImageView) itemView.findViewById(R.id.contact_image);
-            mContactName = (TextView) itemView.findViewById(R.id.contact_name);
-            mContactCheckBox = (CheckBox) itemView.findViewById(R.id.contact_checkbox);
+            mContactLayout =  itemView.findViewById(R.id.linearLayout);
+            mContactImage =  itemView.findViewById(R.id.contact_image);
+            mContactName = itemView.findViewById(R.id.contact_name);
+            mContactCheckBox = itemView.findViewById(R.id.contact_checkbox);
         }
     }
 

@@ -27,28 +27,24 @@ public class Script {
         isFlag = flag;
     }
 
-    public char getFirstC(){
+    private char getFirstCharacter(){
         return this.mName.charAt(0);
     }
     public TextDrawable getContactPicture(){
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound(String.valueOf(getFirstC()), Color.GRAY);
-        return drawable;
+        return TextDrawable.builder()
+                .buildRound(String.valueOf(getFirstCharacter()), Color.GRAY);
     }
 
     public static String getSelectedName() {
-      String selectedName = new String();
-            if (scriptList.size() != 0){
+      String selectedName = "";
+        if (scriptList.size() != 0){
             for (int i = 0; i < scriptList.size(); i++) {
                 if (scriptList.get(i).isFlag()) {
                     selectedName = scriptList.get(i).getName();
                 }
             }
-            return selectedName;
-            }
-        else{
-                return "empty";
-            }
+        }
+        return selectedName;
     }
 
 

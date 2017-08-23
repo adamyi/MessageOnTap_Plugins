@@ -1,8 +1,5 @@
 package edu.cmu.chimps.starbucksplugin;
 
-/**
- * Created by apple on 2017/8/10.
- */
 
 import android.content.Intent;
 import android.util.Log;
@@ -99,7 +96,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
                 sugiliteIntent.addCategory("android.intent.category.DEFAULT");
                 sugiliteIntent.putExtra("messageType", "RUN_SCRIPT");
                 String scriptName = ScriptStorage.getScript(StarbucksPlugin.this);
-                if (scriptName != "empty") {
+                if (!scriptName.isEmpty()) {
                     sugiliteIntent.putExtra("arg1", scriptName);
                     sugiliteIntent.putExtra("arg2", "Run Script Complete");
                     startActivity(sugiliteIntent);}

@@ -8,14 +8,14 @@ public class ScriptStorage {
     public static final String STORAGE = "save_script_file";
 
     public static void storeScript(Context context, String scriptName){
-        SharedPreferences.Editor editor = context.getSharedPreferences(STORAGE, context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE).edit();
 
         editor.putString(POSITION, scriptName);
         editor.apply();
     }
 
     public static String getScript(Context context){
-        SharedPreferences pref = context.getSharedPreferences(STORAGE, context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         return pref.getString(POSITION,"empty");
     }
 

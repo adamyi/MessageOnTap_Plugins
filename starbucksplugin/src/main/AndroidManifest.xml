@@ -8,7 +8,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".StarbucksSettingActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:label="StarBucks"
             android:exported="true">
             <intent-filter>
