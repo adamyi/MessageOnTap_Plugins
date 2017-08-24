@@ -23,7 +23,7 @@
 
         <service android:name=".services.SaveHomeWifiService"
             android:exported="false"/>
-        <service android:name=".services.notificationTriggerService"
+        <service android:name=".services.NotificationTriggerService"
             android:exported="false"/>
 
         <receiver android:name=".AlarmReceiver" />
