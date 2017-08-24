@@ -35,7 +35,7 @@ public class Script {
                 .buildRound(String.valueOf(getFirstCharacter()), Color.GRAY);
     }
 
-    public static String getSelectedName() {
+    public static String getSelectedNames() {
       String selectedName = "";
         if (scriptList.size() != 0){
             for (int i = 0; i < scriptList.size(); i++) {
@@ -46,7 +46,7 @@ public class Script {
         }
         return selectedName;
     }
-    public static void setAllFlag(Boolean flag){
+    public static void setAllFlags(Boolean flag){
         for (int i = 0; i < scriptList.size(); i++) {
             scriptList.get(i).setFlag(flag);
         }

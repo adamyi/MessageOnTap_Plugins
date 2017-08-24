@@ -116,15 +116,15 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                     case R.id.selectAll:
                         if (Contact.selectedItemCount() == Contact.contactList.size()) {
                             item.setIcon(getDrawable(R.drawable.ic_action_selectall));
-                            ContactAdapter.setAllSelection(false, recyclerView);
+                            ContactAdapter.setAllSelections(false, recyclerView);
                             Snackbar snackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Deselect All", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         } else {
                             item.setIcon(getDrawable(R.drawable.ic_delete_sweep_black_24dp));
                             Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.KEY_ALLSELECTSTORAGE);
-                            ContactAdapter.setAllSelection(true, recyclerView);
+                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.KEY_ALL_SELECT_STORAGE);
+                            ContactAdapter.setAllSelections(true, recyclerView);
                             final MenuItem itemP = item;
                             Snackbar undoSnackbar = Snackbar
                                     .make(findViewById(R.id.recyclerview), "Select All", Snackbar.LENGTH_LONG)
@@ -132,8 +132,8 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             itemP.setIcon(getDrawable(R.drawable.ic_action_selectall));
-                                            Contact.InitFlag(GoogleDocsSettingsActivity.this, ContactStorage.KEY_ALLSELECTSTORAGE);
-                                            ContactAdapter.setAllSavedSelection(recyclerView);
+                                            Contact.InitFlag(GoogleDocsSettingsActivity.this, ContactStorage.KEY_ALL_SELECT_STORAGE);
+                                            ContactAdapter.setAllSavedSelections(recyclerView);
                                             mToolBar.setSubtitle(" " + Contact.selectedItemCount() + " selected");
                                         }
                                     });

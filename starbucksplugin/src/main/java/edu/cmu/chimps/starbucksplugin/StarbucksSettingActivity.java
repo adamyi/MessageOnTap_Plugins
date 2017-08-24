@@ -132,7 +132,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ScriptStorage.storeScript(StarbucksSettingActivity.this, Script.getSelectedName());//if scriptName is empty, save "empty"
+                ScriptStorage.storeScript(StarbucksSettingActivity.this, Script.getSelectedNames());//if scriptName is empty, save "empty"
                 Toast.makeText(StarbucksSettingActivity.this, "script saved", Toast.LENGTH_SHORT).show();
             }
         });        

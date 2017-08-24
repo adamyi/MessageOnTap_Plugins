@@ -15,6 +15,8 @@ public class ContactsReceiver extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         Bundle bundle = intent.getBundleExtra("contacts");
         contactList = bundle.getStringArrayList("contacts");
-        Toast.makeText(context, contactList.toString(), Toast.LENGTH_SHORT).show();
+        if (contactList != null) {
+            Toast.makeText(context, contactList.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

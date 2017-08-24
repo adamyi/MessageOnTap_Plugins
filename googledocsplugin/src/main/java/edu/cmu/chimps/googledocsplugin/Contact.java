@@ -50,12 +50,12 @@ public class Contact {
         return results;
     }
 
-    public char getFirstC(){
+    public char getFirstContact(){
         return this.mName.charAt(0);
     }
     public TextDrawable getContactPicture(){
         return TextDrawable.builder()
-                .buildRound(String.valueOf(getFirstC()), Color.GRAY);
+                .buildRound(String.valueOf(getFirstContact()), Color.GRAY);
     }
 
     public static int selectedItemCount(){
@@ -68,7 +68,7 @@ public class Contact {
         return count;
     }
 
-    public static void setAllFlag(Boolean flag){
+    public static void setAllFlags(Boolean flag){
         for (int i = 0; i < contactList.size(); i++) {
             contactList.get(i).setFlag(flag);
         }
@@ -94,7 +94,7 @@ public class Contact {
 
     public static void InitFlag(Context context, String filename){
         Set<String> set = ContactStorage.getContacts(context, filename);
-        setAllFlag(false);
+        setAllFlags(false);
         if (set.size() != 0){
             for (String str: set){
                 for (Contact contact: Contact.contactList){
