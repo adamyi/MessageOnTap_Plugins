@@ -169,10 +169,12 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                 intent.putExtra("contacts", bundle);
                 sendBroadcast(intent);
 
+                /*
                 Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
                 sugiliteIntent.addCategory("android.intent.category.DEFAULT");
                 sugiliteIntent.putExtra("messageType", "GET_SCRIPT_LIST");
                 startActivityForResult(sugiliteIntent, 1);
+                */
             }
         });
 

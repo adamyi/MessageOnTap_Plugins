@@ -24,7 +24,6 @@ public class GoogleDocUtils {
 
     public static String getTimeString(HashMap<String, Object> params){
         ArrayList<Long> timeList = (ArrayList<Long>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
-
         return timeList.get(0)+ "," + timeList.get(1);
     }
 

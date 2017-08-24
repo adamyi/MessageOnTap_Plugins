@@ -64,8 +64,6 @@ public class SmartCalendarUtils {
     }
 
     public static String getHtml(ArrayList<Event> eventList){
-        String html = "";
-        int year;
         ////////////////Time///////////////////
         String yeartablehtml = ".year{\n" +
                 "\t\tbackground: #39A90E;\n" +

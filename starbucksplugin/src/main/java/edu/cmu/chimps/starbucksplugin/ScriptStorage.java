@@ -9,7 +9,6 @@ public class ScriptStorage {
 
     public static void storeScript(Context context, String scriptName){
         SharedPreferences.Editor editor = context.getSharedPreferences(KEY_STORAGE, Context.MODE_PRIVATE).edit();
-
         editor.putString(KEY_POSITION, scriptName);
         editor.apply();
     }

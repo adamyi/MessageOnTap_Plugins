@@ -9,7 +9,7 @@ import java.util.Set;
 public class ContactStorage {
     public static final String KEY_POSITION = "send_contacts_position";
     public static final String KEY_STORAGE = "save_contacts_file";
-    public static final String KEY_ALLSELECTSTORAGE = "save_contacts_file";
+    public static final String KEY_ALL_SELECT_STORAGE = "save_contacts_file";
 
     public static void storeSendUsers(Context context, Set<String>set, String filename){
         SharedPreferences.Editor editor = context.getSharedPreferences(filename, context.MODE_PRIVATE).edit();

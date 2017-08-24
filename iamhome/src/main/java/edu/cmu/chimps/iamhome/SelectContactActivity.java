@@ -140,7 +140,7 @@ public class SelectContactActivity extends AppCompatActivity {
                         } else {
                             item.setIcon(getDrawable(R.drawable.ic_delete_sweep_black_24dp));
                             Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.KEY_ALLSELECTSTORAGE);
+                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.KEY_ALL_SELECT_STORAGE);
                             ContactAdapter.SetAllSelection(true, recyclerView);
                             final MenuItem itemP = item;
                             Snackbar undoSnackbar = Snackbar
@@ -149,7 +149,7 @@ public class SelectContactActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             itemP.setIcon(getDrawable(R.drawable.ic_action_selectall));
-                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.KEY_ALLSELECTSTORAGE);
+                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.KEY_ALL_SELECT_STORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
                                             toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
