@@ -103,7 +103,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             Contact.setAllFlag(selection);
             holder.contactLayout.setSelected(selection);
             holder.contactCheckBox.setChecked(selection);
-            Log.i("iiii", "SetAllSelection: ");
         }
     }
     
@@ -114,20 +113,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             holder.contactLayout.setSelected(false);
             holder.contactCheckBox.setChecked(false);
         }
-        Log.i("iiii", "SetAllSavedSelection: enter");
-        if (set.size() == 0){
+        if (set.isEmpty()){
             setAllSelection(false,recyclerView);
         } else{
             for (String str: set) {
-                Log.i("iiii", "SetAllSavedSelection:111 ");
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-                    Log.i("iiii", "SetAllSavedSelection: "+holder.contactName.getText());
                     if (str.equals(holder.contactName.getText())){
                         holder.contactLayout.setSelected(true);
                         holder.contactCheckBox.setChecked(true);
                     }
-                    Log.i("iiii", "SetAllSelection:  completed");
                 }
             }
         }
