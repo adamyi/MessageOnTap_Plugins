@@ -56,10 +56,9 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         Log.e(TAG, "Session created here!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
         //Log.e(TAG, "parse tree: " + ((ParseTree) JSONUtils.jsonToSimpleObject((String) params.get("tree"), JSONUtils.TYPE_PARSE_TREE)).toString());
-        HashMap<String, Object> reqParams = new HashMap<>();
         params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Starbucks Plugin");
         params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Order Coffee?");
-        params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_coffee);
+        params.put(ServiceAttributes.UI.ICON_TYPE_STRING, getResources().getString(R.string.fa_coffee));
         // TID is something we might need to implement stateflow inside a plugin.
         mTidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
     }

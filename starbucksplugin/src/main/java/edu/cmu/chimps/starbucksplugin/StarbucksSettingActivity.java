@@ -156,10 +156,12 @@ public class StarbucksSettingActivity extends AppCompatActivity {
     protected ArrayList<String> rehandledResultArrayList(String json){
         ArrayList<String> result = new ArrayList<>();
         String nJson = json;
-        nJson = nJson.substring(2);
-        nJson = nJson.substring(0,nJson.length()-2);
-        String[] nJsonString = nJson.split("\",\"");
-        Collections.addAll(result, nJsonString);
+        if(nJson.length()>2){
+            nJson = nJson.substring(2);
+            nJson = nJson.substring(0, nJson.length()-2);
+            String[] nJsonString = nJson.split("\",\"");
+            Collections.addAll(result, nJsonString);
+        }
         return result;
     }
 }
