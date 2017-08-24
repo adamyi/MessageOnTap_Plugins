@@ -16,7 +16,6 @@ import edu.cmu.chimps.messageontap_api.Tag;
 public class GoogleDocUtils {
 
     public static final int ALL_DOCNAME_ROOT_ID = 111;
-    public static final int FILTERED_DOCNAME_ROOT_ID = 222;
     public static final int ALL_URL_ROOT_ID = 333;
     public static final int FILTERED_URL_ROOT_ID = 444;
     public static final String TAG = "GoogleDocPlugin";
@@ -27,7 +26,7 @@ public class GoogleDocUtils {
         return time;
     }
 
-    public static ParseTree AddNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
+    public static ParseTree addNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
         SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
         int key = 0;
         ParseTree.Node newNode = new ParseTree.Node();;
@@ -64,7 +63,7 @@ public class GoogleDocUtils {
         return tree;
     }
 
-    public static ParseTree AddUrlRoot(ParseTree tree, int Id, String time, Tag tag_time){
+    public static ParseTree addUrlRoot(ParseTree tree, int Id, String time, Tag tag_time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             ParseTree.Node node = tree.getNodeList().get(i);
             if (node.getParentId() == -1){

@@ -9,7 +9,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ContactsReceiver extends BroadcastReceiver {
-    String TAG = "receiver";
     public static ArrayList<String> contactList;
     @Override
     public void onReceive(Context context, Intent intent) {

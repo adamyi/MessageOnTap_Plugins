@@ -26,15 +26,14 @@ import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "SmartCalendar plugin";
-    public static int EVENT_NAME_ID = 3726;
-    public static int EVENT_TIME_ID = 1567;
-    public static int EVENT_LOCATION_ID = 9123;
-    public int mood = 0; // 0 statement
-    public int direction = 0; // 0 incoming
+    public static final int EVENT_NAME_ID = 3726;
+    public static final int EVENT_TIME_ID = 1567;
+    public static final int EVENT_LOCATION_ID = 9123;
     HashMap<Long, Long> mTidPutTreeToGetTime = new HashMap<>();
     HashMap<Long,Long> mTidPutTreeToGetLocation = new HashMap<>();
     HashMap<Long,Long> mTidAddAction_ShowBubble = new HashMap<>();
@@ -193,7 +192,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
             }
             */
-            /*
+
             ParseTree tree = new ParseTree();
             ParseTree.Node timeNode = new ParseTree.Node();
             timeNode.setWord(getTimeString(params));
@@ -229,9 +228,9 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             mTidPutTreeToGetTime.put(sid, createTask(sid, MethodConstants.GRAPH_TYPE,
                     MethodConstants.GRAPH_METHOD_RETRIEVE, params));
             Log.e(TAG, "Send Tree to PMS");
-            */
 
 
+/* HTML TEST
             Event eventTest = new Event();
             Date dateBegin = new Date();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HH-mm",Locale.ENGLISH);
@@ -258,7 +257,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             params.put("html_string", getHtml(mEventList.get(sid)));
             mTidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
                     MethodConstants.UI_METHOD_LOAD_WEBVIEW, params));
-            
+            */
         }
 
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")) {
@@ -336,7 +335,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
         } else if (tid == getTid(mTidShowBubble, sid)){
             try {
-                //if (params.get(BUBBLE_STATUS).equals(Bubble.M_CLICKED)){
                 if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")){
                     params.put("html_string", getHtml(eventListSortByTime(mEventList.get(sid))));
                     mTidShowHtml.put(sid, createTask(sid, MethodConstants.UI_TYPE,
@@ -366,7 +364,6 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             }
 
         } else if (tid == getTid(mTidAddAction, sid)){
-            //Log.e(TAG, "Action Response:" + params.get(EntityAttributes.Action.RESULT));
             Log.e(TAG, "Ending session (triggerListAdd)");
             endSession(sid);
             Log.e(TAG, "Session ended");
@@ -390,9 +387,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     protected void endSession(long sid) {
         mTidPutTreeToGetTime.remove(sid); mTidPutTreeToGetLocation.remove(sid); mTidShowBubble.remove(sid);
         mTidShowHtml.remove(sid); mTidAddAction.remove(sid); mTidAddAction_ShowBubble.remove(sid);
-        mEventList.remove(sid); mTree.remove(sid); 
-        // eventTimeString1.remove(sid);
-        //eventTimeString2.remove(sid);
+        mEventList.remove(sid); mTree.remove(sid);
         mEventBeginTime.remove(sid); mEventEndTime.remove(sid);
         super.endSession(sid);
     }

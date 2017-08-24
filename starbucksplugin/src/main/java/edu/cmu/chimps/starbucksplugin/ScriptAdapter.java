@@ -17,6 +17,10 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     private List<Script> mScriptList;
     protected Toolbar mToolbar;
 
+    public ScriptAdapter(List<Script> mScriptList, Toolbar toolbar) {
+        this.mScriptList = mScriptList;
+        this.mToolbar = toolbar;
+    }
     static class ViewHolder extends RecyclerView.ViewHolder{
         View mContactView;
         ImageView mContactImage;
@@ -34,10 +38,6 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
         }
     }
 
-    public ScriptAdapter(List<Script> mScriptList, Toolbar toolbar) {
-        this.mScriptList = mScriptList;
-        this.mToolbar = toolbar;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
@@ -49,10 +49,10 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
                 int position = holder.getAdapterPosition();
                 Script script = mScriptList.get(position);
                 if (!script.isFlag()){
-                    Script.SetAllFlag(false);
+                    Script.setAllFlag(false);
                     script.setFlag(true);
                 }else {
-                    Script.SetAllFlag(false);
+                    Script.setAllFlag(false);
                 }
                 StarbucksSettingActivity.listener.onChange(true);
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();
@@ -73,7 +73,7 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
     public int getItemCount() {
         return mScriptList.size();
     }
-    public  static void SetSelection(ViewHolder holder, Script script){
+    private static void SetSelection(ViewHolder holder, Script script){
         if (script.isFlag()){
             holder.mContactCheckBox.setChecked(true);
         }else {
@@ -81,20 +81,20 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
         }
     }
 
-    public static void SetAllSelectionByBoolean(Boolean selection, RecyclerView recyclerView){
+    private static void setAllSelectionByBoolean(Boolean selection, RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             holder.mContactCheckBox.setChecked(selection);
         }
     }
     
-    public static void SetAllSelection(RecyclerView recyclerView){
+    public static void setAllSelection(RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             holder.mContactCheckBox.setChecked(false);
         }
         if (Script.scriptList.size() == 0){
-            SetAllSelectionByBoolean(false,recyclerView);
+            setAllSelectionByBoolean(false,recyclerView);
         } else{
             for (Script script : Script.scriptList) {
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {

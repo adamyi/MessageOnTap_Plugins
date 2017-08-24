@@ -48,7 +48,7 @@ import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
     protected MyApplication mAPP;
-    private String sentText;
+    private String mSentText;
 
     Intent circleIntent = new Intent();
 
@@ -208,11 +208,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         .setDescription("Use this to reset your home WIFI")
                                                         .build();
 
-                                                View two = findViewById(R.id.circle_edit_text);
+                                                View editText = findViewById(R.id.circle_edit_text);
                                                 int[] twoLocation = new int[2];
-                                                two.getLocationInWindow(twoLocation);
+                                                editText.getLocationInWindow(twoLocation);
                                                 PointF point =
-                                                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                                                        new PointF(twoLocation[0] + editText.getWidth() / 2f, twoLocation[1] + editText.getHeight() / 2f);
                                                 // make an target
                                                 SimpleTarget thirdTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                                                         .setRadius(200f)
@@ -349,8 +349,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            sentText = input.getText().toString();
-                            StringStorage.storeMessage(IAmHomeSettingsActivity.this, sentText, false);
+                            mSentText = input.getText().toString();
+                            StringStorage.storeMessage(IAmHomeSettingsActivity.this, mSentText, false);
                         }
                     });
                     builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

@@ -23,7 +23,6 @@ public class WifiUtils {
 
     public static final String KEY_WIFI_SENSING = "key_wifi_sensing";
     public static final String KEY_USER_HOME_BSSID_LIST  = "key_wifi_bssid_list";
-    boolean atHome;
     /**
      * Store all user's wifi BSSIDs.
      */

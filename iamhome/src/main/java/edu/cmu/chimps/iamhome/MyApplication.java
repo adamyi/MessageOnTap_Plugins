@@ -6,13 +6,13 @@ import android.content.Context;
 
 public class MyApplication extends Application {
 
-    private static Context mContext;
+    private static Context sContext;
     private Activity mCurrentActivity = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getApplicationContext();
+        sContext = getApplicationContext();
     }
 
     public Activity getCurrentActivity(){
@@ -23,7 +23,7 @@ public class MyApplication extends Application {
     }
 
     public static Context getContext() {
-        return mContext;
+        return sContext;
     }
 
 }

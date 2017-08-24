@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Script {
     private String mName;
-    private boolean isFlag;
+    private boolean mIsFlag;
     public static ArrayList<Script> scriptList =  new ArrayList<>();
 
     public Script(String Name){
@@ -20,11 +20,11 @@ public class Script {
     }
 
     public boolean isFlag(){
-        return isFlag;
+        return mIsFlag;
     }
 
     public void setFlag(boolean flag){
-        isFlag = flag;
+        mIsFlag = flag;
     }
 
     private char getFirstCharacter(){
@@ -46,9 +46,7 @@ public class Script {
         }
         return selectedName;
     }
-
-
-    public  static void SetAllFlag(Boolean flag){
+    public static void setAllFlag(Boolean flag){
         for (int i = 0; i < scriptList.size(); i++) {
             scriptList.get(i).setFlag(flag);
         }
