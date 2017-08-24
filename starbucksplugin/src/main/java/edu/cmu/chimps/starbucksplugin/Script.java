@@ -46,9 +46,7 @@ public class Script {
         }
         return selectedName;
     }
-
-
-    public  static void SetAllFlag(Boolean flag){
+    public static void setAllFlag(Boolean flag){
         for (int i = 0; i < scriptList.size(); i++) {
             scriptList.get(i).setFlag(flag);
         }

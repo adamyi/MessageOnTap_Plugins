@@ -38,16 +38,16 @@ public class Contact {
     public static ArrayList<Contact> getWhatsAppContacts(Context context) throws PSException {
 
         UQI uqi = new UQI(context);
-        ArrayList<Contact> result = new ArrayList<>();
-        List<Item> whatsAppC= uqi.getData(com.github.privacystreams.communication.Contact.getWhatAppAll(), Purpose.UTILITY("get whatsapp contacts"))
+        ArrayList<Contact> results = new ArrayList<>();
+        List<Item> whatsAppContactList= uqi.getData(com.github.privacystreams.communication.Contact.getWhatAppAll(), Purpose.UTILITY("get whatsapp contacts"))
                 .asList();
-        for(int i = 0; i < whatsAppC.size();i++){
-            Contact contact = new Contact(whatsAppC.get(i).getValueByField(com.github.privacystreams.communication.Contact.NAME)
+        for(int i = 0; i < whatsAppContactList.size();i++){
+            Contact contact = new Contact(whatsAppContactList.get(i).getValueByField(com.github.privacystreams.communication.Contact.NAME)
                     .toString());
-            result.add(i, contact);
+            results.add(i, contact);
 
         }
-        return result;
+        return results;
     }
 
     public char getFirstC(){
@@ -58,7 +58,7 @@ public class Contact {
                 .buildRound(String.valueOf(getFirstC()), Color.GRAY);
     }
 
-    public static int SelectedItemCount(){
+    public static int selectedItemCount(){
         int count = 0;
         for (int i=0; i<contactList.size(); i++){
             if (contactList.get(i).isFlag()){
@@ -68,7 +68,7 @@ public class Contact {
         return count;
     }
 
-    public  static void SetAllFlag(Boolean flag){
+    public static void setAllFlag(Boolean flag){
         for (int i = 0; i < contactList.size(); i++) {
             contactList.get(i).setFlag(flag);
         }
@@ -94,7 +94,7 @@ public class Contact {
 
     public static void InitFlag(Context context, String filename){
         Set<String> set = ContactStorage.getContacts(context, filename);
-        SetAllFlag(false);
+        setAllFlag(false);
         if (set.size() != 0){
             for (String str: set){
                 for (Contact contact: Contact.contactList){

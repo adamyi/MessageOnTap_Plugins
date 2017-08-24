@@ -23,7 +23,7 @@ public class AlarmUtils {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setAlarm(Context context,int hour, int minute, int second) {
         Calendar calendar = Calendar.getInstance();
-        Calendar right_now = Calendar.getInstance();
+        Calendar rightNow = Calendar.getInstance();
         calendar.set(Calendar.HOUR, hour);
         int timeOffset = hour - calendar.get(Calendar.HOUR);
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -39,7 +39,7 @@ public class AlarmUtils {
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.i("setting", String.valueOf(calendar.getTime()));
-        Log.i("actual", String.valueOf(right_now.getTime()));
+        Log.i("actual", String.valueOf(rightNow.getTime()));
     }
 
 }

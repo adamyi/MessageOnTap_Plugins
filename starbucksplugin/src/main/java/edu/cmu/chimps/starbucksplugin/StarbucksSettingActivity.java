@@ -15,10 +15,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
-
 public class StarbucksSettingActivity extends AppCompatActivity {
     public static String TAG = "StarbucksActivity";
     Toolbar mToolbar;
@@ -87,7 +85,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         setFlagChangeListener(new FlagChangeListener() {
             @Override
             public void onChange(Boolean wantChange) {
-                if (wantChange) ScriptAdapter.SetAllSelection(mRecyclerView);
+                if (wantChange) ScriptAdapter.setAllSelection(mRecyclerView);
             }
         });
 

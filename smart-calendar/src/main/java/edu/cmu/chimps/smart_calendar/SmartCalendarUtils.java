@@ -18,13 +18,6 @@ import edu.cmu.chimps.messageontap_api.Tag;
 public class SmartCalendarUtils {
     public static final int NAME_ROOT_ID = 45;
     public static final int LOCATION_ROOT_ID = 67;
-
-    public static final String YEAR = "year";
-    public static final String MONTH = "month";
-    public static final String DAY = "day";
-    public static final String HOUR = "hour";
-    public static final String MINUTE = "minute";
-
     public static Long getTid (HashMap<Long, Long> map, Long sid){
         if (map.get(sid) != null){
             return map.get(sid);
@@ -44,65 +37,6 @@ public class SmartCalendarUtils {
 
 
         return  timeString.toString();
-    }
-
-
-
-    public static ParseTree AddRootEventName(ParseTree tree, String time, Tag tag_time){
-        SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
-        int key = 0;
-        for(int i = 0; i < nodeList.size(); i++) {
-            key = nodeList.keyAt(i);
-            ParseTree.Node node = nodeList.get(key);
-            if (node.getParentId() == -1) {
-                node.setParentId(NAME_ROOT_ID);
-                ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(NAME_ROOT_ID);
-                newNode.setParentId(-1);
-                Set<Integer> set = new HashSet<>();
-                set.add(node.getId());
-                newNode.setChildrenIds(set);
-                newNode.addTag(ServiceAttributes.Graph.Event.NAME);
-                nodeList.put(NAME_ROOT_ID, newNode);
-                tree.setNodeList(nodeList);
-                break;
-            }
-        }
-        for(int i = 0; i < nodeList.size(); i++) {
-            key = nodeList.keyAt(i);
-            ParseTree.Node node = nodeList.get(key);
-            if (node.getTagList().contains(tag_time)){
-                node.getTagList().clear();
-                node.setWord(time);                         //The former root "time" need to be added a real time
-                node.addTag(ServiceAttributes.Graph.Event.TIME);
-            } else {
-                nodeList.delete(key);
-            }
-        }
-        return tree;
-    }
-
-    public static ParseTree AddRootLocation(ParseTree tree, String time, Tag tag_time){
-        for (int i=0; i < tree.getNodeList().size(); i++){
-            ParseTree.Node node = tree.getNodeList().get(i);
-            if (node.getParentId() == -1){
-                node.setParentId(LOCATION_ROOT_ID);
-                ParseTree.Node newNode = new ParseTree.Node();
-                newNode.setId(LOCATION_ROOT_ID);
-                newNode.setParentId(-1);
-                Set<Integer> set = new HashSet<>();
-                set.add(node.getId());
-                newNode.setChildrenIds(set);
-                newNode.addTag(ServiceAttributes.Graph.Place.NAME);
-            }
-            if (node.getTagList().contains(tag_time)){
-                node.getTagList().clear();
-                node.setWord(time);
-                node.addTag(ServiceAttributes.Graph.Document.CREATED_TIME);
-                node.addTag(ServiceAttributes.Graph.Document.MODIFIED_TIME);
-            }
-        }
-        return tree;
     }
 
     public static ArrayList<Event> getEventList(HashMap<String, Object> params){
@@ -127,12 +61,6 @@ public class SmartCalendarUtils {
                 EventList.get(cardList.indexOf(card)).setLocation((String) card.get(ServiceAttributes.Graph.Place.NAME));
             }
         }
-    }
-
-    public static Calendar getDate(Long time){
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(time);
-        return date;
     }
 
     public static String getHtml(ArrayList<Event> eventList){

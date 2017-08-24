@@ -43,7 +43,7 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
 
     @Override
     protected void initNewSession(long l, HashMap<String, Object> hashMap) throws Exception {
-        hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_REFERENCE_LIST, ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.STORAGE).toArray());
+        hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_REFERENCE_LIST, ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.KEY_STORAGE).toArray());
         hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_MESSAGE, StringStorage.getMessage(MyApplication.getContext()));
         hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_APP, "whatsapp");
         hashMap.put(ServiceAttributes.Action.SHARE_EXTRA_TOAST, true);

@@ -34,17 +34,10 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
     @Override
     protected PluginData iPluginData() {
         Log.e(TAG, "getting plugin data");
-        //Set<String> mKeyList = new HashSet<>();
-        //mKeyList.add(EntityAttributes.Graph.Person.NAME);
-        //mKeyList.add(EntityAttributes.Graph.Person.NUMBER);
-        //mKeyList.add(Globals.KEY_QUERY_SUBJECT);
-
         Set<Tag> tagList = new HashSet<>();
         Set<Trigger> triggerList = new HashSet<>();
         tagList.add(tag_Coffee);
-       // tagList.add(tag_verb);
         Set<String> mMandatory = new HashSet<>();
-
         // Category one: show calendar
         // trigger1: are you free tomorrow? incoming
         mMandatory.add("TAG_COFFEE");
@@ -64,13 +57,9 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         Log.e(TAG, JSONUtils.hashMapToString(params));
         //Log.e(TAG, "parse tree: " + ((ParseTree) JSONUtils.jsonToSimpleObject((String) params.get("tree"), JSONUtils.TYPE_PARSE_TREE)).toString());
         HashMap<String, Object> reqParams = new HashMap<>();
-        //reqParams.put("key1", "value1");
-        //reqParams.put("key2", "value2");
-        //reqParams.put("key3", "value3");
         params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Starbucks Plugin");
         params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Order Coffee?");
         params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
-
         // TID is something we might need to implement stateflow inside a plugin.
         mTidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
     }
@@ -85,9 +74,6 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
             Log.e(TAG, "TID is right " );
             if (params.get("status").equals("clicked")) {
                 Log.e(TAG, "button clicked");
-                //HashMap<String, Object> newParams = new HashMap<>();
-                //newParams.put("perform script", "script");
-                //createTask(sid, MethodConstants.ACTION_TYPE,"perform script", newParams);
                 Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
                 sugiliteIntent.addCategory("android.intent.category.DEFAULT");
                 sugiliteIntent.putExtra("messageType", "RUN_SCRIPT");
@@ -99,12 +85,6 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
                 endSession(sid);
                 Log.e(TAG, "Ending session " + sid);
                 Log.e(TAG, "Action officially run" + sid);
-                /*
-                String scriptName = ScriptStorage.getScript(StarbucksPlugin.this);
-                StarbucksIntent.SCRIPT_NAME = scriptName;
-                Intent intent = new Intent(StarbucksPlugin.this,StarbucksIntent.class);
-                startActivity(intent);
-                */
             }
         }else{
             Log.e(TAG, "Ending session " + sid);

@@ -29,7 +29,7 @@ public class GoogleDocUtils {
         return time;
     }
 
-    public static ParseTree AddNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
+    public static ParseTree addNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
         SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
         int key = 0;
         ParseTree.Node newNode = new ParseTree.Node();;
@@ -66,7 +66,7 @@ public class GoogleDocUtils {
         return tree;
     }
 
-    public static ParseTree AddUrlRoot(ParseTree tree, int Id, String time, Tag tag_time){
+    public static ParseTree addUrlRoot(ParseTree tree, int Id, String time, Tag tag_time){
         for (int i=0; i < tree.getNodeList().size(); i++){
             ParseTree.Node node = tree.getNodeList().get(i);
             if (node.getParentId() == -1){

@@ -26,6 +26,7 @@ public class Doc {
             return DocUrl;
         }
 
+
     public void setDocUrl(String docUrl) {
             DocUrl = docUrl;
         }

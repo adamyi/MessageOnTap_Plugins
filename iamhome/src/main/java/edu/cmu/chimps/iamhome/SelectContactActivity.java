@@ -33,7 +33,7 @@ import edu.cmu.chimps.iamhome.views.ContactAdapter;
 
 public class SelectContactActivity extends AppCompatActivity {
     protected MyApplication mAPP;
-    private int BackPressedCount;
+    private int backPressedCount;
     Toast updatableToast;
     public static IconChangeListener iconChangeListener;
 
@@ -44,14 +44,14 @@ public class SelectContactActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (BackPressedCount == 0) {
+        if (backPressedCount == 0) {
             if (updatableToast != null) {
                 updatableToast.cancel();
             }
             updatableToast = Toast.makeText(SelectContactActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT);
             updatableToast.show();
-            BackPressedCount++;
-        } else if (BackPressedCount == 1) {
+            backPressedCount++;
+        } else if (backPressedCount == 1) {
             if (updatableToast != null) {
                 updatableToast.cancel();
             }
@@ -60,7 +60,7 @@ public class SelectContactActivity extends AppCompatActivity {
             super.onBackPressed();
         } else {
             Set<String> set = new HashSet<>(Contact.getSavedContactList());
-            ContactStorage.storeSendUsers(SelectContactActivity.this, set, ContactStorage.STORAGE);
+            ContactStorage.storeSendUsers(SelectContactActivity.this, set, ContactStorage.KEY_STORAGE);
             if (updatableToast != null) {
                 updatableToast.cancel();
             }
@@ -80,7 +80,7 @@ public class SelectContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAPP = (MyApplication) this.getApplicationContext();
 
-        BackPressedCount = 0;
+        backPressedCount = 0;
 
 
         //initialize contactlist from whatsapp
@@ -89,7 +89,7 @@ public class SelectContactActivity extends AppCompatActivity {
         } catch (PSException e) {
             e.printStackTrace();
         }
-        Contact.InitFlag(this, ContactStorage.STORAGE);
+        Contact.InitFlag(this, ContactStorage.KEY_STORAGE);
 
         //Initialize UI
         setContentView(R.layout.activity_contact_select);
@@ -140,7 +140,7 @@ public class SelectContactActivity extends AppCompatActivity {
                         } else {
                             item.setIcon(getDrawable(R.drawable.ic_delete_sweep_black_24dp));
                             Set<String> set = new HashSet<>(Contact.getSavedContactList());
-                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.ALLSELECTSTORAGE);
+                            ContactStorage.storeSendUsers(getBaseContext(), set, ContactStorage.KEY_ALLSELECTSTORAGE);
                             ContactAdapter.SetAllSelection(true, recyclerView);
                             final MenuItem itemP = item;
                             Snackbar undoSnackbar = Snackbar
@@ -149,7 +149,7 @@ public class SelectContactActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             itemP.setIcon(getDrawable(R.drawable.ic_action_selectall));
-                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.ALLSELECTSTORAGE);
+                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.KEY_ALLSELECTSTORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
                                             toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
                                         }
@@ -177,7 +177,7 @@ public class SelectContactActivity extends AppCompatActivity {
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BackPressedCount = 2;
+                    backPressedCount = 2;
                     onBackPressed();
                     Intent startSessionIntent = new Intent("Session On Start");
                     LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(startSessionIntent);
@@ -189,7 +189,7 @@ public class SelectContactActivity extends AppCompatActivity {
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BackPressedCount = 2;
+                    backPressedCount = 2;
                     onBackPressed();
                 }
             });

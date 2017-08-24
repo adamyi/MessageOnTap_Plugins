@@ -48,7 +48,7 @@ import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
 public class IAmHomeSettingsActivity extends AppCompatActivity {
     protected MyApplication mAPP;
-    private String sentText;
+    private String mSentText;
 
     Intent circleIntent = new Intent();
 
@@ -349,8 +349,8 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                     builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            sentText = input.getText().toString();
-                            StringStorage.storeMessage(IAmHomeSettingsActivity.this, sentText, false);
+                            mSentText = input.getText().toString();
+                            StringStorage.storeMessage(IAmHomeSettingsActivity.this, mSentText, false);
                         }
                     });
                     builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
