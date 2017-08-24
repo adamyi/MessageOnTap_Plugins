@@ -19,7 +19,8 @@ import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
 
-import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_DOCNAME_ROOT_ID;
+
+import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_DOC_NAME_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.ALL_URL_ROOT_ID;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.addNameRoot;
 import static edu.cmu.chimps.googledocsplugin.GoogleDocUtils.addUrlRoot;
@@ -185,7 +186,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                 mDocTime1.put(sid, "");
             }
 
-            mTreeForSearch1.put(sid, addNameRoot(mTree1.get(sid), ALL_DOCNAME_ROOT_ID, mDocTime1.get(sid), tag_time));
+            mTreeForSearch1.put(sid, addNameRoot(mTree1.get(sid), ALL_DOC_NAME_ROOT_ID, mDocTime1.get(sid), tag_time));
             params.remove(ServiceAttributes.PMS.PARSE_TREE);
 
             params.put(ServiceAttributes.PMS.PARSE_TREE,

@@ -49,10 +49,10 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
                 int position = holder.getAdapterPosition();
                 Script script = mScriptList.get(position);
                 if (!script.isFlag()){
-                    Script.setAllFlag(false);
+                    Script.setAllFlags(false);
                     script.setFlag(true);
                 }else {
-                    Script.setAllFlag(false);
+                    Script.setAllFlags(false);
                 }
                 StarbucksSettingActivity.listener.onChange(true);
                 //Toast.makeText(view.getContext(), "click " + "position:"+position, Toast.LENGTH_SHORT).show();

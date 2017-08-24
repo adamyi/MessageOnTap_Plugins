@@ -59,7 +59,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         HashMap<String, Object> reqParams = new HashMap<>();
         params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Starbucks Plugin");
         params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Order Coffee?");
-        params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
+        params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_coffee);
         // TID is something we might need to implement stateflow inside a plugin.
         mTidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
     }

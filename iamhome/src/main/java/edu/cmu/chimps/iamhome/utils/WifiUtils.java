@@ -122,13 +122,13 @@ public class WifiUtils {
             protected void onInput(Item input) {
                 Set<String> temp = WifiUtils.getUsersHomeWifiList(MyApplication.getContext());
                 if(temp != null && temp.contains(input.getValueByField(WifiAp.BSSID))){
-                        isAthome(true);
+                        isAtHome(true);
                 }
-                isAthome(false);
+                isAtHome(false);
             }
         });
     }
-    public static boolean isAthome(boolean result){
+    public static boolean isAtHome(boolean result){
         return result;
     }
 

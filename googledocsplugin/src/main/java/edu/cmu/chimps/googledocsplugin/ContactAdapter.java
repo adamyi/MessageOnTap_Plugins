@@ -97,24 +97,24 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
     }
 
-    public static void setAllSelection(Boolean selection, RecyclerView recyclerView){
+    public static void setAllSelections(Boolean selection, RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            Contact.setAllFlag(selection);
+            Contact.setAllFlags(selection);
             holder.contactLayout.setSelected(selection);
             holder.contactCheckBox.setChecked(selection);
         }
     }
     
-    public static void setAllSavedSelection(RecyclerView recyclerView){
-        Set<String> set = ContactStorage.getContacts(GoogleDocApplication.getAppContext(), ContactStorage.KEY_ALLSELECTSTORAGE);
+    public static void setAllSavedSelections(RecyclerView recyclerView){
+        Set<String> set = ContactStorage.getContacts(GoogleDocApplication.getAppContext(), ContactStorage.KEY_ALL_SELECT_STORAGE);
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             holder.contactLayout.setSelected(false);
             holder.contactCheckBox.setChecked(false);
         }
         if (set.isEmpty()){
-            setAllSelection(false,recyclerView);
+            setAllSelections(false,recyclerView);
         } else{
             for (String str: set) {
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {

@@ -83,8 +83,6 @@ public class IAmHomePlugin extends MessageOnTapPlugin {
                                 result = true;
                                 homeEventListener.onEvent(true);
                                 StatusToastsUtils.atHomeToast(MyApplication.getContext());
-
-
                             }
                             StatusToastsUtils.wifiConnectedToast(MyApplication.getContext());
                         }

@@ -15,15 +15,14 @@ import edu.cmu.chimps.messageontap_api.Tag;
 
 public class GoogleDocUtils {
 
-    public static final int ALL_DOCNAME_ROOT_ID = 111;
+    public static final int ALL_DOC_NAME_ROOT_ID = 111;
     public static final int ALL_URL_ROOT_ID = 333;
     public static final int FILTERED_URL_ROOT_ID = 444;
     public static final String TAG = "GoogleDocPlugin";
 
     public static String getTimeString(HashMap<String, Object> params){
-        ArrayList<ArrayList<Long>> timeArray = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
-        String time =  timeArray.get(0).get(0)+ "," + timeArray.get(0).get(1);
-        return time;
+        ArrayList<Long> timeList = (ArrayList<Long>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
+        return timeList.get(0)+ "," + timeList.get(1);
     }
 
     public static ParseTree addNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
@@ -87,7 +86,7 @@ public class GoogleDocUtils {
     }
 
     public static String getHtml(ArrayList<Doc> DocList) {
-        String List = "";
+        String list = "";
         String html = "<html>" +
                 "<body>" +
                 "<style>" +
@@ -110,7 +109,7 @@ public class GoogleDocUtils {
                 "</div>\n" + "<form id=\"data\">\n";
         for (Doc doc:DocList) {
             String docName = doc.getDocName();
-            List = List +
+            list = list +
 
                     "<div class= \"datashower\">\n" +
                     "<p class=\"doc\">\n" +
@@ -129,7 +128,7 @@ public class GoogleDocUtils {
                         "</body>\n" +
                         "</html>";
 
-        String finalHtml = html + List + btn;
-        return finalHtml;
+        return html + list + btn;
+
     }
 }

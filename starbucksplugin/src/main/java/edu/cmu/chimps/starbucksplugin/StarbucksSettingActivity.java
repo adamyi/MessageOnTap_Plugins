@@ -63,14 +63,18 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                         snackbar.show();
                     }else{
                         Snackbar snackbar = Snackbar
-                                .make(findViewById(R.id.recyclerview), "No Script", Snackbar.LENGTH_LONG);
+                                .make(findViewById(R.id.recyclerview), "No Script.Add a script in Sugilite", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
                 }
                 break;
         }
     }
-    
+
+    public void checkIntentAvailable(Intent activity){
+        Intent intent = activity;
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +84,13 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
         sugiliteIntent.addCategory("android.intent.category.DEFAULT");
         sugiliteIntent.putExtra("messageType", "GET_SCRIPT_LIST");
-        startActivityForResult(sugiliteIntent, 1);
+        if (sugiliteIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(sugiliteIntent, 1);
+        }else{
+                Toast.makeText(StarbucksSettingActivity.this, "Please Install Sugilite to Start", Toast.LENGTH_SHORT).show();
+            }
+
+
 
         setFlagChangeListener(new FlagChangeListener() {
             @Override
@@ -115,7 +125,12 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                         Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
                         sugiliteIntent.addCategory("android.intent.category.DEFAULT");
                         sugiliteIntent.putExtra("messageType", "GET_SCRIPT_LIST");
-                        startActivityForResult(sugiliteIntent, 1);
+                        if (sugiliteIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(sugiliteIntent, 1);
+                        }else
+                        {
+                            Toast.makeText(StarbucksSettingActivity.this, "Please Install Sugilite to Start", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
                 return true;
@@ -132,7 +147,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ScriptStorage.storeScript(StarbucksSettingActivity.this, Script.getSelectedName());//if scriptName is empty, save "empty"
+                ScriptStorage.storeScript(StarbucksSettingActivity.this, Script.getSelectedNames());//if scriptName is empty, save "empty"
                 Toast.makeText(StarbucksSettingActivity.this, "script saved", Toast.LENGTH_SHORT).show();
             }
         });        
