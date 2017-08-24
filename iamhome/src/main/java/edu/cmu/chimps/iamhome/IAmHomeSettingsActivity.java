@@ -208,11 +208,11 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                                                         .setDescription("Use this to reset your home WIFI")
                                                         .build();
 
-                                                View two = findViewById(R.id.circle_edit_text);
+                                                View editText = findViewById(R.id.circle_edit_text);
                                                 int[] twoLocation = new int[2];
-                                                two.getLocationInWindow(twoLocation);
+                                                editText.getLocationInWindow(twoLocation);
                                                 PointF point =
-                                                        new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
+                                                        new PointF(twoLocation[0] + editText.getWidth() / 2f, twoLocation[1] + editText.getHeight() / 2f);
                                                 // make an target
                                                 SimpleTarget thirdTarget = new SimpleTarget.Builder(IAmHomeSettingsActivity.this).setPoint(point)
                                                         .setRadius(200f)

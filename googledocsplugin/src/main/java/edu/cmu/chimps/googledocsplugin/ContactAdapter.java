@@ -108,7 +108,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
     
     public static void setAllSavedSelection(RecyclerView recyclerView){
-        Set<String> set = ContactStorage.getContacts(GoogleDocApplication.getAppContext(), ContactStorage.ALLSELECTSTORAGE);
+        Set<String> set = ContactStorage.getContacts(GoogleDocApplication.getAppContext(), ContactStorage.KEY_ALLSELECTSTORAGE);
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             holder.contactLayout.setSelected(false);

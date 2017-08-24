@@ -40,7 +40,7 @@ public class SmartCalendarUtils {
     }
 
     public static ArrayList<Event> getEventList(HashMap<String, Object> params){
-        ArrayList<Event> EventList = new ArrayList<>();
+        ArrayList<Event> eventList = new ArrayList<>();
         ArrayList<HashMap<String, Object>> cardList = (ArrayList<HashMap<String, Object>>)JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST);
         for (HashMap<String, Object> card : cardList) {
             Event event = new Event();
@@ -49,9 +49,9 @@ public class SmartCalendarUtils {
             event.setBeginTime(Time.get(0));
             event.setEndTime(Time.get(1));
 
-            EventList.add(event);
+            eventList.add(event);
         }
-        return EventList;
+        return eventList;
     }
 
     public static void setListLocation(ArrayList<Event> EventList, HashMap<String, Object> params){

@@ -26,7 +26,7 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
     public static String TAG = "GoogleDocActivity";
     Toolbar mToolBar;
     RecyclerView recyclerView;
-    private int BackPressedCount;
+    private int mBackPressedCount;
     public static IconChangeListener iconChangeListener;
 
     public static void setIconChangeListener(IconChangeListener icl) {
@@ -36,10 +36,10 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (BackPressedCount == 0) {
+        if (mBackPressedCount == 0) {
             Toast.makeText(GoogleDocsSettingsActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT).show();
-            BackPressedCount++;
-        } else if (BackPressedCount == 1) {
+            mBackPressedCount++;
+        } else if (mBackPressedCount == 1) {
             Toast.makeText(GoogleDocsSettingsActivity.this, "Change canceled", Toast.LENGTH_SHORT).show();
             super.onBackPressed();
         }

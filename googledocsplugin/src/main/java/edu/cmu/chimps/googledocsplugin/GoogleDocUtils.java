@@ -18,7 +18,6 @@ import edu.cmu.chimps.messageontap_api.Tag;
 public class GoogleDocUtils {
 
     public static final int ALL_DOCNAME_ROOT_ID = 111;
-    public static final int FILTERED_DOCNAME_ROOT_ID = 222;
     public static final int ALL_URL_ROOT_ID = 333;
     public static final int FILTERED_URL_ROOT_ID = 444;
     public static final String TAG = "GoogleDocPlugin";

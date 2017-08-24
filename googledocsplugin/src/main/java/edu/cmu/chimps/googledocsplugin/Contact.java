@@ -15,24 +15,24 @@ import java.util.Set;
 
 
 public class Contact {
-    private String Name;
-    private boolean isFlag;
+    private String mName;
+    private boolean mIsFlag;
     public static ArrayList<Contact> contactList =  new ArrayList<>();
 
     public Contact(String Name){
-        this.Name = Name;
+        this.mName = Name;
     }
 
     public String getName() {
-        return Name;
+        return mName;
     }
 
     public boolean isFlag(){
-        return isFlag;
+        return mIsFlag;
     }
 
     public void setFlag(boolean flag){
-        isFlag = flag;
+        mIsFlag = flag;
     }
 
     public static ArrayList<Contact> getWhatsAppContacts(Context context) throws PSException {
@@ -51,7 +51,7 @@ public class Contact {
     }
 
     public char getFirstC(){
-        return this.Name.charAt(0);
+        return this.mName.charAt(0);
     }
     public TextDrawable getContactPicture(){
         return TextDrawable.builder()

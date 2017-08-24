@@ -6,14 +6,14 @@ import android.content.Context;
 
 
 public class GoogleDocApplication extends Application {
-    public static Context context;
+    private static Context sContext;
 
     public void onCreate() {
         super.onCreate();
-        GoogleDocApplication.context = getApplicationContext();
+        GoogleDocApplication.sContext = getApplicationContext();
     }
 
     public static Context getAppContext() {
-        return GoogleDocApplication.context;
+        return GoogleDocApplication.sContext;
     }
 }

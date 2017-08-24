@@ -33,7 +33,7 @@ import edu.cmu.chimps.iamhome.views.ContactAdapter;
 
 public class SelectContactActivity extends AppCompatActivity {
     protected MyApplication mAPP;
-    private int backPressedCount;
+    private int mBackPressedCount;
     Toast updatableToast;
     public static IconChangeListener iconChangeListener;
 
@@ -44,14 +44,14 @@ public class SelectContactActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (backPressedCount == 0) {
+        if (mBackPressedCount == 0) {
             if (updatableToast != null) {
                 updatableToast.cancel();
             }
             updatableToast = Toast.makeText(SelectContactActivity.this, "Click again to cancel the change", Toast.LENGTH_SHORT);
             updatableToast.show();
-            backPressedCount++;
-        } else if (backPressedCount == 1) {
+            mBackPressedCount++;
+        } else if (mBackPressedCount == 1) {
             if (updatableToast != null) {
                 updatableToast.cancel();
             }
@@ -80,7 +80,7 @@ public class SelectContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mAPP = (MyApplication) this.getApplicationContext();
 
-        backPressedCount = 0;
+        mBackPressedCount = 0;
 
 
         //initialize contactlist from whatsapp
@@ -177,7 +177,7 @@ public class SelectContactActivity extends AppCompatActivity {
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    backPressedCount = 2;
+                    mBackPressedCount = 2;
                     onBackPressed();
                     Intent startSessionIntent = new Intent("Session On Start");
                     LocalBroadcastManager.getInstance(MyApplication.getContext()).sendBroadcast(startSessionIntent);
@@ -189,7 +189,7 @@ public class SelectContactActivity extends AppCompatActivity {
             floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    backPressedCount = 2;
+                    mBackPressedCount = 2;
                     onBackPressed();
                 }
             });
