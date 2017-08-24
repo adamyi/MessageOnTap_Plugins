@@ -49,7 +49,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                     //ArrayList<String> ResultArray = (ArrayList<String>) JSONUtils.jsonToSimpleObject(SResult,JSONUtils.TYPE_TAG_ARRAY);
                     Log.e(TAG, "onResult:" + sResult);
                     ArrayList<String> result;
-                    if (!sResult.isEmpty()) {
+                    if (sResult != "[]" && sResult != null) {
                         result = rehandledResultArrayList(sResult);
                         Script.scriptList.clear();
                         for (String str : result){
