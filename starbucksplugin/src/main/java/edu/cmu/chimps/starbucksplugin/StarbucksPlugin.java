@@ -42,7 +42,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         // trigger1: are you free tomorrow? incoming
         mMandatory.add("TAG_COFFEE");
         mMandatory.add("TAG_VERB");
-        Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory);
+        Trigger trigger1 = new Trigger("starbucks_trigger", mMandatory);
 
         triggerList.add(trigger1);
 
