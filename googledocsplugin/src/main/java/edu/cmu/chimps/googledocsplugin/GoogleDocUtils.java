@@ -12,8 +12,6 @@ import edu.cmu.chimps.messageontap_api.ParseTree;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 
-//import static com.google.android.gms.plus.PlusOneDummyView.TAG;
-
 
 public class GoogleDocUtils {
 

@@ -3,15 +3,11 @@ package edu.cmu.chimps.smart_calendar;
 import android.util.Log;
 import android.util.SparseArray;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import edu.cmu.chimps.messageontap_api.JSONUtils;
@@ -22,11 +18,12 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 import edu.cmu.chimps.messageontap_api.Tag;
 import edu.cmu.chimps.messageontap_api.Trigger;
+
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getEventList;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getHtml;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTid;
-import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.getTimeString;
+import static edu.cmu.chimps.smart_calendar.SmartCalendarUtils.setListLocation;
 
 public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
@@ -262,7 +259,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
 
         if (params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_three")||params.get(ServiceAttributes.PMS.TRIGGER_SOURCE).equals("calendar_trigger_four")) {
             //tree2 = (ParseTree)params.get(ServiceAttributes.Graph.SYNTAX_TREE);
-            Log.e(TAG, "Trigger3");
+
             if (params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME).equals("")){
                 Log.e(TAG, "initNewSession: get messsage embeded time");
             ArrayList<ArrayList<Long>> messageTime = (ArrayList<ArrayList<Long>>)params.get(ServiceAttributes.PMS.CURRENT_MESSAGE_EMBEDDED_TIME);
@@ -270,12 +267,12 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
             mEventEndTime.put(sid,messageTime.get(0).get(1));
              params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
              params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, mEventBeginTime + "-" + mEventEndTime);
-                params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
+                params.put(ServiceAttributes.UI.ICON_TYPE_STRING, getResources().getString(R.string.fa_calendar));
             }
             else{
                 params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Add Calendar");
                 params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE, "");
-                params.put(ServiceAttributes.UI.ICON_TYPE_STRING,R.string.fa_calendar);
+                params.put(ServiceAttributes.UI.ICON_TYPE_STRING, getResources().getString(R.string.fa_calendar));
             }
             mTidAddAction_ShowBubble.put(sid, createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params));
         }
