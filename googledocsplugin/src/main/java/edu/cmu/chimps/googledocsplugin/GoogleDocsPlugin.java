@@ -212,7 +212,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             timeNode.setWord(mDocTime2.get(sid));
             Log.e(TAG,getTimeString(params));
             Set<String> set = new HashSet<>();
-            set.add(ServiceAttributes.Graph.Event.TIME);
+            set.add(ServiceAttributes.Graph.Document.CREATED_TIME);
             timeNode.setTagList(set);
             timeNode.setId(timeNodeID);
             timeNode.setParentId(nameNodeID);
@@ -220,7 +220,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 
             Set<String> set2 = new HashSet<>();
-            set2.add(ServiceAttributes.Graph.Event.NAME);
+            set2.add(ServiceAttributes.Graph.Document.TITLE);
             nameNode.setTagList(set2);
             nameNode.setId(nameNodeID);
             nameNode.setParentId(-1);
