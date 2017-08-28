@@ -24,8 +24,8 @@ import java.util.Set;
 
 public class GoogleDocsSettingsActivity extends AppCompatActivity {
     public static String TAG = "GoogleDocActivity";
-    Toolbar mToolBar;
-    RecyclerView recyclerView;
+    private Toolbar mToolBar;
+    private RecyclerView recyclerView;
     private int mBackPressedCount;
     public static IconChangeListener iconChangeListener;
 
@@ -56,8 +56,12 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                     Log.e(TAG, "onActivityResult:     get result"+ text);
                     GoogleDocsSettingsActivity.super.onBackPressed();
                 }
-                break;
+
+
             }
+            default:
+
+                break;
         }
 
     }
@@ -142,6 +146,7 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                         }
                         mToolBar.setSubtitle(" " + Contact.selectedItemCount() + " selected");
                         //Toast.makeText(getBaseContext(), "Select All" , Toast.LENGTH_SHORT).show();
+                        break;
                 }
                 return true;
             }

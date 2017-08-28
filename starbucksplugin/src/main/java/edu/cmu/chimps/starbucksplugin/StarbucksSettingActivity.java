@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 public class StarbucksSettingActivity extends AppCompatActivity {
     public static String TAG = "StarbucksActivity";
-    Toolbar mToolbar;
-    ScriptAdapter mAdapter;
-    RecyclerView mRecyclerView;
+    private Toolbar mToolbar;
+    private ScriptAdapter mAdapter;
+    private RecyclerView mRecyclerView;
     private int mBackPressedCount;
     public static FlagChangeListener listener;
     public static void setFlagChangeListener(FlagChangeListener icl) {
@@ -67,6 +67,8 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                         snackbar.show();
                     }
                 }
+                break;
+            default:
                 break;
         }
     }

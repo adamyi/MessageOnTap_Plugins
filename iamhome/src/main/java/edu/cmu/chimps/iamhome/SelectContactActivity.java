@@ -34,7 +34,7 @@ import edu.cmu.chimps.iamhome.views.ContactAdapter;
 public class SelectContactActivity extends AppCompatActivity {
     protected MyApplication mAPP;
     private int mBackPressedCount;
-    Toast updatableToast;
+    private Toast updatableToast;
     public static IconChangeListener iconChangeListener;
 
     public static void setIconChangeListener(IconChangeListener icl) {
@@ -71,8 +71,8 @@ public class SelectContactActivity extends AppCompatActivity {
 
     }
 
-    Toolbar toolbar;
-    RecyclerView recyclerView;
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -89,7 +89,7 @@ public class SelectContactActivity extends AppCompatActivity {
         } catch (PSException e) {
             e.printStackTrace();
         }
-        Contact.InitFlag(this, ContactStorage.KEY_STORAGE);
+        Contact.initFlag(this, ContactStorage.KEY_STORAGE);
 
         //Initialize UI
         setContentView(R.layout.activity_contact_select);
@@ -101,7 +101,7 @@ public class SelectContactActivity extends AppCompatActivity {
         //toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setTitle("Select Contacts");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorwhite));
-        toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
+        toolbar.setSubtitle(" " + Contact.selectedItemCount() + " selected");
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorwhite));
         toolbar.inflateMenu(R.menu.selectall);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -131,7 +131,7 @@ public class SelectContactActivity extends AppCompatActivity {
                 int menuItemId = item.getItemId();
                 switch (menuItemId) {
                     case R.id.selectAll:
-                        if (Contact.SelectedItemCount() == Contact.contactList.size()) {
+                        if (Contact.selectedItemCount() == Contact.contactList.size()) {
                             item.setIcon(getDrawable(R.drawable.ic_action_selectall));
                             ContactAdapter.SetAllSelection(false, recyclerView);
                             Snackbar snackbar = Snackbar
@@ -149,15 +149,16 @@ public class SelectContactActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             itemP.setIcon(getDrawable(R.drawable.ic_action_selectall));
-                                            Contact.InitFlag(SelectContactActivity.this, ContactStorage.KEY_ALL_SELECT_STORAGE);
+                                            Contact.initFlag(SelectContactActivity.this, ContactStorage.KEY_ALL_SELECT_STORAGE);
                                             ContactAdapter.SetAllSavedSelection(recyclerView);
-                                            toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
+                                            toolbar.setSubtitle(" " + Contact.selectedItemCount() + " selected");
                                         }
                                     });
 
                             undoSnackbar.show();
                         }
-                        toolbar.setSubtitle(" " + Contact.SelectedItemCount() + " selected");
+                        toolbar.setSubtitle(" " + Contact.selectedItemCount() + " selected");
+                        break;
                         //Toast.makeText(getBaseContext(), "Select All" , Toast.LENGTH_SHORT).show();
                 }
                 return true;

@@ -23,11 +23,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     protected Toolbar mToolbar;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        View contactView;
-        ImageView contactImage;
-        TextView contactName;
-        LinearLayout contactLayout;
-        CheckBox contactCheckBox;
+        private View contactView;
+        private ImageView contactImage;
+        private TextView contactName;
+        private LinearLayout contactLayout;
+        private CheckBox contactCheckBox;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -22,11 +22,11 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
         this.mToolbar = toolbar;
     }
     static class ViewHolder extends RecyclerView.ViewHolder{
-        View mContactView;
-        ImageView mContactImage;
-        TextView mContactName;
-        LinearLayout mContactLayout;
-        CheckBox mContactCheckBox;
+        private View mContactView;
+        private ImageView mContactImage;
+        private TextView mContactName;
+        private LinearLayout mContactLayout;
+        private CheckBox mContactCheckBox;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -21,8 +21,8 @@ import edu.cmu.chimps.messageontap_api.Trigger;
 public class StarbucksPlugin extends MessageOnTapPlugin{
 
     public static final String TAG = "StarbucksPlugin";
-    Long mTidShowBubble;
-    Tag tag_Coffee = new Tag("TAG_COFFEE", new HashSet<>(Collections.singletonList("(coffee|Coffee|StarbucksSettingActivity|starbucks)")));
+    private Long mTidShowBubble;
+    private Tag tag_Coffee = new Tag("TAG_COFFEE", new HashSet<>(Collections.singletonList("(coffee|Coffee|StarbucksSettingActivity|starbucks)")));
 
     /**
      * Return the trigger criteria of this plug-in. This will be called when

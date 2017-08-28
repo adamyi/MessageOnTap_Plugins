@@ -50,7 +50,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
     protected MyApplication mAPP;
     private String mSentText;
 
-    Intent circleIntent = new Intent();
+    private Intent circleIntent = new Intent();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -152,12 +152,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                                 @Override
                                 public void onStarted(SimpleTarget target) {
-                                    //Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onEnded(SimpleTarget target) {
-                                    //Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .build();

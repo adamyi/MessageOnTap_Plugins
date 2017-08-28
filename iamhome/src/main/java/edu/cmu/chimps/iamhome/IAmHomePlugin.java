@@ -30,8 +30,8 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
-    UQI mUQI;
-    Long tid;
+    private UQI mUQI;
+    private Long tid;
 
     private final static int ALARM_HOUR = 8;
     private final static int ALARM_MINUTE = 29;
