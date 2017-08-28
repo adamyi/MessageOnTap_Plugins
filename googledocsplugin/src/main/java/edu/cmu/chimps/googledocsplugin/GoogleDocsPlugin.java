@@ -92,7 +92,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add("TAG_ME");
         mOptional.add("TAG_TIME");
         direction = 0;
-        HashSet<Trigger.Constraint> constraints = new HashSet<>();
+        //HashSet<Trigger.Constraint> constraints = new HashSet<>();
         Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional);
         //triggerArrayList.add(trigger1);                  //message with file name is not available now
         clearLists(mMandatory, mOptional);
@@ -117,7 +117,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_DOC");
         mOptional.add("TAG_TIME");
         direction = 0;
-        HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
+        //HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
         Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional);//, constraints3, mood.UNKNOWN, direction.INCOMING);
         triggerArrayList.add(trigger3);
         clearLists(mMandatory, mOptional);
@@ -258,7 +258,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                         JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST) ;
                 for (HashMap<String, Object> card : cardList) {
                     for (int i = 0; i < mTree1.get(sid).getNodeList().size(); i++) {
-                        ParseTree.Node node = mTree1.get(sid).getNodeList().get(i);
+                        //ParseTree.Node node = mTree1.get(sid).getNodeList().get(i);
                        // if (node.getWord().equals((String) card.get(ServiceAttributes.Graph.Document.TITLE))) {
                             Doc doc = new Doc();
                             doc.setDocName((String) card.get(ServiceAttributes.Graph.Document.TITLE));

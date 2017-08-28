@@ -71,10 +71,7 @@ public class StarbucksSettingActivity extends AppCompatActivity {
         }
     }
 
-    public void checkIntentAvailable(Intent activity){
-        Intent intent = activity;
 
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

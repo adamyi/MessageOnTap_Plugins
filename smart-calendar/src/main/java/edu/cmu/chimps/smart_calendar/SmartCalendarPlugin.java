@@ -93,7 +93,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_FREE_TEXT");
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
-        HashSet<Trigger.Constraint> constraints= new HashSet<>();
+       // HashSet<Trigger.Constraint> constraints= new HashSet<>();
 
         Trigger trigger1 = new Trigger("calendar_trigger_one", mMandatory);//, mOptional, constraints,Mood.INTERROGTIVE, Direction.INCOMING);
         triggerArrayList.add(trigger1);
@@ -104,7 +104,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_I");
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
-        HashSet<Trigger.Constraint> constraints2= new HashSet<>();
+       // HashSet<Trigger.Constraint> constraints2= new HashSet<>();
         Trigger trigger2 = new Trigger("calendar_trigger_two", mMandatory,mOptional);
         triggerArrayList.add(trigger2);
         // TODO: create trigger and add it to triggerArrayList
@@ -114,7 +114,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_WE");
         mMandatory.add("TAG_TIME");
         mOptional.add("TAG_OPTIONAL_TIME");
-        HashSet<Trigger.Constraint> constraints3= new HashSet<>();
+        //HashSet<Trigger.Constraint> constraints3= new HashSet<>();
         Trigger trigger3 = new Trigger("calendar_trigger_three", mMandatory);//, mOptional,constraints3, Mood.UNKNOWN, Direction.UNKNOWN);
         triggerArrayList.add(trigger3);
         // TODO: create trigger and add it to triggerArrayList
@@ -131,7 +131,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
         // TODO: create trigger and add it to triggerArrayList
         clearLists(mMandatory,mOptional);
         // TODO: triggerListAdd add entry and triggerArrayList add these two lists
-        ArrayList<String> holder = new ArrayList<>();
+        //ArrayList<String> holder = new ArrayList<>();
 
         return new PluginData().triggerSet(JSONUtils.simpleObjectToJson(triggerArrayList, JSONUtils.TYPE_TRIGGER_SET))
                 .tagSet(JSONUtils.simpleObjectToJson(tagList, JSONUtils.TYPE_TAG_SET));

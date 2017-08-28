@@ -32,8 +32,7 @@ public class NotificationTriggerService extends IntentService{
                 notificationManager.cancel(3);
         if(action != null){
             if (action.equals(ACTION_SEND)) {
-                NotificationManager notificationManager1 =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+              //  NotificationManager notificationManager1 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.cancel(3);
                 //the user press yes and confirm he is at home.
                 //// TODO: 7/21/17 send message to yuser

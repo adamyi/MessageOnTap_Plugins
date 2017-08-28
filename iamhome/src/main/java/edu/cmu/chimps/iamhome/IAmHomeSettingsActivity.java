@@ -283,7 +283,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
 
 
-        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        //final ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
