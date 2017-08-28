@@ -16,7 +16,7 @@ public class StatusToastsUtils {
     public static void atHomeToast(Context context){
         CharSequence text = "You are at home";
         int duration = Toast.LENGTH_SHORT;
-        Toast.makeText(context, text, duration).show();;
+        Toast.makeText(context, text, duration).show();
 
     }
     public static void leaveHomeToast(Context context){

@@ -25,8 +25,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.listeners.IconChangeListener;
-import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
-import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.FirstTimeStorage;
 import edu.cmu.chimps.iamhome.views.Contact;
 import edu.cmu.chimps.iamhome.views.ContactAdapter;
 

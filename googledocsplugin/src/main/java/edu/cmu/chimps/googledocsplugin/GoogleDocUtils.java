@@ -28,7 +28,7 @@ public class GoogleDocUtils {
     public static ParseTree addNameRoot(ParseTree tree , int Id, String time, Tag tag_time){
         SparseArray<ParseTree.Node> nodeList = tree.getNodeList();
         int key = 0;
-        ParseTree.Node newNode = new ParseTree.Node();;
+        ParseTree.Node newNode = new ParseTree.Node();
         for(int i = 0; i < nodeList.size(); i++) {
             key = nodeList.keyAt(i);
             ParseTree.Node node = nodeList.get(key);

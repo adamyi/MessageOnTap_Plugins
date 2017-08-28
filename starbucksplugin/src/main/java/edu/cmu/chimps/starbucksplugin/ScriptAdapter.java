@@ -66,14 +66,14 @@ public class ScriptAdapter extends RecyclerView.Adapter<ScriptAdapter.ViewHolder
         Script script = mScriptList.get(position);
         holder.mContactImage.setImageDrawable(script.getContactPicture());
         holder.mContactName.setText(script.getName());
-        SetSelection(holder, script);
+        setSelection(holder, script);
     }
 
     @Override
     public int getItemCount() {
         return mScriptList.size();
     }
-    private static void SetSelection(ViewHolder holder, Script script){
+    private static void setSelection(ViewHolder holder, Script script){
         if (script.isFlag()){
             holder.mContactCheckBox.setChecked(true);
         }else {

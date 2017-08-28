@@ -1,4 +1,4 @@
-package edu.cmu.chimps.iamhome.sharedPrefs;
+package edu.cmu.chimps.iamhome.sharedprefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;

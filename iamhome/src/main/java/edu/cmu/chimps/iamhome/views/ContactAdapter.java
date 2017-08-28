@@ -17,10 +17,11 @@ import java.util.Set;
 import edu.cmu.chimps.iamhome.MyApplication;
 import edu.cmu.chimps.iamhome.R;
 import edu.cmu.chimps.iamhome.SelectContactActivity;
-import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.ContactStorage;
 
-import static edu.cmu.chimps.iamhome.views.Contact.SelectedItemCount;
+
 import static edu.cmu.chimps.iamhome.views.Contact.contactList;
+import static edu.cmu.chimps.iamhome.views.Contact.selectedItemCount;
 import static edu.cmu.chimps.iamhome.views.Contact.toggleFlag;
 
 /**
@@ -62,14 +63,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 int position = holder.getAdapterPosition();
-                if (SelectedItemCount()==contactList.size()){
+                if (selectedItemCount()==contactList.size()){
                     SelectContactActivity.iconChangeListener.onChange(false);
                 }
                 Contact contact = mContactList.get(position);
                 toggleFlag(contact);
-                String title = " " + SelectedItemCount() + " selected";
+                String title = " " + selectedItemCount() + " selected";
                 mToolbar.setSubtitle(title);
-                if (SelectedItemCount()== contactList.size()){
+                if (selectedItemCount()== contactList.size()){
                     Log.e("Test", "Listener sent");
                     SelectContactActivity.iconChangeListener.onChange(true);
                 }
@@ -109,7 +110,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public static void SetAllSelection(Boolean selection, RecyclerView recyclerView){
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            Contact.SetAllFlag(selection);
+            Contact.setAllFlag(selection);
             holder.contactLayout.setSelected(selection);
             holder.contactCheckBox.setChecked(selection);
             Log.i("iiii", "SetAllSelection: ");
@@ -117,7 +118,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
     
     public static void SetAllSavedSelection(RecyclerView recyclerView){
-        Set<String> set = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.ALLSELECTSTORAGE);
+        Set<String> set = ContactStorage.getContacts(MyApplication.getContext(), ContactStorage.KEY_ALL_SELECT_STORAGE);
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             ViewHolder holder = (ViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             holder.contactLayout.setSelected(false);

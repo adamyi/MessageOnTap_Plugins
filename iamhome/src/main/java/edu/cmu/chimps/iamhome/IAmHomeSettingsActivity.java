@@ -41,8 +41,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
-import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 

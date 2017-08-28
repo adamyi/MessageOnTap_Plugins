@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.ContactStorage;
 
 /**
  * Created by knight006 on 7/18/2017.
@@ -64,7 +64,7 @@ public class Contact {
         return drawable;
     }
 
-    public static int SelectedItemCount(){
+    public static int selectedItemCount(){
         int count = 0;
         for (int i=0; i<contactList.size(); i++){
             if (contactList.get(i).isFlag()){
@@ -74,7 +74,7 @@ public class Contact {
         return count;
     }
 
-    public  static void SetAllFlag(Boolean flag){
+    public  static void setAllFlag(Boolean flag){
         for (int i = 0; i < contactList.size(); i++) {
             contactList.get(i).setFlag(flag);
         }
@@ -98,9 +98,9 @@ public class Contact {
         return savedContactList;
     }
 
-    public static void InitFlag(Context context, String filename){
+    public static void initFlag(Context context, String filename){
         Set<String> set = ContactStorage.getContacts(context, filename);
-        SetAllFlag(false);
+        setAllFlag(false);
         if (set.size() != 0){
             for (String str: set){
                 for (Contact contact: Contact.contactList){
