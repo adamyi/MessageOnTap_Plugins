@@ -1,23 +1,21 @@
 package edu.cmu.chimps.smart_calendar;
 
-import android.util.SparseArray;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+
 
 import edu.cmu.chimps.messageontap_api.JSONUtils;
-import edu.cmu.chimps.messageontap_api.ParseTree;
+
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
-import edu.cmu.chimps.messageontap_api.Tag;
+
 
 
 public class SmartCalendarUtils {
-    public static final int NAME_ROOT_ID = 45;
-    public static final int LOCATION_ROOT_ID = 67;
+
     public static Long getTid (HashMap<Long, Long> map, Long sid){
         if (map.get(sid) != null){
             return map.get(sid);
@@ -65,12 +63,14 @@ public class SmartCalendarUtils {
 
     public static String getHtml(ArrayList<Event> eventList){
         ////////////////Time///////////////////
+        /*
         String yeartablehtml = ".year{\n" +
                 "\t\tbackground: #39A90E;\n" +
                 "\t\theight:auto;\n" +
                 "\t\tborder-radius:5px;\n" +
                 "\t\ttext-align: center;\n" +
                 "\t}";
+                */
         /////////////////style/////////////////////
         String htmlString = "<html>\n" +
                "<form class = \"eventform\">";

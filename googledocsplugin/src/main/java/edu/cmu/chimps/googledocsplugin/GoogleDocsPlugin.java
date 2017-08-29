@@ -35,32 +35,32 @@ import static edu.cmu.chimps.messageontap_api.ParseTree.Mood;
 public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
     public static final String TAG = "GoogleDoc plugin";
-    HashMap<Long, Long> mTidFindAllDocName = new HashMap<>();
-    HashMap<Long, Long> mTidFindDocName = new HashMap<>();
-    HashMap<Long, Long> mTidFindUrl1 = new HashMap<>();
-    HashMap<Long, Long> mTidFindUrl2 = new HashMap<>();
-    HashMap<Long, Long> mTidBubble = new HashMap<>();
-    HashMap<Long, Long> mTidDetails = new HashMap<>();
-    HashMap<Long, Long> mTidDocSend = new HashMap<>();
+    private HashMap<Long, Long> mTidFindAllDocName = new HashMap<>();
+    private HashMap<Long, Long> mTidFindDocName = new HashMap<>();
+    private HashMap<Long, Long> mTidFindUrl1 = new HashMap<>();
+    private HashMap<Long, Long> mTidFindUrl2 = new HashMap<>();
+    private HashMap<Long, Long> mTidBubble = new HashMap<>();
+    private HashMap<Long, Long> mTidDetails = new HashMap<>();
+    private HashMap<Long, Long> mTidDocSend = new HashMap<>();
 
-    HashMap<Long, ParseTree> mTree1 = new HashMap<>();
-    HashMap<Long, ParseTree> mTree2 = new HashMap<>();
-    HashMap<Long, ParseTree> mTreeForSearch1 = new HashMap<>();
-    HashMap<Long, ParseTree> mTreeForSearch2 = new HashMap<>();
-    HashMap<Long, String> mDocTime1 = new HashMap<>();
-    HashMap<Long, String> mDocTime2 = new HashMap<>();
-    HashMap<Long, StringBuilder> mSelectedDocUrl = new HashMap<>();
-    ArrayList<Trigger> mTriggerListHasName = new ArrayList<>();
-    Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
+    private HashMap<Long, ParseTree> mTree1 = new HashMap<>();
+    private HashMap<Long, ParseTree> mTree2 = new HashMap<>();
+    private HashMap<Long, ParseTree> mTreeForSearch1 = new HashMap<>();
+    private HashMap<Long, ParseTree> mTreeForSearch2 = new HashMap<>();
+    private HashMap<Long, String> mDocTime1 = new HashMap<>();
+    private HashMap<Long, String> mDocTime2 = new HashMap<>();
+    private HashMap<Long, StringBuilder> mSelectedDocUrl = new HashMap<>();
+    private ArrayList<Trigger> mTriggerListHasName = new ArrayList<>();
+    private Tag tag_doc = new Tag("TAG_DOC", new HashSet<>(Collections.singletonList(
             "(file|doc|document)")));
-    Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
-    Tag tag_me = new Tag("TAG_ME", new HashSet<>(Collections.singletonList(
+    private Tag tag_I = new Tag("TAG_I", new HashSet<>(Collections.singletonList("I")));
+    private Tag tag_me = new Tag("TAG_ME", new HashSet<>(Collections.singletonList(
             "(us|me)")));
-    Tag tag_send = new Tag("TAG_SEND", new HashSet<>(Collections.singletonList(
+    private Tag tag_send = new Tag("TAG_SEND", new HashSet<>(Collections.singletonList(
             "(share|send|show|give)")));
-    Tag tag_time = new Tag("TAG_TIME", new HashSet<>(Collections.singletonList(
+    private Tag tag_time = new Tag("TAG_TIME", new HashSet<>(Collections.singletonList(
             "(tomorrow|AM|PM|am|pm|today|morning|afternoon|evening|night)")));
-    Tag tag_you = new Tag("TAG_You", new HashSet<>(Collections.singletonList("you")));
+    private Tag tag_you = new Tag("TAG_You", new HashSet<>(Collections.singletonList("you")));
     public int mood = 0; // 0 statement
     public int direction = 0; // 0 incoming
     public int complete = 0; // 0 is complete
@@ -92,7 +92,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mOptional.add("TAG_ME");
         mOptional.add("TAG_TIME");
         direction = 0;
-        HashSet<Trigger.Constraint> constraints = new HashSet<>();
+        //HashSet<Trigger.Constraint> constraints = new HashSet<>();
         Trigger trigger1 = new Trigger("doc_trigger_one", mMandatory, mOptional);
         //triggerArrayList.add(trigger1);                  //message with file name is not available now
         clearLists(mMandatory, mOptional);
@@ -117,7 +117,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
         mMandatory.add("TAG_DOC");
         mOptional.add("TAG_TIME");
         direction = 0;
-        HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
+        //HashSet<Trigger.Constraint> constraints3 = new HashSet<>();
         Trigger trigger3 = new Trigger("doc_trigger_three", mMandatory, mOptional);//, constraints3, mood.UNKNOWN, direction.INCOMING);
         triggerArrayList.add(trigger3);
         clearLists(mMandatory, mOptional);
@@ -212,7 +212,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
             timeNode.setWord(mDocTime2.get(sid));
             Log.e(TAG,getTimeString(params));
             Set<String> set = new HashSet<>();
-            set.add(ServiceAttributes.Graph.Event.TIME);
+            set.add(ServiceAttributes.Graph.Document.CREATED_TIME);
             timeNode.setTagList(set);
             timeNode.setId(timeNodeID);
             timeNode.setParentId(nameNodeID);
@@ -220,7 +220,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
 
 
             Set<String> set2 = new HashSet<>();
-            set2.add(ServiceAttributes.Graph.Event.NAME);
+            set2.add(ServiceAttributes.Graph.Document.TITLE);
             nameNode.setTagList(set2);
             nameNode.setId(nameNodeID);
             nameNode.setParentId(-1);
@@ -258,7 +258,7 @@ public class GoogleDocsPlugin extends MessageOnTapPlugin {
                         JSONUtils.jsonToSimpleObject((String)params.get(ServiceAttributes.Graph.CARD_LIST), JSONUtils.TYPE_CARD_LIST) ;
                 for (HashMap<String, Object> card : cardList) {
                     for (int i = 0; i < mTree1.get(sid).getNodeList().size(); i++) {
-                        ParseTree.Node node = mTree1.get(sid).getNodeList().get(i);
+                        //ParseTree.Node node = mTree1.get(sid).getNodeList().get(i);
                        // if (node.getWord().equals((String) card.get(ServiceAttributes.Graph.Document.TITLE))) {
                             Doc doc = new Doc();
                             doc.setDocName((String) card.get(ServiceAttributes.Graph.Document.TITLE));

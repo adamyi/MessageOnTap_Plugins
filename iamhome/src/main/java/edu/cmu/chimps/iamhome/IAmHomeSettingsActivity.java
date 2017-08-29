@@ -41,8 +41,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.cmu.chimps.iamhome.services.SaveHomeWifiService;
-import edu.cmu.chimps.iamhome.sharedPrefs.FirstTimeStorage;
-import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.FirstTimeStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
 
@@ -50,7 +50,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
     protected MyApplication mAPP;
     private String mSentText;
 
-    Intent circleIntent = new Intent();
+    private Intent circleIntent = new Intent();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -152,12 +152,12 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
                             .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                                 @Override
                                 public void onStarted(SimpleTarget target) {
-                                    //Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(IAmHomeSettingsActivity.this, "target is started", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onEnded(SimpleTarget target) {
-                                    //Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(IAmHomeSettingsActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .build();
@@ -283,7 +283,7 @@ public class IAmHomeSettingsActivity extends AppCompatActivity {
         uqi.getData(com.github.privacystreams.communication.Contact.getAll(), Purpose.UTILITY("test")).debug();
 
 
-        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        //final ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));

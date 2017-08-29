@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import edu.cmu.chimps.iamhome.listeners.OnHomeEventListener;
-import edu.cmu.chimps.iamhome.sharedPrefs.ContactStorage;
-import edu.cmu.chimps.iamhome.sharedPrefs.StringStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.ContactStorage;
+import edu.cmu.chimps.iamhome.sharedprefs.StringStorage;
 import edu.cmu.chimps.iamhome.utils.AlarmUtils;
 import edu.cmu.chimps.iamhome.utils.StatusToastsUtils;
 import edu.cmu.chimps.iamhome.utils.WifiUtils;
@@ -30,8 +30,8 @@ import edu.cmu.chimps.messageontap_api.PluginData;
 import edu.cmu.chimps.messageontap_api.ServiceAttributes;
 
 public class IAmHomePlugin extends MessageOnTapPlugin {
-    UQI mUQI;
-    Long tid;
+    private UQI mUQI;
+    private Long tid;
 
     private final static int ALARM_HOUR = 8;
     private final static int ALARM_MINUTE = 29;

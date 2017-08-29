@@ -21,9 +21,9 @@ import java.util.Objects;
 
 public class StarbucksSettingActivity extends AppCompatActivity {
     public static String TAG = "StarbucksActivity";
-    Toolbar mToolbar;
-    ScriptAdapter mAdapter;
-    RecyclerView mRecyclerView;
+    private Toolbar mToolbar;
+    private ScriptAdapter mAdapter;
+    private RecyclerView mRecyclerView;
     private int mBackPressedCount;
     public static FlagChangeListener listener;
     public static void setFlagChangeListener(FlagChangeListener icl) {
@@ -69,13 +69,12 @@ public class StarbucksSettingActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
 
-    public void checkIntentAvailable(Intent activity){
-        Intent intent = activity;
 
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
