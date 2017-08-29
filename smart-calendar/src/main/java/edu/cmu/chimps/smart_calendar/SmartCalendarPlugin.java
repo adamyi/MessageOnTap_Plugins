@@ -368,7 +368,7 @@ public class SmartCalendarPlugin extends MessageOnTapPlugin {
     }
 
     private ArrayList<Event> eventListSortByTime(ArrayList<Event> events){
-        Collections.sort(events,new sortByTime());
+        Collections.sort(events, new sortByTime());
         return events;
 
     }

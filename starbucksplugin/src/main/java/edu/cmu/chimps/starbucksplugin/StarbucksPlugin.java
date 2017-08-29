@@ -55,11 +55,9 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
     protected void initNewSession(long sid, HashMap<String, Object> params) throws Exception {
         Log.e(TAG, "Session created here!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
-        //Log.e(TAG, "parse tree: " + ((ParseTree) JSONUtils.jsonToSimpleObject((String) params.get("tree"), JSONUtils.TYPE_PARSE_TREE)).toString());
         params.put(ServiceAttributes.UI.BUBBLE_FIRST_LINE, "Starbucks Plugin");
         params.put(ServiceAttributes.UI.BUBBLE_SECOND_LINE,"Order Coffee?");
         params.put(ServiceAttributes.UI.ICON_TYPE_STRING, getResources().getString(R.string.fa_coffee));
-        // TID is something we might need to implement stateflow inside a plugin.
         mTidShowBubble = createTask(sid, MethodConstants.UI_TYPE, MethodConstants.UI_METHOD_SHOW_BUBBLE, params);
     }
 
@@ -70,8 +68,7 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
         Log.e(TAG, "Got task response!");
         Log.e(TAG, JSONUtils.hashMapToString(params));
         if (tid == mTidShowBubble) {
-            Log.e(TAG, "TID is right " );
-            if (params.get("status").equals("clicked")) {
+            if (params.get(ServiceAttributes.UI.STATUS).equals("clicked")) {
                 Log.e(TAG, "button clicked");
                 Intent sugiliteIntent = new Intent("edu.cmu.hcii.sugilite.COMMUNICATION");
                 sugiliteIntent.addCategory("android.intent.category.DEFAULT");
@@ -85,7 +82,8 @@ public class StarbucksPlugin extends MessageOnTapPlugin{
                 Log.e(TAG, "Ending session " + sid);
                 Log.e(TAG, "Action officially run" + sid);
             }
-        }else{
+        }
+        else{
             Log.e(TAG, "Ending session " + sid);
             endSession(sid);
             Log.e(TAG, "Session ended");

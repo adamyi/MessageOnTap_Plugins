@@ -73,7 +73,7 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
         } catch (PSException e) {
             e.printStackTrace();
         }
-        Contact.InitFlag(this, ContactStorage.KEY_STORAGE);
+        Contact.initFlag(this, ContactStorage.KEY_STORAGE);
 
         //Initialize UI
         setContentView(R.layout.activity_contact_select);
@@ -132,7 +132,7 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view) {
                                             itemP.setIcon(getDrawable(R.drawable.ic_action_selectall));
-                                            Contact.InitFlag(GoogleDocsSettingsActivity.this, ContactStorage.KEY_ALL_SELECT_STORAGE);
+                                            Contact.initFlag(GoogleDocsSettingsActivity.this, ContactStorage.KEY_ALL_SELECT_STORAGE);
                                             ContactAdapter.setAllSavedSelections(recyclerView);
                                             mToolBar.setSubtitle(" " + Contact.selectedItemCount() + " selected");
                                         }
@@ -148,13 +148,13 @@ public class GoogleDocsSettingsActivity extends AppCompatActivity {
         });
 
         ContactAdapter adapter = new ContactAdapter(Contact.contactList, mToolBar);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
 
-        FloatingActionButton floatingUndefinedButton = (FloatingActionButton) findViewById(R.id.floatingUndefinedAction);
+        FloatingActionButton floatingUndefinedButton = findViewById(R.id.floatingUndefinedAction);
         floatingUndefinedButton.setImageResource(R.drawable.ic_action_check);
         floatingUndefinedButton.setOnClickListener(new View.OnClickListener() {
             @Override

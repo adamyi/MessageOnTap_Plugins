@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
+
 public class StarbucksSettingActivity extends AppCompatActivity {
     public static String TAG = "StarbucksActivity";
     Toolbar mToolbar;
@@ -46,10 +48,9 @@ public class StarbucksSettingActivity extends AppCompatActivity {
             case 1:
                 if (resultCode == RESULT_OK && data != null) {
                     String sResult = data.getStringExtra("result");
-                    //ArrayList<String> ResultArray = (ArrayList<String>) JSONUtils.jsonToSimpleObject(SResult,JSONUtils.TYPE_TAG_ARRAY);
                     Log.e(TAG, "onResult:" + sResult);
                     ArrayList<String> result;
-                    if (sResult != "[]" && sResult != null) {
+                    if (!Objects.equals(sResult, "[]") && sResult != null) {
                         result = rehandledResultArrayList(sResult);
                         Script.scriptList.clear();
                         for (String str : result){

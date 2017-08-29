@@ -92,7 +92,7 @@ public class Contact {
         return savedContactList;
     }
 
-    public static void InitFlag(Context context, String filename){
+    public static void initFlag(Context context, String filename){
         Set<String> set = ContactStorage.getContacts(context, filename);
         setAllFlags(false);
         if (set.size() != 0){
